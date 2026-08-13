@@ -1,0 +1,25 @@
+{
+  "run_id": "H6_noverify_006_4333bc83",
+  "hypothesis_id": "H6",
+  "verify_arm": false,
+  "replicate_idx": 6,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H6_noverify_006_4333bc83_pc95du_n",
+  "started_at": 1785938944.7724202,
+  "returncode": 0,
+  "stdout_tail": "Both `analysis.py` and `result.json` are in place, valid, and self-verified.\n\n**Finding:** The gradient-boosted classifier (test AUC = 0.928) is well-calibrated. Across all 10 predicted-probability bins on the held-out test set, predicted probabilities closely track observed frequencies (ECE = 0.0068, max bin gap = 0.032), and the calibration-curve slope/intercept (0.98 / -0.006) sit right at their ideal values (1 / 0). Applying isotonic recalibration on a separate calibration split didn't improve Brier score or ECE, reinforcing that the raw model's probability outputs are already trustworthy for this dataset.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785939041.7307148,
+  "wall_clock_seconds": 96.95829463005066,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H6",
+    "summary": "The model (HistGradientBoostingClassifier, test AUC=0.928) is well-calibrated out of the box: predicted probabilities track observed frequencies closely across all 10 probability bins (Expected Calibration Error = 0.0068, max bin gap = 0.032), and a logistic regression of outcomes on the model's logits gives slope=0.98 and intercept=-0.006, both essentially at their ideal values of 1 and 0. Post-hoc isotonic recalibration on a held-out calibration set does not improve Brier score or ECE, confirming the raw model's probabilities are already trustworthy.",
+    "primary_metric_name": "Expected Calibration Error (10-bin, test set)",
+    "primary_metric_value": 0.0068,
+    "direction": "model is well-calibrated",
+    "methodological_choices": "Missing values in workclass/occupation/native-country (categorical only) were imputed as an explicit 'Missing' category rather than dropped, since ~6% of rows had at least one missing field and MCAR was not verified. Categorical features were ordinal-encoded (native to HistGradientBoostingClassifier's categorical support) rather than one-hot encoded. Data was split 60/20/20 (train/calibration/test, stratified on class) so that a genuinely held-out calibration set could be used to fit isotonic regression separately from the test set used to evaluate it, avoiding double-dipping. Chose HistGradientBoostingClassifier over logistic regression as the primary model because tree ensembles are the more common case where calibration concerns arise in practice (unlike logistic regression, which is calibrated by construction under log-loss); no hyperparameter tuning was performed (max_iter=200, defaults otherwise). Calibration was quantified three ways: 10 equal-width-bin reliability table with Expected/Maximum Calibration Error, Brier score, and calibration slope/intercept from a logistic regression of test outcomes on logit(predicted probability) -- chosen because ECE alone can be sensitive to bin count/placement while slope/intercept is bin-free. Isotonic regression (fit on the separate calibration split) was used as the recalibration method to check whether post-hoc calibration would help, rather than Platt scaling, since isotonic makes no parametric assumption about the miscalibration shape."
+  }
+}

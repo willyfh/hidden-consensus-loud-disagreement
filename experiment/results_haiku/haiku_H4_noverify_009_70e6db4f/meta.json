@@ -1,0 +1,25 @@
+{
+  "run_id": "haiku_H4_noverify_009_70e6db4f",
+  "hypothesis_id": "H4",
+  "verify_arm": false,
+  "replicate_idx": 9,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H4_noverify_009_70e6db4f_1is133xq",
+  "started_at": 1786138381.930911,
+  "returncode": 0,
+  "stdout_tail": "## Analysis Complete\n\nI've completed an independent investigation of whether addressing class imbalance improves model quality on the Adult income dataset. Here's what I found:\n\n### Key Findings:\n\n**Dataset:** 48,842 samples with 3.18:1 class imbalance (76% \u226450K, 24% >50K)\n\n**Approach:** Tested three models (Logistic Regression, Random Forest, Gradient Boosting) with three strategies:\n1. Baseline (no imbalance handling)\n2. SMOTE (synthetic oversampling)\n3. Class weights\n\n**Main Result:**\n- **ROC-AUC** (primary metric): **No meaningful improvement**\n  - SMOTE: -0.0074 (slight degradation)\n  - Class weights: +0.0007 (negligible)\n\n- **Secondary metrics** (threshold-dependent):\n  - F1-Score: +0.0208 to +0.0378 improvement\n  - Balanced Accuracy: +0.0365 to +0.0498 improvement\n\n### Conclusion:\n\n**Addressing class imbalance does NOT meaningfully improve model quality** on this dataset when measured by ROC-AUC, which is the standard threshold-independent metric for imbalanced classification. The improvements seen in F1-score and balanced accuracy reflect shifts in decision thresholds rather than improved discriminative ability. The baseline models already achieve good ROC-AUC scores (0.85-0.92), indicating the models naturally handle the imbalance reasonably well.\n\nThe analysis code (`analysis.py`) and results (`result.json`) have been saved to the current directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786138471.891285,
+  "wall_clock_seconds": 89.960373878479,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H4",
+    "summary": "Addressing class imbalance does not meaningfully improve overall model quality on this dataset as measured by ROC-AUC. SMOTE shows slight degradation (-0.0074) while class weights show negligible improvement (+0.0007). However, imbalance handling improves metrics sensitive to decision thresholds (F1-score, balanced accuracy).",
+    "primary_metric_name": "Average ROC-AUC improvement from SMOTE across models",
+    "primary_metric_value": -0.0074,
+    "direction": "No meaningful ROC-AUC improvement; threshold-dependent metrics improved but primary generalization metric unchanged",
+    "methodological_choices": "Used 70/30 train-test split with stratification. Processed categorical features via label encoding. Tested three models (Logistic Regression, Random Forest, Gradient Boosting) with three imbalance-handling approaches: (1) baseline without handling, (2) SMOTE synthetic oversampling, (3) class weights. Evaluated on test set using ROC-AUC, F1-score, precision, recall, and balanced accuracy. Class imbalance ratio: 3.21:1 (negative:positive)."
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H6",
+  "summary": "The logistic regression model is well-calibrated with an Expected Calibration Error (ECE) of 0.0093, far below the 0.05 threshold for excellent calibration. This indicates predicted probabilities align closely with actual positive class frequencies across prediction ranges.",
+  "primary_metric_name": "Expected Calibration Error (ECE)",
+  "primary_metric_value": 0.009318868174453133,
+  "direction": "model is well-calibrated (ECE < 0.05)",
+  "methodological_choices": "Logistic regression trained on 70% of stratified data (34,189 training samples) with 30% test set (14,653 samples). Features encoded with LabelEncoder for 8 categorical variables and StandardScaler for 6 numerical features. Missing values filled with 'Unknown' for categorical features. Calibration evaluated using Expected Calibration Error (ECE) with 10 equal-width bins. Also evaluated Brier Score and Log Loss as supporting metrics. Compared four models (LR, RF, calibrated RF, GB) to demonstrate calibration varies by model architecture. Primary analysis focuses on logistic regression as the baseline well-understood model for binary classification."
+}

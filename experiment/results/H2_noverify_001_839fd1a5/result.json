@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H2",
+  "summary": "Random forest achieved a mean stratified 5-fold CV ROC-AUC of 0.9025 versus 0.9067 for logistic regression (lower by 0.0042), so with default hyperparameters random forest does not outperform logistic regression on this dataset.",
+  "primary_metric_name": "ROC-AUC difference (RF - LogReg)",
+  "primary_metric_value": -0.004153011870677403,
+  "direction": "RF < LogReg",
+  "methodological_choices": "Target encoded as binary (1 = '>50K'). Missing values in workclass/occupation/native-country (~2-6% each) imputed as a distinct 'Missing' category rather than dropped, to retain all 48842 rows. Categorical features one-hot encoded (handle_unknown='ignore'); numeric features median-imputed (no missing values present) and standardized. The same preprocessed feature matrix (one-hot + scaled) was used for both models for a like-for-like comparison, even though RF does not require scaling. Both classifiers used scikit-learn default hyperparameters as specified, except LogisticRegression max_iter was raised to 1000 (default 100) since it failed to converge on the expanded one-hot feature space otherwise; random_state=42 fixed for reproducibility. Evaluation: stratified 5-fold CV (shuffle=True, random_state=42), scoring='roc_auc' via cross_val_score, no held-out test set since the question asks specifically about CV performance. Class imbalance (~24% positive) was not explicitly corrected (no class_weight, no resampling) since the question specifies scikit-learn defaults for both models."
+}

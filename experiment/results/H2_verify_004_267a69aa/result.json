@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H2",
+  "summary": "No: RandomForestClassifier() did not achieve higher stratified 5-fold CV ROC-AUC than LogisticRegression() on this dataset. LogReg scored 0.9048 vs RF's 0.8938 (RF - LogReg = -0.0110), a small but highly consistent gap favoring logistic regression.",
+  "primary_metric_name": "ROC-AUC difference (RF - LogReg), mean over 5-fold stratified CV",
+  "primary_metric_value": -0.011,
+  "direction": "LogReg > RF",
+  "methodological_choices": "Dropped 'fnlwgt' (a Census sampling weight, not an individual-level predictor) and 'education' (redundant/collinear with 'education-num'). Missing values (workclass, occupation, native-country; ~2-6% each) imputed: median for numeric, most-frequent for categorical. Numeric features standardized (StandardScaler) and categoricals one-hot encoded (handle_unknown='ignore') inside a shared ColumnTransformer pipeline used for both models, so LogisticRegression sees scaled inputs (RF is scale-invariant so this doesn't affect it). Both models used scikit-learn defaults (RandomForestClassifier(), LogisticRegression()) with only random_state set for reproducibility where applicable. No class-imbalance handling (~24% positive class) was applied, consistent with using library defaults. Metric: ROC-AUC via cross_val_score with StratifiedKFold(n_splits=5, shuffle=True, random_state=42).",
+  "verification_method": "5x repeated stratified 5-fold CV (RepeatedStratifiedKFold, n_splits=5, n_repeats=5, random_state=123; 25 total folds), computing the paired per-fold ROC-AUC difference (RF - LogReg) on each identical train/test split and its 95% percentile range.",
+  "verification_result": "Held up (finding reversed direction from the naive hypothesis, and that reversal was itself stable). Across 25 folds (5 seeds x 5-fold), RF's mean ROC-AUC was 0.8934 vs LogReg's 0.9050 (mean diff RF-LogReg = -0.0116). RF beat LogReg in only 0/25 individual folds, and the paired-difference 95% range [-0.0173, -0.0056] lies entirely below zero, confirming LogReg's edge over RF is small but consistent, not a fluke of one CV split."
+}

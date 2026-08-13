@@ -1,0 +1,25 @@
+{
+  "run_id": "H6_noverify_000_16ee3b4d",
+  "hypothesis_id": "H6",
+  "verify_arm": false,
+  "replicate_idx": 0,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H6_noverify_000_16ee3b4d_0_mh_ie4",
+  "started_at": 1785938752.341825,
+  "returncode": 0,
+  "stdout_tail": "## Finding\n\nI trained a `HistGradientBoostingClassifier` on the Adult Census Income data (70/30 stratified split, one-hot/standardized preprocessing) as the primary model, with logistic regression as a well-calibrated reference point.\n\n**Calibration on the held-out test set (10 equal-width probability bins):**\n- ECE = 0.0059, MCE = 0.0225, Brier score = 0.0869 (AUC = 0.930)\n- Predicted vs. actual positive rates track each other closely across all bins (e.g., bin 0.7\u20130.8: predicted 0.747, actual 0.767; bin 0.9\u20131.0: predicted 0.984, actual 0.993)\n- Post-hoc isotonic recalibration changed the Brier score by less than 0.5%, meaning there's essentially no miscalibration left to squeeze out\n\n**Conclusion:** the model is well-calibrated \u2014 its predicted probabilities closely match observed outcome frequencies, and it's even marginally better calibrated than the logistic regression baseline (ECE 0.0059 vs 0.0088).\n\nResults are saved in `result.json`, and the full pipeline is in `analysis.py`, both in the working directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785938909.4624481,
+  "wall_clock_seconds": 157.12062311172485,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H6",
+    "summary": "The primary model (HistGradientBoostingClassifier) is well-calibrated: Expected Calibration Error (10 equal-width bins) is 0.0059 and Brier score is 0.0869, with a max per-bin gap (MCE) of 0.0225, mostly driven by a sparsely populated high-confidence bin. Post-hoc isotonic recalibration barely moves the needle (changes the Brier score by only -0.34%), meaning there is essentially no miscalibration left to correct, so the model can be considered well-calibrated for practical purposes -- in fact marginally better calibrated than a logistic-regression baseline (ECE=0.0088).",
+    "primary_metric_name": "Expected Calibration Error (ECE, 10 equal-width bins, HistGradientBoosting)",
+    "primary_metric_value": 0.00591,
+    "direction": "model is reasonably well-calibrated (low ECE, small Brier gain from recalibration)",
+    "methodological_choices": "Target binarized as class=='>50K' -> 1. Missing values ('?') in categorical columns recoded as an explicit 'Missing' category; no rows dropped. 70/30 stratified train/test split (random_state=42), all metrics computed on the held-out 30% test set only. Numeric features standardized; categoricals one-hot encoded (handle_unknown='ignore'). Primary model: HistGradientBoostingClassifier (max_iter=300, learning_rate=0.06, default otherwise) chosen as a strong, commonly-used tabular default that directly optimizes log-loss (a proper scoring rule), which a priori favors good calibration. Logistic regression used as a classically-well-calibrated reference point, not as the primary answer. Calibration quantified via: reliability diagram / Expected Calibration Error and Maximum Calibration Error with 10 equal-width probability bins (weighted by bin count), Brier score, and the Brier-score improvement obtained from 5-fold isotonic post-hoc recalibration (CalibratedClassifierCV) as a proxy for 'how much miscalibration exists'. Alternative choices another researcher might make: quantile (equal-frequency) bins instead of equal-width, a different bin count, Platt scaling instead of isotonic, a different base model (e.g. random forest or XGBoost), or reporting calibration separately by subgroup (e.g. sex/race) rather than only in aggregate."
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "run_id": "haiku_H5_verify_007_6db88583",
+  "hypothesis_id": "H5",
+  "verify_arm": true,
+  "replicate_idx": 7,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H5_verify_007_6db88583_p7alb7ij",
+  "started_at": 1786138733.9009652,
+  "returncode": 0,
+  "stdout_tail": "Excellent! Both the analysis code and results are saved. Let me summarize the findings:\n\n## Research Question H5: Does SMOTE change minority-class F1 by >0.02?\n\n### **Answer: NO**\n\nThe analysis shows that applying SMOTE oversampling to the training data **does not** meaningfully change the minority-class (>50K) F1 score compared to no resampling.\n\n### Key Findings:\n\n**Initial Train-Test Split Results:**\n- Baseline F1 (no resampling): 0.6790\n- SMOTE F1: 0.6828\n- Difference: +0.00377 (far below the 0.02 threshold)\n\n**Validation Results (Repeated Cross-Validation):**\n- Tested across 25 fold evaluations (5 repeats \u00d7 5 folds)\n- Cross-validation mean difference: +0.000956\n- 95% Confidence Interval: [-0.000990, 0.002902]\n- The finding is **STABLE** \u2014 the CI is entirely below 0.02, confirming the result\n\n### Methodological Approach:\n\n1. **Data preprocessing**: Handled missing values by filling with mode for categorical features\n2. **Feature encoding**: LabelEncoder for all categorical variables\n3. **Train-test split**: 70-30 stratified split\n4. **Classifier**: Default RandomForestClassifier() with random_state=42\n5. **SMOTE**: Applied only to training data with default parameters\n6. **Validation**: Repeated stratified k-fold cross-validation with different random seeds for robustness\n\n### Conclusion:\n\nWhile SMOTE produces a slight improvement in the minority-class F1 score (+0.00377), this improvement falls far short of the 0.02 threshold and is not statistically meaningful\u2014the cross-validation confidence interval even includes negative values, indicating no consistent benefit.\n\n**Files saved:**\n- `result.json` - Structured results with all metrics\n- `analysis.py` - Complete Python analysis code (281 lines)\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786139068.367896,
+  "wall_clock_seconds": 334.46693086624146,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H5",
+    "summary": "SMOTE oversampling does not meaningfully change the minority-class F1 score by 0.003772 (difference of 0.003772), which falls short of the 0.02 threshold. Cross-validation across 25 folds (5 repeats \u00d7 5 folds) confirms this finding with mean difference of 0.000956 (95% CI: [-0.000990, 0.002902]).",
+    "primary_metric_name": "F1 score difference (SMOTE - Baseline) for minority class (>50K)",
+    "primary_metric_value": 0.003772,
+    "direction": "SMOTE F1 (0.682788) > Baseline F1 (0.679016); Difference: +0.003772",
+    "methodological_choices": "1. Missing value handling: filled with mode for categorical features (workclass, occupation, native-country). 2. Feature encoding: LabelEncoder for all categorical features. 3. Train-test split: 70-30 stratified split with random_state=42. 4. Classifier: default RandomForestClassifier() with random_state=42. 5. SMOTE: applied only to training data with default parameters (random_state=42). 6. Evaluation metric: F1 score for minority class (>50K, pos_label=1) using weighted average. 7. Validation: StratifiedKFold (5 splits) repeated 5 times with varying random seeds for robustness.",
+    "verification_method": "Repeated stratified 5-fold cross-validation, 5 repeats with different random seeds (RANDOM_STATE + repeat index). Total of 25 fold evaluations for both approaches.",
+    "verification_result": "NO - Finding is STABLE. Cross-validation mean difference: 0.000956 (95% CI: [-0.000990, 0.002902])",
+    "additional_metrics": {
+      "baseline_f1_score": 0.679016,
+      "smote_f1_score": 0.682788,
+      "cv_baseline_mean": 0.67637,
+      "cv_baseline_std": 0.006995,
+      "cv_smote_mean": 0.677326,
+      "cv_smote_std": 0.006926,
+      "cv_difference_mean": 0.000956,
+      "cv_difference_std": 0.004965,
+      "cv_difference_ci_lower": -0.00099,
+      "cv_difference_ci_upper": 0.002902,
+      "exceeds_0_02_threshold": false
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H3",
+  "summary": "Across permutation importance, Random Forest impurity importance, and logistic regression coefficients, 'marital-status' is consistently the single most important predictor of income class, with 'capital-gain', 'age', 'relationship', and 'occupation' forming the next tier of important features.",
+  "primary_metric_name": "top feature permutation importance (mean ROC-AUC drop, RF, 10 repeats)",
+  "primary_metric_value": 0.04342,
+  "direction": "'marital-status' most important",
+  "methodological_choices": "RandomForestClassifier (300 trees, min_samples_leaf=2, class_weight='balanced_subsample', random_state=42) as primary model, with one-hot encoding for categoricals and passthrough numerics; 75/25 stratified train/test split. Missing values ('?') in categoricals filled with an explicit 'Missing' category rather than row deletion, to retain the full 48842-row sample. Primary importance method: permutation importance on the held-out test set (scoring=ROC-AUC, 10 repeats), with one-hot dummy importances NOT summed (permutation done on original columns pre-encoding) to avoid inflating categorical importance by cardinality. Cross-checked against RandomForest mean-decrease-in-impurity importance (dummy importances summed per original feature) and against |coefficient| from an L2-regularized, class-weighted logistic regression on standardized one-hot features (max dummy coefficient per categorical). Model quality reported as test ROC-AUC for both RF and logistic regression as a sanity check, not as the primary answer to the importance question. fnlwgt (a census sampling weight) was included as a raw feature rather than excluded, since no documentation explicitly ruled it out."
+}

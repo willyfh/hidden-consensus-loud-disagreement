@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H5",
+  "summary": "Applying SMOTE to the training data changed the >50K F1 score from 0.6556 (no resampling) to 0.6559 (SMOTE), a difference of +0.0003, which does NOT exceed the 0.02 threshold. SMOTE did not meaningfully improve, and slightly helped, minority-class F1 for the default random forest.",
+  "primary_metric_name": "F1 (>50K) difference (SMOTE - no resampling)",
+  "primary_metric_value": 0.0003,
+  "direction": "SMOTE does not change F1 by >0.02",
+  "methodological_choices": "Rows with '?' (missing) values dropped rather than imputed (~7% of rows, concentrated in workclass/occupation/native-country). fnlwgt (a census sampling weight) dropped as a non-demographic artifact column. 75/25 stratified train/test split, random_state=42. Categorical features one-hot encoded (handle_unknown='ignore'); numeric features passed through unscaled since RandomForest is scale-invariant. RandomForestClassifier() used with all default hyperparameters (no random_state set on the classifier itself, so run-to-run variance is possible) for both arms, differing only in whether SMOTE (imblearn, default k_neighbors=5, random_state=42) was applied to the encoded training set before fitting. Evaluation metric is F1 restricted to the positive/minority class (>50K) on the held-out, non-resampled test set. A single train/test split was used (no cross-validation or repeated runs), so the reported difference reflects one realization of RF's inherent stochasticity."
+}

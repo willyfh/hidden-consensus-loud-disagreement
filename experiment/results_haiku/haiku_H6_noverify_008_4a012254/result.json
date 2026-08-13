@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H6",
+  "summary": "The Random Forest model is well-calibrated with Expected Calibration Error (ECE) of 0.0275, meaning predicted probabilities closely match actual outcome frequencies (average deviation of 2.75%). This ECE is below the 0.05 threshold for well-calibrated models and performs better than Logistic Regression (ECE: 0.0423).",
+  "primary_metric_name": "Expected Calibration Error (ECE)",
+  "primary_metric_value": 0.0275,
+  "direction": "Model is well-calibrated (ECE = 0.0275, < 0.05 threshold)",
+  "methodological_choices": "Data preprocessing: Removed rows with missing values (48842 \u2192 45222 rows). Encoded categorical variables using LabelEncoder. Target encoding: '<=50K'=0, '>50K'=1. Train/test split: 70/30 stratified split with random_state=42. Model: Random Forest (100 trees) selected as primary model due to its known calibration issues. Calibration metrics: ECE computed using 10 uniform-width bins; MCE is maximum bin difference. Additional models trained for comparison (Logistic Regression - typically well-calibrated, and CalibratedClassifierCV with Platt scaling). Metrics: Brier Score, Log Loss, ECE, MCE, ROC-AUC evaluated on test set."
+}

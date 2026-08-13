@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H3",
+  "summary": "The most important feature for predicting income is 'capital-gain' (permutation importance: 0.033306). This finding is stable across 25-fold repeated stratified cross-validation, with consistent ranking across all folds.",
+  "primary_metric_name": "Permutation importance (mean across 5x5 CV folds)",
+  "primary_metric_value": 0.033305731689496666,
+  "direction": "'capital-gain' is the single most predictive feature",
+  "methodological_choices": "Random Forest classifier (n_estimators=200, max_depth=15, class_weight='balanced') trained on 80% data. Missing values imputed with 'Unknown' for categorical features. Categorical features label-encoded. Feature importance computed as permutation importance (change in model accuracy when feature values are shuffled). fnlwgt (sampling weight) excluded as non-predictive. Training/test split: 80/20 with stratification.",
+  "verification_method": "5x5 Repeated Stratified K-Fold cross-validation (25 total folds) with permutation importance computed on validation set for each fold",
+  "verification_result": "CONFIRMED - Top feature 'capital-gain' remained stable across all 25 folds. Mean importance: 0.033306 \u00b1 0.001663. Min: 0.029545, Max: 0.035950. Low variation indicates robust finding."
+}

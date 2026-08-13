@@ -1,0 +1,27 @@
+{
+  "run_id": "H6_verify_004_d308f1d7",
+  "hypothesis_id": "H6",
+  "verify_arm": true,
+  "replicate_idx": 4,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H6_verify_004_d308f1d7_xwyaxp16",
+  "started_at": 1785939181.067911,
+  "returncode": 0,
+  "stdout_tail": "Both `analysis.py` and `result.json` are finalized and consistent.\n\n**Finding:** The HistGradientBoosting model trained on the Adult income data is well-calibrated. ECE on held-out test data is 0.0053 (well below the ~0.02 threshold typically used to flag miscalibration), with reliability-diagram bin gaps all under 0.03. Post-hoc isotonic recalibration didn't improve it \u2014 actually slightly worsened ECE \u2014 confirming the raw probabilities were already close to calibrated.\n\n**Stability check:** Bootstrap CI (1000 resamples) gave ECE \u2208 [0.0047, 0.0119], and 5 repeated train/test splits with different seeds gave ECE \u2208 [0.0070, 0.0100] (mean 0.0083, std 0.0011). Both checks stayed comfortably under the 0.02 threshold, confirming the well-calibrated conclusion is stable and not an artifact of one split.\n\nFiles written: `analysis.py`, `result.json`.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785939739.80705,
+  "wall_clock_seconds": 558.7391390800476,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H6",
+    "summary": "The HistGradientBoosting model's predicted probabilities are well-calibrated: Expected Calibration Error (ECE) on held-out test data is only 0.0053 (95% bootstrap CI [0.0047, 0.0119]), comfortably below the ~0.01-0.02 range commonly used as a 'well-calibrated' threshold, and every reliability-diagram bin's predicted-vs-observed gap is under 0.03. Post-hoc isotonic recalibration did not improve on this (ECE 0.0112 vs raw 0.0053), consistent with the raw probabilities already being close to calibrated.",
+    "primary_metric_name": "Expected Calibration Error (ECE, 10-bin, test set)",
+    "primary_metric_value": 0.005342714839301831,
+    "direction": "model is well-calibrated (low ECE; isotonic recalibration does not improve it)",
+    "methodological_choices": "Model: HistGradientBoostingClassifier (sklearn, max_iter=200, default depth/lr), chosen as a representative strong tabular model whose raw probabilities are not guaranteed calibrated (vs. e.g. logistic regression, which tends to be closer to calibrated by construction). Missing categorical values (workclass, occupation, native-country) encoded as an explicit 'Missing' category rather than dropped or imputed by mode, to preserve sample size and avoid assuming missingness is uninformative. Numeric features standardized; categoricals one-hot encoded. Train/test split: 70/30 stratified by class, random_state=42. Calibration measured via Expected Calibration Error with 10 equal-width probability bins (a standard but somewhat arbitrary choice; equal-frequency bins or fewer/more bins would give slightly different numeric ECE, though the qualitative conclusion is robust in this analysis). Brier score reported as a secondary, bin-free calibration+discrimination metric. Post-hoc isotonic calibration (fit on a held-out 30% slice of the training data, separate from both model-fitting and test data) used as a reference point for how much calibration error is 'fixable'. Positive class defined as '>50K'; no explicit class-imbalance correction (~24% positive) was applied since ECE/Brier are evaluated on raw predicted probabilities, not thresholded classifications.",
+    "verification_method": "Two stability checks: (1) bootstrap resampling of the test-set predictions (1000 resamples) to get a 95% CI on ECE; (2) 5 independent repeated 70/30 train/test splits (different random seeds, model refit from scratch each time) to check the ECE estimate and calibration conclusion are consistent across resampling of the whole pipeline, not just an artifact of one split.",
+    "verification_result": "Finding held up under both checks. Bootstrap 95% CI for ECE was [0.0047, 0.0119] (mean 0.0082), which stays well below the informal 0.02 'well-calibrated' threshold. Across 5 repeated train/test splits with different seeds (full pipeline refit each time), ECE ranged [0.0070, 0.0100] (mean 0.0083, std 0.0011), consistently indicating good calibration of similar magnitude in every split -- the model is stably well-calibrated, not an artifact of one split."
+  }
+}

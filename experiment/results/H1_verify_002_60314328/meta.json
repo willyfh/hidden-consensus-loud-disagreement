@@ -1,0 +1,27 @@
+{
+  "run_id": "H1_verify_002_60314328",
+  "hypothesis_id": "H1",
+  "verify_arm": true,
+  "replicate_idx": 2,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_verify_002_60314328_vld9sqj3",
+  "started_at": 1785855969.664768,
+  "returncode": 0,
+  "stdout_tail": "## Finding\n\n**Yes, model family meaningfully affects predictive performance** on this dataset. Comparing four model families (Logistic Regression, Random Forest, Gradient Boosting, KNN) on ROC-AUC for predicting `class` (>50K vs \u226450K):\n\n| Model | Test ROC-AUC | 25-fold CV mean |\n|---|---|---|\n| Gradient Boosting | 0.9293 | 0.9289 |\n| Logistic Regression | 0.9069 | 0.9067 |\n| Random Forest | 0.9057 | 0.9040 |\n| KNN | 0.8887 | 0.8904 |\n\nGap between best (Gradient Boosting) and worst (KNN): **~0.04 ROC-AUC**, roughly 11x larger than the fold-to-fold noise (std \u2264 0.0034) \u2014 a real, stable effect, not a single-split artifact.\n\n**Stability check:** 5x repeated stratified 5-fold CV (25 folds) on the full dataset reproduced the exact same ranking as the single held-out split, with the gap size essentially unchanged (0.0406 vs 0.0385).\n\nNotably, plain logistic regression was competitive with random forest \u2014 the tabular boosting method was the clear winner, and instance-based KNN was the clear laggard, likely due to the mixed categorical/high-cardinality one-hot feature space.\n\nFiles written: `analysis.py` and `result.json` in the working directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785856235.478608,
+  "wall_clock_seconds": 265.81383991241455,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H1",
+    "summary": "Yes, model family matters: on held-out test data ROC-AUC ranges from 0.8887 (KNN) to 0.9293 (GradientBoosting), a gap of 0.0406. Gradient boosting and random forest (tree ensembles) clearly outperform KNN, while logistic regression is competitive with the tree ensembles, suggesting the relationship between features and income is mostly capturable with a simple linear-in-features model but instance-based KNN struggles with the mixed categorical/numeric, high-cardinality feature space.",
+    "primary_metric_name": "Test ROC-AUC difference (GradientBoosting - KNN)",
+    "primary_metric_value": 0.0406,
+    "direction": "GradientBoosting > LogisticRegression > RandomForest > KNN (by test ROC-AUC)",
+    "methodological_choices": "Target binarized as 1='>50K'. Categorical NaNs (workclass, occupation, native-country) filled with explicit 'Missing' category rather than dropped, to preserve rows (missingness pattern may be informative). Numeric features median-imputed (no missing present) + standardized; categoricals one-hot encoded (handle_unknown='ignore'). Compared 4 model families at near-default hyperparameters (no extensive tuning, since the question is about family not tuning): LogisticRegression(max_iter=1000), RandomForestClassifier(n_estimators=300), HistGradientBoostingClassifier (defaults), KNeighborsClassifier(n_neighbors=15). Primary evaluation: single stratified 70/30 train/test split, with 5-fold CV on the training set for model diagnostics and the held-out 30% test set for headline numbers. Metric: ROC-AUC (threshold-independent, appropriate given the ~24%/76% class imbalance); PR-AUC and F1 also reported as secondary metrics. No class-imbalance correction (e.g. class_weight or SMOTE) was applied since ROC-AUC already accounts for the base rate reasonably well and the imbalance is moderate, not extreme.",
+    "verification_method": "5x repeated stratified 5-fold cross-validation (5 different random seeds via RepeatedStratifiedKFold, 25 total folds) on the FULL dataset (not just the train split), for each of the 4 model families, scored on ROC-AUC.",
+    "verification_result": "Finding held up. Stability-check ranking (GradientBoosting, LogisticRegression, RandomForest, KNN) matches the primary single-split ranking (GradientBoosting, LogisticRegression, RandomForest, KNN). Across 25 folds, mean ROC-AUC ranged from 0.8904 (KNN) to 0.9289 (GradientBoosting), gap=0.0385, with per-model std across folds of 0.0034 or less \u2014 the gap between best and worst model family is roughly 11x larger than the fold-to-fold noise for any single model, confirming the model-family effect is real and not a single-split artifact."
+  }
+}

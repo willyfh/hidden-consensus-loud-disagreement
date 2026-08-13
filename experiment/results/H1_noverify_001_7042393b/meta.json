@@ -1,0 +1,25 @@
+{
+  "run_id": "H1_noverify_001_7042393b",
+  "hypothesis_id": "H1",
+  "verify_arm": false,
+  "replicate_idx": 1,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_noverify_001_7042393b_n65qs9fk",
+  "started_at": 1785855465.1832058,
+  "returncode": 0,
+  "stdout_tail": "**Finding:** Yes, model family meaningfully affects performance on this dataset. Comparing four families (Logistic Regression, k-NN, Random Forest, HistGradientBoosting) via 5-fold stratified CV with identical preprocessing/folds, mean ROC-AUC ranged from 0.896 (k-NN) to 0.928 (HistGradientBoosting) \u2014 a 0.033 gap that's highly significant (paired t-test p\u22482.5e-06). Boosted/bagged tree ensembles beat the linear and distance-based baselines. Results and code are saved to `result.json` and `analysis.py`.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785855911.555667,
+  "wall_clock_seconds": 446.37246108055115,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H1",
+    "summary": "Model family does meaningfully affect predictive performance on this dataset: across 5-fold stratified CV, mean ROC-AUC ranged from 0.8956 (KNN) to 0.9283 (HistGradientBoosting), a gap of 0.0327 that is statistically significant (paired t-test p=2.464e-06). Gradient-boosted and random-forest trees consistently outperform plain logistic regression and k-NN with this preprocessing.",
+    "primary_metric_name": "ROC-AUC gap (HistGradientBoosting - KNN), 5-fold CV mean",
+    "primary_metric_value": 0.032699870436057155,
+    "direction": "HistGradientBoosting > KNN (best=0.9283, worst=0.8956, meaningful=True)",
+    "methodological_choices": "Target binarized as class=='>50K'. '?' treated as missing and imputed (median for numeric, most-frequent for categorical) rather than dropped, to retain all 48842 rows. Numeric features standard-scaled; categoricals one-hot encoded; same ColumnTransformer pipeline shared by all models for a fair comparison. Four model families compared: Logistic Regression (linear), k-NN (k=25, non-parametric), Random Forest (300 trees, bagging), HistGradientBoostingClassifier (boosting) \u2014 all with mostly default/lightly-tuned hyperparameters rather than extensive per-model tuning. Evaluated via 5-fold stratified CV using identical folds (fixed random_state) across models so comparisons are paired; ROC-AUC chosen as primary metric over accuracy because the classes are imbalanced (~24% positive). Statistical significance of the best-vs-worst gap assessed with a paired t-test on the 5 fold-level AUC scores. A held-out 80/20 split was also fit as a sanity check (accuracy + ROC-AUC), not as the primary evidence. 'Meaningful' operationalized as gap >= 0.01 AUC AND p < 0.05, an arbitrary but explicit threshold another researcher might set differently. No class-imbalance correction (e.g. class_weight='balanced') was applied, since ROC-AUC is already threshold- and prevalence-robust."
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "run_id": "H4_noverify_006_e875ba4d",
+  "hypothesis_id": "H4",
+  "verify_arm": false,
+  "replicate_idx": 6,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_noverify_006_e875ba4d_bdmsawtf",
+  "started_at": 1785883679.02829,
+  "returncode": 0,
+  "stdout_tail": "**Finding (H4):** Addressing class imbalance on this dataset (76%/24%, ~3.2:1) is a threshold/decision-boundary effect, not a genuine model-quality improvement.\n\nTested LogReg and Random Forest under 4 conditions each (baseline, `class_weight='balanced'`, random undersampling, SMOTE), with resampling applied only to training folds:\n\n- **Balanced accuracy** improved consistently (+0.040 to +0.056 across all 6 treatment comparisons, mean +0.051) \u2014 because these techniques shift the decision threshold to give more weight to the minority (`>50K`) class.\n- **ROC-AUC and PR-AUC** (threshold-free ranking quality) were flat-to-slightly-worse for every treatment (mean ROC-AUC change: \u22120.0017; PR-AUC dropped up to \u22120.025 for RF+SMOTE) \u2014 the models aren't actually learning to discriminate the classes any better.\n- Best single treatment was logistic regression + `class_weight='balanced'` (+0.056 balanced accuracy, ROC-AUC essentially unchanged at +0.0003).\n\nSo imbalance handling trades some precision for recall on the minority class rather than raising overall discriminative power. Full code in `analysis.py`, per-run numbers in `imbalance_results.csv`, and the structured answer in `result.json`.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785883821.8788428,
+  "wall_clock_seconds": 142.8505527973175,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H4",
+    "summary": "Addressing class imbalance (class weighting, undersampling, or SMOTE) raises balanced accuracy and minority-class recall by rebalancing the default 0.5 decision threshold, but it does not improve \u2014 and slightly hurts \u2014 the models' underlying ranking quality (ROC-AUC / PR-AUC) or minority-class F1 compared to a class-weight-free baseline on this moderately imbalanced (~3.2:1) dataset.",
+    "primary_metric_name": "mean balanced-accuracy delta (treatment - baseline, averaged over LogReg/RF x class_weight/undersample/SMOTE)",
+    "primary_metric_value": 0.05094284079454653,
+    "direction": "balanced accuracy improves (avg +0.0509) but ROC-AUC/PR-AUC roughly flat or slightly worse (avg ROC-AUC -0.0017); imbalance handling trades precision for recall rather than raising overall discriminative quality",
+    "methodological_choices": "75/25 stratified train/test split, random_state=42. Categorical NaNs (workclass/occupation/native-country) filled with literal 'Missing' category rather than dropped rows, since missingness may be informative. One-hot encoding for categoricals, median-impute+standard-scale for numerics (fnlwgt kept as-is, not log-transformed). Two model families: LogisticRegression(max_iter=1000) and RandomForestClassifier(n_estimators=300, min_samples_leaf=2), both random_state=42. Four imbalance treatments compared per model: none (baseline), class_weight='balanced', RandomUnderSampler, and SMOTE -- resampling applied only inside the training fold via imblearn Pipeline, never touching the test set, so test distribution stays at the natural ~76/24 split. Metrics: ROC-AUC and PR-AUC (average precision) as threshold-free measures of ranking quality, F1 and balanced accuracy at the default 0.5 threshold as measures of decision quality. Primary metric chosen as mean balanced-accuracy delta across the 2 models x 3 treatments = 6 comparisons, since balanced accuracy most directly operationalizes 'quality under imbalance' at a fixed threshold; ROC-AUC/PR-AUC deltas reported alongside as a robustness check because they are threshold-independent and revealed the improvement is a threshold-shifting effect, not a genuine gain in discriminative power. No hyperparameter tuning was performed for any treatment (all use library defaults for resampling), which another researcher might choose to tune independently."
+  }
+}

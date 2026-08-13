@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H6",
+  "summary": "The uncalibrated Random Forest is noticeably miscalibrated (ECE ~0.020, well above the near-perfect Logistic Regression baseline ECE ~0.009), systematically under-predicting risk in the low-probability region and over/under-shooting near the extremes; applying isotonic recalibration fixes most of this gap.",
+  "primary_metric_name": "Expected Calibration Error (10-bin, Random Forest, held-out test set)",
+  "primary_metric_value": 0.020033828265196205,
+  "direction": "model is miscalibrated (RF overconfident/underconfident by bin; isotonic calibration reduces ECE)",
+  "methodological_choices": "Binary target = (class == '>50K'); missing values in workclass/occupation/native-country encoded as an explicit 'Missing' category (not dropped); one-hot encoding for categoricals, standard-scaling for numerics; 70/30 stratified train/test split, random_state=42; primary model = RandomForestClassifier(n_estimators=300, min_samples_leaf=2) evaluated out-of-the-box (uncalibrated) as 'the model'; calibration measured via 10 equal-width-bin Expected Calibration Error and Brier score on the held-out test set; Logistic Regression and an isotonic-calibrated RF (CalibratedClassifierCV, 3-fold internal CV) fit as reference comparators; class imbalance (~24% positive) left unadjusted since calibration, not discrimination, is the target of this analysis.",
+  "verification_method": "(1) Repeated the 70/30 split-and-train procedure with 5 different random seeds (1, 7, 13, 99, 2024) and recomputed RF ECE each time; (2) computed a bootstrap 95% CI on ECE by resampling the primary test set with replacement 1000 times.",
+  "verification_result": "Stable: across 5 independent seeds, RF ECE ranged 0.0189-0.0227 (mean=0.0207, std=0.0015), consistently well above 0, i.e. the miscalibration finding replicated. Bootstrap 95% CI on the primary-split ECE was [0.0165, 0.0255], which excludes 0, confirming the miscalibration is not a sampling artifact of one particular test set."
+}

@@ -1,0 +1,25 @@
+{
+  "run_id": "H4_noverify_009_d4d6db06",
+  "hypothesis_id": "H4",
+  "verify_arm": false,
+  "replicate_idx": 9,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_noverify_009_d4d6db06_5oinlra2",
+  "started_at": 1785883804.628507,
+  "returncode": 0,
+  "stdout_tail": "Both `analysis.py` and `result.json` are saved in the working directory alongside `adult_income.csv`.\n\n**Finding (H4):** Addressing class imbalance (class-weighting or SMOTE) does **not** improve overall model quality as measured by ranking metrics (ROC-AUC, PR-AUC were flat-to-slightly-worse), but it does substantially shift the operating point at the default 0.5 threshold \u2014 minority-class (`>50K`) recall rose by +8 to +32 points across model/technique combinations, balanced accuracy rose by +1.7 to +7.2 points, at the cost of precision on the minority class and lower raw accuracy. Net effect: imbalance handling trades precision for recall rather than making the underlying classifier better \u2014 whether that's an \"improvement\" depends on which error type you care about more.\n\nKey numbers:\n- Random Forest baseline was the best model overall (ROC-AUC 0.906), and imbalance handling made its ROC-AUC/PR-AUC slightly *worse*.\n- Logistic Regression benefited most from rebalancing in terms of recall/balanced accuracy, since its baseline decision boundary was the most skewed toward the majority class.\n- Mean balanced-accuracy delta (primary metric): **+0.0484** in favor of imbalance-handled models.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785883878.327615,
+  "wall_clock_seconds": 73.6991081237793,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H4",
+    "summary": "Addressing class imbalance (via class_weight='balanced' or SMOTE oversampling) did not improve overall ranking quality (ROC-AUC/PR-AUC virtually unchanged, mean delta -0.0008), but it substantially improved balanced accuracy and minority-class ('>50K') recall at the default threshold (mean balanced-accuracy delta +0.0484) at the cost of some precision on the minority class and a drop in raw accuracy. So imbalance handling reshapes the precision/recall trade-off rather than improving the underlying model.",
+    "primary_metric_name": "Mean balanced-accuracy delta (imbalance-handled minus baseline, averaged over LogReg/RF x class_weight/SMOTE)",
+    "primary_metric_value": 0.0484,
+    "direction": "imbalance-handled > baseline (balanced accuracy/minority recall up, ROC-AUC roughly flat)",
+    "methodological_choices": "Dropped rows with '?' missing values (~7% of data) rather than imputing. OrdinalEncoder for categoricals (no one-hot, to keep RF training fast/compact); StandardScaler applied to numeric features for both LR and RF (harmless for RF, needed for LR). 80/20 stratified train/test split, random_state=42. Two model classes: LogisticRegression (max_iter=1000) and RandomForestClassifier (n_estimators=300). Three imbalance regimes per model: no handling (baseline), class_weight='balanced', and SMOTE oversampling applied only to the training fold (test set left at natural ~24%/76% imbalance to reflect real deployment). Evaluated with ROC-AUC, PR-AUC (average precision), balanced accuracy, macro-F1, minority recall/precision, and plain accuracy; primary metric chosen as mean balanced-accuracy delta since it directly captures the metric imbalance-handling techniques are designed to optimize, whereas ROC-AUC/PR-AUC (ranking quality) are largely insensitive to reweighting/resampling of a fixed model class. Threshold left at default 0.5 for all predict() calls rather than tuning per-model thresholds."
+  }
+}

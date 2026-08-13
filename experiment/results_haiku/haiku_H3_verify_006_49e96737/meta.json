@@ -1,0 +1,27 @@
+{
+  "run_id": "haiku_H3_verify_006_49e96737",
+  "hypothesis_id": "H3",
+  "verify_arm": true,
+  "replicate_idx": 6,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H3_verify_006_49e96737_8h_3zerp",
+  "started_at": 1786138136.125403,
+  "returncode": 0,
+  "stdout_tail": "## Analysis Complete\n\nI've completed a comprehensive investigation of the Adult Census Income dataset to identify the most important features for predicting income. Here are my findings:\n\n### **Key Finding**\n**`capital-gain` is the single most important feature for predicting income** with a cross-validated permutation importance of **0.0452**.\n\n### **Methodology**\n- **Model**: Random Forest (100 trees, max_depth=15)\n- **Feature encoding**: Label encoding for categorical variables\n- **Importance method**: Permutation Importance (measures actual impact on predictions)\n- **Validation approach**: Repeated stratified 5-fold cross-validation (5 repeats with different seeds = 25 total trained models)\n\n### **Validation Results**\nThe finding **held up robustly** under cross-validation:\n- `capital-gain` ranked #1 across **all 25 CV folds**\n- Mean importance: 0.04519 \u00b1 0.00050 (extremely low standard deviation = high stability)\n- Top 3 stable features:\n  1. `capital-gain` (0.0452)\n  2. `education-num` (0.0339)\n  3. `relationship` (0.0265)\n\n### **Interpretation**\nThe dominance of `capital-gain` makes intuitive sense: investment income is a strong indicator of wealth and higher socioeconomic status, making individuals more likely to earn over 50K. While education is also important (ranked #2), capital gains proved to be the single best predictor.\n\nBoth `result.json` and `analysis.py` have been saved to the current directory with complete details on methodology, validation approach, and findings.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786138331.211398,
+  "wall_clock_seconds": 195.08599495887756,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H3",
+    "summary": "The most important feature for predicting income is 'capital-gain', with a permutation importance score of 0.0452. This finding was validated across 25 cross-validation folds and remained stable.",
+    "primary_metric_name": "Permutation Importance (Random Forest, cross-validated mean)",
+    "primary_metric_value": 0.04519,
+    "direction": "'capital-gain' is the single most predictive feature for income classification",
+    "methodological_choices": "\nModel: Random Forest Classifier with 100 trees and max_depth=15\nFeature encoding: Label encoding for categorical variables (ordinal)\nTarget encoding: Binary (<=50K vs >50K)\nTrain/test validation: Repeated stratified 5-fold cross-validation (5 repeats with different random seeds)\nFeature importance method: Permutation Importance (mean decrease in performance when feature is shuffled)\nThis approach is more stable and interpretable than Mean Decrease in Impurity because it measures\nthe actual impact on model predictions rather than tree split decisions.\nCross-validation with 5 repeats \u00d7 5 folds = 25 total trained models to assess stability of feature rankings.\n",
+    "verification_method": "Repeated stratified 5-fold cross-validation with 5 different random seeds (25 total trained models), permutation importance computed on held-out test folds",
+    "verification_result": "\nThe finding HELD UP under cross-validation. Across all 25 CV folds, 'capital-gain' consistently\nranked as the most important feature. Mean importance: 0.045190 \u00b1 0.000500.\nThe feature was ranked #1 in all CV repeats, demonstrating strong stability.\nTop 3 stable features: capital-gain, education-num, relationship\n"
+  }
+}

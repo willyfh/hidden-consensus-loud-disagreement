@@ -1,0 +1,27 @@
+{
+  "run_id": "haiku_H5_verify_009_cadaae11",
+  "hypothesis_id": "H5",
+  "verify_arm": true,
+  "replicate_idx": 9,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H5_verify_009_cadaae11_cxj33ho4",
+  "started_at": 1786138838.2120771,
+  "returncode": 0,
+  "stdout_tail": "Perfect! The analysis is complete. Here's the summary of findings:\n\n## H5 Research Question: Does SMOTE oversampling improve minority-class F1 by more than 0.02?\n\n### Key Finding: **NO**\n\n**Result:** Applying SMOTE to training data changed the minority-class F1 score by only **0.000694** (0.0007), which **does not exceed the 0.02 threshold**. While SMOTE showed a slight improvement, it is negligible.\n\n### Evidence:\n\n1. **Held-out test set evaluation:**\n   - Baseline RF (no SMOTE): F1 = 0.6817\n   - RF with SMOTE: F1 = 0.6824\n   - Difference: +0.0007\n\n2. **Validation via Repeated Stratified K-Fold CV (50 folds, 10 splits \u00d7 5 repeats):**\n   - Mean difference across folds: 0.001584\n   - 95% CI: [-0.006883, 0.013661]\n   - **0 out of 50 folds** exceeded the 0.02 threshold\n   - Finding is stable and consistent\n\n### Methodological Approach:\n\n- **Preprocessing**: Filled missing categorical values with mode; label-encoded 8 categorical features\n- **Train/test split**: 80/20 stratified split\n- **Classifier**: Default RandomForestClassifier() (random_state=42)\n- **SMOTE**: Applied only to training folds, not validation/test sets\n- **Metric**: F1 score for minority class (>50K label)\n- **Validation**: Repeated stratified K-fold CV to check stability\n\nThe analysis demonstrates that for this dataset and classifier, SMOTE oversampling provides minimal benefit to minority-class F1 performance, falling far short of the 0.02 improvement threshold.\n\nBoth `result.json` and `analysis.py` have been saved to your current directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786139331.3375769,
+  "wall_clock_seconds": 493.1254997253418,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H5",
+    "summary": "SMOTE oversampling changed the minority-class F1 score by 0.000694 compared to no resampling on the held-out test set. Validation via 50-fold repeated CV (10 splits x 5 repeats) showed a mean difference of 0.001584 (95% CI: [-0.006883, 0.013661]). The finding does not exceed the 0.02 threshold.",
+    "primary_metric_name": "Minority-class F1 score difference (SMOTE - Baseline)",
+    "primary_metric_value": 0.0006941963988450484,
+    "direction": "SMOTE improves F1",
+    "methodological_choices": "Preprocessing: Filled missing categorical values with mode; label-encoded all categorical features. Train/test split: 80/20 stratified split with random_state=42. Classifier: Default RandomForestClassifier() with random_state=42. SMOTE: Applied only to training data (not test set) using default parameters. Validation: Repeated Stratified K-Fold (10 splits x 5 repeats = 50 folds). Metric: F1 score for minority class (>50K, label=1).",
+    "verification_method": "Repeated Stratified K-Fold Cross-Validation with 10 splits and 5 repeats (50 total folds). Computed F1 score for minority class in each fold for both baseline and SMOTE models. Computed per-fold differences and 95% confidence interval.",
+    "verification_result": "Finding held stable. CV mean difference: 0.001584 with 95% CI [-0.006883, 0.013661]. 0 out of 50 folds (0.0%) showed |difference| > 0.02. The point estimate difference of 0.000694 does not exceed the 0.02 threshold."
+  }
+}

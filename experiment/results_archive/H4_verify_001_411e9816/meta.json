@@ -1,0 +1,17 @@
+{
+  "run_id": "H4_verify_001_411e9816",
+  "hypothesis_id": "H4",
+  "verify_arm": true,
+  "replicate_idx": 1,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_verify_001_411e9816_pauwjjhw",
+  "started_at": 1785960410.355253,
+  "returncode": 0,
+  "stdout_tail": "I've started monitoring the background run (repeated CV with a 300-tree Random Forest is compute-heavy). I'll wait for it to complete rather than polling.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785961112.972503,
+  "wall_clock_seconds": 702.6172499656677,
+  "result_json_found": false,
+  "analysis_py_found": true
+}

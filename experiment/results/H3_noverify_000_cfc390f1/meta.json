@@ -1,0 +1,25 @@
+{
+  "run_id": "H3_noverify_000_cfc390f1",
+  "hypothesis_id": "H3",
+  "verify_arm": false,
+  "replicate_idx": 0,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H3_noverify_000_cfc390f1_ea7f6lsz",
+  "started_at": 1785882534.309867,
+  "returncode": 0,
+  "stdout_tail": "Analysis complete. Both `analysis.py` and `result.json` are written.\n\n**Finding:** Using a Random Forest (test ROC-AUC 0.917) and permutation importance on held-out data (the most cardinality-robust method), `capital-gain` is the single most important predictor of income, followed by `education-num`, `age`, and `marital-status`. Impurity-based importance disagreed (ranking `marital-status`/`relationship` first) \u2014 a known artifact of that method favoring high-cardinality categorical features \u2014 so permutation importance was treated as authoritative. A Logistic Regression cross-check similarly showed one-hot-aggregation artifacts (inflating `native-country`), which I flagged rather than let silently mislead the conclusion.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785882812.453971,
+  "wall_clock_seconds": 278.14410400390625,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H3",
+    "summary": "Across a Random Forest (test ROC-AUC=0.917) and a Logistic Regression (test ROC-AUC=0.906), 'capital-gain' is consistently the single most important predictor of income by permutation importance, followed by 'education-num', 'age', and 'marital-status'. Capital gain, marital status, and education level dominate over demographic attributes like race, sex, or native country.",
+    "primary_metric_name": "permutation importance (ROC-AUC drop) of top feature ('capital-gain')",
+    "primary_metric_value": 0.03472110742512713,
+    "direction": "'capital-gain' most important",
+    "methodological_choices": "Dropped 'fnlwgt' (sampling weight, not a substantive predictor) and 'education' (redundant with ordinal 'education-num'). Missing values in workclass/occupation/native-country coded as explicit 'Missing' category rather than dropped. One-hot encoded categoricals (dummy importances/coefficients summed back to original feature for reporting). 75/25 stratified train/test split, random_state=42. Primary model: RandomForestClassifier(n_estimators=200, max_depth=20, min_samples_leaf=2, class_weight='balanced') to address ~3:1 class imbalance. Primary importance method: permutation importance (n_repeats=5, scoring=ROC-AUC) on held-out test data, chosen over impurity-based importance because impurity importance is biased toward high-cardinality categorical features (confirmed here: impurity importance ranks 'marital-status' and 'relationship' far above 'capital-gain', while permutation importance, which is not biased by cardinality, ranks 'capital-gain' first). Impurity-based RF importance and standardized Logistic Regression |coefficient| summed across dummies were computed as cross-checks; the LR-coefficient ranking diverges (native-country ranks highest there), which is a known artifact of summing L2-regularized coefficients across many one-hot dummy levels rather than evidence that native-country is actually predictive -- permutation importance on the RF is treated as the most trustworthy ranking. Evaluation metric: ROC-AUC (robust to class imbalance) plus accuracy for context."
+  }
+}

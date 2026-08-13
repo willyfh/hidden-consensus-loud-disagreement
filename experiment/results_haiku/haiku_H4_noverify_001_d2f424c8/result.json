@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H4",
+  "summary": "Addressing class imbalance shows mixed results depending on the evaluation metric and model. ROC-AUC improved by -0.0044 on average, but F1-Score changed by +0.0330. Trade-offs exist between different metrics.",
+  "primary_metric_name": "Average ROC-AUC improvement (with SMOTE vs baseline)",
+  "primary_metric_value": -0.0044,
+  "direction": "Mixed results - improvement depends on metric and model",
+  "methodological_choices": "Data split: 70% train, 30% test with stratification to preserve class distribution. Encoding: LabelEncoder for categorical features, StandardScaler for numeric features. Models: Logistic Regression (max_iter=1000) and Random Forest (100 trees, max_depth=15). Imbalance handling: SMOTE with k_neighbors=5 applied only to training data. Evaluation metrics: ROC-AUC, F1-Score, Balanced Accuracy, and Precision-Recall AUC. Random Forest uses unscaled features; Logistic Regression uses scaled features. All models evaluated on the same hold-out test set. No hyperparameter tuning performed; default/reasonable parameters used."
+}

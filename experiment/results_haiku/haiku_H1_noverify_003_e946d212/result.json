@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H1",
+  "summary": "Model family choice significantly affects predictive performance. The best model ('Gradient Boosting', ROC-AUC: 0.9279) outperforms the worst ('KNN', ROC-AUC: 0.8457) by 0.0822 (9.72%), indicating that model selection meaningfully impacts performance on this dataset.",
+  "primary_metric_name": "ROC-AUC difference (Gradient Boosting - KNN)",
+  "primary_metric_value": 0.0822,
+  "direction": "Gradient Boosting > KNN (9.7% improvement)",
+  "methodological_choices": "Train-test split: 70-30 with stratification and random_state=42. Missing value handling: categorical columns filled with 'Unknown', numerical columns filled with median. Feature encoding: LabelEncoder for categorical features, StandardScaler applied for models requiring scaled features (LogReg, SVM, KNN, NN). Evaluation metric: ROC-AUC (primary), with Accuracy and F1-Score as supporting metrics. Models trained with consistent random states where applicable. Models evaluated on same test set (n=14653) to ensure fair comparison."
+}

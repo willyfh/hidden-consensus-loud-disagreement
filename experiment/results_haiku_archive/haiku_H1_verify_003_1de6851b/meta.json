@@ -1,0 +1,17 @@
+{
+  "run_id": "haiku_H1_verify_003_1de6851b",
+  "hypothesis_id": "H1",
+  "verify_arm": true,
+  "replicate_idx": 3,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H1_verify_003_1de6851b_qlln88ip",
+  "started_at": 1786161858.3161879,
+  "returncode": null,
+  "stdout_tail": "",
+  "stderr_tail": "",
+  "timed_out": true,
+  "finished_at": 1786162758.242709,
+  "wall_clock_seconds": 899.926521062851,
+  "result_json_found": false,
+  "analysis_py_found": true
+}

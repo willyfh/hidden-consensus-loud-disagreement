@@ -1,0 +1,27 @@
+{
+  "run_id": "haiku_H4_verify_004_f21eea6a",
+  "hypothesis_id": "H4",
+  "verify_arm": true,
+  "replicate_idx": 4,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H4_verify_004_f21eea6a_loz22f69",
+  "started_at": 1786138428.153813,
+  "returncode": 0,
+  "stdout_tail": "## Investigation Complete\n\nI've conducted a comprehensive analysis investigating whether addressing class imbalance improves model quality on the Adult Income dataset. Here are the key findings:\n\n### Dataset Overview\n- **48,842 samples** with 14 features and binary classification target\n- **3.18:1 class imbalance** (37,155 samples \u226450K vs 11,687 samples >50K)\n- 5,465 missing values across workclass, occupation, and native-country\n\n### Methodology\nI compared two approaches:\n1. **Baseline**: Models without imbalance handling\n2. **Class Weights**: Using balanced class weights in LogisticRegression and RandomForest\n\nI evaluated multiple metrics (ROC-AUC, F1-Score, precision, recall) and validated findings across 10 different random train-test splits using 5-fold repeated stratified cross-validation.\n\n### Key Findings\n\n**F1-Score Improvement (primary metric):** +0.0609 (\u00b10.0051)\n- Consistent across all 10 random seeds: range [+0.0526, +0.0689]\n- All improvements positive\n\n**ROC-AUC Improvement:** +0.0001 (\u00b10.0004)  \n- Minimal, with mixed direction [-0.0003, +0.0012]\n- Expected: ROC-AUC is inherently less sensitive to class imbalance\n\n### Conclusion\n**YES, addressing class imbalance improves model quality** on this dataset. The improvement is particularly strong for balanced metrics (F1-Score: +6.09 percentage points), which are most important for imbalanced classification tasks. Discrimination metrics (ROC-AUC) show negligible improvement, which is theoretically expected.\n\nResults saved to:\n- **`result.json`** - Structured findings with all required fields\n- **`analysis.py`** - Complete reproducible analysis code\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786138544.859075,
+  "wall_clock_seconds": 116.70526218414307,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H4",
+    "summary": "Yes, addressing class imbalance improves model quality on the Adult Income dataset. While discrimination ability (ROC-AUC) shows minimal improvement (+0.0001), balanced metrics like F1-Score improve substantially (+0.0609 mean improvement with class weights). This finding is stable across 10 random seeds with consistent F1 improvements ranging from +0.0526 to +0.0689.",
+    "primary_metric_name": "F1-Score improvement (class weights - baseline) averaged over 10 random seeds",
+    "primary_metric_value": 0.0609,
+    "direction": "Positive - class weight balancing improves F1-Score by 6.09 percentage points on average",
+    "methodological_choices": "Used stratified train-test split (80-20) with 39073 training and 9769 test samples. Evaluated two model classes: LogisticRegression and RandomForest. Preprocessing: label encoding for 8 categorical features, standardization of features. Handled missing values (2799 in workclass, 2809 in occupation, 857 in native-country) via mode imputation. Compared baseline (no imbalance handling) versus class_weight='balanced' approach. Evaluation metrics: ROC-AUC (discrimination), F1-Score (balance of precision-recall), precision, and recall. Cross-validation: 5-fold repeated stratified CV with 5 repeats (25 total splits).",
+    "verification_method": "Repeated evaluation across 10 different random train-test splits (seeds 0-9) with stratified sampling to preserve class distribution. Each split trained both baseline and class-weighted LogisticRegression models, recording F1-Score and ROC-AUC improvements.",
+    "verification_result": "Finding held up strongly across all splits. F1-Score improvement: +0.0609 \u00b1 0.0051 (mean \u00b1 std), with range [+0.0526, +0.0689] across 10 seeds - ALL improvements positive. ROC-AUC improvement: +0.0001 \u00b1 0.0004, with mixed direction [-0.0003, +0.0012] - minimal but stable near zero. The primary takeaway is that class imbalance handling significantly improves balanced classification metrics (F1) but has negligible impact on discrimination metrics (ROC-AUC), which is theoretically expected."
+  }
+}

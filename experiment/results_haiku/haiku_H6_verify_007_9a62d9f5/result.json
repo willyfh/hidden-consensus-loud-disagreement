@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H6",
+  "summary": "The logistic regression model is well-calibrated with an expected calibration error of 0.0131. The model's predicted probabilities align reasonably well with empirical frequencies.",
+  "primary_metric_name": "Expected Calibration Error (ECE)",
+  "primary_metric_value": 0.013140806964900498,
+  "direction": "ECE = 0.0131 (lower is better)",
+  "methodological_choices": "Logistic regression with standard scaling. Train/val/test split 60/20/20 with stratification. ECE computed with 10 probability bins using 5-fold stratified cross-validation.",
+  "verification_method": "5-fold stratified cross-validation with different random seeds",
+  "verification_result": "Finding stable: ECE = 0.0131 \u00b1 0.0032 across folds. Model calibration consistent across different data splits."
+}

@@ -1,0 +1,27 @@
+{
+  "run_id": "H3_verify_001_0a9dc990",
+  "hypothesis_id": "H3",
+  "verify_arm": true,
+  "replicate_idx": 1,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H3_verify_001_0a9dc990_v8yqt99y",
+  "started_at": 1785882934.272929,
+  "returncode": 0,
+  "stdout_tail": "## Findings\n\nTrained a Random Forest classifier (300 trees, class-weight balanced, 70/30 stratified split) on the Adult Census dataset, using permutation importance on held-out test data as the primary importance method (more reliable than impurity-based importance since it isn't biased toward high-cardinality categoricals).\n\n**Result:** `marital-status` is the single most important feature for predicting income class, followed by `capital-gain`, `education-num`, and `age`. Model achieved test ROC-AUC of 0.918 (vs. 0.906 for a logistic regression baseline).\n\n**Stability check:** Re-ran permutation importance across 5 independently reseeded train/test splits (fresh model refit each time) \u2014 `marital-status` ranked #1 in every single run, with importance values tightly clustered (0.0429\u20130.0452 across 6 total runs). 5-fold CV ROC-AUC was 0.918 \u00b1 0.002, confirming the model itself is stable. The finding held up robustly.\n\nBoth `result.json` and `analysis.py` are saved in the working directory. Note: `marital-status` and `relationship` are correlated proxies (e.g., \"Husband\"/\"Wife\" values encode both marital status and being in a two-earner household), so this likely reflects household-income structure rather than marriage causing higher income per se \u2014 worth keeping in mind when interpreting the result.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785883323.0800362,
+  "wall_clock_seconds": 388.8071072101593,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H3",
+    "summary": "The strongest predictor of income class is 'marital-status', with permutation importance (mean ROC-AUC drop when shuffled) of 0.0429 on held-out data, followed by capital-gain, education-num, age. This ranking was consistent across 5 independently reseeded train/test splits and model refits.",
+    "primary_metric_name": "top feature permutation importance (mean ROC-AUC drop)",
+    "primary_metric_value": 0.0429,
+    "direction": "'marital-status' most important",
+    "methodological_choices": "Dropped redundant 'education' string column (kept 'education-num'). Missing categorical values ('?') kept as explicit 'Missing' category rather than imputed or dropped. One-hot encoding for categoricals, passthrough for numerics. Primary model: RandomForestClassifier (300 trees, min_samples_leaf=2, class_weight='balanced' for the ~3:1 <=50K/>50K imbalance), compared against a LogisticRegression baseline (RF test ROC-AUC=0.9178, LogReg test ROC-AUC=0.9063). Importance method: permutation importance (10 repeats) on a 30% held-out stratified test set, chosen over impurity-based importance because impurity importance is biased toward high-cardinality categorical features; impurity-based importances were also computed and aggregated per original column for reference and agreed on the top feature ('marital-status').",
+    "verification_method": "Recomputed permutation importance under 5 independent reseeded train/test splits (random_state 1-5, fresh 70/30 split and model refit each time, 5 repeats each), and additionally ran 5-fold stratified cross-validated ROC-AUC for the primary model.",
+    "verification_result": "Top feature ('marital-status') was ranked #1 in all 5 reseeded runs (consistent=True). Its permutation importance ranged 0.0429-0.0452 across the 6 total runs (original + 5 reseeds), mean 0.0437. 5-fold CV ROC-AUC for the primary model: 0.9185 +/- 0.0016 (fold scores: [np.float64(0.9156), np.float64(0.9194), np.float64(0.9178), np.float64(0.9199), np.float64(0.9197)]). Finding held up."
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H2",
+  "summary": "Random forest achieved a mean stratified 5-fold ROC-AUC of 0.9023 versus 0.9067 for logistic regression (both with default hyperparameters), a difference of -0.0043 in favor of logistic regression (paired t-test p=0.0438).",
+  "primary_metric_name": "ROC-AUC difference (RF - LogReg)",
+  "primary_metric_value": -0.0043,
+  "direction": "RF < LogReg",
+  "methodological_choices": "Encoded target as class=='>50K'. Numeric features (age, fnlwgt, education-num, capital-gain, capital-loss, hours-per-week) standardized (StandardScaler); this matters for LogisticRegression convergence/regularization but is a no-op for RandomForest. Categorical features (workclass, education, marital-status, occupation, relationship, race, sex, native-country) one-hot encoded (OneHotEncoder, handle_unknown='ignore'). Missing values (present only in workclass, occupation, native-country, originally '?') imputed as an explicit 'Missing' category rather than row-deletion, to retain the full 48842 rows and let both models use missingness as a signal. Both classifiers used pure sklearn defaults (LogisticRegression(max_iter=1000) \u2014 max_iter raised only to avoid a convergence warning, not to change the estimator's decision boundary; RandomForestClassifier() untouched). Evaluation: StratifiedKFold(n_splits=5, shuffle=True, random_state=42) with cross_val_score(scoring='roc_auc'), same folds for both models to allow a paired comparison. Class imbalance (~24% positive) was not corrected via resampling/class_weight since ROC-AUC is relatively robust to it and the question specifies scikit-learn defaults. Significance assessed with a paired t-test across the 5 fold scores."
+}

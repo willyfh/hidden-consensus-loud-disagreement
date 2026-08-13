@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H3",
+  "summary": "Relationship status emerged as the most important feature for predicting income, followed by education level and capital gains. These findings were consistent across multiple importance methods: Random Forest, permutation importance, and logistic regression coefficients. The relationship feature captures marital and family status, which strongly correlates with earning potential.",
+  "primary_metric_name": "average normalized feature importance across Random Forest, permutation importance, and logistic regression",
+  "primary_metric_value": 0.1821,
+  "direction": "relationship status is most important predictor, followed by education-num and capital-gain",
+  "methodological_choices": "Random Forest classifier with 200 estimators and max_depth=20 trained on 70% of data (34,189 samples); test set of 14,653 samples used for permutation importance. Missing values handled by filling categorical with 'Missing' and numeric with median. All categorical features label-encoded. Three importance methods averaged: (1) built-in Random Forest feature_importances_, (2) permutation importance on test set (10 repeats), (3) absolute logistic regression coefficients. All importance scores normalized to sum to 1.0 before averaging for fair comparison across methods. Model achieved test AUC of 0.9173 and accuracy of 0.8685."
+}

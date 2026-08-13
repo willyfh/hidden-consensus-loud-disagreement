@@ -1,0 +1,25 @@
+{
+  "run_id": "haiku_H4_noverify_005_9ace7a3c",
+  "hypothesis_id": "H4",
+  "verify_arm": false,
+  "replicate_idx": 5,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H4_noverify_005_9ace7a3c_bci243lx",
+  "started_at": 1786138331.216318,
+  "returncode": 0,
+  "stdout_tail": "## Analysis Complete\n\nI've investigated whether addressing class imbalance improves model quality on the Adult Income dataset. Here are the key findings:\n\n**Dataset Overview:**\n- 48,842 samples with 14 features + target\n- Class imbalance: 76% earn \u226450K, 24% earn >50K\n- Mix of categorical and numeric features\n\n**Methodology:**\n- Tested 2 models: Logistic Regression and Random Forest\n- Tested 4 imbalance strategies: baseline (no handling), SMOTE, undersampling, combined\n- 70/30 stratified train-test split\n- Evaluated on balanced accuracy, ROC-AUC, F1, precision, and recall\n\n**Key Results:**\n- **Logistic Regression**: +6.51% balanced accuracy improvement (0.6683 \u2192 0.7334) with undersampling\n- **Random Forest**: +4.35% balanced accuracy improvement (0.7780 \u2192 0.8214) with undersampling\n- All imbalance handling strategies improved performance\n- Undersampling and combined strategies were most effective\n- Improvements consistent across multiple evaluation metrics\n\n**Conclusion:** YES - addressing class imbalance substantially improves model quality on this dataset. The maximum improvement was 6.51% in balanced accuracy for Logistic Regression using undersampling or combined strategies.\n\nBoth `result.json` and `analysis.py` have been saved to your current directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786138382.5703738,
+  "wall_clock_seconds": 51.354055881500244,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H4",
+    "summary": "Class imbalance handling strategies (SMOTE, undersampling, combined) were tested on Logistic Regression and Random Forest models. The analysis shows significant improvements in model quality when addressing imbalance, with the largest gain of 6.51% in balanced accuracy.",
+    "primary_metric_name": "Maximum balanced accuracy improvement (%)",
+    "primary_metric_value": 6.51,
+    "direction": "Imbalance handling improves metrics (max +6.51% balanced accuracy)",
+    "methodological_choices": "Label encoding for categorical variables; stratified 70/30 train-test split; tested Logistic Regression and Random Forest; evaluated with ROC-AUC, F1, balanced accuracy, precision, and recall; imbalance strategies: SMOTE, random undersampling, and their combination; evaluation performed on unmodified test set to avoid data leakage."
+  }
+}

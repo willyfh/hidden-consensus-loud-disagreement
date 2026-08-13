@@ -1,0 +1,25 @@
+{
+  "run_id": "haiku_H4_noverify_008_18e48051",
+  "hypothesis_id": "H4",
+  "verify_arm": false,
+  "replicate_idx": 8,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H4_noverify_008_18e48051_xoj84ox8",
+  "started_at": 1786138357.591851,
+  "returncode": 0,
+  "stdout_tail": "## Summary of Findings\n\nI've completed a comprehensive investigation of whether addressing class imbalance improves model quality on the Adult Income dataset. Here are the key results:\n\n### Dataset Overview\n- **48,842 rows** with 14 features (8 categorical, 6 numeric)\n- **Significant class imbalance**: 76% negative (\u226450K), 24% positive (>50K) \u2014 a 3.18:1 ratio\n\n### Methodology\n- Tested **3 model families**: Logistic Regression, Random Forest (100 estimators), Gradient Boosting (100 estimators)\n- **Imbalance handling**: via `class_weight='balanced'` (LR, RF) and `sample_weight` (GB)\n- **Evaluation metrics**: ROC-AUC, F1-score, balanced accuracy, precision, recall\n- **Data split**: 70-30 stratified train-test split\n\n### Key Results\n| Metric | Improvement |\n|--------|------------|\n| **F1-score** | +2.93% average (3/3 models improved) |\n| **Balanced Accuracy** | +5.22% average (3/3 models improved) |\n| **ROC-AUC** | -0.0018% average (1/3 models improved) |\n\n### Critical Insight\nThe answer depends on the metric used:\n- **Imbalance handling DOES improve** threshold-dependent metrics (F1, balanced accuracy) by optimizing recall on the minority class\n- **Imbalance handling has NO effect on** ROC-AUC because it's inherently robust to class imbalance\n- The improvement comes from adjusting the decision threshold, not increasing discriminative capacity\n\n### Deliverables\n\u2713 **result.json** \u2014 Final findings with primary metric (F1-score improvement)\n\u2713 **analysis.py** \u2014 Complete reproducible analysis code\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786138443.238563,
+  "wall_clock_seconds": 85.64671206474304,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H4",
+    "summary": "Addressing class imbalance improves model quality when measured by discriminative threshold-dependent metrics. F1-score improved by +2.93% on average across all models, and balanced accuracy by +5.22%, indicating that balanced weighting successfully optimizes for recall on the minority class. However, ROC-AUC (which is inherently robust to class imbalance) showed negligible change (-0.0018%), demonstrating that the improvement is in the decision threshold, not discriminative capacity.",
+    "primary_metric_name": "Average F1-score improvement (balanced vs unbalanced)",
+    "primary_metric_value": 0.029304,
+    "direction": "Imbalance handling improves F1-score and balanced accuracy, not ROC-AUC",
+    "methodological_choices": "Train-test split (70-30, stratified to preserve class distribution). Preprocessing: removed rows with missing values, label-encoded 8 categorical features, standardized 6 numeric features. Three model families tested: Logistic Regression, Random Forest (100 estimators), Gradient Boosting (100 estimators). Imbalance handling via class_weight='balanced' (LR, RF) and sample_weight in fit (GB). Evaluation metrics: ROC-AUC, F1, balanced accuracy, precision, recall. No hyperparameter tuning. Dataset: 48,842 rows, 3.18:1 class imbalance ratio (76% negative, 24% positive)."
+  }
+}

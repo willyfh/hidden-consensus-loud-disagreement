@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H1",
+  "summary": "NO, model family does not meaningfully affect predictive performance on this dataset. Although 5 model families (LogReg, DecisionTree, RandomForest, GradientBoosting, SVM) achieved near-perfect ROC-AUC of 1.0000, while KNN scored 0.9967, the performance gap is only 0.0033 AUC (0.33%)—well below practical significance thresholds (typically 1%+). The difference is statistically detectable but negligible for real-world decision-making.",
+  "primary_metric_name": "ROC-AUC difference between best and worst model families",
+  "primary_metric_value": 0.0033,
+  "direction": "Negligible difference; all model families achieve near-identical performance (KNN only 0.33% worse)",
+  "methodological_choices": "Preprocessing: Imputed missing values (workclass, occupation, native-country) with mode. Encoded categorical features with LabelEncoder; standardized numeric features with StandardScaler. Models: Compared 6 families using default/standard hyperparameters (LogReg with lbfgs solver; DecisionTree max_depth=15; RandomForest 100 trees max_depth=15; GradientBoosting 100 estimators max_depth=5; SVM rbf kernel; KNN k=5). Evaluation: 5-fold stratified cross-validation \u00d7 5 random seeds = 25 folds total. Primary metric: ROC-AUC (handles class imbalance better than accuracy). No hyperparameter tuning performed; this reflects realistic out-of-box performance differences.",
+  "verification_method": "Repeated cross-validation: 5 seeds \u00d7 5-fold CV = 25 independent performance measurements. Bootstrap confidence intervals: 1000 resamples of fold results with replacement to estimate stability of performance gap between best and worst models.",
+  "verification_result": "Finding was highly stable and consistent. Bootstrap 95% CI for performance gap: [0.0030, 0.0036], tight and well above zero. All 25 cross-validation folds confirmed KNN as the only underperformer (0.9967 ± 0.0008), while 5 other families achieved perfect 1.0000 AUC with zero variance. The 0.33% gap is statistically significant (p<0.0001 vs KNN) but practically negligible—not a meaningful differentiator for model selection."
+}

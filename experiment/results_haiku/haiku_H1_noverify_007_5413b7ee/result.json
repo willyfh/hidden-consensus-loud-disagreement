@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H1",
+  "summary": "Yes, model family choice meaningfully affects predictive performance on the Adult Income dataset. The best model (Gradient Boosting, ROC-AUC=0.9216) outperforms the worst (SVM (RBF), ROC-AUC=0.7184) by 0.2033 ROC-AUC points.",
+  "primary_metric_name": "ROC-AUC difference (best model - worst model)",
+  "primary_metric_value": 0.2033,
+  "direction": "Gradient Boosting (0.9216) > SVM (RBF) (0.7184)",
+  "methodological_choices": "Preprocessing: Missing values imputed with median (numeric) or 'Unknown' (categorical). Features: 8 categorical features one-hot encoded, 6 numeric features standardized. Train/test split: 80/20 stratified. Models evaluated: Logistic Regression, Random Forest, Gradient Boosting, Decision Tree, SVM (RBF), KNN (k=5). Primary evaluation metric: ROC-AUC on held-out test set (n=9769). Cross-validation: 5-fold CV on training set for robustness check."
+}

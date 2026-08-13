@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H2",
+  "summary": "No. Logistic Regression achieves higher stratified 5-fold cross-validated ROC-AUC (0.9053) than Random Forest (0.9016) on the Adult Income dataset, with an average difference of 0.3232 percentage points favoring LogReg. This finding was validated across 5 repeated CV runs with different random seeds, and held consistently in 100% of validation runs.",
+  "primary_metric_name": "ROC-AUC difference (RF - LogReg)",
+  "primary_metric_value": -0.003232,
+  "direction": "LogReg > RF",
+  "methodological_choices": "Target encoding: binary classification (income >50K vs <=50K). Preprocessing: missing values in categorical features imputed with mode, numerical features imputed with median. Feature engineering: categorical features one-hot encoded, numerical features standardized via StandardScaler. Models: scikit-learn RandomForestClassifier() and LogisticRegression() with default hyperparameters (RF: 100 trees; LR: lbfgs solver, max_iter=1000). Validation: stratified 5-fold cross-validation to preserve class balance. Evaluation metric: ROC-AUC (area under receiver operating characteristic curve) computed via cross_val_score. No class weighting or stratification-aware model adjustments beyond CV stratification.",
+  "verification_method": "Repeated stratified 5-fold cross-validation (5 independent runs with random seeds 42, 123, 456, 789, 999) to assess consistency across different fold partitions. For each seed, computed mean ROC-AUC and difference for both models.",
+  "verification_result": "Highly stable. Logistic Regression outperformed Random Forest in all 5 repeated CV runs. Mean ROC-AUC across repeats: LR = 0.9053 (±0.0001), RF = 0.9020 (±0.0007). All individual differences (RF - LR) were negative: range [-0.0043, -0.0024]. The finding is not only confirmed but remarkably consistent across random partitions, indicating a genuine and robust difference in model performance on this dataset."
+}

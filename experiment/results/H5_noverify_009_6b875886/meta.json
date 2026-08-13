@@ -1,0 +1,25 @@
+{
+  "run_id": "H5_noverify_009_6b875886",
+  "hypothesis_id": "H5",
+  "verify_arm": false,
+  "replicate_idx": 9,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H5_noverify_009_6b875886_i2iny8qh",
+  "started_at": 1785885013.098214,
+  "returncode": 0,
+  "stdout_tail": "The analysis ran successfully. `result.json` and `analysis.py` are written to the current directory.\n\n**Finding:** SMOTE oversampling does **not** change the minority-class (>50K) F1 score by more than 0.02. Baseline F1 = 0.6556, SMOTE F1 = 0.6559 \u2014 a difference of only +0.0003, far below the 0.02 threshold.\n\nKey methodological choices: dropped rows with `?` missing values (~7%), dropped `fnlwgt` (a sampling-weight artifact, not a real feature), one-hot encoded categoricals, 75/25 stratified split, and used `RandomForestClassifier()` with fully default hyperparameters for both arms (single run, no CV, so some run-to-run stochasticity is possible but the gap is large enough that it wouldn't change the conclusion).\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785885143.145233,
+  "wall_clock_seconds": 130.04701900482178,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H5",
+    "summary": "Applying SMOTE to the training data changed the >50K F1 score from 0.6556 (no resampling) to 0.6559 (SMOTE), a difference of +0.0003, which does NOT exceed the 0.02 threshold. SMOTE did not meaningfully improve, and slightly helped, minority-class F1 for the default random forest.",
+    "primary_metric_name": "F1 (>50K) difference (SMOTE - no resampling)",
+    "primary_metric_value": 0.0003,
+    "direction": "SMOTE does not change F1 by >0.02",
+    "methodological_choices": "Rows with '?' (missing) values dropped rather than imputed (~7% of rows, concentrated in workclass/occupation/native-country). fnlwgt (a census sampling weight) dropped as a non-demographic artifact column. 75/25 stratified train/test split, random_state=42. Categorical features one-hot encoded (handle_unknown='ignore'); numeric features passed through unscaled since RandomForest is scale-invariant. RandomForestClassifier() used with all default hyperparameters (no random_state set on the classifier itself, so run-to-run variance is possible) for both arms, differing only in whether SMOTE (imblearn, default k_neighbors=5, random_state=42) was applied to the encoded training set before fitting. Evaluation metric is F1 restricted to the positive/minority class (>50K) on the held-out, non-resampled test set. A single train/test split was used (no cross-validation or repeated runs), so the reported difference reflects one realization of RF's inherent stochasticity."
+  }
+}

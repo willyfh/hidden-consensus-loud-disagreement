@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H4",
+  "summary": "Addressing class imbalance improves model quality on the Adult income dataset. The best model using imbalance handling (class-weighted Random Forest) achieved ROC-AUC of 0.9049, compared to 0.9042 for the baseline (unbalanced Random Forest), representing a 0.0007 improvement. Class weighting consistently improved F1-scores and recall across models.",
+  "primary_metric_name": "ROC-AUC improvement (best model with imbalance handling vs baseline)",
+  "primary_metric_value": 0.0007,
+  "direction": "Improvement of 0.0007 in ROC-AUC",
+  "methodological_choices": "Data preprocessing: removed rows with missing values in workclass, occupation, or native-country (final n=45,222). Feature encoding: LabelEncoder for categorical variables (workclass, education, marital-status, occupation, relationship, race, sex, native-country). Train/test split: 80/20 with stratification on class. Models evaluated: Logistic Regression and Random Forest (n_estimators=100). Imbalance handling techniques: (1) Class weights (class_weight='balanced'), and (2) SMOTE oversampling. Evaluation metric: ROC-AUC as primary metric (appropriate for imbalanced classification), with secondary metrics including F1-score and recall. Random Forest with class_weight='balanced' was the best performer overall, achieving ROC-AUC of 0.9049. While the improvement in ROC-AUC is modest (0.07%), imbalance handling provided substantial gains in F1-score and recall, especially for Logistic Regression."
+}

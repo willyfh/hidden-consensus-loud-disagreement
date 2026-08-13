@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H1",
+  "summary": "Model family choice affects predictive performance. ROC-AUC ranges from 0.8303 (Naive Bayes) to 0.9286 (Gradient Boosting), a difference of 0.0983. Tree-based models (Random Forest, Gradient Boosting) consistently outperform linear models (Logistic Regression) and Naive Bayes.",
+  "primary_metric_name": "ROC-AUC difference (Best - Worst)",
+  "primary_metric_value": 0.0983,
+  "direction": "Gradient Boosting > Decision Tree",
+  "methodological_choices": "Preprocessing: Handled missing values using mode imputation. Features: Encoded 9 categorical features using LabelEncoder; scaled numeric features for SVM and LogReg using StandardScaler. Train-test split: 80-20 stratified split (random_state=42). Models: Logistic Regression (max_iter=1000), Decision Tree (max_depth=20), Random Forest (100 estimators, max_depth=20), Gradient Boosting (100 estimators, max_depth=5), SVM-RBF (C=1.0), Naive Bayes. Evaluation: Single hold-out test set with ROC-AUC as primary metric; also computed Accuracy, F1, Precision, Recall. No cross-validation or hyperparameter tuning performed beyond reasonable defaults to keep analysis straightforward."
+}

@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H1",
+  "summary": "Model family meaningfully affects predictive performance on the Adult income dataset. Tree-based models (Random Forest, Gradient Boosting) achieve the highest performance (ROC-AUC ~0.9041), while simpler models like Naive Bayes perform worse (ROC-AUC ~0.8528), representing a 0.0513 gap.",
+  "primary_metric_name": "ROC-AUC gap between best and worst model families",
+  "primary_metric_value": 0.0513,
+  "direction": "Best family (Neural Network) outperforms worst (Linear) by 0.0513 ROC-AUC",
+  "methodological_choices": "Preprocessing: Handled missing values (mode for categorical, median for numerical). Encoded categorical features with LabelEncoder. Standardized numerical features. Models: Tested 7 model families (Linear/Logistic Regression, Tree-based/RF/GB, Distance-based/KNN, Kernel SVM, Probabilistic/NB, Neural Networks) with 16 model configurations. Validation: 5-fold stratified cross-validation with ROC-AUC as primary metric. Hyperparameters: Used reasonable defaults and modest grid variations (tree depths, regularization). No class weight adjustment (class imbalance was modest: ~75/25 split)."
+}

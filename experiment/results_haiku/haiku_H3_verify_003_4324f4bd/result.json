@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H3",
+  "summary": "The most important feature for predicting income in this dataset is relationship (importance: 0.2127), followed by marital-status, age, education-num, and capital-gain. These top 5 features collectively account for 73.2% of the model's predictive power. This finding was validated through repeated cross-validation (mean accuracy: 0.8223) and bootstrap validation with multiple random seeds, where relationship remained the top feature across all 5 bootstrap samples.",
+  "primary_metric_name": "top feature by Random Forest feature importance",
+  "primary_metric_value": 0.21273980472673037,
+  "direction": "relationship is the most important feature for income prediction",
+  "methodological_choices": "Random Forest classifier (200 trees, max_depth=20, class_weight='balanced') trained on preprocessed Adult dataset with 80-20 train-test split. Categorical features (workclass, education, marital-status, occupation, relationship, race, sex, native-country) encoded using LabelEncoder. Missing values in categorical columns filled with 'Unknown'. Numeric features used as-is without standardization.",
+  "verification_method": "5-fold stratified K-fold cross-validation repeated 5 times (25 total folds), and bootstrap validation with 5 different random seeds on the training set. Top feature consistency checked across all bootstrap samples.",
+  "verification_result": "Finding validated: relationship remained the top feature across all 5 bootstrap samples. Cross-validation mean accuracy: 0.8223 \u00b1 0.0033 (95% CI: [0.8158, 0.8288]), test set accuracy: 0.8225. Feature importance rankings remained highly stable across all verification runs."
+}

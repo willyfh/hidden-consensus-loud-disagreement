@@ -1,0 +1,27 @@
+{
+  "run_id": "H1_verify_004_929a80ed",
+  "hypothesis_id": "H1",
+  "verify_arm": true,
+  "replicate_idx": 4,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_verify_004_929a80ed_m1ez3ljn",
+  "started_at": 1785856021.845741,
+  "returncode": 0,
+  "stdout_tail": "## Findings\n\n**Does model family matter?** Yes, but not in the naive \"trees beat linear models\" sense.\n\n- **HistGradientBoosting** clearly and stably wins: test ROC-AUC = 0.9295 vs Logistic Regression's 0.9057 (a +0.024 gap, 95% bootstrap CI [0.021, 0.027] \u2014 excludes zero).\n- **Random Forest** (300 trees, default depth) essentially **tied** Logistic Regression \u2014 it edged ahead on the single test split (0.9063 vs 0.9057) but was actually slightly *behind* LR under repeated CV (0.9028 vs 0.9066). That ordering flip means the RF-vs-LR \"difference\" isn't a real, stable effect \u2014 just noise.\n- All three models cluster in the 0.90\u20130.93 ROC-AUC range, so even the real effect (boosting's edge) is statistically robust but modest in absolute magnitude.\n\n**Stability check:** 5\u00d75 repeated stratified CV (25 folds/model, 5 different seeds) confirmed HistGradientBoosting's advantage and, importantly, *caught* that the RF > LR ordering from the initial single test split was not reproducible \u2014 a paired bootstrap on the held-out test set gave a clean, non-zero CI for the HGB\u2212LR gap specifically.\n\nBoth `analysis.py` and `result.json` are written to the working directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785856446.825877,
+  "wall_clock_seconds": 424.9801359176636,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H1",
+    "summary": "Model family has a small but real effect on predictive performance, and it is not simply 'trees beat linear models': HistGradientBoosting (test ROC-AUC=0.9295) clearly and stably outperforms both Logistic Regression and Random Forest by about 0.024 ROC-AUC points, but untuned Random Forest (test ROC-AUC=0.9063) does not reliably beat Logistic Regression (test ROC-AUC=0.9057) \u2014 in repeated CV, Logistic Regression actually scored slightly higher than Random Forest. All models score in the 0.90-0.93 ROC-AUC range, so the effect, while statistically stable, is modest in absolute size.",
+    "primary_metric_name": "ROC-AUC difference (HistGradientBoosting - LogisticRegression, test set)",
+    "primary_metric_value": 0.0238,
+    "direction": "HistGradientBoosting clearly best; RandomForest \u2248 LogisticRegression (not a strict tree-beats-linear ranking)",
+    "methodological_choices": "80/20 stratified train/test split (seed=42); shared preprocessing pipeline (StandardScaler for numeric features, OneHotEncoder for categoricals) applied identically to all model families for a fair comparison; missing values in categorical columns ('?') left as their own category rather than imputed; compared 3 model families spanning different inductive biases: Logistic Regression (linear, max_iter=2000), Random Forest (300 trees, default depth), and HistGradientBoostingClassifier (default params) \u2014 all with default/lightly-tuned hyperparameters rather than exhaustive tuning per model, since the question is about model family choice, not optimal tuning; ROC-AUC chosen as primary metric over accuracy because the target is imbalanced (~24% positive class); no explicit class-imbalance handling (no reweighting/SMOTE) since ROC-AUC is threshold-independent and tree ensembles handle moderate imbalance reasonably well.",
+    "verification_method": "Two checks: (1) 5x repeated 5-fold stratified CV (5 different random seeds, 25 folds per model) on the training set to check the mean ROC-AUC ranking is stable across resampling; (2) paired bootstrap (2000 resamples) of the held-out test set to build a 95% CI on the ROC-AUC gap between the best model and Logistic Regression.",
+    "verification_result": "Finding held up, with one refinement to the naive 'trees beat linear' story. Repeated CV (5x5, RepeatedStratifiedKFold random_state=42): LogisticRegression=0.9066+/-0.0042, RandomForest=0.9028+/-0.0044, HistGradientBoosting=0.9276+/-0.0039. HistGradientBoosting's advantage over both other models was confirmed and stable. However, Random Forest's mean CV ROC-AUC (0.9028) was actually slightly *below* Logistic Regression's (0.9066) under repeated CV, reversing the single-split test-set ordering (RF=0.9063 vs LR=0.9057) \u2014 i.e. RF vs LR is not a stable finding and should be treated as a tie, only the HistGradientBoosting advantage is robust. Bootstrap 95% CI for (HistGradientBoosting - LogisticRegression) ROC-AUC gap on the held-out test set: [0.0208, 0.0269], mean=0.0238 \u2014 CI excludes 0, so this specific gap is statistically stable, though modest in absolute size (~0.024 ROC-AUC)."
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "run_id": "H2_noverify_009_fcbad675",
+  "hypothesis_id": "H2",
+  "verify_arm": false,
+  "replicate_idx": 9,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_noverify_009_fcbad675_6cjg80_v",
+  "started_at": 1785856916.571528,
+  "returncode": 0,
+  "stdout_tail": "Analysis complete. With identical preprocessing (median/mode imputation, standard scaling on numerics, one-hot encoding on categoricals) and both models at scikit-learn defaults, 5-fold stratified CV gives:\n\n- **Random Forest**: ROC-AUC = 0.9016 (\u00b1 0.0026)\n- **Logistic Regression**: ROC-AUC = 0.9053 (\u00b1 0.0023)\n- **Difference (RF \u2212 LogReg)**: \u22120.0037\n\nSo logistic regression slightly *outperforms* the default random forest here \u2014 the hypothesis that RF > LogReg is **not supported**. This is plausible: the Adult dataset's signal is largely linear/monotonic (age, education, hours, capital gains), and an untuned default RF (unlimited depth, 100 trees) tends to overfit relative to well-scaled logistic regression on this kind of tabular data.\n\n`analysis.py` and `result.json` have been written to the working directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785856992.6160471,
+  "wall_clock_seconds": 76.0445191860199,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H2",
+    "summary": "Random forest achieved a mean stratified 5-fold CV ROC-AUC of 0.9016 versus 0.9053 for logistic regression on the Adult Income dataset, so random forest does not outperform logistic regression by 0.0037 AUC points with default hyperparameters.",
+    "primary_metric_name": "ROC-AUC difference (RF - LogReg)",
+    "primary_metric_value": -0.00367,
+    "direction": "RF < LogReg",
+    "methodological_choices": "Target binarized as class=='>50K' (positive). Numeric features median-imputed and standardized; categorical features ('?' treated as missing) most-frequent-imputed and one-hot encoded (handle_unknown='ignore'); identical preprocessing pipeline used for both models to isolate model choice as the only difference (scaling doesn't affect RF but ensures fairness/consistency). Both models used scikit-learn default hyperparameters (RandomForestClassifier(), LogisticRegression()), aside from random_state=42 for reproducibility of RF and the CV splitter. Evaluated via StratifiedKFold(n_splits=5, shuffle=True, random_state=42) cross_val_score with scoring='roc_auc' on the full dataset (no held-out test set), since the research question is specifically about cross-validated performance. No class-imbalance correction applied (class_weight left at sklearn default of None for LogisticRegression), consistent with using 'scikit-learn defaults' as specified in the question."
+  }
+}

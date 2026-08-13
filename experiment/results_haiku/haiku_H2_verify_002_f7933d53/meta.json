@@ -1,0 +1,27 @@
+{
+  "run_id": "haiku_H2_verify_002_f7933d53",
+  "hypothesis_id": "H2",
+  "verify_arm": true,
+  "replicate_idx": 2,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H2_verify_002_f7933d53_5kgskjxr",
+  "started_at": 1786137405.8899279,
+  "returncode": null,
+  "stdout_tail": "",
+  "stderr_tail": "",
+  "timed_out": true,
+  "finished_at": 1786138305.938665,
+  "wall_clock_seconds": 900.0487370491028,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H2",
+    "summary": "Random Forest and Logistic Regression were compared using stratified 5-fold cross-validation ROC-AUC. Random Forest achieved 0.9061 vs LogReg 0.8191 in primary analysis. Stability validation across 10 repeated runs showed RF: 0.9059 vs LogReg: 0.8190. Random Forest outperforms Logistic Regression.",
+    "primary_metric_name": "ROC-AUC difference (RF - LogReg)",
+    "primary_metric_value": 0.0869434208307609,
+    "direction": "RF > LogReg",
+    "methodological_choices": "Preprocessing: Missing values in numeric features imputed with median; missing values in categorical features imputed with mode. Categorical features encoded using LabelEncoder. No feature scaling applied (RF is scale-invariant, LogReg defaults to no scaling). Models used scikit-learn defaults: RandomForestClassifier(n_estimators=100, max_depth=None, ...) and LogisticRegression(max_iter=1000). Evaluation: Stratified 5-fold cross-validation using ROC-AUC metric. No resampling for class imbalance applied (76% vs 24% split). No hyperparameter tuning performed.",
+    "verification_method": "Repeated stratified 5-fold cross-validation with 10 different random seeds (50 total CV folds per model). 95% confidence interval computed on fold-level differences.",
+    "verification_result": "Finding holds across all 10 repeated runs. Random Forest outperforms LogReg in 10/10 runs. 95% CI for difference: [0.085137, 0.088954]. Consistent finding across different data splits."
+  }
+}

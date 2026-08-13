@@ -1,0 +1,25 @@
+{
+  "run_id": "H2_noverify_002_6e605d87",
+  "hypothesis_id": "H2",
+  "verify_arm": false,
+  "replicate_idx": 2,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_noverify_002_6e605d87_zmfrkqqj",
+  "started_at": 1785856808.243825,
+  "returncode": 0,
+  "stdout_tail": "Analysis complete. Both `analysis.py` and `result.json` are written to the working directory.\n\n**Finding:** With stratified 5-fold CV ROC-AUC, logistic regression (mean 0.9067) slightly outperformed the default random forest (mean 0.9023) on this dataset \u2014 RF trailed by 0.0043 AUC and only won in 1 of 5 folds. So the hypothesis that RF beats logistic regression is **not supported** with default hyperparameters; on this well-behaved, mostly-linear-separable tabular dataset, logistic regression's regularized linear boundary generalizes slightly better than an unconstrained (default, unpruned) random forest, which likely overfits somewhat without hyperparameter tuning.\n\nKey methodological choices (detailed in `result.json`): missing categorical values imputed as \"Missing\" rather than dropped (kept all 48,842 rows), one-hot encoding for categoricals, scaling only for logistic regression, both `education` and `education-num` kept, no class-weight adjustment for the ~3.2:1 imbalance, and the same CV folds reused for both models for a fair paired comparison.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785856907.455085,
+  "wall_clock_seconds": 99.21126008033752,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H2",
+    "summary": "Random forest achieved a mean stratified 5-fold CV ROC-AUC of 0.9023 versus 0.9067 for logistic regression on the Adult Income dataset (lower by 0.0043), and RF won in 1/5 individual folds, so random forest does not outperform logistic regression by this metric.",
+    "primary_metric_name": "ROC-AUC difference (RF - LogReg), mean over 5 stratified CV folds",
+    "primary_metric_value": -0.004347567342258718,
+    "direction": "RF < LogReg",
+    "methodological_choices": "Target encoded as binary (1 = '>50K'). Missing values in workclass/occupation/native-country (empty strings, ~2-6% of rows) were imputed with a constant 'Missing' category rather than dropped, so all 48842 rows were used for both models. All categorical columns (workclass, education, marital-status, occupation, relationship, race, sex, native-country) were one-hot encoded (handle_unknown='ignore'). For logistic regression, numeric columns (age, fnlwgt, education-num, capital-gain, capital-loss, hours-per-week) were standardized (StandardScaler); for random forest, numeric columns were passed through unscaled since tree splits are scale-invariant. Both 'education' (categorical) and 'education-num' (its numeric encoding) were kept as separate, redundant features rather than dropping one, since no feature selection was specified. Both models used scikit-learn defaults (RandomForestClassifier(), LogisticRegression()) apart from setting random_state=42 on the RF for reproducibility (LogisticRegression's default lbfgs solver is deterministic so no seed was needed there). No class-imbalance handling (e.g. class_weight) was applied, matching the 'defaults' instruction, despite the ~3.2:1 class imbalance (<=50K vs >50K). Evaluation used StratifiedKFold(n_splits=5, shuffle=True, random_state=42) with scoring='roc_auc' via cross_val_score; the same CV splits were reused for both models to allow a fair, paired per-fold comparison. No held-out test set was used since the question specifically asks about CV performance, not generalization to a separate test set."
+  }
+}

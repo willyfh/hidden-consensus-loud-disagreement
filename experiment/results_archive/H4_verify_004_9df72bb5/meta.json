@@ -1,0 +1,17 @@
+{
+  "run_id": "H4_verify_004_9df72bb5",
+  "hypothesis_id": "H4",
+  "verify_arm": true,
+  "replicate_idx": 4,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_verify_004_9df72bb5_7dg2cvjh",
+  "started_at": 1785883878.334023,
+  "returncode": null,
+  "stdout_tail": "",
+  "stderr_tail": "",
+  "timed_out": true,
+  "finished_at": 1785884778.348556,
+  "wall_clock_seconds": 900.0145330429077,
+  "result_json_found": false,
+  "analysis_py_found": true
+}

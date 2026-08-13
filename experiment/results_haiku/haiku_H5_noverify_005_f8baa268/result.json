@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H5",
+  "summary": "SMOTE oversampling did not change the minority-class (>50K) F1 score by 0.0055 (difference: +0.0055), which does not exceed the 0.02 threshold.",
+  "primary_metric_name": "F1 score difference (SMOTE - No SMOTE)",
+  "primary_metric_value": 0.00553,
+  "direction": "SMOTE increased F1 by 0.0055",
+  "methodological_choices": "Random Forest with default hyperparameters (random_state=42). Preprocessing: dropped rows with missing values, encoded categorical features with LabelEncoder. Train-test split: 70-30 with stratification by target. SMOTE applied to training data only to avoid data leakage. Evaluation: F1 score for minority class (>50K) on held-out test set. Threshold for significance: absolute difference > 0.02."
+}

@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H1",
+  "summary": "Model choice meaningfully affects predictive performance. Random Forest and Gradient Boosting significantly outperform Logistic Regression, with ROC-AUC differences of 0.0716 (up to 8.4% relative difference). Performance hierarchy is consistent across cross-validation folds.",
+  "primary_metric_name": "ROC-AUC difference (best - worst)",
+  "primary_metric_value": 0.07164539368117673,
+  "direction": "Gradient Boosting > Logistic Regression (ROC-AUC difference: 0.0716)",
+  "methodological_choices": "Models: Logistic Regression, Decision Tree, Random Forest (100 trees, max_depth=15), Gradient Boosting (100 trees, max_depth=5), SVM (RBF kernel). Preprocessing: LabelEncoding for categorical variables (filled missing with 'Unknown'), median imputation for numeric features. Scaling: StandardScaler applied for Logistic Regression and SVM. Train/test split: 80/20 stratified. Evaluation metric: ROC-AUC (primary), plus Accuracy, F1, Precision, Recall. Hyperparameters tuned conservatively for fair comparison.",
+  "verification_method": "5x5 Repeated Stratified K-Fold Cross-Validation on training set (ROC-AUC scoring). Checked consistency of model ranking and performance differences across CV folds.",
+  "verification_result": "Finding CONFIRMED. CV mean ROC-AUC difference: 0.0795. Model ranking remained consistent across all 25 CV folds. Best/worst models in CV matched test set. Conclusion: model choice has stable, meaningful impact on performance."
+}

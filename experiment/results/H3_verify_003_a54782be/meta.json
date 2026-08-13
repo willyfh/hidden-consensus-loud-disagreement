@@ -1,0 +1,27 @@
+{
+  "run_id": "H3_verify_003_a54782be",
+  "hypothesis_id": "H3",
+  "verify_arm": true,
+  "replicate_idx": 3,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H3_verify_003_a54782be__21med67",
+  "started_at": 1785969947.6730702,
+  "returncode": 0,
+  "stdout_tail": "Both `analysis.py` and `result.json` are in place and valid.\n\n## Findings (H3)\n\nAfter cleaning the data (dropping ~7% rows with missing `workclass`/`occupation`/`native-country`, and excluding `fnlwgt` and the redundant `education` string column), I trained a Random Forest (test ROC-AUC 0.917) and a Logistic Regression cross-check (ROC-AUC 0.905), then ranked features by permutation importance, RF impurity importance, and mutual information.\n\n**Key result:** there isn't a single clean winner. `capital-gain` and `marital-status` are effectively tied for most important \u2014 they trade the #1 spot depending on method/split:\n- Held-out test set permutation importance: capital-gain (0.0440) slightly ahead of marital-status (0.0429)\n- RF impurity importance & Logistic Regression coefficients: marital-status clearly first\n- Repeated CV (5 seeds \u00d7 5 folds, 25 runs): marital-status won #1 rank in 15/25 runs vs. capital-gain's 10/25, with near-identical mean importance (0.0436 vs 0.0428)\n\nBoth are far ahead of a second tier (`education-num`, `relationship`, `occupation`, `age`), with `race` and `native-country` contributing almost nothing across every method.\n\n**Verification:** my initial script had a bug that mischaracterized this instability as \"held up\" \u2014 I caught it by checking the raw output, and rewrote `result.json` with the accurate, more nuanced conclusion (a statistically indistinguishable top pair rather than one dominant feature) rather than reporting the flawed auto-generated text.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785970717.798271,
+  "wall_clock_seconds": 770.1252007484436,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H3",
+    "summary": "The two most important predictors of income class are 'capital-gain' and 'marital-status', which are effectively tied for #1 (they trade the top rank depending on the model/split) and are both clearly ahead of the rest of the field; 'education-num', 'relationship', 'occupation', and 'age' form a second tier of moderately important features, while 'race' and 'native-country' contribute almost nothing.",
+    "primary_metric_name": "top feature permutation importance (ROC-AUC drop, held-out test set)",
+    "primary_metric_value": 0.04404942033408461,
+    "direction": "'capital-gain' and 'marital-status' jointly most important (near-tie)",
+    "methodological_choices": "Dropped rows with missing values (coded '?', ~7% of rows). Dropped 'fnlwgt' (a census sampling weight, not a demographic signal) and 'education' (redundant string duplicate of 'education-num'). One-hot encoded categoricals, passthrough numerics for the Random Forest (300 trees, min_samples_leaf=2); standardized numerics + one-hot for a Logistic Regression cross-check. No class-imbalance correction applied (label split ~76/24, handled adequately by ROC-AUC). 75/25 stratified train/test split. Primary importance method: permutation importance (ROC-AUC drop) on the held-out test set, chosen over RF impurity importance because impurity importance is biased toward high-cardinality categorical features. One-hot importances were summed back to the original feature for fair comparison against numeric features. RF impurity importance and mutual information were computed as additional cross-checks.",
+    "verification_method": "5x repeated 5-fold stratified CV (5 different random seeds, 25 total train/val splits), refitting the Random Forest and recomputing permutation importance on each held-out fold, tracking which feature ranked #1 each time and its mean importance across all runs. Also computed a 200-resample bootstrap 95% CI for the top feature's permutation importance on the original held-out test set.",
+    "verification_result": "Partially held, with an important refinement: on the original 75/25 holdout split, 'capital-gain' narrowly edged out 'marital-status' (0.0440 vs 0.0429). Under repeated CV, this ordering was NOT stable: 'marital-status' actually ranked #1 more often (15/25 folds) than 'capital-gain' (10/25 folds), and their mean importances across all 25 runs were nearly identical (marital-status 0.0436 vs capital-gain 0.0428, a gap of ~0.001 -- within run-to-run noise). RF impurity importance and the Logistic Regression permutation importance both ranked 'marital-status' clearly first, while mutual information ranked 'relationship' and 'marital-status' just ahead of 'capital-gain'. The bootstrap 95% CI for capital-gain's holdout importance, [0.0386, 0.0502], excludes 0, confirming it is a genuinely important feature, but does not by itself establish it beats marital-status. Revised conclusion: rather than a single dominant feature, 'capital-gain' and 'marital-status' should be reported as a statistically indistinguishable top pair, both far ahead of the remaining features (education-num, relationship, occupation, age), with 'race' and 'native-country' consistently least important across every method tried."
+  }
+}

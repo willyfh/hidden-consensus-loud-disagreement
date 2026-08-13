@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H1",
+  "summary": "The choice of model family meaningfully affects predictive performance. Gradient Boosting achieves ROC-AUC of 0.9216 while Neural Network achieves 0.8711, a difference of 0.0505 (5.8% relative).",
+  "primary_metric_name": "ROC-AUC range (max - min) across 5 model families",
+  "primary_metric_value": 0.050535614853688515,
+  "direction": "Gradient Boosting > Neural Network",
+  "methodological_choices": "Train/test split: 80/20 stratified. Preprocessing: StandardScaler for numeric features, OneHotEncoder for categorical features with handle_unknown='ignore'. Evaluation metric: ROC-AUC (robust to class imbalance). Model families: Logistic Regression (linear, hyperparameter: max_iter=1000), Random Forest (100 trees), Gradient Boosting (100 estimators, lr=0.1), SVM (RBF kernel), Neural Network (hidden=[100,50], max_iter=300). All models used default hyperparameters except where noted. No hyperparameter tuning performed. Meaningfulness threshold: >2% absolute difference or >5% relative difference in performance."
+}

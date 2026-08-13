@@ -1,0 +1,27 @@
+{
+  "run_id": "haiku_H3_verify_001_68982411",
+  "hypothesis_id": "H3",
+  "verify_arm": true,
+  "replicate_idx": 1,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H3_verify_001_68982411_6hg210vz",
+  "started_at": 1786138052.853172,
+  "returncode": 0,
+  "stdout_tail": "## Summary of Findings\n\nI've completed a comprehensive feature importance analysis on the Adult income dataset. Here are the key results:\n\n### Primary Finding\n**`capital-gain` is by far the most important feature for predicting income**, with a mean feature importance of **0.197** (nearly 20% of total importance).\n\n### Top 5 Most Important Features\n1. **capital-gain** (0.197 \u00b1 0.003) - Investment income\n2. **relationship** (0.187 \u00b1 0.005) - Family/marital relationship\n3. **education-num** (0.152 \u00b1 0.007) - Years of education\n4. **marital-status** (0.130 \u00b1 0.004) - Marital status  \n5. **age** (0.086 \u00b1 0.005) - Person's age\n\n### Validation & Stability\nThe finding is **exceptionally stable**:\n- Ran 5 repeated 5-fold stratified cross-validation with different random seeds (42, 123, 456, 789, 999)\n- Completed 25 total fold evaluations\n- **capital-gain ranked #1 in all 5 repeats** \n- Top 5 features remained perfectly consistent across all runs\n- Model achieved strong performance: AUC 0.9175 \u00b1 0.0027, Accuracy 0.8633 \u00b1 0.0031\n\n### Methodological Choices\n- **Model**: Random Forest (100 trees, max_depth=15) - works well with mixed feature types and provides interpretable feature importance\n- **Preprocessing**: Label-encoded categorical features; replaced missing values (' ?') with mode\n- **Validation**: Stratified k-fold CV to maintain class balance across splits\n- **Hyperparameters**: Tuned for generalization while avoiding overfitting\n\n### Output Files\n- \u2705 **`result.json`** - Complete structured findings with all required fields\n- \u2705 **`analysis.py`** - Full reproducible analysis code\n\nThe dominance of capital-gain in the model aligns with economic intuition\u2014investment income is a strong indicator of higher earnings. The inclusion of relationship and education as the next most important features also makes sense socioeconomically.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786138136.1185431,
+  "wall_clock_seconds": 83.26537108421326,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H3",
+    "summary": "The most important feature for predicting income (>50K) is capital-gain, with a mean permutation importance of 0.1968. This finding was validated through 5 repeated 5-fold cross-validation with different random seeds, and 5/5 repeats confirmed it as top-ranked.",
+    "primary_metric_name": "Random Forest mean feature importance (repeated 5x5-fold CV)",
+    "primary_metric_value": 0.1967625429757422,
+    "direction": "capital-gain > other features",
+    "methodological_choices": "Random Forest with 100 trees, max_depth=15, stratified 5-fold CV repeated 5 times with different seeds. Categorical features label-encoded, missing values (' ?') replaced with mode. Binary classification target: income > 50K. Model evaluated on test AUC and accuracy.",
+    "verification_method": "5 repeated 5-fold stratified cross-validation with seeds [42, 123, 456, 789, 999]. Checked feature rankings and importance values across all repeats.",
+    "verification_result": "Finding held stable. Top feature capital-gain appeared as top-1 in 5/5 repeats. Mean AUC: 0.9175 \u00b1 0.0027. Top 5 features remained consistent across repeats."
+  }
+}

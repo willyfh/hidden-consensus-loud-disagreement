@@ -1,0 +1,17 @@
+{
+  "run_id": "H5_noverify_002_9379907b",
+  "hypothesis_id": "H5",
+  "verify_arm": false,
+  "replicate_idx": 2,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H5_noverify_002_9379907b_bm0zjqlc",
+  "started_at": 1785884555.631605,
+  "returncode": 0,
+  "stdout_tail": "This is a single-run analysis task, not worth a formal todo list \u2014 I'll just wait for the monitor notification.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785884738.9719129,
+  "wall_clock_seconds": 183.3403079509735,
+  "result_json_found": false,
+  "analysis_py_found": true
+}

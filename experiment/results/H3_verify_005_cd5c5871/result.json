@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H3",
+  "summary": "Across a Random Forest classifier and permutation importance on held-out data, 'marital-status' is the single most predictive feature for income class, consistently ranking #1 across 5/5 repeated random train/test splits with different seeds; 'age', 'education-num'/'education', 'hours-per-week', and 'occupation' are the next most important.",
+  "primary_metric_name": "permutation importance (test-set AUC drop) of top feature 'marital-status'",
+  "primary_metric_value": 0.05270575739476509,
+  "direction": "'marital-status' most important",
+  "methodological_choices": "Dropped rows with missing values (encoded as '?', ~7% of rows). Binary target: >50K=1. Random Forest classifier (300 trees, min_samples_leaf=2, class_weight='balanced' for the ~24%/76% class imbalance) as the model; one-hot encoding for categoricals, numerics passed through. Feature importance measured via permutation importance on original (pre-one-hot) features (10 repeats/feature), scored by drop in ROC-AUC on a held-out 25% test split, chosen over impurity-based (Gini) importance because Gini importance is biased toward high-cardinality categorical features. Impurity (Gini) importance was also computed as a secondary check; it agreed with permutation importance that 'marital-status' ranks #1 (both methods converge here), though impurity importance is reported only as a secondary reference given its known bias.",
+  "verification_method": "(1) 5x repeated stratified 75/25 train/test splits with different random seeds (1-5), each refitting the model from scratch and recomputing permutation importance on that split's held-out test set, checking whether the same feature ranks #1 each time. (2) Bootstrap resampling (200 resamples) of the primary held-out test set to get a 95% CI on the top feature's permutation-importance (AUC-drop) value.",
+  "verification_result": "Held up: 'marital-status' ranked #1 in 5/5 repeated splits (mean AUC-drop=0.0484, range=[0.0459, 0.0515] across seeds). Bootstrap 95% CI on the primary test split: [0.0482, 0.0583] (mean=0.0534), which excludes zero, confirming the effect is not noise."
+}

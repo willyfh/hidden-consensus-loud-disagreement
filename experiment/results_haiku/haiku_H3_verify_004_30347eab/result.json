@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H3",
+  "summary": "The feature 'capital-gain' is the most important predictor of income, with a Random Forest importance score of 0.1814. The top 3 features by importance are: capital-gain, relationship, education-num. This finding was validated through 25-fold repeated cross-validation (5x5 splits with stratification).",
+  "primary_metric_name": "Random Forest feature importance (top feature)",
+  "primary_metric_value": 0.18142767323681908,
+  "direction": "capital-gain most important",
+  "methodological_choices": "Random Forest classifier (n_estimators=100, max_depth=15) chosen for its ability to handle mixed numeric and categorical features without scaling. Categorical features encoded with LabelEncoder. Missing values ('?') filled with 'Unknown' for categoricals and median for numerics. No class weighting applied despite slight class imbalance (24% >50K). Used standard hyperparameters; max_depth limited to 15 to reduce overfitting noise.",
+  "verification_method": "5x5 Repeated Stratified K-Fold Cross-Validation (25 total folds) with different random seeds per repeat. Computed mean and std of feature importances across all folds. Checked if top feature remained in top 3 and tracked ranking stability.",
+  "verification_result": "Top feature 'capital-gain' remained in top 3 across 25 CV folds. Mean CV importance: 0.1801 (\u00b10.0032)"
+}

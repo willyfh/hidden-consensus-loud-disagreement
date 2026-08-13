@@ -1,0 +1,27 @@
+{
+  "run_id": "H4_verify_003_be7ad70d",
+  "hypothesis_id": "H4",
+  "verify_arm": true,
+  "replicate_idx": 3,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_verify_003_be7ad70d_7xsac92x",
+  "started_at": 1785883858.590197,
+  "returncode": 0,
+  "stdout_tail": "## Finding\n\nClass imbalance in this dataset is ~76% `<=50K` / 24% `>50K`. I compared Logistic Regression and Random Forest, each trained with and without `class_weight='balanced'`.\n\n**Result is metric-dependent:**\n- **ROC-AUC** (ranking/discrimination ability): essentially unchanged (|\u0394| < 0.001 for both models) \u2014 class weighting doesn't make the model better at separating classes, just shifts the decision threshold.\n- **Balanced accuracy / minority-class recall**: substantially improved (+0.033 to +0.056), because balancing trades majority-class recall for minority-class recall.\n- **Plain accuracy**: gets *worse* with balancing (expected, since accuracy favors the majority class in an imbalanced setting).\n- **Macro-F1**: mixed \u2014 slightly better for RF, slightly worse for LogReg.\n\n**Bottom line**: addressing imbalance doesn't improve the underlying model's discriminative power, but it does meaningfully improve class-balanced performance metrics, which is usually the actual goal when people worry about imbalance.\n\n**Stability check**: 5\u00d75 repeated stratified CV on the training data reproduced the test-set deltas closely (CV avg balanced-accuracy delta +0.044 vs test-set +0.045, with CV std \u2248 0.004\u20130.005 \u2014 far smaller than the effect size). Finding held up.\n\nFiles written: `analysis.py`, `result.json` (plus `analysis_details.json` with full metric tables).\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785884463.729483,
+  "wall_clock_seconds": 605.1392858028412,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H4",
+    "summary": "Addressing the ~76/24 class imbalance (via class_weight='balanced') substantially improves balanced accuracy and minority-class ('>50K') recall for both Logistic Regression and Random Forest, but it does not improve ROC-AUC (ranking ability is essentially unchanged) and it lowers plain accuracy and (for logistic regression) macro-F1. So the answer depends on which 'quality' metric you care about: imbalance handling helps class-balanced metrics but is neutral-to-slightly-negative on threshold-independent and overall metrics.",
+    "primary_metric_name": "Balanced accuracy delta (class_weight='balanced' minus baseline), averaged across LogReg & RF",
+    "primary_metric_value": 0.0448,
+    "direction": "balanced > baseline on balanced accuracy / minority recall; ROC-AUC ~unchanged (|delta| < 0.001); plain accuracy worse with balancing",
+    "methodological_choices": "Target binarized as class=='>50K'. Rows with '?' treated as NaN; no imputation applied -- scikit-learn's OneHotEncoder natively encodes NaN as its own category, so workclass/occupation/native-country (each ~1.7-5.7% missing) pass through as an extra 'missing' level rather than being dropped or imputed. Numeric features standardized, categoricals one-hot encoded, combined via ColumnTransformer/Pipeline. Stratified 75/25 train/test split (random_state=42). Two model families compared (Logistic Regression, max_iter=2000; Random Forest, 300 trees), each fit twice: without imbalance handling ('baseline') and with class_weight='balanced' ('balanced') -- chosen over resampling methods (SMOTE/undersampling) as a simpler, deterministic, commonly-used first-line approach to imbalance. Evaluated with ROC-AUC, PR-AUC, balanced accuracy, macro-F1, per-class recall, and accuracy, since accuracy alone is known to be misleading under 76/24 imbalance; balanced accuracy was chosen as the single primary metric because it directly measures whether the two classes are treated more equitably, which is the crux of the imbalance question.",
+    "verification_method": "5x repeated stratified 5-fold cross-validation (25 folds total, base random_state=1 varied by repeat) on the training split, for all 4 model/handling combinations, tracking mean/std of ROC-AUC, macro-F1, and balanced accuracy.",
+    "verification_result": "Held up. CV balanced-accuracy deltas (balanced - baseline) were +0.0562 (LogReg) and +0.0323 (RF), averaging to +0.0442 -- closely matching the held-out test-set average delta of +0.0448 (LogReg +0.0562, RF +0.0333), with CV standard deviations of only ~0.004-0.005, i.e. the improvement is far larger than fold-to-fold noise. ROC-AUC deltas stayed negligible in CV too (LogReg -0.0001, RF -0.0003), confirming that class weighting redistributes errors between classes without improving the model's underlying discrimination."
+  }
+}

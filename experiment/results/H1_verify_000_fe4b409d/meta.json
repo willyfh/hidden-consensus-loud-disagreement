@@ -1,0 +1,27 @@
+{
+  "run_id": "H1_verify_000_fe4b409d",
+  "hypothesis_id": "H1",
+  "verify_arm": true,
+  "replicate_idx": 0,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_verify_000_fe4b409d_c8lcstij",
+  "started_at": 1785882010.601851,
+  "returncode": 0,
+  "stdout_tail": "**Finding: Yes \u2014 model family meaningfully affects performance on this dataset.**\n\nI compared 5 model families (Logistic Regression, Decision Tree, Random Forest, HistGradientBoosting, Gaussian Naive Bayes) using identical preprocessing (drop redundant `education`/uninformative `fnlwgt`, \"Missing\" category for the ~6% missing categoricals, standardized numerics + one-hot categoricals), 5-fold stratified CV, and an 80/20 held-out test set.\n\n- Test ROC-AUC ranged from **0.845** (Naive Bayes) to **0.930** (HistGradientBoosting), with a consistent ranking: GBM > RandomForest > LogReg \u2248 DecisionTree > NaiveBayes.\n- Gap between the best model (GBM) and the Logistic Regression baseline: **+0.0248 ROC-AUC** on the test set.\n- **Stability check**: 5\u00d75 repeated CV (25 folds, different seed) gave a paired gap of 0.0217 with 95% CI [0.0211, 0.0222] \u2014 entirely positive. A 2000-resample bootstrap on the held-out test set gave a gap of 0.0248, 95% CI [0.0217, 0.0279], with 100% of resamples positive. The full 5-model ranking was identical across all three checks, so the effect is stable, not a fold artifact.\n\nResults and code saved to `result.json` and `analysis.py` in the working directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785882696.045791,
+  "wall_clock_seconds": 685.4439399242401,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H1",
+    "summary": "Yes: model family meaningfully affects predictive performance on this dataset. Across 5 model families evaluated with identical preprocessing and 5-fold CV, test-set ROC-AUC ranged from 0.845 (Gaussian Naive Bayes) to 0.930 (histogram-based gradient boosting), with boosted trees > random forest > logistic regression \u2248 single decision tree > naive Bayes. Even restricting to the better-performing families, gradient boosting beats logistic regression by a small but highly stable ~0.02-0.025 ROC-AUC margin.",
+    "primary_metric_name": "Test-set ROC-AUC difference (HistGradientBoosting - LogisticRegression)",
+    "primary_metric_value": 0.02477848962090823,
+    "direction": "GradientBoosting > RandomForest > LogisticRegression \u2248 DecisionTree > GaussianNB",
+    "methodological_choices": "Dropped 'fnlwgt' (census sampling weight, not a real demographic signal) and 'education' (perfectly redundant with the numeric 'education-num'). Missing values in workclass/occupation/native-country (<6% each) recoded as an explicit 'Missing' category rather than dropped. Numeric features standardized, categoricals one-hot encoded (same preprocessing pipeline used for all model families, including tree ensembles, for a fair/simple comparison). Target encoded as 1 for '>50K' (the minority class, ~24% of rows); no explicit class reweighting/resampling was used since ROC-AUC (the primary metric) is threshold- and imbalance-robust. 80/20 stratified train/test split (seed=42). Compared 5 model families spanning linear (Logistic Regression), single tree (Decision Tree, max_depth=10), bagged trees (Random Forest, 300 trees), boosted trees (sklearn HistGradientBoostingClassifier), and a probabilistic baseline (Gaussian Naive Bayes) - all with largely default/lightly-tuned hyperparameters rather than an exhaustive per-model hyperparameter search. Primary metric: ROC-AUC via 5-fold stratified CV on the training set, confirmed on a single held-out test set.",
+    "verification_method": "(1) 5x repeated stratified 5-fold CV (25 folds total, seed=123) on the training set for every model family, comparing paired per-fold ROC-AUC of the best model (HistGradientBoosting) vs. the Logistic Regression baseline; (2) a 2000-resample bootstrap (seed=2024) over the untouched held-out test set to build a 95% CI for the ROC-AUC gap between the same two models.",
+    "verification_result": "Finding held up under both checks. Repeated CV paired ROC-AUC gap (GradientBoosting - LogisticRegression) = 0.0217, 95% CI [0.0211, 0.0222] - entirely positive, and the CV std of each model's own ROC-AUC (~0.003-0.004) is far smaller than the gap. Bootstrap test-set gap = 0.0248, 95% CI [0.0217, 0.0279], with 100% of bootstrap resamples showing a positive gap. The full ranking of all 5 families (GBM > RF > LogReg \u2248 DecisionTree > GaussianNB) was identical across the initial 5-fold CV, the repeated CV, and the held-out test set, so the model-family effect is stable, not a fold-specific artifact."
+  }
+}

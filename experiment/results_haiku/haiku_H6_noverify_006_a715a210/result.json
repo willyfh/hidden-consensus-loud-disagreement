@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H6",
+  "summary": "The logistic regression model is well-calibrated with Expected Calibration Error (ECE) of 0.0174. The model's predicted probabilities are well-aligned with actual class frequencies.",
+  "primary_metric_name": "Expected Calibration Error (ECE)",
+  "primary_metric_value": 0.01736446275965944,
+  "direction": "ECE = 0.0174; model is well-calibrated",
+  "methodological_choices": "Trained logistic regression on label-encoded categorical features and standardized numerical features. Used 80-20 train-test split with stratification to preserve class distribution. Evaluated calibration using Expected Calibration Error (ECE) with 10 equal-width bins, Brier Score, and maximum calibration error. ECE measures mean absolute difference between predicted probabilities and actual positive rates across bins and is the standard metric for calibration assessment."
+}

@@ -1,0 +1,27 @@
+{
+  "run_id": "H4_verify_000_334a1900",
+  "hypothesis_id": "H4",
+  "verify_arm": true,
+  "replicate_idx": 0,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_verify_000_334a1900_fl6kor8e",
+  "started_at": 1785936831.193218,
+  "returncode": 0,
+  "stdout_tail": "Analysis complete. `result.json` and `analysis.py` are written to the working directory.\n\n**Finding (H4):** Addressing the dataset's moderate ~75/25 class imbalance (via `class_weight='balanced'` or SMOTE) does **not** genuinely improve model quality in a discrimination sense \u2014 ROC-AUC and PR-AUC are essentially unchanged (or slightly worse). What it does is shift the decision threshold: minority-class recall and balanced accuracy jump substantially (+0.03 to +0.06), but minority-class precision drops correspondingly (-0.05 to -0.15). The net effect on F1/macro-F1 \u2014 a metric that weighs both \u2014 is small and inconsistent across model families: a modest, bootstrap-confirmed gain for Random Forest (+0.009 macro-F1, 95% CI [0.003, 0.015]) but a slight loss for Logistic Regression (-0.01 macro-F1).\n\nVerified via 5\u00d7-repeated stratified 5-fold CV (25 folds, multiple seeds) plus a 2000-resample bootstrap CI on the RF comparison \u2014 both confirmed the pattern held, not just a fluke of one split.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785937564.935791,
+  "wall_clock_seconds": 733.7425730228424,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H4",
+    "summary": "Addressing the (moderate, ~75/25) class imbalance via class_weight='balanced' or SMOTE does not improve threshold-free discrimination (ROC-AUC and PR-AUC are essentially unchanged, sometimes slightly worse) and its effect on overall F1/macro-F1 quality is small and model-dependent: a modest, statistically robust gain for Random Forest (+0.009 macro-F1) but a slight loss for Logistic Regression (-0.01 macro-F1). What imbalance handling reliably does is shift the decision threshold, substantially boosting minority-class recall and balanced accuracy (+0.03 to +0.06) at the cost of minority-class precision (-0.05 to -0.15) -- a trade-off rather than a free improvement in model quality.",
+    "primary_metric_name": "Macro-F1 delta, Random Forest (class_weight='balanced' minus baseline), held-out test set",
+    "primary_metric_value": 0.0089,
+    "direction": "imbalance handling gives a small, model-dependent improvement (RF: modest gain; LogReg: slight loss); ROC-AUC/PR-AUC unchanged-to-worse; balanced accuracy & minority recall improve substantially at the expense of minority precision",
+    "methodological_choices": "Dropped rows with '?' missing values (45222/48842 remaining, ~75/25 class split for <=50K/>50K). Encoded categoricals with one-hot encoding, scaled numeric features with StandardScaler, used a single ColumnTransformer preprocessing pipeline shared across all model variants. Compared 2 model families (Logistic Regression, Random Forest with 300 trees) x 3 imbalance strategies each (baseline/none, class_weight='balanced', SMOTE oversampling applied only inside the training fold via an imblearn Pipeline to avoid leakage). Primary train/test split was a single stratified 70/30 split (seed=42). Evaluated with 7 metrics: ROC-AUC, PR-AUC (average precision), balanced accuracy, minority-class F1/precision/recall, and macro-F1 -- deliberately including both threshold-free (AUC-type) and threshold-based metrics since imbalance handling is expected to mainly affect the latter. Another researcher might have instead used a single 'preferred' metric up front, tried undersampling, cost-sensitive thresholding instead of resampling, or a gradient-boosted model.",
+    "verification_method": "Two checks: (1) 5x-repeated 5-fold stratified cross-validation (5 different fold-assignment seeds, 25 folds total) over the full dataset for baseline vs class_weight for both models, plus a lighter 3x-repeated 5-fold CV for the slower SMOTE variant, tracking ROC-AUC, macro-F1, and balanced accuracy mean +/- std; (2) a 2000-resample bootstrap 95% CI on the held-out test-set macro-F1 delta for the Random Forest class_weight-vs-baseline comparison.",
+    "verification_result": "Held up with nuance. CV confirmed the same pattern seen in the single test split: ROC-AUC essentially flat across strategies (deltas from -0.0036 to +0.0000), balanced accuracy up substantially and consistently (+0.019 to +0.053), and macro-F1 changing in opposite directions by model family -- Random Forest improved (CV mean macro-F1 delta +0.0038 to +0.0089) while Logistic Regression worsened slightly (CV mean macro-F1 delta -0.0097 to -0.0099) across both class_weight and SMOTE. The bootstrap CI on the RF class_weight vs baseline macro-F1 delta was [+0.0030, +0.0146], excluding zero -- so the small RF improvement is statistically real, just practically modest, while the LogReg macro-F1 regression is also consistent (not noise) across CV repeats."
+  }
+}

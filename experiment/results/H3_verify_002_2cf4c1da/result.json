@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H3",
+  "summary": "Using a Random Forest classifier and permutation importance (grouped by original feature, measured as ROC-AUC drop on held-out data), 'marital-status' is the single most important predictor of income class, consistently ranking #1 across the original test split and 5 independent re-splits with different random seeds. 'capital-gain', 'age', 'occupation', and 'relationship' round out the next most important predictors.",
+  "primary_metric_name": "top feature mean permutation importance (ROC-AUC drop)",
+  "primary_metric_value": 0.04637695309751333,
+  "direction": "'marital-status' most important",
+  "methodological_choices": "RandomForestClassifier (n_estimators=300, min_samples_leaf=2, class_weight='balanced' to address ~24%/76% class imbalance), one-hot encoding for 8 categorical features, numeric features passed through unscaled (tree model, scale-invariant), 70/30 stratified train/test split, '?' values recoded to an explicit 'Missing' category rather than dropped. Importance measured via permutation importance on the ORIGINAL (pre-one-hot) feature columns (shuffling each raw column and re-running the full pipeline, 10 repeats per feature), rather than impurity-based importance or naive one-hot permutation importance, specifically to avoid (a) bias toward high-cardinality categoricals and (b) importance being diluted across dummy columns for categorical features. Scored by ROC-AUC drop rather than accuracy drop, since the target is imbalanced.",
+  "verification_method": "Repeated the entire pipeline (fresh train/test split, fresh model fit, fresh permutation importance) across 5 different random seeds (1, 7, 13, 21, 99) and checked whether the #1-ranked feature was consistent, then averaged importance scores across seeds.",
+  "verification_result": "Finding held up: top-1 feature per seed = ['marital-status', 'marital-status', 'marital-status', 'marital-status', 'marital-status']. Averaged across the original split + 5 re-splits, 'marital-status' had the highest mean permutation importance (0.0464 mean ROC-AUC drop), matching the original single-split result ('marital-status')."
+}

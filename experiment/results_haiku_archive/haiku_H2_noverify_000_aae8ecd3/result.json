@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H2",
+  "summary": "Yes, Random Forest achieves higher ROC-AUC than Logistic Regression.",
+  "primary_metric_name": "ROC-AUC difference (RF - LogReg)",
+  "primary_metric_value": 0.05407,
+  "direction": "RF > LogReg",
+  "methodological_choices": "Label-encoded all categorical features using sklearn's LabelEncoder. Filled missing numerical values with column mean. Used sklearn defaults for both models: LogisticRegression(max_iter=1000) with StandardScaler pipeline and RandomForestClassifier() without scaling. Evaluated via 5-fold stratified cross-validation with random_state=42. Metric: ROC-AUC (sklearn's roc_auc_score). No class imbalance handling applied; models evaluated on full dataset with target distribution: {'<=50K': np.int64(37155), '>50K': np.int64(11687)}. Final dataset: 48842 samples \u00d7 14 features (8 categorical, 6 numerical)."
+}

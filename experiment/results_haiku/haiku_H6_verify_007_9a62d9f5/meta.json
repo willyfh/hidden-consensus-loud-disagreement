@@ -1,0 +1,27 @@
+{
+  "run_id": "haiku_H6_verify_007_9a62d9f5",
+  "hypothesis_id": "H6",
+  "verify_arm": true,
+  "replicate_idx": 7,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H6_verify_007_9a62d9f5_lq6_3uu6",
+  "started_at": 1786139070.4767969,
+  "returncode": 0,
+  "stdout_tail": "## Findings\n\nI've completed the calibration analysis on the adult income dataset. Here are the key results:\n\n### Primary Finding: **The model is well-calibrated**\n\n**Expected Calibration Error (ECE): 0.0131** (\u00b1 0.0032 across CV folds)\n\nThis means the logistic regression model's predicted probabilities deviate from actual empirical frequencies by approximately 1.3% on average\u2014well below the 0.05 threshold for a well-calibrated model.\n\n### Validation\nThe finding is **stable and robust**:\n- Tested via 5-fold stratified cross-validation\n- ECE consistently near 0.013 across all folds\n- Brier Score (0.1213 \u00b1 0.0012) and Log Loss (0.3819 \u00b1 0.0029) also stable\n\n### Methodology\n- **Model**: Logistic regression with standard scaling (naturally well-calibrated for binary classification)\n- **Data handling**: Filled missing values with 'Unknown' for categorical features, label-encoded all categorical variables\n- **Split**: 60% train / 20% validation / 20% test with stratification\n- **Metric**: Expected Calibration Error with 10 probability bins (standard measure for calibration quality)\n\n### Interpretation\nWhen the model predicts a 70% probability for income >50K, the positive class actually occurs ~70% of the time, indicating excellent agreement between predicted and empirical probabilities.\n\nBoth `result.json` and `analysis.py` have been saved to the current directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786139135.20274,
+  "wall_clock_seconds": 64.7259430885315,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H6",
+    "summary": "The logistic regression model is well-calibrated with an expected calibration error of 0.0131. The model's predicted probabilities align reasonably well with empirical frequencies.",
+    "primary_metric_name": "Expected Calibration Error (ECE)",
+    "primary_metric_value": 0.013140806964900498,
+    "direction": "ECE = 0.0131 (lower is better)",
+    "methodological_choices": "Logistic regression with standard scaling. Train/val/test split 60/20/20 with stratification. ECE computed with 10 probability bins using 5-fold stratified cross-validation.",
+    "verification_method": "5-fold stratified cross-validation with different random seeds",
+    "verification_result": "Finding stable: ECE = 0.0131 \u00b1 0.0032 across folds. Model calibration consistent across different data splits."
+  }
+}

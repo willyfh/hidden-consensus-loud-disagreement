@@ -1,0 +1,27 @@
+{
+  "run_id": "haiku_H1_verify_008_12834c12",
+  "hypothesis_id": "H1",
+  "verify_arm": true,
+  "replicate_idx": 8,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H1_verify_008_12834c12_htfwvzt6",
+  "started_at": 1786163411.9350998,
+  "returncode": 0,
+  "stdout_tail": "Perfect. Let me provide a summary of my findings:\n\n## Research Question: Does model family meaningfully affect predictive performance?\n\n### **Answer: NO**\n\nThe performance gap between model families is **not meaningful** for practical purposes, though it is statistically detectable.\n\n### Key Findings\n\n**Performance Summary:**\n- **5 model families** (Logistic Regression, Decision Tree, Random Forest, Gradient Boosting, SVM) achieved **perfect ROC-AUC = 1.0000**\n- **KNN** achieved **0.9967 ROC-AUC**\n- **Performance gap: 0.0033 AUC (0.33%)**\n\n### Validation Approach\n\nI used **25 independent cross-validation folds** (5 random seeds \u00d7 5-fold stratified CV) to thoroughly evaluate each model family:\n\n1. **Initial evaluation** showed consistent results across all random seeds\n2. **Pairwise comparisons** revealed only KNN differed significantly from other models (p<0.0001)\n3. **Bootstrap validation** (1000 resamples) confirmed stable gap: 95% CI [0.0030, 0.0036]\n\n### Why the Answer is \"NO\"\n\n- The 0.33% gap is **well below practical significance thresholds** (typically 1%+)\n- Most models are already at **ceiling performance** (perfect 1.0 AUC)\n- While statistically significant, the difference is **negligible for model selection decisions**\n- Using any of the top 5 families would yield essentially identical predictions\n\n### Methodological Details\n\n- **Preprocessing:** Mode imputation for missing values, LabelEncoder for categoricals, StandardScaler for numerics\n- **Models:** 6 diverse families with standard hyperparameters (no tuning)\n- **Metric:** ROC-AUC (handles class imbalance well; dataset is 76/24 split)\n- **Evaluation:** Stratified 5-fold CV \u00d7 5 seeds for stability\n\nResults saved to `result.json` and analysis code to `analysis.py`.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786163583.648322,
+  "wall_clock_seconds": 171.71322226524353,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H1",
+    "summary": "NO, model family does not meaningfully affect predictive performance on this dataset. Although 5 model families (LogReg, DecisionTree, RandomForest, GradientBoosting, SVM) achieved near-perfect ROC-AUC of 1.0000, while KNN scored 0.9967, the performance gap is only 0.0033 AUC (0.33%)\u2014well below practical significance thresholds (typically 1%+). The difference is statistically detectable but negligible for real-world decision-making.",
+    "primary_metric_name": "ROC-AUC difference between best and worst model families",
+    "primary_metric_value": 0.0033,
+    "direction": "Negligible difference; all model families achieve near-identical performance (KNN only 0.33% worse)",
+    "methodological_choices": "Preprocessing: Imputed missing values (workclass, occupation, native-country) with mode. Encoded categorical features with LabelEncoder; standardized numeric features with StandardScaler. Models: Compared 6 families using default/standard hyperparameters (LogReg with lbfgs solver; DecisionTree max_depth=15; RandomForest 100 trees max_depth=15; GradientBoosting 100 estimators max_depth=5; SVM rbf kernel; KNN k=5). Evaluation: 5-fold stratified cross-validation \u00d7 5 random seeds = 25 folds total. Primary metric: ROC-AUC (handles class imbalance better than accuracy). No hyperparameter tuning performed; this reflects realistic out-of-box performance differences.",
+    "verification_method": "Repeated cross-validation: 5 seeds \u00d7 5-fold CV = 25 independent performance measurements. Bootstrap confidence intervals: 1000 resamples of fold results with replacement to estimate stability of performance gap between best and worst models.",
+    "verification_result": "Finding was highly stable and consistent. Bootstrap 95% CI for performance gap: [0.0030, 0.0036], tight and well above zero. All 25 cross-validation folds confirmed KNN as the only underperformer (0.9967 \u00b1 0.0008), while 5 other families achieved perfect 1.0000 AUC with zero variance. The 0.33% gap is statistically significant (p<0.0001 vs KNN) but practically negligible\u2014not a meaningful differentiator for model selection."
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "run_id": "haiku_H4_verify_001_a2b77dfe",
+  "hypothesis_id": "H4",
+  "verify_arm": true,
+  "replicate_idx": 1,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H4_verify_001_a2b77dfe_ndvxs3pg",
+  "started_at": 1786138389.153245,
+  "returncode": 0,
+  "stdout_tail": "## Analysis Complete\n\nI've investigated whether addressing class imbalance improves model quality on the Adult Income dataset. Here are my findings:\n\n**Key Results:**\n\n1. **Class Distribution**: The dataset has a 3.18:1 imbalance (76% \u226450K, 24% >50K) - moderate, not extreme.\n\n2. **Effect of Imbalance Handling**: \n   - Class-weight balancing: +0.0001 to +0.0006 ROC-AUC improvement\n   - SMOTE resampling: -0.0053 to -0.0072 ROC-AUC degradation\n   - Average improvement: +0.0002 (negligible)\n\n3. **Model Performance (ROC-AUC baseline)**:\n   - Logistic Regression: 0.8543\n   - Random Forest: 0.9067\n   - Gradient Boosting: 0.9209\n\n4. **Validation**: Repeated 5-fold stratified cross-validation with 5 different random seeds confirmed the finding is stable and consistent across all models and seeds.\n\n**Conclusion**: Addressing class imbalance provides **negligible benefit** on this dataset. Despite the moderate imbalance, baseline models already perform well, and applying imbalance techniques either provides no meaningful improvement (class weights) or actually degrades performance (SMOTE).\n\n**Deliverables**:\n- \u2705 `analysis.py`: Complete Python analysis with all methodological details\n- \u2705 `result.json`: Structured findings with hypothesis ID, metrics, and verification results\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786138607.543082,
+  "wall_clock_seconds": 218.38983702659607,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H4",
+    "summary": "Addressing class imbalance on the Adult Income dataset has a negligible effect on model quality. Despite a 3.18:1 class imbalance, applying class-weight balancing improves ROC-AUC by only ~0.0002 on average, and SMOTE resampling actually degrades performance. Validation across multiple random seeds and model types confirms this finding is stable and consistent.",
+    "primary_metric_name": "ROC-AUC improvement (balanced models vs. baseline)",
+    "primary_metric_value": 0.0002,
+    "direction": "Negligible positive effect; imbalance handling provides minimal improvement",
+    "methodological_choices": "Models tested: Logistic Regression, Random Forest (100 estimators), Gradient Boosting (100 estimators). Imbalance techniques: class_weight balancing (built into sklearn models) and SMOTE resampling. Preprocessing: label encoding for categorical variables, median imputation for missing numerical values, standardization of numerical features. Evaluation metric: ROC-AUC (appropriate for imbalanced classification). Validation: 5-fold stratified cross-validation with 5 different random seeds (42, 123, 456, 789, 999). Train-test stratification used throughout to preserve class distribution. No hyperparameter tuning performed beyond default sklearn parameters.",
+    "verification_method": "5-fold stratified cross-validation repeated with 5 different random seeds (seeds: 42, 123, 456, 789, 999). Each fold preserves class distribution. Results evaluated on both ROC-AUC and F1-score metrics to capture different aspects of model performance on imbalanced data.",
+    "verification_result": "Finding is stable. Validation confirmed negligible improvements across all models and random seeds: LogisticRegression mean improvement +0.0001 \u00b1 0.0000, RandomForest +0.0005 \u00b1 0.0002, GradientBoosting +0.0000 \u00b1 0.0000. All improvements fall within noise margins (< 0.1% ROC-AUC). SMOTE showed negative effects across most models (-0.0053 for RandomForest, -0.0072 for GradientBoosting), while class_weight balancing showed marginal or zero improvements. Conclusion remains robust: on this dataset with moderate imbalance (3.18:1 ratio), class imbalance handling provides no meaningful benefit to model quality."
+  }
+}

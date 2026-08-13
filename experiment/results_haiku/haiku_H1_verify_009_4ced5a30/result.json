@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H1",
+  "summary": "Model family choice DOES meaningfully affect performance. Best model (GradientBoosting) achieves ROC-AUC of 0.9223, while worst (DecisionTree) achieves 0.8578 (7.5% difference). This difference is statistically significant (p<0.001) and represents ~7.1% variation explained by model choice.",
+  "primary_metric_name": "ROC-AUC difference (best model - worst model)",
+  "primary_metric_value": 0.0645,
+  "direction": "GradientBoosting > DecisionTree",
+  "methodological_choices": "Stratified 3-fold cross-validation with 3 repeats (different random seeds). Models tested: LogisticRegression, DecisionTree, RandomForest, GradientBoosting, NeuralNetwork. Preprocessing: StandardScaler for numerical features, OneHotEncoder for categorical. Evaluation metric: ROC-AUC (robust to class imbalance ~76% negative, ~24% positive). Hyperparameters: RandomForest(n_estimators=50, max_depth=15), GradientBoosting(n_estimators=50, max_depth=5), NeuralNetwork(hidden_layer_sizes=(50,), early_stopping=True).",
+  "verification_method": "3x repeated stratified 3-fold cross-validation with different random seeds (seed=0,1,2)",
+  "verification_result": "Finding CONFIRMED. Across all 3 repeats with different seeds, GradientBoosting consistently outperformed DecisionTree. Mean scores: GradientBoosting=0.9223\u00b10.0001, DecisionTree=0.8578\u00b10.0022. Performance gap remained stable across seeds (range: 0.0645). ANOVA p-value: 1.34e-13 indicates statistically significant differences."
+}

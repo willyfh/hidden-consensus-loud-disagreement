@@ -1,0 +1,25 @@
+{
+  "run_id": "H5_noverify_000_aac7e2f2",
+  "hypothesis_id": "H5",
+  "verify_arm": false,
+  "replicate_idx": 0,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H5_noverify_000_aac7e2f2_ug303ldg",
+  "started_at": 1785884514.710145,
+  "returncode": 0,
+  "stdout_tail": "Analysis complete. \n\n**Finding:** SMOTE oversampling does **not** meaningfully change the minority-class (>50K) F1 score for a default RandomForestClassifier. Baseline F1 = 0.6794 vs. SMOTE F1 = 0.6785, a difference of **-0.0009** \u2014 far below the 0.02 threshold. SMOTE slightly traded precision for recall (recall 0.632\u21920.648, precision 0.735\u21920.712) but the net F1 was essentially unchanged.\n\nBoth `analysis.py` and `result.json` have been written to the working directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785884665.041646,
+  "wall_clock_seconds": 150.33150100708008,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H5",
+    "summary": "Applying SMOTE to the training data changed the minority-class (>50K) F1 score from 0.6794 (no resampling) to 0.6785 (with SMOTE), a difference of -0.0009, which does NOT exceed the 0.02 threshold. SMOTE shifted the precision/recall balance (recall up, precision down) without materially changing the overall F1.",
+    "primary_metric_name": "F1 (>50K) difference (SMOTE - no resampling)",
+    "primary_metric_value": -0.0009,
+    "direction": "SMOTE reduces minority F1 by 0.0009; below 0.02 threshold",
+    "methodological_choices": "Missing categorical values (workclass/occupation/native-country, originally '?') kept as an explicit 'Missing' category rather than dropped. Categorical features one-hot encoded via pd.get_dummies; numeric features used as-is (no scaling, unnecessary for tree-based models). Single stratified 80/20 train/test split (random_state=42); SMOTE fit only on training fold, test set left untouched and identical across both arms. RandomForestClassifier used with library defaults (only random_state=42 set, for reproducibility) per the research question's specification. SMOTE from imbalanced-learn with default k_neighbors=5 and random_state=42. Minority class F1 computed with pos_label='>50K'. A single train/test split (rather than cross-validation) was used for simplicity and because the dataset is large enough (48842 rows) for a stable held-out estimate; a different researcher might prefer repeated k-fold CV to average out split variance."
+  }
+}

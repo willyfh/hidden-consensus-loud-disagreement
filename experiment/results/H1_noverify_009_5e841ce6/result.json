@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H1",
+  "summary": "Model family has a real but modest effect on predictive performance: 5-fold CV ROC-AUC ranges from 0.895 (kNN) to 0.927 (GradientBoosting), a spread of 0.032 that is roughly 10.7x larger than typical fold-to-fold noise (0.003). Boosted/bagged tree ensembles outperform k-NN and logistic regression, but even the weakest model (logistic regression) is competitive, indicating the features are largely linearly separable and model choice matters less than good preprocessing.",
+  "primary_metric_name": "CV ROC-AUC range across model families (max - min)",
+  "primary_metric_value": 0.0325,
+  "direction": "GradientBoosting > kNN (GradientBoosting/RandomForest > LogisticRegression > kNN)",
+  "methodological_choices": "One-hot encoding for all categorical features (same representation across all models, so comparison isolates model family rather than feature engineering); missing values in workclass/occupation/native-country kept as an explicit 'Missing' category rather than imputed or dropped; numeric features standardized; single stratified 75/25 train/test split with 5-fold stratified CV on the training set for variance estimation; 4 model families compared (Logistic Regression, Random Forest with 300 trees, HistGradientBoosting, k-NN with k=25); primary metric ROC-AUC (threshold-independent, appropriate given ~24%/76% class imbalance) with accuracy as a secondary metric; hyperparameters left at reasonable defaults / lightly chosen (not tuned via grid search, so absolute numbers could shift a few points with tuning, though relative ranking is expected to be stable); random_state=42 throughout for reproducibility."
+}

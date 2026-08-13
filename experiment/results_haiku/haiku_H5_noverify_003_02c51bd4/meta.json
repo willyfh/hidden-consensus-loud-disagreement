@@ -1,0 +1,25 @@
+{
+  "run_id": "haiku_H5_noverify_003_02c51bd4",
+  "hypothesis_id": "H5",
+  "verify_arm": false,
+  "replicate_idx": 3,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H5_noverify_003_02c51bd4_84n6pdpy",
+  "started_at": 1786138596.948839,
+  "returncode": 0,
+  "stdout_tail": "Perfect! I've completed the analysis. Here's a summary of the findings:\n\n## Key Results\n\n**Research Question:** Does SMOTE oversampling change the minority-class (>50K) F1 score by more than 0.02?\n\n**Answer:** **NO**\n\n- **Baseline (no resampling) F1 score:** 0.6723\n- **SMOTE (with resampling) F1 score:** 0.6735\n- **Difference:** 0.0012 (well below the 0.02 threshold)\n\n## Methodology\n\nThe analysis followed these steps:\n\n1. **Data Cleaning:** Removed 3,620 rows with missing values (marked as '?'), resulting in 45,222 clean records\n2. **Preprocessing:** Encoded 8 categorical features using LabelEncoder; handled 6 numerical features directly\n3. **Train-Test Split:** 80-20 stratified split (36,177 train / 9,045 test) to preserve class distribution\n4. **Baseline Model:** Trained `RandomForestClassifier()` with default hyperparameters on the original training data\n5. **SMOTE Model:** Applied SMOTE oversampling to the training data (balancing minority class from 8,966 to 27,211), then trained an identically-configured RF\n6. **Evaluation:** Computed F1 score for the minority class (>50K) on the held-out test set\n\n## Interpretation\n\nSMOTE had negligible impact on minority-class F1 score (+0.12 percentage points). The baseline RF already achieved strong performance on the minority class (67.2% F1) without resampling. SMOTE's benefit was minimal, likely because:\n- Random forests are relatively robust to class imbalance due to their tree-based nature\n- The minority class was already well-represented (24% of data)\n- Default hyperparameters worked well even on imbalanced data\n\nBoth `analysis.py` and `result.json` have been saved to your current directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786138651.490237,
+  "wall_clock_seconds": 54.54139804840088,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H5",
+    "summary": "SMOTE oversampling changed the minority-class (>50K) F1 score by 0.001163 (from 0.672342 to 0.673506), which is less than the threshold of 0.02.",
+    "primary_metric_name": "Minority-class F1 score difference (SMOTE - Baseline)",
+    "primary_metric_value": 0.001163,
+    "direction": "No meaningful change (difference 0.001163)",
+    "methodological_choices": "Preprocessing: Removed rows with missing values (marked as '?'). Encoded all categorical variables using LabelEncoder. Train-test split: 80-20 stratified split with random_state=42. Model: RandomForestClassifier with default hyperparameters. SMOTE: Applied to training data only (not test data) with random_state=42. Evaluation: F1 score for minority class (>50K) calculated on held-out test set. Threshold for 'meaningful change': 0.02."
+  }
+}

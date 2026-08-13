@@ -1,0 +1,27 @@
+{
+  "run_id": "H4_verify_004_33268832",
+  "hypothesis_id": "H4",
+  "verify_arm": true,
+  "replicate_idx": 4,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_verify_004_33268832_1exaq5t8",
+  "started_at": 1785971317.034771,
+  "returncode": 0,
+  "stdout_tail": "All results are complete and consistent across the primary CV, the held-out test set, and the stability check.\n\n## Findings (H4): Does addressing class imbalance improve model quality?\n\n**Answer: Not meaningfully.** Across Logistic Regression and Random Forest, explicit imbalance-handling (class weighting or SMOTE) does **not** improve overall model quality (F1-macro) in any consistent way:\n\n- **Logistic Regression**: class weighting/SMOTE actually *hurt* F1-macro slightly (\u22120.009), while massively boosting minority recall (0.60 \u2192 0.85) at the cost of precision \u2014 a threshold trade-off, not a quality improvement.\n- **Random Forest**: class weighting gave a tiny gain (+0.001 to +0.003 F1-macro depending on split/CV), and SMOTE gave essentially nothing (\u22120.001).\n- **ROC-AUC and PR-AUC (ranking quality) were flat or slightly worse** with imbalance handling for every configuration \u2014 confirming that these techniques mainly shift the decision threshold/recall trade-off rather than improving the model's underlying discriminative ability.\n\n**Stability check**: 5\u00d7 repeated 5-fold CV (25 folds, new seed) on the full dataset for Random Forest confirmed the direction \u2014 class-weighting's F1-macro edge (+0.0031) was consistently positive but small, on the same order as the fold-to-fold standard deviation (~0.004-0.005), i.e. not a robust or practically meaningful improvement.\n\nBoth `analysis.py` and `result.json` have been written to the working directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785972133.3271239,
+  "wall_clock_seconds": 816.2923529148102,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H4",
+    "summary": "Explicit imbalance handling (class weighting or SMOTE) gives at most a small F1-macro improvement over baseline models on this dataset (+0.0011 for the best config vs best unweighted baseline, 5-fold CV). Random Forest with class weighting/SMOTE modestly raises minority-class recall relative to baseline, but ROC-AUC and PR-AUC (ranking quality) are essentially unchanged, and the F1-macro gain is small relative to fold-to-fold noise.",
+    "primary_metric_name": "F1-macro difference (best imbalance-handled - best baseline), 5-fold CV",
+    "primary_metric_value": 0.0011,
+    "direction": "negligible difference: imbalance handling does not meaningfully change F1-macro",
+    "methodological_choices": "Target encoded as binary (>50K=1). Missing categorical values (workclass, occupation, native-country) kept as an explicit 'Missing' category rather than imputed or dropped. Numeric features standardized; categoricals one-hot encoded inside a ColumnTransformer. Two model families compared: Logistic Regression (max_iter=2000) and Random Forest (300 trees). Three imbalance-handling strategies per model: none (baseline), class_weight='balanced', and SMOTE oversampling (applied only within training folds via an imblearn Pipeline to avoid leakage). Primary comparison via 5-fold stratified CV on a 70% training split; a held-out 30% test set used only as a confirmatory single-split check. Primary metric chosen as F1-macro (threshold-dependent, treats both classes equally) rather than ROC-AUC/PR-AUC, since imbalance techniques mainly shift the decision threshold/class weighting rather than ranking quality, and ROC-AUC is largely insensitive to that.",
+    "verification_method": "5x repeated 5-fold stratified CV (25 folds total, seed=123) on the full dataset for Random Forest baseline vs class_weight vs SMOTE, comparing mean +/- std of F1-macro against the primary train-split CV result.",
+    "verification_result": "Held up in direction: RF baseline F1-macro = 0.7897 +/- 0.0038 vs best imbalance-handled (class_weight) = 0.7928 +/- 0.0039 (delta +0.0031). The gain is small and on the order of, or smaller than, the fold-to-fold standard deviation, confirming the primary finding that imbalance handling produces at most a small, largely threshold/recall-related improvement rather than a substantial gain in overall model quality."
+  }
+}

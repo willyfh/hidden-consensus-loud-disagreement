@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H4",
+  "summary": "Addressing class imbalance provides modest improvements on the Adult income dataset. ROC-AUC improvements are negligible (+0.0019 on average), but F1-score and balanced accuracy show more meaningful gains (5-10% relative improvement). The random undersampling strategy performed best overall.",
+  "primary_metric_name": "ROC-AUC improvement (imbalance-handled - baseline)",
+  "primary_metric_value": 0.0019,
+  "direction": "Imbalance handling improves model quality marginally; benefit is more pronounced for class-sensitive metrics (F1, balanced accuracy) than for ROC-AUC",
+  "methodological_choices": "Dataset: 48,842 samples with 3.18:1 class imbalance (76% negative, 24% positive). Preprocessing: imputed missing values in workclass/occupation/native-country with mode; dropped fnlwgt (survey weight). Encoding: label-encoded categorical features. Train-test split: 80-20 stratified split to preserve class distribution. Models: LogisticRegression and RandomForest (100 estimators). Imbalance handling techniques: (1) baseline without handling, (2) class_weight='balanced', (3) SMOTE oversampling, (4) random undersampling. Evaluation: ROC-AUC as primary metric (appropriate for imbalanced data), with F1-score and balanced accuracy as secondary metrics. All evaluations on held-out test set."
+}

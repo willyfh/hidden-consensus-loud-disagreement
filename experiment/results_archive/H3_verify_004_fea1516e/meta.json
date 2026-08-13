@@ -1,0 +1,27 @@
+{
+  "run_id": "H3_verify_004_fea1516e",
+  "hypothesis_id": "H3",
+  "verify_arm": true,
+  "replicate_idx": 4,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H3_verify_004_fea1516e_zvayrucr",
+  "started_at": 1785972396.6190422,
+  "returncode": 0,
+  "stdout_tail": "Both `analysis.py` and `result.json` are finalized and consistent.\n\n**Finding:** `capital-gain` is the single most important feature for predicting income class in a Random Forest (permutation importance, mean ROC-AUC drop = 0.050), followed by `education-num`, `relationship`, and `age`. This ranking was perfectly stable across 25 repeated stratified CV folds (capital-gain ranked #1 in 100% of them, test ROC-AUC \u2248 0.917\u20130.918). A Logistic Regression cross-check ranked `marital-status` highest instead (also manually verified) \u2014 both features are consistently top-3 across both model classes, so the top-1 identity is somewhat model-dependent even though the RF result itself is very stable.\n\nWorth flagging: partway through I caught a real bug in my own code \u2014 I had labeled `permutation_importance` output using the column order I listed in my `ColumnTransformer` (`cat_cols + num_cols`) instead of the actual column order of the DataFrame passed in, which silently mislabeled every importance value (e.g., a huge value that truly belonged to `marital-status` was displayed as `race`). I caught it because the mislabeled result looked implausible, manually re-verified via direct column-shuffling, found the indexing mismatch, fixed it, and reran the full pipeline including the stability check. The `race`/`fnlwgt` sanity checks (expected to be low/near-zero importance) only lined up correctly after the fix, which is additional evidence the corrected version is right.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785973191.114248,
+  "wall_clock_seconds": 794.4952058792114,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H3",
+    "summary": "Using a Random Forest classifier (test ROC-AUC=0.918), permutation importance identifies 'capital-gain' as the single most important predictor of income class, followed by 'education-num', 'relationship', and 'age'. This ranking was highly stable, with 'capital-gain' ranked #1 in 100% of 25 repeated cross-validation folds. A Logistic Regression cross-check model instead ranks 'marital-status' highest, showing that the single most important feature is somewhat model-dependent, though both 'capital-gain' and 'marital-status' are consistently in the top 3 for both models.",
+    "primary_metric_name": "top feature permutation importance (mean ROC-AUC drop, RF, test set)",
+    "primary_metric_value": 0.0504,
+    "direction": "'capital-gain' most important",
+    "methodological_choices": "Dropped `education` (redundant with `education-num`); kept `fnlwgt` as a sanity-check feature expected to show near-zero importance since it is a census sampling weight. Missing categoricals imputed with an explicit 'Missing' category rather than dropped/mode-imputed, to preserve rows and let missingness itself be informative. Random Forest (400 trees, min_samples_leaf=2) used as primary model with ordinal-encoded categoricals; permutation importance (20 repeats, scored on held-out test ROC-AUC) used instead of impurity-based importance to avoid bias toward high-cardinality features (e.g. native-country, fnlwgt). Logistic Regression with one-hot encoding + standard scaling used as an independent cross-check model. 75/25 stratified train/test split; class imbalance (~24% positive) not explicitly reweighted since ROC-AUC (threshold-independent) was used as the evaluation/importance metric rather than accuracy.",
+    "verification_method": "5x repeated stratified 5-fold cross-validation (25 total folds, distinct random seeds per fold) refitting a Random Forest and recomputing permutation importance independently on each held-out fold; tracked which feature ranked #1 in each fold.",
+    "verification_result": "Finding held up: 'capital-gain' was the #1 ranked feature in 25/25 folds (100%) of repeated CV, with importance ranging 0.0446-0.0522 (mean 0.0486) across folds, consistent with the single test-split estimate of 0.0504. Mean CV ROC-AUC was 0.9172 (+/- 0.0022), confirming stable model performance across folds. Note: an independent Logistic Regression cross-check model instead ranks 'marital-status' as its top feature by permutation importance (manually verified, not an artifact), so while the RF finding for 'capital-gain' is robust *within* the RF model class, the identity of the single 'most important' feature is somewhat model-dependent; both features are top-3 in both models."
+  }
+}

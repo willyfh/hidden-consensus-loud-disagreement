@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H3",
+  "summary": "'capital-gain' is the most important feature for predicting income, with a permutation importance of 0.045001. Consensus analysis across Random Forest, permutation importance, and Logistic Regression consistently identifies 'capital-gain' and related demographic/employment features (marital-status, hours-per-week, capital-gain) as top predictors.",
+  "primary_metric_name": "Permutation Importance (Random Forest, test set)",
+  "primary_metric_value": 0.045001023681157416,
+  "direction": "capital-gain is the single most important feature",
+  "methodological_choices": "- Model: Random Forest (200 trees, max_depth=15) for primary importance + Logistic Regression for comparison\n- Preprocessing: Filled missing values in workclass, occupation, native-country with 'Unknown'; encoded all categorical variables\n- Train-Test Split: 70-30 stratified split\n- Feature Importance Methods:\n  1) Random Forest built-in feature_importances_ (Gini/entropy-based)\n  2) Permutation importance (10 repeats, model-agnostic) - used as primary metric\n  3) Logistic Regression absolute coefficients\n- Missing Value Handling: Mode imputation for categorical features with unknown values\n- No feature scaling for Random Forest; StandardScaler used for Logistic Regression"
+}

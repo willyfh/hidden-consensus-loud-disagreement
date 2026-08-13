@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H2",
+  "summary": "Random Forest achieved a mean ROC-AUC of 0.902630 while Logistic Regression achieved 0.906665 via stratified 5-fold cross-validation. LogReg >= RF. Validation across 5 repeated CV runs confirmed this finding in 0/5 repeats.",
+  "primary_metric_name": "ROC-AUC difference (RF - LogReg)",
+  "primary_metric_value": -0.004035,
+  "direction": "LogReg >= RF",
+  "methodological_choices": "Model classes: RandomForestClassifier() and LogisticRegression() with scikit-learn defaults. Preprocessing: StandardScaler for numeric features (n=6), OneHotEncoder for categorical features (n=8). Missing values: '?' replaced with 'unknown' for categorical; None for numeric features. Validation scheme: Stratified 5-fold CV with shuffle=True. Primary evaluation used seed=42; stability validation used 5 different seeds (42, 123, 456, 789, 999). No class weighting or imbalance handling applied. No hyperparameter tuning beyond scikit-learn defaults.",
+  "verification_method": "Repeated stratified 5-fold cross-validation with 5 different random seeds (42, 123, 456, 789, 999). Checked consistency of finding across repeats.",
+  "verification_result": "FINDING HELD: RF outperformed LogReg in 0/5 repeats. Mean difference across repeats: -0.004027 (std: 0.000707). 95% CI for difference: [-0.005412, -0.002642]. NOT CONFIRMED: LogReg equals or outperforms RF"
+}

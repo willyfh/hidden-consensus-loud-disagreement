@@ -1,0 +1,25 @@
+{
+  "run_id": "H6_noverify_005_bf126df0",
+  "hypothesis_id": "H6",
+  "verify_arm": false,
+  "replicate_idx": 5,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H6_noverify_005_bf126df0_sj_j9lmq",
+  "started_at": 1785938934.8706949,
+  "returncode": 0,
+  "stdout_tail": "`result.json` and `analysis.py` are both written to the working directory.\n\n**Finding:** Calibration is model-dependent. Logistic regression is very well-calibrated out of the box (ECE=0.0063, recalibration slope\u22481.01, intercept\u22480.03 \u2014 both near ideal). Gradient boosting is mildly but systematically miscalibrated (ECE=0.0161, MCE=0.05, slope\u22481.18), specifically under-confident in the high-probability bins (e.g., it predicts ~0.96 average probability in cases where ~0.996 actually turn out `>50K`). Neither model is severely miscalibrated, but gradient boosting would benefit more from post-hoc recalibration (Platt scaling/isotonic regression) than logistic regression would.\n\nMethodology: 70/30 stratified split, `fnlwgt` dropped (sampling weight, not a real feature), standard one-hot/scaling preprocessing, calibration assessed via 10-bin ECE/MCE, Brier score decomposition, and a logistic recalibration (slope/intercept) check on raw test-set probabilities \u2014 full details are in `methodological_choices` in `result.json`.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785939029.364577,
+  "wall_clock_seconds": 94.49388217926025,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H6",
+    "summary": "Calibration quality depends on model choice: logistic regression is very well-calibrated on held-out test data (ECE=0.0063, recalibration slope=1.01, intercept=0.027, all near-ideal values of slope=1/intercept=0), while gradient boosting is mildly but systematically miscalibrated (ECE=0.0161, slope=1.18) \u2014 it is under-confident in the upper probability bins (e.g. predicted ~0.96 vs. observed ~0.996 in the 0.9-1.0 bin), meaning true high-income probability is somewhat higher than the model reports. Neither model is badly miscalibrated, but gradient boosting would benefit from post-hoc recalibration (e.g. Platt scaling/isotonic regression) more than logistic regression does.",
+    "primary_metric_name": "Expected Calibration Error (ECE), Gradient Boosting, 10 equal-width bins, test set",
+    "primary_metric_value": 0.0161,
+    "direction": "mixed: logistic regression well-calibrated (slope~1.01); gradient boosting mildly miscalibrated, under-confident at high predicted probabilities (slope~1.18)",
+    "methodological_choices": "Target=1 for '>50K'. Dropped fnlwgt (a census sampling weight, not a genuine demographic feature). Treated '?' as missing but did not impute (tree/linear models handle via one-hot 'unknown' implicitly for OHE with handle_unknown='ignore'; rows with NaN in categorical columns get all-zero one-hot encoding). Stratified 70/30 train/test split, random_state=42. Two model classes compared: LogisticRegression (max_iter=1000) with StandardScaler+OneHotEncoder preprocessing, and GradientBoostingClassifier (sklearn defaults, 100 trees, depth 3). Calibration measured directly on test-set predicted probabilities (no separate calibration/recalibration step applied, to test raw calibration quality). ECE/MCE computed with 10 equal-width probability bins weighted by bin count. Brier score decomposed via Murphy (1973) reliability/resolution/uncertainty using the same 10 bins. Logistic recalibration check (slope/intercept of logit(y) ~ logit(p)) used as a secondary global calibration diagnostic. Alternative choices another researcher might make: quantile (equal-frequency) bins instead of equal-width, more/fewer bins, isotonic regression as the recalibration check instead of logistic, imputing missing categoricals as an explicit 'Missing' category, or applying CalibratedClassifierCV and comparing pre/post calibration error."
+  }
+}

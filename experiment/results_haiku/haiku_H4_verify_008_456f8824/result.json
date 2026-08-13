@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H4",
+  "summary": "Addressing class imbalance through class weights improves F1-Score (+4.6%) and recall (+64.7%) but does not improve ROC-AUC. This indicates that imbalance handling techniques shift the prediction threshold toward detecting more positive cases, which is beneficial for F1-Score but irrelevant for ROC-AUC. Improvements are modest and come at the cost of reduced precision.",
+  "primary_metric_name": "F1-Score improvement (Imbalance-handled - Baseline)",
+  "primary_metric_value": 0.0463,
+  "direction": "With Class Weights > Baseline on F1-Score (+0.0463) and Recall (+0.2957); ROC-AUC unchanged",
+  "methodological_choices": "Random Forest (n_estimators=100, max_depth=15) with stratified 5-fold cross-validation. Categorical features encoded with LabelEncoder. Imbalance handling methods tested: SMOTE and class weights. Evaluation metrics: ROC-AUC (primary), F1-Score, Precision, Recall, Balanced Accuracy. Stability verified through 5 repeated evaluations with different random seeds (42, 123, 456, 789, 999).",
+  "verification_method": "5x repeated 5-fold stratified cross-validation with different random seeds (42, 123, 456, 789, 999)",
+  "verification_result": "Finding stable across 5 different random seeds: F1-Score improvement +0.0463 (+/- 0.0012), ROC-AUC unchanged at -0.0000 (+/- 0.0004). Precision-recall tradeoff observed: recall improves from 0.45 to 0.75, precision decreases from 0.78 to 0.53."
+}

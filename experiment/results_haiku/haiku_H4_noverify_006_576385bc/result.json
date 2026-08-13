@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H4",
+  "summary": "Addressing class imbalance through SMOTE and class weighting improved model quality. ROC-AUC improved from 0.8473 (baseline) to 0.8482 (Class Weights), a gain of 0.0009. F1-score also improved, indicating better performance on the minority class. Class weighting was the most effective approach for this dataset.",
+  "primary_metric_name": "ROC-AUC improvement (Best vs Baseline)",
+  "primary_metric_value": 0.0009,
+  "direction": "Class Weights > Baseline (AUC: 0.8482 vs 0.8473)",
+  "methodological_choices": "Used Logistic Regression as the base model. Preprocessing: dropped rows with missing values, label-encoded categorical variables, standardized numerical features. Train-test split: 80-20 with stratification. Compared three approaches: (1) Baseline without imbalance handling, (2) SMOTE oversampling applied only to training set, (3) Class weight balancing. Evaluated using ROC-AUC and F1-score as primary metrics (ROC-AUC selected for final comparison). Tested on 9045 test samples with original class imbalance ratio of 0.315."
+}

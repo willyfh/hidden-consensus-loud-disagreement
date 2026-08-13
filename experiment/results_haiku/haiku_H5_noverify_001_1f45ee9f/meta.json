@@ -1,0 +1,25 @@
+{
+  "run_id": "haiku_H5_noverify_001_1f45ee9f",
+  "hypothesis_id": "H5",
+  "verify_arm": false,
+  "replicate_idx": 1,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H5_noverify_001_1f45ee9f_k_hqbz1u",
+  "started_at": 1786138544.862507,
+  "returncode": 0,
+  "stdout_tail": "## Analysis Complete\n\nI've investigated the research question about whether SMOTE oversampling changes the minority-class F1 score by more than 0.02 for a Random Forest classifier on the Adult income dataset.\n\n**Key Findings:**\n\n- **F1 score without SMOTE:** 0.679016\n- **F1 score with SMOTE:** 0.682788\n- **Difference:** 0.003772 (\u2248 0.38% improvement)\n\n**Answer:** No. Applying SMOTE oversampling does **not** change the minority-class (>50K) F1 score by more than 0.02. The actual improvement is modest at only 0.0038, which falls well below the 0.02 threshold.\n\n**Methodological Approach:**\n- Preprocessed 48,842 samples by handling missing values (mode for categorical, median for numerical features) and encoding categorical variables with LabelEncoder\n- Split data 70-30 (stratified) into train/test sets \n- Applied SMOTE only to the training set (not test set) to avoid data leakage\n- Used default RandomForestClassifier() as specified\n- Evaluated using F1 score for the positive class (>50K)\n\nBoth `result.json` and `analysis.py` have been saved to the current directory with full details of the analysis methodology and findings.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786138602.03248,
+  "wall_clock_seconds": 57.16997289657593,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H5",
+    "summary": "Applying SMOTE oversampling to the training data increases the minority-class F1 score by 0.003772. The difference is not greater than 0.02.",
+    "primary_metric_name": "Minority-class (>50K) F1 score difference (with SMOTE - without SMOTE)",
+    "primary_metric_value": 0.003772,
+    "direction": "No meaningful difference (|diff| \u2264 0.02)",
+    "methodological_choices": "Train-test split: 70-30 stratified split with random_state=42. Missing value handling: categorical features filled with mode, numerical features filled with median. Categorical encoding: LabelEncoder for all categorical features. SMOTE: Applied only to training data with random_state=42. Model: Default RandomForestClassifier() with random_state=42. Evaluation: F1 score (pos_label=1) on held-out test set."
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "run_id": "H5_verify_000_fda98bfb",
+  "hypothesis_id": "H5",
+  "verify_arm": true,
+  "replicate_idx": 0,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H5_verify_000_fda98bfb_ti5_k5n0",
+  "started_at": 1785885081.6225762,
+  "returncode": 1,
+  "stdout_tail": "You've hit your session limit \u00b7 resets 12pm (Asia/Seoul)\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785885401.167903,
+  "wall_clock_seconds": 319.5453267097473,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H5",
+    "summary": "SMOTE oversampling changed the >50K-class F1 by +0.0059 on a single held-out split (no-resample F1=0.6734, SMOTE F1=0.6794); repeated cross-validation confirmed the effect is small and does not exceed the 0.02 threshold on average (mean diff=-0.0012).",
+    "primary_metric_name": "F1(>50K) difference, SMOTE - no resampling (mean over 5x5 repeated CV)",
+    "primary_metric_value": -0.001167312511965748,
+    "direction": "SMOTE does not meaningfully change F1 (|diff| <= 0.02)",
+    "methodological_choices": "Missing categorical values recoded as 'Unknown' (not dropped). One-hot encoding for all categorical features, numeric features used raw. Single stratified 80/20 train/test split (random_state=42) for the primary estimate, both RandomForestClassifier() calls left at default hyperparameters except random_state=42 for reproducibility. SMOTE (imbalanced-learn, default k_neighbors=5) applied only to the training fold/split, never to test data, to avoid leakage. Minority class = '>50K' (~24% prevalence, ~3.2:1 imbalance). Metric = F1 score of the '>50K' class specifically (not macro/weighted), since the question asks about minority-class F1.",
+    "verification_method": "5x repeated stratified 5-fold cross-validation (25 total folds, base random_state=42 varied across repeats by RepeatedStratifiedKFold), with SMOTE embedded inside an imblearn Pipeline so it is refit on each training fold only. Also computed a 1000-resample bootstrap CI on the primary single test split.",
+    "verification_result": "Finding held up: across 25 CV folds, mean F1 difference (SMOTE - plain) = -0.0012 (sd=0.0038, range [-0.0115, +0.0066]), consistently small and below the 0.02 threshold in the vast majority of folds (100% of folds had |diff| <= 0.02). Bootstrap 95% CI on the primary split's difference was [-0.0022, +0.0140], mean +0.0057. Both checks agree: SMOTE does not change minority-class F1 by more than 0.02 for a default RF on this dataset."
+  }
+}

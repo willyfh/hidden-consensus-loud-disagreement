@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H1",
+  "summary": "Model family choice meaningfully affects predictive performance on the adult income dataset. ROC-AUC ranges from 0.8305 (Naive Bayes) to 0.9197 (Gradient Boosting), a difference of 0.0891. Ensemble and tree-based methods substantially outperform simpler models.",
+  "primary_metric_name": "ROC-AUC range (best - worst)",
+  "primary_metric_value": 0.0891,
+  "direction": "Gradient Boosting > Naive Bayes (0.0891 point advantage)",
+  "methodological_choices": "Stratified 3-fold cross-validation on full 48,842-row dataset. Binary classification (<=50K vs >50K). Preprocessing: one-hot encoding for 15 categorical features, median imputation for 6 missing numeric values. Feature scaling (StandardScaler) applied to distance/kernel-based models only (SVM, KNN, Naive Bayes, LogReg). Compared 7 model families: Logistic Regression, Random Forest, Gradient Boosting, SVM (RBF), Decision Tree, KNN, Naive Bayes. Primary metric: ROC-AUC (binary classification, accounts for class distribution). Hyperparameters: RF (50 trees, depth=15), GB (50 trees, depth=4), SVM (RBF kernel), KNN (k=5), LogReg (lbfgs solver). All random seeds fixed for reproducibility (random_state=42)."
+}

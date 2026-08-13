@@ -1,0 +1,25 @@
+{
+  "run_id": "H1_noverify_010_17da038f",
+  "hypothesis_id": "H1",
+  "verify_arm": false,
+  "replicate_idx": 10,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_noverify_010_17da038f_zkogl82h",
+  "started_at": 1785855791.693164,
+  "returncode": 0,
+  "stdout_tail": "**Finding:** Model family does meaningfully affect predictive performance on this dataset \u2014 gradient boosting and random forest both consistently outperform logistic regression.\n\n- 5-fold CV ROC-AUC: Logistic Regression 0.9053, Random Forest 0.9170, Gradient Boosting 0.9204 (spread = 0.015, well above the ~0.003-0.004 fold-to-fold noise level), confirmed on a held-out test set with the same ordering.\n- This indicates real non-linear/interaction structure in the data (e.g., between age, education, hours-per-week, capital-gain) that tree ensembles capture but a linear model doesn't.\n\nBoth `analysis.py` and `result.json` are written to the working directory. Full methodology (encoding, imputation, imbalance handling, hyperparameters, threshold for \"meaningful\") is documented in `result.json`'s `methodological_choices` field.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785855901.342077,
+  "wall_clock_seconds": 109.64891290664673,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H1",
+    "summary": "Across three model families (logistic regression, random forest, gradient boosting) trained on identical preprocessing and evaluated with 5-fold CV, ROC-AUC ranged from 0.9053 (LogisticRegression) to 0.9204 (GradientBoosting), a spread of 0.0150. This is a meaningful, consistent gap (confirmed on the held-out test set): tree-based ensembles outperform plain logistic regression, indicating the true decision boundary has non-linear/interaction structure that a linear model under-fits.",
+    "primary_metric_name": "CV ROC-AUC spread across model families (max-min): best=GradientBoosting, worst=LogisticRegression",
+    "primary_metric_value": 0.015,
+    "direction": "GradientBoosting > ... > LogisticRegression",
+    "methodological_choices": "Target binarized as class=='>50K'. Dropped 'fnlwgt' (a census sampling weight, not a person-level feature). Numeric features median-imputed and standardized; categorical features most-frequent-imputed and one-hot encoded (unseen categories ignored) via a shared ColumnTransformer so all models see identical inputs. 80/20 stratified train/test split (random_state=42). Compared 3 model families with library-default-ish hyperparameters (mild tuning only where obviously needed): LogisticRegression(max_iter=1000), RandomForestClassifier(n_estimators=300, min_samples_leaf=2), GradientBoostingClassifier(defaults). No explicit class-imbalance handling (no class_weight/resampling) since ROC-AUC is threshold-independent and imbalance is moderate (~76/24). Primary metric: 5-fold stratified cross-validated ROC-AUC on the training split (mean across folds), cross-checked once against the held-out test set. 'Meaningful' threshold set heuristically at CV ROC-AUC spread >= 0.01, since fold-to-fold std was ~0.002-0.003, making gaps of that size or larger clearly distinguishable from noise. Alternative choices another researcher might make: target/ordinal encoding instead of one-hot, class_weight='balanced', hyperparameter search (grid/random/Bayesian) per model, nested CV, additional model families (SVM, KNN, neural net), or accuracy/F1/PR-AUC as the primary metric instead of ROC-AUC."
+  }
+}

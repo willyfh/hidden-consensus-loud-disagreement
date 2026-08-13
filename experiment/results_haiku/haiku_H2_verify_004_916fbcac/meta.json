@@ -1,0 +1,27 @@
+{
+  "run_id": "haiku_H2_verify_004_916fbcac",
+  "hypothesis_id": "H2",
+  "verify_arm": true,
+  "replicate_idx": 4,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H2_verify_004_916fbcac_8pk6otd8",
+  "started_at": 1786137405.8927948,
+  "returncode": 0,
+  "stdout_tail": "## Analysis Complete \u2713\n\nI have successfully completed a comprehensive analysis comparing Random Forest and Logistic Regression classifiers on the Adult Income dataset. Here are the key findings:\n\n### Primary Finding\n**Random Forest achieves substantially HIGHER stratified 5-fold cross-validated ROC-AUC than Logistic Regression.**\n\n**Results:**\n- **Random Forest**: ROC-AUC = 0.906977 (\u00b10.001754)\n- **Logistic Regression**: ROC-AUC = 0.820162 (\u00b10.004548)  \n- **Difference**: 0.086814 (RF is ~8.7 percentage points higher)\n\n### Verification (Stability Check)\nI validated this finding using 5-fold repeated cross-validation with different random seeds (seeds 42-46):\n- **Consistency**: Random Forest won in 5/5 repetitions (100% consistency)\n- **Mean difference across all runs**: 0.086498 \u00b1 0.000460\n- **95% Confidence Interval**: [0.085595, 0.087400]\n- **Conclusion**: The finding is robust and highly stable\n\n### Methodology\n- **Data**: 48,842 rows with 14 features; target is binary income classification (<=50K vs >50K)\n- **Preprocessing**: \n  - Handled 6,465 missing values by filling categorical features with 'Unknown'\n  - Encoded all categorical variables with LabelEncoder\n  - No scaling (RF is invariant; LogReg converged with max_iter=1000)\n- **Evaluation**: Stratified 5-fold cross-validation with ROC-AUC scoring (appropriate for the 76/24 class imbalance)\n- **Models**: Both using scikit-learn defaults\n\n### Deliverables\nBoth `result.json` and `analysis.py` have been saved to your current directory with complete details of the methodology and findings.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786137991.740648,
+  "wall_clock_seconds": 585.8478531837463,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H2",
+    "summary": "Random Forest classifier achieves higher stratified 5-fold cross-validated ROC-AUC (0.906977) compared to Logistic Regression (0.820162) on the Adult Income dataset. The difference of 0.086814 was consistent across 5 repeated runs.",
+    "primary_metric_name": "ROC-AUC difference (RF - LogReg)",
+    "primary_metric_value": 0.08681449844037492,
+    "direction": "RF > LogReg",
+    "methodological_choices": "Models: scikit-learn RandomForestClassifier() and LogisticRegression() with default hyperparameters. Evaluation: Stratified 5-fold cross-validation with ROC-AUC scoring. Preprocessing: Missing values in categorical features (workclass, occupation, native-country) filled with 'Unknown'. All categorical variables encoded using LabelEncoder. Target binary encoded (1 for >50K, 0 for <=50K). No scaling applied (RF invariant to scaling, LogReg uses max_iter=1000). No class weighting or resampling applied.",
+    "verification_method": "5-fold repeated stratified 5-fold cross-validation with random seeds 42-46. Computed ROC-AUC difference across all repetitions to assess stability of finding.",
+    "verification_result": "Finding held up consistently. Across 5 repetitions, Random Forest won 5/5 times. Mean difference: 0.086498 (\u00b10.000460), 95% CI: [0.085595, 0.087400]. Conclusion: Robust finding."
+  }
+}

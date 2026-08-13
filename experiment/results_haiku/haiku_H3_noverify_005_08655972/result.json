@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H3",
+  "summary": "The most important feature for predicting income is 'relationship', with a consensus importance score of 0.5197. Analysis using multiple methods (Random Forest, Gradient Boosting, Logistic Regression, and Permutation Importance) consistently identified this feature as the strongest predictor of income category in the dataset.",
+  "primary_metric_name": "consensus feature importance (normalized average across RF, GB, LR, and Permutation)",
+  "primary_metric_value": 0.5196702330103994,
+  "direction": "relationship is most important",
+  "methodological_choices": "Used Random Forest, Gradient Boosting, Logistic Regression, and Permutation Importance methods. Categorical features encoded with LabelEncoder. Missing values imputed with mode (categorical) or median (numeric). 80-20 train-test split with stratification. ROC-AUC used as evaluation metric. Importance scores normalized and averaged across methods to create consensus ranking."
+}

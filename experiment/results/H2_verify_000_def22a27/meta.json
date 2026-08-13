@@ -1,0 +1,27 @@
+{
+  "run_id": "H2_verify_000_def22a27",
+  "hypothesis_id": "H2",
+  "verify_arm": true,
+  "replicate_idx": 0,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_verify_000_def22a27_irtslv_h",
+  "started_at": 1785882010.599583,
+  "returncode": 0,
+  "stdout_tail": "Both `analysis.py` and `result.json` are now saved and consistent with the actual data.\n\n**Finding: No.** With scikit-learn defaults, logistic regression slightly *outperforms* random forest (mean ROC-AUC 0.9067 vs 0.9023, RF \u2212 LogReg = \u22120.0043). This held up under 5\u00d75 repeated CV (RF won 0 of 25 paired folds) and an independent 30% held-out split (diff \u22120.0048) \u2014 a small but highly consistent effect across all 35 folds tested.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785882504.45401,
+  "wall_clock_seconds": 493.8544270992279,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H2",
+    "summary": "No -- logistic regression achieves slightly higher stratified 5-fold CV ROC-AUC than random forest on this dataset (mean AUC 0.9067 for LogReg vs 0.9023 for RF, RF - LogReg = -0.0043). This was confirmed by repeated CV and a fresh held-out split, so with default hyperparameters for both models, RF does not beat LogReg here.",
+    "primary_metric_name": "ROC-AUC difference (RF - LogReg), mean over stratified 5-fold CV",
+    "primary_metric_value": -0.004339595113697525,
+    "direction": "LogReg > RF (RF does not achieve higher AUC)",
+    "methodological_choices": "Target: '>50K' encoded as 1. Missing categorical values (workclass, occupation, native-country; originally '?') imputed as an explicit 'Missing' category rather than dropped, to preserve all 48842 rows. Categorical features one-hot encoded (unknown categories ignored at transform time); numeric features standard-scaled (scaling is a no-op for RF's split-based decisions but is applied to both models via the same ColumnTransformer for a clean, identical-preprocessing comparison rather than tuning preprocessing per model). Both models used exactly scikit-learn's default hyperparameters (RandomForestClassifier(), LogisticRegression()) except for setting random_state for our own reproducibility, which does not alter default behavior. No class-imbalance handling (e.g. class_weight, resampling) was applied since the question specifies default hyperparameters. Validation: StratifiedKFold(n_splits=5, shuffle=True, random_state=42), scoring='roc_auc', identical folds for both models.",
+    "verification_method": "(a) 5x repeated stratified 5-fold CV with a different random_state (123; 25 folds total), reporting the paired per-fold RF-LogReg difference and fraction of folds where RF wins; (b) a fresh 30%-held-out re-test split (random_state=999, not used in the primary analysis) with its own independent stratified 5-fold CV.",
+    "verification_result": "Finding held up under both checks -- in the opposite direction of the hypothesis. Repeated CV (25 folds, seed 123): RF mean AUC 0.9022 vs LogReg 0.9067 (RF - LogReg = -0.0045); RF beat LogReg in only 0% of paired folds. Fresh held-out split (30% of data, seed 999): RF mean AUC 0.9004 vs LogReg 0.9052 (RF - LogReg = -0.0048). Both checks confirm LogReg > RF, consistent with the primary estimate of -0.0043; the effect is small (~0.4-0.5 AUC points) but highly consistent across all 35 folds evaluated (5 primary + 25 repeated + 5 holdout)."
+  }
+}

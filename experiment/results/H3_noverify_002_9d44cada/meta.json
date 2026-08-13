@@ -1,0 +1,25 @@
+{
+  "run_id": "H3_noverify_002_9d44cada",
+  "hypothesis_id": "H3",
+  "verify_arm": false,
+  "replicate_idx": 2,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H3_noverify_002_9d44cada_p0tlffk3",
+  "started_at": 1785882766.950434,
+  "returncode": 0,
+  "stdout_tail": "Both `analysis.py` and `result.json` are written to the working directory.\n\n**Finding:** Using a Random Forest classifier (test ROC-AUC = 0.918, accuracy = 0.824) with permutation importance on a held-out test set, **marital-status** is the single most important predictor of income class (mean AUC drop of 0.048 when shuffled), followed by capital-gain, education-num, age, and occupation. Gini-based importance from the same model independently corroborates marital-status as the top feature. Race and native-country contributed the least predictive signal.\n\nKey methodological choices: dropped `education` (redundant with `education-num`) and `fnlwgt` (a census sampling weight, not a substantive attribute); kept missing categorical values as an explicit \"Missing\" category rather than dropping rows; used permutation importance (not just impurity-based Gini) as the primary metric since Gini importance is biased toward high-cardinality categorical features; aggregated one-hot dummy importances back to their parent feature for fair comparison across features of different cardinality.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785882860.1069639,
+  "wall_clock_seconds": 93.15652990341187,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H3",
+    "summary": "A random forest classifier (test ROC-AUC=0.918) trained to predict income class identifies 'marital-status' as the most important predictor by permutation importance (mean test-set AUC drop of 0.0484 when shuffled), followed by capital-gain and education-num. Gini-based importance from the same model agrees on 'marital-status' as the top feature, corroborating the finding.",
+    "primary_metric_name": "top feature permutation importance (mean AUC drop)",
+    "primary_metric_value": 0.048353,
+    "direction": "'marital-status' most important",
+    "methodological_choices": "Dropped `education` (redundant with `education-num`) and `fnlwgt` (a census sampling weight, not a substantive demographic feature) before modeling. Missing values in workclass/occupation/native-country (~2-6% of rows) encoded as an explicit 'Missing' category rather than dropped or imputed, since missingness itself may carry signal and row-deletion would waste data. Categorical features one-hot encoded; numeric features used as-is (tree models don't require scaling). 70/30 stratified train/test split, random_state=42. Model: RandomForestClassifier(n_estimators=300, min_samples_leaf=2, class_weight='balanced') to address the ~76/24 class imbalance without resampling. Evaluated with ROC-AUC (threshold-independent, imbalance-robust) alongside accuracy. Feature importance computed via permutation importance (AUC drop, 10 shuffles per feature) on the held-out test set as the primary method, since impurity-based (Gini) importance is biased toward high-cardinality categorical features; Gini importance reported as a secondary cross-check. One-hot dummy importances/permutations aggregated back to their parent feature (categoricals permuted jointly, pre-encoding) so all 12 original features are directly comparable regardless of cardinality."
+  }
+}

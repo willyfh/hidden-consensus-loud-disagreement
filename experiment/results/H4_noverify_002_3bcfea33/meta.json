@@ -1,0 +1,25 @@
+{
+  "run_id": "H4_noverify_002_3bcfea33",
+  "hypothesis_id": "H4",
+  "verify_arm": false,
+  "replicate_idx": 2,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_noverify_002_3bcfea33_wk1b9q0e",
+  "started_at": 1785883625.107591,
+  "returncode": 0,
+  "stdout_tail": "## Findings (H4: does addressing class imbalance improve model quality?)\n\n**It depends on which metric \"quality\" means.** I tested Logistic Regression and Random Forest, each under three conditions (no handling / `class_weight='balanced'` / SMOTE oversampling), evaluated on a held-out test set that kept the dataset's natural ~76/24 imbalance.\n\n- **Threshold-based, imbalance-sensitive metrics improved substantially**: RF balanced accuracy rose from 0.781 \u2192 0.831 (+0.051) with class-weighting, and minority-class (`>50K`) recall jumped from 0.61 \u2192 0.84. Same pattern held for LogReg and for SMOTE.\n- **Ranking-quality metrics barely moved**: ROC-AUC actually dipped very slightly (0.918 \u2192 0.916 for RF), and PR-AUC also dropped a bit (0.807 \u2192 0.797). This makes sense \u2014 imbalance handling shifts the decision boundary/threshold rather than the model's underlying ability to rank positives above negatives.\n- The trade-off: gains in recall/balanced accuracy came at the cost of precision on the minority class (RF precision dropped from 0.78 \u2192 0.60), since the model now fires positive predictions more liberally.\n\nSo: imbalance handling helps a lot if you care about detecting the minority class at the default threshold (recall, balanced accuracy, F1), but does essentially nothing (or slightly hurts) for threshold-free ranking metrics like ROC-AUC.\n\nFiles written: `analysis.py`, `result.json`, and `model_comparison_results.csv` (full metric table for all 6 model\u00d7strategy combinations).\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785883793.853476,
+  "wall_clock_seconds": 168.7458851337433,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H4",
+    "summary": "Addressing class imbalance (class_weight='balanced') raised Random Forest balanced accuracy from 0.7805 to 0.8312 (delta=+0.0506) and minority-class F1 from 0.6885 to 0.6979, while ROC-AUC stayed nearly flat (0.9176 -> 0.9164). This pattern held across both Logistic Regression and Random Forest, and across both class_weight and SMOTE strategies: imbalance handling substantially improves threshold-based, imbalance-sensitive metrics (balanced accuracy, minority recall/F1) by trading off some majority-class precision, but it does not meaningfully change ranking-quality metrics (ROC-AUC, PR-AUC), since those are largely threshold-independent.",
+    "primary_metric_name": "Balanced accuracy difference (RF class_weight='balanced' - RF baseline)",
+    "primary_metric_value": 0.050633457736215304,
+    "direction": "class_weight balanced RF > baseline RF (imbalance handling helps)",
+    "methodological_choices": "Binary target: '>50K' encoded as minority/positive class (1). 75/25 stratified train/test split (random_state=42); test set left in its natural ~76/24 imbalance to reflect real deployment. Preprocessing: median imputation + standard scaling for numeric features, most-frequent imputation + one-hot encoding for categoricals (missing 'workclass'/'occupation'/'native-country' values imputed rather than dropped). Two model families (Logistic Regression, Random Forest with 300 trees) each run under three conditions: no imbalance handling (baseline), class_weight='balanced' (reweights loss/impurity, no synthetic data), and SMOTE oversampling (applied only within the training fold via an imblearn Pipeline to avoid test-set leakage). Evaluation metrics deliberately span both threshold-free/ranking metrics (ROC-AUC, PR-AUC/average precision) and threshold-sensitive/imbalance-sensitive metrics (balanced accuracy, minority-class precision/recall/F1 at the default 0.5 cutoff) so the answer distinguishes 'improves ranking quality' from 'improves classification at a fixed threshold'. Primary metric chosen as balanced-accuracy delta for Random Forest (class_weight vs baseline) since balanced accuracy is the single metric most directly built to measure whether imbalance was addressed."
+  }
+}

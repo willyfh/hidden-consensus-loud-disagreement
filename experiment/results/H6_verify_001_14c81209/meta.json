@@ -1,0 +1,27 @@
+{
+  "run_id": "H6_verify_001_14c81209",
+  "hypothesis_id": "H6",
+  "verify_arm": true,
+  "replicate_idx": 1,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H6_verify_001_14c81209_yk6z_jsj",
+  "started_at": 1785939088.7420008,
+  "returncode": 0,
+  "stdout_tail": "`result.json` and `analysis.py` are both written to the working directory.\n\n**Finding:** A Random Forest trained on the Adult Income data (ROC-AUC \u2248 0.918) is measurably miscalibrated \u2014 ECE = 0.0187, Brier = 0.0942 on a held-out test set, clearly worse than a Logistic Regression baseline fit on the same features (ECE = 0.0064, near-calibrated by construction). The reliability table shows the RF's probabilities are compressed toward the middle relative to observed rates (slightly overconfident below ~0.5, underconfident above ~0.5 \u2014 e.g. the top decile predicts 0.939 on average but the true positive rate there is 0.990), a well-known tree-ensemble averaging artifact. Isotonic recalibration drops the RF's ECE to 0.0065, confirming the effect is real and fixable.\n\n**Stability check:** Bootstrap resampling (1000 iterations) gave a 95% CI of [0.0156, 0.0240] for the RF's ECE, and re-running the entire pipeline with 5 independent train/test splits gave ECE values in a tight range (0.0172\u20130.0212, std 0.0014) \u2014 the miscalibration finding held up consistently in every check.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785939280.13169,
+  "wall_clock_seconds": 191.38968920707703,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H6",
+    "summary": "The Random Forest classifier is measurably miscalibrated: its predicted probabilities show an Expected Calibration Error (ECE) of 0.0187 and Brier score 0.0942 on held-out test data, notably worse than a directly-fit Logistic Regression (ECE 0.0064). The reliability table shows the RF's probabilities are compressed toward the middle relative to true rates: it slightly over-predicts P(>50K) below ~0.5 and under-predicts it above ~0.5 (e.g. bin [0.9,1.0] predicts 0.939 on average but the observed rate is 0.990), a classic tree-ensemble averaging artifact. Isotonic recalibration reduces its ECE to 0.0065, confirming the miscalibration is real and correctable.",
+    "primary_metric_name": "Random Forest Expected Calibration Error (ECE, 10-bin, test set)",
+    "primary_metric_value": 0.0187,
+    "direction": "model is miscalibrated (RF probabilities compressed toward 0.5 vs true rates; LogReg near-calibrated)",
+    "methodological_choices": "Dropped fnlwgt (census sampling weight, not substantively predictive). Imputed missing categorical values ('workclass','occupation','native-country') with an explicit 'Missing' category rather than dropping rows (~7% of rows had a missing field). One-hot encoded 8 categorical features, kept 5 numeric features as-is (no scaling needed for RF; LogReg run on same unscaled one-hot+numeric matrix). Stratified 70/30 train/test split, random_state=42. Primary model: RandomForestClassifier (n_estimators=300, min_samples_leaf=2, default depth) chosen as a realistic off-the-shelf classifier for this task; class imbalance (~24% positive) was not explicitly corrected (no class_weight/resampling) since calibration, not recall/precision, is the target metric. Calibration measured via Expected Calibration Error with 10 equal-width bins and Brier score; LogisticRegression and isotonic-recalibrated RF (CalibratedClassifierCV, cv=5) used as reference points/benchmarks rather than as the primary model.",
+    "verification_method": "(1) Bootstrap: 1000 resamples of the held-out test set predictions to build a 95% CI on the RF ECE. (2) Independent re-split check: repeated the full train/test split and RF fit with 5 different random seeds (1,7,13,99,2024) and recomputed ECE each time.",
+    "verification_result": "Finding held up. Bootstrap 95% CI for RF ECE: [0.0156, 0.0240] (mean 0.0196), comfortably excluding near-zero/well-calibrated values. Across 5 independent train/test splits, RF ECE ranged 0.0172-0.0212 (mean 0.0195, std 0.0014), consistently indicating measurable miscalibration on every split."
+  }
+}

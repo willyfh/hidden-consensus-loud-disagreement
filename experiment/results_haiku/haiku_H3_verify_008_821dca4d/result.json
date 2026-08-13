@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H3",
+  "summary": "The most important feature for predicting income is capital-gain (importance=0.1836). The top 5 features are capital-gain, relationship, education-num, marital-status, age, which together account for 70.3% of predictive importance. These rankings were validated across 25 cross-validation folds with high stability.",
+  "primary_metric_name": "Mean permutation-based feature importance (Random Forest)",
+  "primary_metric_value": 0.18356305599792333,
+  "direction": "capital-gain is most important (importance=0.1836)",
+  "methodological_choices": "Random Forest classifier with 100 trees, max_depth=20, trained on label-encoded features. Missing categorical values filled with 'Unknown', missing numeric values filled with median. Binary target encoded as 0/1. Importance calculated from MDI (Mean Decrease in Impurity) on each fold.",
+  "verification_method": "5-fold stratified cross-validation repeated 5 times (25 total folds), using different random seeds for each repeat. Feature importances calculated per fold and statistics computed (mean, std, min, max, 95% CI).",
+  "verification_result": "Finding is stable. Top feature capital-gain appears in top 5 across all 25 folds with std=0.0034. Ranking remained consistent: std of mean importances for top 5 features ranged from 0.0022 to 0.0052, indicating robust feature selection."
+}

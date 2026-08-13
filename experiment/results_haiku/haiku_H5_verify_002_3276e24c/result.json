@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H5",
+  "summary": "SMOTE oversampling DOES NOT change the minority-class (>50K) F1 score by more than 0.02 compared to no resampling. The difference in F1 score is 0.000694 (SMOTE: 0.682438 vs Baseline: 0.681744), which is within the 0.02 threshold.",
+  "primary_metric_name": "Minority-class F1 score difference (SMOTE - Baseline)",
+  "primary_metric_value": 0.0006941963988450484,
+  "direction": "SMOTE F1 (0.682438) vs Baseline F1 (0.681744)",
+  "methodological_choices": "Default RandomForestClassifier with no hyperparameter tuning, as specified. Train/test split 80/20 with stratification. Target class '>50K' treated as minority (positive). Categorical features encoded with LabelEncoder. Missing values handled by filling with mode. SMOTE applied only to training data to prevent data leakage.",
+  "verification_method": "5 repeated 5-fold stratified cross-validation (25 total folds) on the training data, comparing baseline RF vs RF with SMOTE. Different random seeds used for each repeat to ensure robustness.",
+  "verification_result": "Finding DID NOT HOLD UP - 0.0% of folds showed |difference| > 0.02. Cross-validation mean difference: 0.002478 \u00b1 0.004313. 95% CI: [-0.003349, 0.011515]."
+}

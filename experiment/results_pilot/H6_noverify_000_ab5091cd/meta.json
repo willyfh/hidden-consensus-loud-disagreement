@@ -1,0 +1,25 @@
+{
+  "run_id": "H6_noverify_000_ab5091cd",
+  "hypothesis_id": "H6",
+  "verify_arm": false,
+  "replicate_idx": 0,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H6_noverify_000_ab5091cd_5kgef_e8",
+  "started_at": 1785855115.6642199,
+  "returncode": 0,
+  "stdout_tail": "**Finding:** The logistic regression model is well-calibrated on the Adult Income dataset \u2014 ECE = 0.0088 (10 uniform bins), Brier score 0.1012 vs. 0.1820 for a base-rate-only baseline. Predicted probabilities track observed frequencies closely across all 10 bins, with the largest gap around 2 percentage points. A Random Forest fit for comparison is somewhat worse calibrated (ECE = 0.0146), underconfident at low probabilities and overconfident in the 0.4\u20130.8 range \u2014 but even that is a modest miscalibration.\n\nFiles written: `analysis.py`, `result.json`, and a `reliability_diagram.png` plot comparing both models against the perfect-calibration line.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785855234.781214,
+  "wall_clock_seconds": 119.11699414253235,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H6",
+    "summary": "The logistic regression model is reasonably well-calibrated: its Expected Calibration Error (ECE) on the held-out test set is 0.0088 (Brier score 0.1012 vs. a base-rate-only baseline of 0.1820), and the reliability diagram shows predicted probabilities track observed frequencies closely across most bins, with the largest deviations in the mid-probability range. A Random Forest trained on the same data is noticeably more miscalibrated (ECE=0.0146), underconfident at the low end and overconfident across the 0.4-0.8 predicted-probability range.",
+    "primary_metric_name": "Expected Calibration Error (logistic regression, 10 uniform bins)",
+    "primary_metric_value": 0.008817580806452207,
+    "direction": "model is well-calibrated (ECE=0.0088)",
+    "methodological_choices": "70/30 stratified train/test split (random_state=42); numeric features median-imputed and standard-scaled, categorical features constant-imputed ('missing') and one-hot encoded; primary model is scikit-learn LogisticRegression (L2 penalty, max_iter=1000, no class reweighting, so probabilities reflect the natural training base rate rather than a rebalanced one); calibration measured on the raw predict_proba output with NO post-hoc recalibration (e.g. no Platt scaling / isotonic regression applied) so the reported ECE reflects the model's out-of-the-box calibration; ECE computed with 10 equal-width probability bins weighted by bin population, a standard but somewhat arbitrary choice (quantile-based binning or a different bin count would give a slightly different number); Brier score reported alongside ECE and benchmarked against a trivial base-rate-only baseline for context; a Random Forest (300 trees) was fit as a secondary point of comparison to check whether the calibration finding is specific to logistic regression."
+  }
+}

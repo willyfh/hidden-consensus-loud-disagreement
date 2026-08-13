@@ -1,0 +1,17 @@
+{
+  "run_id": "H4_verify_008_49cf730f",
+  "hypothesis_id": "H4",
+  "verify_arm": true,
+  "replicate_idx": 8,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_verify_008_49cf730f_8kw9k4ji",
+  "started_at": 1785937504.5923278,
+  "returncode": 0,
+  "stdout_tail": "Waiting for the background analysis to finish \u2014 it's training Random Forest across 5 imbalance strategies plus running a 25-fold repeated cross-validation for the stability check, which takes a few minutes on this dataset size.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785938236.3848782,
+  "wall_clock_seconds": 731.7925503253937,
+  "result_json_found": false,
+  "analysis_py_found": true
+}

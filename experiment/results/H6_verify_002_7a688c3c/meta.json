@@ -1,0 +1,27 @@
+{
+  "run_id": "H6_verify_002_7a688c3c",
+  "hypothesis_id": "H6",
+  "verify_arm": true,
+  "replicate_idx": 2,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H6_verify_002_7a688c3c_jd55wb8y",
+  "started_at": 1785939113.813827,
+  "returncode": 0,
+  "stdout_tail": "Clean now, no formatting artifacts. Both `result.json` and `analysis.py` are saved in the working directory.\n\n**Finding (H6):** A default-hyperparameter Random Forest trained on this dataset is measurably miscalibrated \u2014 it's systematically overconfident in its high-probability bins (e.g., predicting ~85\u201394% but observing 93\u201399% actual positive rate in some bins, and vice versa in others), giving a 10-bin Expected Calibration Error (ECE) of **0.018** on a held-out test set, roughly double Logistic Regression's ECE of 0.009. Applying isotonic regression as a post-hoc fix brings the RF's ECE down to ~0.006, on par with or better than Logistic Regression.\n\n**Stability check:** Repeated across 10 different train/test splits (seeds 0\u20139) and a 1000-sample bootstrap of the original test set \u2014 the RF-worse-than-LogReg-worse-than-calibrated-RF ordering held in every single seed, and the bootstrap 95% CI for RF's ECE ([0.0155, 0.0247]) is comfortably bounded away from the LogReg/calibrated-RF values. The finding is robust, not an artifact of one split.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785939585.934423,
+  "wall_clock_seconds": 472.12059593200684,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H6",
+    "summary": "The off-the-shelf Random Forest is meaningfully miscalibrated (it is systematically overconfident, ECE ~ 0.018 on held-out data), whereas Logistic Regression is close to well-calibrated (ECE ~ 0.009); applying isotonic post-hoc calibration to the Random Forest reduces its ECE to ~0.006, comparable to Logistic Regression.",
+    "primary_metric_name": "Expected Calibration Error (ECE, 10-bin) of uncalibrated Random Forest",
+    "primary_metric_value": 0.01825214115266885,
+    "direction": "model (RF) is miscalibrated / overconfident; isotonic recalibration fixes it",
+    "methodological_choices": "Preprocessing: rows with missing workclass/occupation/native-country dropped (~7% of data); numeric features standardized, categoricals one-hot encoded. Split: single stratified 75/25 train/test split, random_state=42, plus 10 repeated stratified splits (seeds 0-9) for stability. Models compared: Logistic Regression (max_iter=2000) as a 'naturally calibrated' baseline, and Random Forest (300 trees, min_samples_leaf=2) as the flexible model under test, since tree ensembles are the classic example of a strong-but-overconfident classifier on tabular data. Post-hoc fix: isotonic regression via sklearn CalibratedClassifierCV (cv=5) fit on the training fold only, evaluated on the untouched test set. Calibration quantified via 10-bin Expected Calibration Error (ECE) and Maximum Calibration Error (MCE), cross-checked with Brier score and its uncertainty/resolution/reliability decomposition (Murphy). No class-imbalance correction was applied (base rate ~24% >50K, which is moderate, not severe).",
+    "verification_method": "(1) Repeated stratified 75/25 train/test splits with 10 different random seeds (0-9), re-fitting Logistic Regression, uncalibrated RF, and isotonic-calibrated RF each time and recomputing ECE; (2) 1000-resample bootstrap of the original held-out test set (predictions held fixed, labels/predictions resampled together) to get a 95% CI for the uncalibrated RF's ECE.",
+    "verification_result": "Held up. Across 10 seeds, uncalibrated RF ECE was 0.0175 (SD 0.0029, range [0.0113, 0.0228]) -- consistently several times larger than Logistic Regression's ECE of 0.0085 (SD 0.0024, range [0.0042, 0.0126]) -- and isotonic recalibration consistently brought RF's ECE down to 0.0074 (SD 0.0019, range [0.0047, 0.0113]), on par with or better than Logistic Regression in every seed. The bootstrap 95% CI for the original test-set RF ECE, [0.0155, 0.0247], excludes 0, confirming the miscalibration is not a sampling artifact of the single original split."
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "run_id": "H2_noverify_007_2ead8c3d",
+  "hypothesis_id": "H2",
+  "verify_arm": false,
+  "replicate_idx": 7,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_noverify_007_2ead8c3d_1czeplwj",
+  "started_at": 1785856876.221152,
+  "returncode": 0,
+  "stdout_tail": "Analysis complete. Both `analysis.py` and `result.json` are written.\n\n**Finding:** Contrary to H2's premise, default `LogisticRegression()` actually beat default `RandomForestClassifier()` on stratified 5-fold CV ROC-AUC \u2014 0.9065 vs. 0.8913 (RF \u2212 LogReg = **\u22120.0152**, paired t-test p=0.0003, consistent across all 5 folds). So the answer to \"does RF achieve higher AUC than LogReg\" is **no**, at default hyperparameters.\n\nKey methodological choices: dropped `fnlwgt` (a sampling weight, not a real feature), imputed missing categorical values (workclass/occupation/native-country, ~2\u20136% each) as an explicit \"Missing\" category, one-hot encoded categoricals, standard-scaled numerics (helps LogReg, neutral for RF), and used `StratifiedKFold(5, shuffle=True, random_state=42)` with `scoring='roc_auc'`. This result is a known pattern for this dataset \u2014 sklearn's default untuned RF (100 trees, unlimited depth) tends to overfit on Adult relative to a well-behaved linear model, while LogReg's linear decision boundary suits the largely additive relationships in the data.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785856985.9774542,
+  "wall_clock_seconds": 109.75630211830139,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H2",
+    "summary": "Random forest achieved a lower mean stratified 5-fold CV ROC-AUC (0.8913) than logistic regression (0.9065) on the Adult income dataset, a difference of -0.0152 (paired t-test p=0.0003), so the answer to H2 is no \u2014 default logistic regression actually outperforms default random forest here.",
+    "primary_metric_name": "ROC-AUC difference (RF - LogReg)",
+    "primary_metric_value": -0.01516,
+    "direction": "RF < LogReg",
+    "methodological_choices": "Both models used scikit-learn defaults (RandomForestClassifier(random_state=42), LogisticRegression()); random_state fixed only for RF/CV reproducibility, not a hyperparameter change. Dropped 'fnlwgt' (a census sampling weight, not a demographic feature of the individual). Missing values in workclass/occupation/native-country (read as NaN from blank cells in source CSV, ~2-6% of rows per column) imputed as a distinct 'Missing' category rather than row/column deletion. Categorical features one-hot encoded; numeric features standard-scaled (neutral for RF, needed for LogReg convergence/comparability). Target binarized as class == '>50K'. Evaluation: StratifiedKFold(5, shuffle=True, random_state=42) cross_val_score with scoring='roc_auc', comparing mean AUC across folds; a paired t-test across the 5 fold scores was used as a secondary check on whether the difference is consistent across folds. No class-imbalance correction (~24% positive class) was applied since ROC-AUC is relatively robust to moderate imbalance and the question specifies default hyperparameters."
+  }
+}

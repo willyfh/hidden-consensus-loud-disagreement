@@ -1,0 +1,27 @@
+{
+  "run_id": "H4_verify_002_5391968b",
+  "hypothesis_id": "H4",
+  "verify_arm": true,
+  "replicate_idx": 2,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_verify_002_5391968b_5oubcb4t",
+  "started_at": 1785969947.6733382,
+  "returncode": 0,
+  "stdout_tail": "Both files are in place and `result.json` validates.\n\n## Findings (H4: Does addressing class imbalance improve model quality?)\n\nThe dataset is moderately imbalanced (~24.8% earn `>50K` after dropping ~7% rows with missing `?` values, leaving 45,222 rows). I compared Logistic Regression and Random Forest, each with three imbalance strategies (none / `class_weight='balanced'` / SMOTE), on a held-out 25% stratified test set.\n\n**Key result:** Imbalance handling has metric-dependent effects.\n- **ROC-AUC stays essentially flat** (RF: 0.9004 \u2192 0.8997 with class weighting; CV delta \u2248 \u22120.0004), since threshold-independent ranking quality isn't much affected by reweighting/resampling.\n- **Balanced accuracy and minority-class recall/F1 improve meaningfully**: RF balanced accuracy rose from 0.7707 \u2192 0.8032 (+0.0324), driven by minority recall jumping from 0.62 \u2192 0.74, at the cost of some precision (0.72 \u2192 0.65).\n\n**Stability check:** 5\u00d75 repeated stratified CV (25 folds) on the training set showed class-weighting beat baseline balanced accuracy in **100% of folds** (mean delta +0.0269, 95% CI [0.0252, 0.0287]) \u2014 matching the test-set result closely and confirming the finding is stable. ROC-AUC's near-zero delta was similarly stable across folds.\n\n**Bottom line:** whether imbalance handling \"improves\" the model depends on what you measure \u2014 it clearly helps balanced accuracy and minority-class detection (recall/F1), but doesn't improve (and slightly hurts) the model's ranking quality (ROC-AUC) or overall precision. Full details, methodology, and code are in `result.json` and `analysis.py`.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785970253.380824,
+  "wall_clock_seconds": 305.70748591423035,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H4",
+    "summary": "Addressing class imbalance (class_weight='balanced' or SMOTE) substantially improves recall and F1 for the minority '>50K' class and balanced accuracy, at some cost to precision, for both Logistic Regression and Random Forest, while ROC-AUC stays roughly flat \u2014 so the answer depends on the metric: imbalance handling helps metrics that weight both classes equally (balanced accuracy, minority F1/recall) but not ranking quality (ROC-AUC).",
+    "primary_metric_name": "Balanced accuracy difference (RF class_weight='balanced' - RF baseline), held-out test set",
+    "primary_metric_value": 0.0324,
+    "direction": "class_weight='balanced' > baseline (imbalance handling improves balanced accuracy & minority-class F1/recall; ROC-AUC ~unchanged)",
+    "methodological_choices": "Dropped rows with missing values (denoted '?') rather than imputing (~7% of rows). Target binarized as '>50K'=1 (minority, ~24% prevalence). 75/25 stratified train/test split, random_state=42. Preprocessing: StandardScaler on numeric features, OneHotEncoder on categoricals, inside a sklearn Pipeline/ColumnTransformer. Compared two model classes (Logistic Regression, Random Forest with 300 trees) x three imbalance strategies (no handling / class_weight='balanced' / SMOTE oversampling applied only to the training fold within the pipeline to avoid leakage). Evaluated with ROC-AUC, PR-AUC (average precision), balanced accuracy, and minority-class precision/recall/F1 rather than plain accuracy, since plain accuracy is misleading under ~24%/76% imbalance. Nominated balanced accuracy delta on the Random Forest as the primary metric because it is the standard threshold-based metric most directly targeted by imbalance-handling techniques; ROC-AUC was also tracked because it is largely insensitive to reweighting/resampling by construction.",
+    "verification_method": "Repeated stratified 5-fold cross-validation with 5 repeats (25 total folds, random_state=42) on the training set only, comparing RF baseline vs RF class_weight='balanced' on balanced accuracy, ROC-AUC, and F1.",
+    "verification_result": "Held up: class_weight='balanced' improved balanced accuracy in 100% of the 25 CV folds (mean delta=0.0269, std=0.0045, ~95% CI [0.0252, 0.0287]), consistent with the held-out test-set result (delta=0.0324). ROC-AUC changed only marginally (CV delta mean=-0.0004, std=0.0007), confirming that imbalance handling helps threshold-based/balanced metrics much more than ranking-based ROC-AUC."
+  }
+}

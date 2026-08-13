@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H5",
+  "summary": "Applying SMOTE oversampling to training data does not substantially change the minority-class (>50K) F1 score by 0.0010 compared to no resampling (threshold: 0.02). The F1 score declined from 0.6839 to 0.6829.",
+  "primary_metric_name": "Minority-class (>50K) F1 score difference (SMOTE - No SMOTE)",
+  "primary_metric_value": -0.001008,
+  "direction": "SMOTE decreases F1",
+  "methodological_choices": "Data preprocessing: Missing values in categorical columns filled with mode, missing numeric values filled with median. Categorical encoding: LabelEncoder for all categorical features. Train/test split: 80/20 stratified split with random_state=42. Classifier: RandomForestClassifier with default hyperparameters (random_state=42). SMOTE configuration: k_neighbors=5, random_state=42 applied only to training set. Evaluation: F1 score calculated on held-out test set (pos_label=1 for >50K class). Threshold for 'substantial change': |F1_difference| > 0.02."
+}

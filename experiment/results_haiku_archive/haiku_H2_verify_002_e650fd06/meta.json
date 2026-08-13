@@ -1,0 +1,27 @@
+{
+  "run_id": "haiku_H2_verify_002_e650fd06",
+  "hypothesis_id": "H2",
+  "verify_arm": true,
+  "replicate_idx": 2,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H2_verify_002_e650fd06_0i6105vr",
+  "started_at": 1786139793.43704,
+  "returncode": 0,
+  "stdout_tail": "## Analysis Complete\n\nI've successfully investigated research question H2 and saved the results. Here's what I found:\n\n**Key Finding: YES, Random Forest achieves higher ROC-AUC than Logistic Regression**\n\n### Primary Results\n- **Random Forest ROC-AUC**: 0.9062 (stratified 5-fold CV)\n- **Logistic Regression ROC-AUC**: 0.8544\n- **Difference**: +0.0518 (RF outperforms by ~5.2 percentage points)\n\n### Stability Validation\nI validated the finding through **10 repeated stratified 5-fold cross-validations with different random seeds**, and found:\n- RF > LogReg in **all 10 runs** (100% consistency)\n- Difference ranged from 0.0515 to 0.0534\n- Mean difference: 0.0523 \u00b1 0.0006\n- Result is **highly stable**\n\n### Methodological Choices\n- **Features**: 6 numeric (age, fnlwgt, education-num, capital-gain, capital-loss, hours-per-week) + 8 categorical (workclass, education, marital-status, occupation, relationship, race, sex, native-country)\n- **Preprocessing**: Missing values imputed with 'Unknown' category\n- **Encoding**: Label encoding for all categorical features\n- **Models**: Random Forest (100 trees) and Logistic Regression (max_iter=1000 with StandardScaler)\n- **Validation**: Stratified 5-fold cross-validation on all 48,842 samples\n\n### Deliverables\n\u2705 **result.json** - Final results in the required format\n\u2705 **analysis.py** - Complete analysis code with preprocessing, model training, and validation\n\nThe analysis is complete and both files are in your current working directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786139929.010099,
+  "wall_clock_seconds": 135.57305884361267,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H2",
+    "summary": "Random Forest achieves higher stratified 5-fold cross-validated ROC-AUC (0.9062) than Logistic Regression (0.8544) by 0.0518 points. This finding was stable across 10 repeated cross-validations with different random seeds.",
+    "primary_metric_name": "ROC-AUC difference (RF - LogReg)",
+    "primary_metric_value": 0.05181534001886212,
+    "direction": "RF > LogReg",
+    "methodological_choices": "Features: 6 numeric features (age, fnlwgt, education-num, capital-gain, capital-loss, hours-per-week) + 8 categorical features (workclass, education, marital-status, occupation, relationship, race, sex, native-country). Preprocessing: missing values imputed with 'Unknown' for categorical vars. Encoding: label encoding for all categorical features (fit on full data). Models: Random Forest (100 trees, default hyperparams) and Logistic Regression (max_iter=1000, default hyperparams). LogReg pipeline includes StandardScaler for feature normalization. Validation: Stratified 5-fold cross-validation with ROC-AUC as metric. No separate train/test split - full cross-validation on all 48,842 samples.",
+    "verification_method": "10x repeated stratified 5-fold cross-validation with different random seeds (42, 123, 456, 789, 1011, 1213, 1415, 1617, 1819, 2021)",
+    "verification_result": "Stable finding: RF > LogReg in all 10 repeated CVs. RF ROC-AUC consistently 0.9066\u00b10.0006, LogReg 0.8543\u00b10.0001. Difference consistently 0.0523\u00b10.0006."
+  }
+}

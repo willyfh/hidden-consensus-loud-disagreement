@@ -1,0 +1,27 @@
+{
+  "run_id": "H5_verify_008_a816d2a3",
+  "hypothesis_id": "H5",
+  "verify_arm": true,
+  "replicate_idx": 8,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H5_verify_008_a816d2a3_nc4v3bd1",
+  "started_at": 1785970717.80601,
+  "returncode": 0,
+  "stdout_tail": "Both `result.json` and `analysis.py` are written to the working directory.\n\n**Finding:** SMOTE oversampling does **not** change the minority-class (>50K) F1 score by more than 0.02 when holding a default `RandomForestClassifier()` fixed. On the primary 75/25 split, F1 went from 0.676 (no resampling) to 0.674 (SMOTE), a difference of -0.0015. Across 10 repeated splits with different random seeds, the mean difference was -0.0042 (sd 0.0031), with every single repeat's difference falling between -0.0096 and +0.0002 \u2014 well inside the \u00b10.02 threshold in both directions. If anything, SMOTE trends slightly *negative* for RF's minority-class F1 on this dataset, likely because random forests already handle class imbalance reasonably well via their ensemble/bagging structure, so synthetic oversampling mostly just adds noise rather than useful signal.\n\nKey methodological choices: one-hot encoding of categoricals (missing values filled with an explicit \"Missing\" category), SMOTE applied only to the training fold, F1 computed specifically on the >50K class, and RF left fully at defaults (including `random_state=None`, so I quantified that inherent run-to-run RF variance as part of the stability check rather than pinning a seed).\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785971274.054493,
+  "wall_clock_seconds": 556.2484829425812,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H5",
+    "summary": "Applying SMOTE to the training data changed the >50K-class F1 score by -0.002 on the primary held-out split (no-resampling F1=0.676, SMOTE F1=0.674), which does not exceed the 0.02 threshold. Across 10 repeated splits with different random seeds, the mean difference was -0.004 (sd=0.003, range [-0.010, 0.000]), confirming SMOTE does not meaningfully change RF's minority-class F1 on this dataset -- and if anything trends slightly negative.",
+    "primary_metric_name": "F1(>50K) difference (SMOTE - no resampling)",
+    "primary_metric_value": -0.0042,
+    "direction": "no meaningful change (|diff| < 0.02); slight negative trend from SMOTE",
+    "methodological_choices": "One-hot encoding for all categorical features (handle_unknown='ignore'); missing values in workclass/occupation/native-country filled with an explicit 'Missing' category rather than dropped or imputed. 75/25 stratified train/test split. Classifier fixed as RandomForestClassifier() with all default hyperparameters (including default random_state=None, so each fit has its own internal randomness) per the research question. SMOTE (imbalanced-learn, default k_neighbors=5) applied only to the training fold, never to the test fold, to avoid leakage. Positive/minority class defined as '>50K'. Metric is binary F1 on the >50K class specifically (not macro/weighted), since the question asks about minority-class F1.",
+    "verification_method": "10 repeated independent 75/25 stratified train/test splits, each with a different random seed for both the split and (implicitly) the untracked RF internal randomness, comparing SMOTE vs. no-resampling F1 within each repeat.",
+    "verification_result": "Finding held up: across 10 repeats the mean SMOTE-minus-no-resampling F1 difference was -0.0042 (sd=0.0031), with individual-repeat diffs ranging from -0.0096 to +0.0002 -- all repeats stayed within +/-0.02, so no single split drove the primary result and the threshold was never exceeded in either direction."
+  }
+}

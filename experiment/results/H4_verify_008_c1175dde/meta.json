@@ -1,0 +1,27 @@
+{
+  "run_id": "H4_verify_008_c1175dde",
+  "hypothesis_id": "H4",
+  "verify_arm": true,
+  "replicate_idx": 8,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_verify_008_c1175dde_0pzap0t5",
+  "started_at": 1785961117.0109692,
+  "returncode": 0,
+  "stdout_tail": "Analysis complete. Both `analysis.py` and `result.json` are written to the working directory.\n\n**Finding**: Addressing the ~3:1 class imbalance (via `class_weight='balanced'`) reliably improves F1 (+0.023) and balanced accuracy (+0.048) for both Logistic Regression and Random Forest by boosting minority-class recall substantially (~+19-23pp) at the cost of precision. However, threshold-free discriminative metrics (ROC-AUC, PR-AUC) stayed flat or slightly worsened \u2014 so the \"improvement\" is really a shift in operating point (better recall/balanced-accuracy trade-off) rather than a uniform gain in model quality. SMOTE gave nearly identical but slightly weaker results than `class_weight='balanced'`.\n\n**Stability check**: Repeated 5\u00d75-fold CV (25 runs) showed the F1 improvement in 25/25 runs, 95% CI [0.0195, 0.0260] \u2014 a very stable effect, independently confirmed on the held-out test set.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785961543.691885,
+  "wall_clock_seconds": 426.68091583251953,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H4",
+    "summary": "Yes, but the improvement is metric-dependent: addressing the ~3:1 class imbalance (via class_weight='balanced' or SMOTE) reliably improves threshold-based, minority-sensitive metrics like F1 (+0.02 to +0.03) and balanced accuracy (+0.05) for both Logistic Regression and Random Forest, mainly by trading precision for a large recall gain on the minority '>50K' class. Threshold-free metrics (ROC-AUC, PR-AUC) do not improve and PR-AUC actually drops slightly, so imbalance handling changes the model's operating point/trade-off rather than uniformly improving discriminative quality.",
+    "primary_metric_name": "F1 delta (Random Forest, class_weight=balanced minus baseline), repeated 5x5 CV mean",
+    "primary_metric_value": 0.0228,
+    "direction": "balanced > baseline (F1 and balanced accuracy improve; ROC-AUC/PR-AUC roughly flat-to-slightly-worse)",
+    "methodological_choices": "Dropped 3,620 rows (7.4%) with '?' missing values rather than imputing; encoded target as binary ('>50K'=1); dropped redundant string 'education' column (kept 'education-num'); one-hot encoded 7 categorical columns, standard-scaled 6 numeric columns (including fnlwgt as-is); 80/20 stratified train/test split (random_state=42); compared Logistic Regression and Random Forest (300 trees) under 3 imbalance strategies -- no handling (baseline), class_weight='balanced', and SMOTE oversampling (applied only inside CV training folds via imblearn Pipeline to avoid leakage); evaluated with 5-fold stratified CV plus a single held-out test pass; used F1, balanced accuracy, ROC-AUC, PR-AUC, minority-class recall/precision as the metric suite since no single metric fully characterizes imbalance effects; chose RF class_weight='balanced' vs. RF baseline as the primary comparison since RF was the stronger base model and class_weight is the most common practical fix (SMOTE gave very similar but slightly weaker results than class_weight in every comparison).",
+    "verification_method": "Repeated stratified 5-fold CV with 5 different random seeds (25 total fold evaluations, RepeatedStratifiedKFold random_state=123) on the training split, comparing RF baseline vs RF class_weight='balanced' pipelines fit independently per fold; computed mean/std of the paired per-fold metric deltas and a 95% t-interval.",
+    "verification_result": "Finding held up robustly: F1 improved in 25/25 of the 25 repeated-CV runs (mean delta +0.0228, std 0.0078, 95% CI [0.0195, 0.0260]); balanced accuracy improved consistently too (mean delta +0.0478, 95% CI [0.0455, 0.0500]). The held-out test set independently reproduced the same pattern (F1: 0.7087 vs 0.6827, balanced acc: 0.8271 vs 0.7766, PR-AUC: 0.7943 vs 0.8050, ROC-AUC: 0.9153 vs 0.9170), confirming imbalance-handling gives a real, stable gain on threshold-based/minority-sensitive metrics but a real, stable small loss on PR-AUC, not just a metric-selection artifact."
+  }
+}

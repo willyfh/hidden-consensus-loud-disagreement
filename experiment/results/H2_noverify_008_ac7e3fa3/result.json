@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H2",
+  "summary": "Random forest achieved a mean stratified 5-fold ROC-AUC of 0.9058 versus 0.9066 for logistic regression, so random forest underperforms logistic regression by 0.0008 AUC points on this dataset.",
+  "primary_metric_name": "ROC-AUC difference (RF - LogReg)",
+  "primary_metric_value": -0.00079145980615003,
+  "direction": "RF < LogReg",
+  "methodological_choices": "Target binarized as class=='>50K'. Dropped 'education' as a redundant string duplicate of the ordinal 'education-num' column. Missing values in workclass/occupation/native-country (categorical only; no missing numeric values) were filled with an explicit 'Missing' category rather than dropped or imputed, since missingness may itself be predictive. Numeric features standardized (StandardScaler) and categoricals one-hot encoded (OneHotEncoder, unknown categories ignored, binary columns collapsed to one dummy); the identical preprocessing pipeline was reused for both models for a fair comparison, even though RF does not require scaling. Both estimators used scikit-learn default hyperparameters (RandomForestClassifier(random_state=42) and LogisticRegression()) with no tuning; random_state fixed only for reproducibility, not as a tuned parameter. Evaluated via StratifiedKFold(n_splits=5, shuffle=True, random_state=42) using cross_val_score with scoring='roc_auc'. No class-imbalance handling (e.g. class_weight) was applied since AUC is threshold-independent and defaults were required."
+}

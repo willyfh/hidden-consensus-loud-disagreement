@@ -1,0 +1,27 @@
+{
+  "run_id": "H6_verify_005_4aeb9f27",
+  "hypothesis_id": "H6",
+  "verify_arm": true,
+  "replicate_idx": 5,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H6_verify_005_4aeb9f27_el4lyv96",
+  "started_at": 1785939262.039674,
+  "returncode": 0,
+  "stdout_tail": "## Finding (H6): Is the model well-calibrated?\n\n**Yes, largely \u2014 the model is well-calibrated in practice, with only small deviations at the probability extremes.**\n\nI trained a GradientBoostingClassifier (200 trees, depth 3) on the Adult income data (one-hot encoded categoricals, median/mode imputation, `?` treated as missing, 75/25 stratified split) and evaluated calibration on the held-out test set (n=12,211):\n\n- **Expected Calibration Error (ECE) = 0.009** \u2014 predicted probabilities deviate from observed outcome rates by under 1 percentage point on average across 10 bins.\n- **Brier score = 0.089**, far better than a trivial base-rate predictor (0.182).\n- **Spiegelhalter's Z-test** detects a statistically significant deviation from perfect calibration (Z=-2.94, p=0.003) \u2014 but this is a large-sample artifact; the effect size is tiny.\n- The reliability table shows the imperfection is concentrated at the extremes: slight *overconfidence* in the lowest bin (predicts ~2.8% vs. observed ~2.3%) and slight *underconfidence* in the highest bins (predicts ~84.4% vs. observed ~88.8% in the 0.8\u20130.9 bin).\n\n**Stability check:** Bootstrap resampling (1000 resamples) gave a 95% CI for ECE of [0.0075, 0.0158], and repeating the entire train/test split across 5 different random seeds gave ECE consistently in the 0.008\u20130.013 range (Brier score essentially unchanged, std=0.0007). The conclusion held up robustly \u2014 this is not an artifact of one particular split.\n\nBoth `analysis.py` and `result.json` are saved in the working directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785939471.685747,
+  "wall_clock_seconds": 209.64607286453247,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H6",
+    "summary": "The gradient boosting model is reasonably well-calibrated overall: Expected Calibration Error (ECE) is 0.0090 on held-out test data (10-bin reliability curve), meaning predicted probabilities deviate from observed outcome rates by about 0.9 percentage points on average, weighted by bin size. Its Brier score (0.0893) is much lower than a trivial base-rate predictor (0.1820), and Spiegelhalter's Z-test (Z=-2.94, p=0.00333) detects a small but statistically significant deviation from perfect calibration (large sample size makes even minor miscalibration detectable): the reliability table shows the model is slightly overconfident in its lowest-probability bin (predicts ~2.8% but only ~2.3% of those cases are >50K) and slightly underconfident in its highest bins (e.g. predicts ~84.4% in the 0.8-0.9 bin but ~88.8% actually are >50K).",
+    "primary_metric_name": "Expected Calibration Error (ECE, 10 equal-width bins, held-out test set)",
+    "primary_metric_value": 0.009,
+    "direction": "model is closely but not perfectly calibrated (small, mixed-direction deviations concentrated in the extreme probability bins)",
+    "methodological_choices": "GradientBoostingClassifier (200 trees, depth 3, lr=0.1) chosen as a reasonably strong default tabular model; median imputation for numeric features, most-frequent imputation + one-hot encoding for categoricals ('?' treated as missing); 75/25 stratified train/test split, random_state=42; calibration assessed via 10 equal-width probability bins (ECE), Brier score vs. a base-rate baseline, and Spiegelhalter's Z-test for overall calibration significance; no explicit class-imbalance correction applied (base rate ~24% >50K, deemed not severe enough to require resampling/reweighting); no post-hoc recalibration (e.g. Platt scaling/isotonic) was applied \u2014 the question asks whether the model AS TRAINED is calibrated, not whether it can be made calibrated.",
+    "verification_method": "(1) Bootstrap resampling of the held-out test set (1000 resamples) to obtain a 95% CI for ECE and Brier score; (2) fully repeated train/test splits with 5 different random seeds (1-5), retraining the model each time and recomputing ECE/Brier on each new test set.",
+    "verification_result": "Stable. Bootstrap 95% CI for ECE = [0.0075, 0.0158] (mean 0.0114), consistent with the point estimate of 0.0090. Across 5 independent train/test splits, ECE ranged from 0.0077 to 0.0133 (mean 0.0107, std 0.0020), and Brier score stayed tightly clustered (mean 0.0898, std 0.0007). The conclusion that the model is nearly-but-not-perfectly calibrated, with small mixed-direction deviations concentrated in the extreme probability bins, held up consistently across all checks."
+  }
+}

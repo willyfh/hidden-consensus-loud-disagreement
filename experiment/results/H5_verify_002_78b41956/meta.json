@@ -1,0 +1,27 @@
+{
+  "run_id": "H5_verify_002_78b41956",
+  "hypothesis_id": "H5",
+  "verify_arm": true,
+  "replicate_idx": 2,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H5_verify_002_78b41956_uzm5kjj1",
+  "started_at": 1785961310.400171,
+  "returncode": 0,
+  "stdout_tail": "## Finding\n\n**No \u2014 SMOTE does not change the minority-class (>50K) F1 score by more than 0.02** compared to no resampling, holding the classifier fixed as a default `RandomForestClassifier()`.\n\n- **Primary split** (70/30 stratified, seed=42): baseline F1 = 0.6740, SMOTE F1 = 0.6688, **diff = \u22120.0052**\n- **Stability check** (5\u00d75 repeated stratified CV, 25 folds): mean diff = \u22120.0031 (std 0.0045), 95% range [\u22120.0114, 0.0043] \u2014 **0/25 folds exceeded the 0.02 threshold**\n\nThe effect is small, consistently negative, and stable across resampling \u2014 if anything, SMOTE slightly *hurts* minority-class F1 for a default RF on this dataset, but well below the 0.02 threshold specified in the hypothesis.\n\nKey methodological choices: missing categorical values kept as an explicit \"Missing\" category (not dropped), one-hot encoding for categoricals, SMOTE applied only inside training folds via an `imblearn` pipeline (no leakage), F1 computed specifically for the '>50K' class.\n\n`analysis.py` and `result.json` are saved in the working directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785961913.912543,
+  "wall_clock_seconds": 603.5123720169067,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H5",
+    "summary": "SMOTE oversampling does NOT change the >50K-class F1 score by more than 0.02 compared to no resampling for a default RandomForestClassifier(); on a held-out 70/30 split the difference was -0.0052 (baseline F1=0.6740, SMOTE F1=0.6688), and 5x5 repeated cross-validation confirmed a small, consistently negative mean difference of -0.0031 that never exceeded 0.02 in magnitude on any of the 25 folds.",
+    "primary_metric_name": "F1(>50K) difference (SMOTE - no resampling)",
+    "primary_metric_value": -0.0052,
+    "direction": "no meaningful change (|diff| < 0.02); SMOTE slightly decreases F1 on average",
+    "methodological_choices": "Missing categorical values (workclass, occupation, native-country) treated as an explicit 'Missing' category rather than dropped/imputed. All categorical features one-hot encoded (handle_unknown='ignore'); numeric features (including fnlwgt and the redundant education-num) passed through unscaled since RandomForest is scale-invariant. Positive/minority class fixed as '>50K'. Primary comparison used a single stratified 70/30 train/test split (random_state=42) with SMOTE(random_state=42) applied only inside the training fold via an imblearn Pipeline (no test-set leakage). Classifier held fixed at RandomForestClassifier() with all library defaults (n_estimators=100, no class_weight, random_state=42 for reproducibility only). Metric = F1 score for the '>50K' class specifically (not macro/weighted F1).",
+    "verification_method": "5x repeated stratified 5-fold cross-validation (25 total fold evaluations across 5 different fold-split seeds), comparing baseline and SMOTE pipelines on identical folds each time, using the same preprocessing/SMOTE/RF pipeline as the primary analysis.",
+    "verification_result": "Finding held up. Across 25 CV folds, mean F1 diff (SMOTE - baseline) = -0.0031 (std=0.0045), 95% range [-0.0114, 0.0043]. No fold showed |diff| > 0.02 (0/25 folds exceeded the 0.02 threshold). Baseline CV F1 mean=0.6710, SMOTE CV F1 mean=0.6678. Direction is consistent with the primary split: SMOTE does not meaningfully change, and if anything slightly reduces, minority-class F1 for a default RandomForest."
+  }
+}

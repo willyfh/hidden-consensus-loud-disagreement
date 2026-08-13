@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H3",
+  "summary": "Using Gradient Boosting classification with one-hot encoded categorical features and numeric features, the most important feature for predicting income is marital-status with an importance score of 0.3685. The top 3 features are marital-status, capital-gain, and education, which together account for 64.2% of the model's predictive power.",
+  "primary_metric_name": "Top feature importance (Gradient Boosting)",
+  "primary_metric_value": 0.36849839734078826,
+  "direction": "marital-status is most important",
+  "methodological_choices": "Gradient Boosting Classifier (100 estimators, max_depth=5) trained on preprocessed data with one-hot encoding for 13 categorical features and 1 numeric feature (fnlwgt). Rows with missing values in workclass and occupation were removed. Target was binary encoded (<=50K=0, >50K=1). 80-20 train-test split with stratification. Feature importance calculated from tree-based model's native importance scores. Original features grouped by name to aggregate one-hot encoded components."
+}

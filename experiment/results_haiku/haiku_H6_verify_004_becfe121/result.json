@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H6",
+  "summary": "Logistic Regression model is well-calibrated (Mean ECE = 0.0123). Predicted probabilities are very close to actual frequencies.",
+  "primary_metric_name": "Expected Calibration Error (ECE)",
+  "primary_metric_value": 0.0123,
+  "direction": "Well-calibrated",
+  "methodological_choices": "Logistic Regression classifier trained on preprocessed Adult income data. Features: all demographic and employment variables (excluding fnlwgt). Categorical variables encoded with LabelEncoder, numerical features standardized. Calibration assessed using Expected Calibration Error (ECE) with 10 bins, also computing Brier score and Maximum Calibration Error. Data split: 70% train, 30% test. No imbalance handling applied (class distribution: 75% <=50K, 25% >50K).",
+  "verification_method": "5x repeated 5-fold train/test split with different random seeds (42-46)",
+  "verification_result": "Finding stable across validation runs. ECE mean: 0.0123 \u00b1 0.0019, range: 0.0097-0.0149. Brier mean: 0.1249 \u00b1 0.0014. Model calibration status consistent across all random seeds."
+}

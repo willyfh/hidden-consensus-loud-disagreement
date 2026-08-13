@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H6",
+  "summary": "The logistic regression model trained on the Adult Income dataset is well-calibrated. The Expected Calibration Error (ECE) on the test set is 0.009422, and across 5-fold cross-validation and 10 random seeds, the ECE remains consistently low (mean: 0.011100), indicating that the predicted probabilities align well with actual class frequencies.",
+  "primary_metric_name": "Expected Calibration Error (ECE)",
+  "primary_metric_value": 0.0111,
+  "direction": "well-calibrated",
+  "methodological_choices": "Built a logistic regression classifier on preprocessed UCI Adult income dataset (48842 samples). Preprocessing: LabelEncoded categorical features, StandardScaled all features, handled missing values with mode (categorical) and median (numeric). Train/test split: 70/30 with stratification. Model: Logistic regression (max_iter=1000). Calibration evaluation: Expected Calibration Error (ECE) with 10 bins as primary metric, supplemented by Maximum Calibration Error (MCE), Brier Score, and Log Loss. Stability validated via 5-fold stratified cross-validation and 10 different random seeds for train/test split.",
+  "verification_method": "5-fold stratified cross-validation with ECE computed on each fold, plus 10 independent train/test splits with different random seeds (0-9) to assess robustness",
+  "verification_result": "Finding stable and robust: test ECE=0.009422, CV ECE range=[0.010205, 0.018643] (mean=0.012975), 10-seed ECE range=[0.007829, 0.013783] (mean=0.011100). All validation approaches confirm low calibration error."
+}

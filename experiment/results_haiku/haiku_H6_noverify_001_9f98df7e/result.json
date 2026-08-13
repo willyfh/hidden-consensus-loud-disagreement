@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H6",
+  "summary": "The logistic regression model is well-calibrated. With an Expected Calibration Error (ECE) of 0.0098 on the test set, the model's predicted probabilities closely match actual outcomes across probability bins.",
+  "primary_metric_name": "Expected Calibration Error (ECE)",
+  "primary_metric_value": 0.009771,
+  "direction": "model is well-calibrated",
+  "methodological_choices": "Used Logistic Regression as primary model (inherently tends toward good calibration). Data preprocessing: encoded categorical variables, filled missing values with mode, dropped survey weight column. Train/test split: 70/30 stratified by class. Features scaled with StandardScaler. Calibration evaluation: Expected Calibration Error (ECE) with 10 bins, Brier score, log loss, and Hosmer-Lemeshow test. Compared with Random Forest before/after post-hoc Platt scaling calibration. ECE = 0 indicates perfect calibration (predicted probability equals actual frequency in each bin)."
+}

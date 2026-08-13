@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H1",
+  "summary": "Yes, the choice of model family meaningfully affects predictive performance. Performance varies by 28.84 percentage points in ROC-AUC, with Gradient Boosting significantly outperforming SVM. This difference is consistent across cross-validation and independent test splits.",
+  "primary_metric_name": "ROC-AUC difference (best - worst model)",
+  "primary_metric_value": 0.288399,
+  "direction": "Gradient Boosting > SVM (by 0.2884 AUC points)",
+  "methodological_choices": "\n- Train/test split: 80/20 stratified split (random seed 42)\n- Categorical encoding: LabelEncoder for all categorical variables\n- Numerical preprocessing: StandardScaler for all numerical features\n- Missing value handling: median imputation for numerical, mode for categorical\n- Model classes compared: Logistic Regression, Decision Tree, Random Forest, Gradient Boosting, SVM\n- Model hyperparameters: Logistic Regression (max_iter=1000), Decision Tree (max_depth=20), Random Forest (n_estimators=100, max_depth=20), Gradient Boosting (n_estimators=100, max_depth=5), SVM (kernel='rbf')\n- Evaluation metric: ROC-AUC on held-out test set\n- Class imbalance: Dataset is imbalanced; used stratified splits to preserve class distribution\n",
+  "verification_method": "\n1. Repeated Stratified K-Fold Cross-Validation: 5 splits \u00d7 5 repeats (25 total folds) across all data\n2. Re-test on independent split: Trained models on different 80/20 split (random seed 123) to verify consistency\n3. Rank stability check: Verified that best/worst models remain consistent across evaluation methods\n",
+  "verification_result": "\nFINDING VALIDATED ACROSS ALL CHECKS:\n- Cross-validation (25 folds): Best model mean AUC was 0.9276, worst was 0.6513, range = 0.2763\n- Independent test split: Confirmed consistent ranking of models\n- Maximum inconsistency across splits: 0.0085 (small variation)\n- Conclusion: The meaningful performance difference (0.2884 AUC points) between model families is CONFIRMED and STABLE across all validation methods\n- Best performer: Gradient Boosting consistently outperforms other families\n"
+}

@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H4",
+  "summary": "Addressing class imbalance on the Adult Income dataset produces statistically negligible improvements in model discrimination ability (ROC-AUC), with only a 0.04% improvement that is not significant. However, minority class-specific metrics (F1-Score and Balanced Accuracy) show modest statistically significant improvements of ~3-4%. The practical benefit of handling imbalance is minimal on this large, moderately imbalanced dataset.",
+  "primary_metric_name": "ROC-AUC improvement (with class_weight='balanced' - without)",
+  "primary_metric_value": 0.0004,
+  "direction": "No meaningful improvement - negligible ROC-AUC gain (0.04%), not statistically significant (p=0.055)",
+  "methodological_choices": "Random Forest classifier (n_estimators=100) as primary model; class_weight='balanced' for imbalance handling; stratified 80-20 train-test split with StandardScaler preprocessing and LabelEncoder for categorical features; evaluated on ROC-AUC as primary metric (model discrimination), supplemented with F1-Score, Balanced Accuracy, and PR-AUC for comprehensive assessment; missing values kept in original form to preserve information.",
+  "verification_method": "5x repeated 5-fold stratified cross-validation with different random seeds (42, 123, 456, 789, 999) to check stability across different train-test splits and model initializations",
+  "verification_result": "Finding is stable and consistent across all CV folds. ROC-AUC improvement remains minimal at +0.0004 (p-value: 0.055, not statistically significant at α=0.05). Minority class metrics (F1: +2.86%, Balanced Accuracy: +4.09%) showed significant improvements, but the primary discrimination metric (ROC-AUC) did not improve meaningfully. This suggests the dataset's large size (~48K rows) and moderate imbalance ratio (3.18:1) with sufficient minority samples (~9K) reduce the practical benefit of imbalance handling."
+}

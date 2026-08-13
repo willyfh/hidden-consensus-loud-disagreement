@@ -1,0 +1,27 @@
+{
+  "run_id": "haiku_H3_verify_002_e22bad16",
+  "hypothesis_id": "H3",
+  "verify_arm": true,
+  "replicate_idx": 2,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H3_verify_002_e22bad16_0c7e64ug",
+  "started_at": 1786138060.4296682,
+  "returncode": 0,
+  "stdout_tail": "Perfect! I have completed the analysis. Here's a summary of my findings:\n\n## Key Finding\n\n**The most important feature for predicting income is `capital-gain`** with an average feature importance of **0.1601** (on a 0-1 scale).\n\n### Validation Results\n\nThe finding was rigorously validated through **5-fold stratified cross-validation with 5 different random seeds**:\n\n- **Rank consistency**: capital-gain ranked #1 consistently across ALL 5 random seeds (perfect rank 1.0)\n- **Importance**: 0.1601 \u00b1 0.0011 (tight 95% CI: 0.1591-0.1610)\n- **Model stability**: Validation AUC stable at ~0.9175 across all seeds\n- **Top 5 stable features** (consistent across seeds):\n  1. **capital-gain** (0.1601)\n  2. **relationship** (0.1441)\n  3. **education-num** (0.1197)\n  4. **age** (0.1107)\n  5. **marital-status** (0.0953)\n\n### Methodological Approach\n\n- **Preprocessing**: Label-encoding for categorical features, imputation for missing values\n- **Model**: Random Forest classifier (200 trees, max_depth=20)\n- **Feature importance**: Tree-based feature_importances_ attribute\n- **Validation**: 5-fold CV with 5 different random seeds for robustness\n- **Evaluation metric**: ROC-AUC (~0.92 test AUC)\n\nBoth required files have been saved:\n- **`result.json`** - Contains the structured findings\n- **`analysis.py`** - Contains the complete reproducible analysis code\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786138255.8331368,
+  "wall_clock_seconds": 195.4034686088562,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H3",
+    "summary": "The most important feature for predicting income is capital-gain, with an average feature importance of 0.1601 in cross-validation. This finding was robustly validated across 5 different random seeds using 5-fold stratified cross-validation, where capital-gain consistently ranked #1 in every single fold combination.",
+    "primary_metric_name": "Cross-validated feature importance (Random Forest, 5-fold CV with 5 random seeds)",
+    "primary_metric_value": 0.16005,
+    "direction": "capital-gain is most important",
+    "methodological_choices": "Binary income prediction (>50K vs <=50K). Preprocessing: most-frequent imputation for categorical features, median for numerical. Categorical features label-encoded. Train/test split 80/20 with stratification (for initial exploration). Models: Random Forest (n_estimators=200, max_depth=20). Feature importance calculated using tree-based feature_importances_ attribute. Evaluation metric: ROC-AUC on validation folds.",
+    "verification_method": "5-fold stratified cross-validation repeated across 5 different random seeds (42, 123, 456, 789, 999). Feature importance tracked within each fold and averaged per seed. Ranking consistency checked across all random seeds. Confidence intervals computed from seed-level variance.",
+    "verification_result": "Finding robustly held up under cross-validation. capital-gain consistently ranked #1 in all 5 random seeds with perfect rank consistency (rank 1.0 mean across seeds). Importance: 0.1601 \u00b1 0.0011 (95% CI: 0.1591-0.1610). Model validation AUC stable at ~0.9175 \u00b1 0.0003 across seeds. Top 5 stable features: capital-gain, relationship, education-num, age, marital-status."
+  }
+}

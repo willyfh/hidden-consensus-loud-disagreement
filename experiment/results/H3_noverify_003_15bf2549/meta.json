@@ -1,0 +1,25 @@
+{
+  "run_id": "H3_noverify_003_15bf2549",
+  "hypothesis_id": "H3",
+  "verify_arm": false,
+  "replicate_idx": 3,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H3_noverify_003_15bf2549_pihfcxjc",
+  "started_at": 1785882784.962402,
+  "returncode": 0,
+  "stdout_tail": "The analysis ran cleanly. Both importance methods agree well: `marital-status`, `capital-gain`, `education-num`, `age`, and `occupation` dominate, with `relationship` also high on the impurity-based ranking (it's highly correlated with marital-status, e.g. \"Husband\"/\"Wife\").\n\n**Findings:**\n- Random Forest achieved test ROC-AUC = 0.918 (vs. 0.905 for a Logistic Regression baseline).\n- Top features by permutation importance (ROC-AUC drop, held-out test set): `marital-status` (0.050) > `capital-gain` (0.037) > `education-num` (0.027) > `age` (0.025) > `occupation` (0.022).\n- Consistent story from impurity-based importance, with `relationship` also ranking high there (it overlaps heavily with marital-status).\n- `race`, `native-country`, and `sex` were the least important features by both methods.\n\nBoth `analysis.py` and `result.json` have been written to the working directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785882885.1705248,
+  "wall_clock_seconds": 100.20812273025513,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H3",
+    "summary": "Using a Random Forest classifier (test ROC-AUC=0.918) and permutation importance on held-out data, the most important predictors of income (>50K vs <=50K) are, in order: marital-status (0.0499), capital-gain (0.0367), education-num (0.0274), age (0.0246), occupation (0.0221). 'marital-status' is the single most important feature, causing the largest drop in ROC-AUC (0.0499) when its values are shuffled, which is consistent with the impurity-based importance ranking from the same model.",
+    "primary_metric_name": "top feature permutation importance (mean ROC-AUC drop, RF, test set)",
+    "primary_metric_value": 0.049946,
+    "direction": "'marital-status' most important",
+    "methodological_choices": "Dropped 'fnlwgt' (Census sampling weight, not a real predictor) and 'education' (redundant string duplicate of ordinal 'education-num'). Missing values: numeric imputed with median (none present in practice), categorical missing values imputed with an explicit 'Missing' category rather than dropped or mode-imputed, since missingness itself may be informative. Categorical features one-hot encoded, numeric features standardized. 80/20 stratified train/test split (random_state=42). Primary model: RandomForestClassifier(n_estimators=400, min_samples_leaf=2, class_weight='balanced') to handle the ~3:1 class imbalance without resampling; LogisticRegression fit as a secondary sanity-check model (test ROC-AUC=0.905 vs RF 0.918). Feature importance computed two ways: (1) RF impurity-based importance, aggregated from one-hot columns back to the original feature; (2) permutation importance (10 repeats) on the held-out test set using ROC-AUC as the scoring function, which is the primary metric reported here because it is out-of-sample and not biased toward high-cardinality categorical features the way impurity-based importance can be."
+  }
+}

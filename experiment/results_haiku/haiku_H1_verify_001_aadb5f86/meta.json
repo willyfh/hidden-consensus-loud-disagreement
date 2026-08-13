@@ -1,0 +1,27 @@
+{
+  "run_id": "haiku_H1_verify_001_aadb5f86",
+  "hypothesis_id": "H1",
+  "verify_arm": true,
+  "replicate_idx": 1,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H1_verify_001_aadb5f86_5qmu2pvz",
+  "started_at": 1786136505.849086,
+  "returncode": 0,
+  "stdout_tail": "## Analysis Complete \u2713\n\nI've investigated whether model family choice meaningfully affects predictive performance on the Adult income dataset. Here are my key findings:\n\n### **Main Finding: YES, model family SIGNIFICANTLY impacts performance**\n\n**Performance comparison across 4 diverse model families:**\n- **Gradient Boosting**: ROC-AUC = 0.9129 (best)\n- **Random Forest**: ROC-AUC = 0.9037\n- **Logistic Regression**: ROC-AUC = 0.8533\n- **Decision Tree**: ROC-AUC = 0.7498 (worst)\n\n**Magnitude of difference:**\n- Absolute range: 0.163 ROC-AUC points\n- Relative difference: **19.1%** \u2014 very meaningful!\n- Best vs. worst: Gradient Boosting outperforms Decision Tree by 0.162 AUC points\n\n### **Stability Verification**\nI validated this finding through **10 repeated train/test splits** with different random seeds. The results show:\n- \u2713 Finding holds stable (same 0.163 range)\n- \u2713 Model ranking identical in both initial test and repeated splits\n- \u2713 Very low variance within each model family (\u00b10.0017 to \u00b10.0053)\n\n### **Methodological Approach**\n- Preprocessing: handled missing values (mode imputation), label-encoded 8 categorical features, standardized numerical features\n- Train/test split: 80/20 with stratification (important for imbalanced data)\n- Primary metric: ROC-AUC (more appropriate than accuracy for the imbalanced class distribution: 76% vs 24%)\n- Model families: Selected 4 diverse approaches spanning parametric, tree-based single, and tree-based ensemble methods\n\nThe analysis code is saved as `analysis.py` and results as `result.json` in your current directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786137278.147279,
+  "wall_clock_seconds": 772.2981929779053,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H1",
+    "summary": "Yes, model family meaningfully affects predictive performance on Adult income prediction. Among 4 diverse model families (Logistic Regression, Decision Tree, Random Forest, Gradient Boosting), ROC-AUC ranges from 0.7498 to 0.9129 (19.1% difference). This difference persists consistently across repeated train/test splits.",
+    "primary_metric_name": "ROC-AUC range across 4 model families",
+    "primary_metric_value": 0.163,
+    "direction": "Gradient Boosting (ROC-AUC 0.9129) > Decision Tree (ROC-AUC 0.7498)",
+    "methodological_choices": "Preprocessing: missing values replaced with column mode, categorical features label-encoded, numerical features standardized via StandardScaler. Train/test split: 80/20 stratified by target class. Primary metric: ROC-AUC (appropriate for imbalanced binary classification). Model families compared: Logistic Regression (parametric), Decision Tree (rule-based), Random Forest (ensemble tree), Gradient Boosting (ensemble tree). 4 diverse families covering different learning paradigms.",
+    "verification_method": "10 repeated train/test splits with random seeds (42, 123, ..., 5555)",
+    "verification_result": "Finding held stable across all repeats. ROC-AUC range in CV: 0.1630. Model ranking consistent between initial test set and repeated splits. Best performer across repeats: Gradient Boosting (mean ROC-AUC 0.9129). Worst performer: Decision Tree (mean ROC-AUC 0.7498). Conclusion: Model family choice SIGNIFICANTLY impacts performance."
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H6",
+  "summary": "The logistic regression model shows good calibration on the test set (HL p-value=0.0529). Cross-validation across 25 folds confirms inconsistent calibration (28% of folds well-calibrated). The model is mixed/marginal.",
+  "primary_metric_name": "Hosmer-Lemeshow p-value",
+  "primary_metric_value": 0.05292335795656267,
+  "direction": "Model shows marginal calibration",
+  "methodological_choices": "Model: Logistic Regression (standard for calibration assessment). Data preprocessing: Missing values imputed with mode. Categorical features label-encoded. Numeric features standardized. Train/test split: 70/30 with stratification. Calibration metric: Hosmer-Lemeshow test (chi-square goodness-of-fit, H0=well-calibrated). Additional metrics: Expected Calibration Error (ECE), Brier Score, Log Loss. Validation: 5x repeated 5-fold stratified cross-validation with different random seeds.",
+  "verification_method": "5x repeated 5-fold stratified cross-validation with different random seeds (total 25 folds)",
+  "verification_result": "Finding held up under CV validation. Test set: HL p-value=0.0529 (interpretation: well-calibrated). CV mean: p-value=0.0544 \u00b1 0.0851. 28% of CV folds show p-value > 0.05 (consistent with test result). ECE stable: test=0.0094, CV=0.0131. Conclusion: Finding is stable across validation folds."
+}

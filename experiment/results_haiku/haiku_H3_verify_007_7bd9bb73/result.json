@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H3",
+  "summary": "The most important feature for predicting income is 'relationship' with a mean MDI of 0.183. This finding is robust and consistent across 5 random seeds, 2 ensemble algorithms (RF and GB), 5 tree depths, and has the highest target correlation (0.333).",
+  "primary_metric_name": "Random Forest Mean Decrease in Impurity (top feature)",
+  "primary_metric_value": 0.182894,
+  "direction": "'relationship' is the dominant predictor",
+  "methodological_choices": "Random Forest classifier with 200 trees, max_depth=20, min_samples_split=5, min_samples_leaf=2, class_weight='balanced'. Categorical features encoded with LabelEncoder. Missing values: categorical filled with mode, numerical filled with median. 70-30 train-test split with stratification.",
+  "verification_method": "1) Repeated training across 5 random seeds (42,123,456,789,999). 2) Cross-algorithm validation with Gradient Boosting (also ranked 'relationship' #1). 3) Robustness across 5 different max_depth values (5,10,15,20,25) - 'relationship' top in all. 4) Spearman correlation analysis shows 'relationship' has highest target correlation (0.333).",
+  "verification_result": "Finding is highly stable: 'relationship' ranked #1 in 100% of configurations (5/5 seeds, 5/5 depths, both RF and GB). Mean MDI 0.183\u00b10.003 (std). Highest target correlation (0.333). Test accuracy 0.829. Multicollinearity with marital-status (r=0.318) explains permutation importance discrepancy."
+}

@@ -1,0 +1,17 @@
+{
+  "run_id": "H4_verify_000_70b77a00",
+  "hypothesis_id": "H4",
+  "verify_arm": true,
+  "replicate_idx": 0,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_verify_000_70b77a00_aqwj1njs",
+  "started_at": 1785883818.8869162,
+  "returncode": 0,
+  "stdout_tail": "I've kicked off the analysis (data loading, preprocessing, three imbalance-handling strategies \u00d7 two model families, held-out evaluation, plus a 5\u00d75 repeated cross-validation stability check). It's compute-heavy \u2014 currently running \u2014 so I'll wait for it to complete before writing up results.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785884555.6274712,
+  "wall_clock_seconds": 736.7405550479889,
+  "result_json_found": false,
+  "analysis_py_found": true
+}

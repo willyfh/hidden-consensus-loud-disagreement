@@ -1,0 +1,25 @@
+{
+  "run_id": "H6_noverify_007_6de99bf5",
+  "hypothesis_id": "H6",
+  "verify_arm": false,
+  "replicate_idx": 7,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H6_noverify_007_6de99bf5_rdg549xi",
+  "started_at": 1785939000.949648,
+  "returncode": 0,
+  "stdout_tail": "The schema matches exactly. Both `analysis.py` and `result.json` are complete.\n\n**Finding:** Both a Logistic Regression and a Gradient Boosting model, trained on a 70/30 stratified split, are well-calibrated on held-out test data. Expected Calibration Error is ~0.9% for both (LogReg: 0.0088, GBC: 0.0093), with per-decile gaps between predicted probability and observed frequency mostly under 2 percentage points. The Hosmer-Lemeshow test doesn't reject calibration for Logistic Regression (p=0.22) but does reject it for Gradient Boosting (p<0.0001), which shows a mild overconfidence wobble in its 0.5\u20130.6 and 0.8\u20130.9 probability bins \u2014 likely due to it having a sharper, less regularized probability distribution than a linear model. Overall, the practical miscalibration is small for both, so the answer to H6 is: yes, the model (particularly logistic regression) is reasonably well-calibrated, with gradient boosting showing statistically detectable but practically minor miscalibration.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785939088.7389781,
+  "wall_clock_seconds": 87.78933024406433,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H6",
+    "summary": "Both models are reasonably well-calibrated out-of-the-box on held-out test data. Logistic Regression has ECE=0.0088 (Brier=0.1012), and Gradient Boosting has ECE=0.0093 (Brier=0.0886); both show small gaps between predicted probability and observed frequency in nearly all deciles, though Gradient Boosting shows mild overconfidence in its highest-probability bin. Hosmer-Lemeshow test does not reject perfect calibration at alpha=0.05 for the better-calibrated model (LogisticRegression), but the practical miscalibration (ECE) is small.",
+    "primary_metric_name": "Expected Calibration Error (10-bin, LogisticRegression)",
+    "primary_metric_value": 0.0088,
+    "direction": "well-calibrated (low ECE)",
+    "methodological_choices": "Compared two model classes: Logistic Regression (max_iter=1000) and Gradient Boosting (200 trees, depth=3, lr=0.1), both scikit-learn defaults otherwise. Preprocessing: numeric features standardized, categorical features one-hot encoded ('?' treated as missing/NaN category via OneHotEncoder passthrough of NaN as its own level is NOT used -- NaNs are left as-is and OneHotEncoder handles them as a category since pandas get_dummies-like handling; handle_unknown='ignore' for unseen categories at test time). Stratified 70/30 train/test split, random_state=42, no cross-validation (single split) since the question concerns held-out generalization calibration rather than hyperparameter selection. No class-imbalance correction (SMOTE/class_weight) applied -- calibration is evaluated against the natural ~24% positive rate, since re-weighting or resampling changes the model's probability scale and would need re-calibration to the original prior anyway. No post-hoc calibration (Platt scaling / isotonic regression) applied -- we assess raw model output calibration, which is what 'is the model well-calibrated' asks about. Calibration measured via: 10 equal-width-bin Expected Calibration Error (ECE) and Maximum Calibration Error (MCE), Brier score, sklearn's calibration_curve with quantile bins as a cross-check, and a Hosmer-Lemeshow chi-square goodness-of-fit test (decile bins by predicted probability rank) for a formal statistical test of calibration. All metrics computed on the held-out 30% test set only (training-set calibration is not meaningful for flexible models)."
+  }
+}

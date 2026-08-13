@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H2",
+  "summary": "Random Forest achieves higher ROC-AUC (0.9068) than Logistic Regression (0.8207) The difference is 0.086121 in favor of Random Forest. This finding was validated across 10 repeated cross-validations with different random seeds.",
+  "primary_metric_name": "ROC-AUC difference (RF - LogReg)",
+  "primary_metric_value": 0.08612095881168291,
+  "direction": "RF > LogReg",
+  "methodological_choices": "- Data preprocessing: Missing values filled with 'missing' for categoricals and median for numericals\n- Feature encoding: LabelEncoder for all categorical variables\n- Cross-validation: Stratified K-Fold with 5 splits, shuffle=True, random_state=42\n- Model hyperparameters: Scikit-learn defaults used for both Random Forest and Logistic Regression\n- Random Forest: 100 estimators, default max_depth, etc.\n- Logistic Regression: max_iter=1000 to ensure convergence, default regularization\n- Evaluation metric: ROC-AUC score via cross_val_score\n- Class imbalance handling: Preserved original class distribution (stratified sampling accounts for imbalance)\n- Stability verification: 10 repeated stratified 5-fold cross-validations with different random seeds",
+  "verification_method": "10 repeated stratified 5-fold cross-validations with different random seeds (seeds: 42, 123, 456, 789, 1011, 1213, 1415, 1617, 1819, 2021)",
+  "verification_result": "Primary finding held up: True\nRF mean ROC-AUC across all repetitions: 0.906612 \u00b1 0.000888\nLogReg mean ROC-AUC across all repetitions: 0.820288 \u00b1 0.000532\nMean difference (RF - LogReg): 0.086324 \u00b1 0.000968\n95% CI of difference: [0.084954, 0.088026]\nRF was better in 10/10 repetitions\nCONFIRMED: Random Forest consistently achieves higher ROC-AUC than Logistic Regression"
+}

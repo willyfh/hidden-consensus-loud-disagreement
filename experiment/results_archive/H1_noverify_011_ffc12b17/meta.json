@@ -1,0 +1,58 @@
+{
+  "run_id": "H1_noverify_011_ffc12b17",
+  "hypothesis_id": "H1",
+  "verify_arm": false,
+  "replicate_idx": 11,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_noverify_011_ffc12b17_0ebbyotq",
+  "started_at": 1785855858.1220968,
+  "returncode": 0,
+  "stdout_tail": "Analysis complete. `analysis.py` and `result.json` are written in the working directory.\n\n**Finding:** Model family has a modest but consistent effect on this dataset. Comparing four families with matched preprocessing (Logistic Regression, KNN, Random Forest, Hist Gradient Boosting) under 5-fold CV + held-out test evaluation:\n\n| Model | Test ROC-AUC | Test Accuracy |\n|---|---|---|\n| KNN (k=25) | 0.894 | 0.848 |\n| Logistic Regression | 0.906 | 0.854 |\n| Random Forest | 0.919 | 0.867 |\n| HistGradientBoosting | **0.930** | **0.876** |\n\nBoosted/bagged tree ensembles beat linear and instance-based models by a real but modest margin (ROC-AUC spread \u2248 0.035, i.e. ~3.5 points). CV standard deviations (0.002\u20130.005) are much smaller than this spread, so the ranking is not noise. All four models comfortably beat the majority-class baseline (0.761 accuracy), meaning family choice matters far less than using any reasonably-configured model at all.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785856011.515229,
+  "wall_clock_seconds": 153.39313220977783,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H1",
+    "summary": "Model family has a modest but real effect on predictive performance: test ROC-AUC ranges from 0.894 (KNN) to 0.930 (HistGradientBoosting), a spread of 0.035. The boosted/bagged tree ensembles (RandomForest, HistGradientBoosting) modestly but consistently outperform the linear (LogisticRegression) and instance-based (KNN) models, though all four clear the majority-class baseline (0.761 accuracy) by a wide margin, so the choice of family matters far less than simply using a reasonably-tuned model at all.",
+    "primary_metric_name": "ROC-AUC range across model families (best - worst, test set)",
+    "primary_metric_value": 0.0351,
+    "direction": "HistGradientBoosting > KNN (test AUC 0.9295 vs 0.8944)",
+    "methodological_choices": "80/20 stratified train/test split (seed=42) plus 5-fold stratified CV on the training set as a robustness check; final numbers reported on the held-out test set. Missing categorical values (workclass, occupation, native-country) imputed as an explicit 'Missing' category rather than dropped. Categoricals one-hot encoded, numerics standardized, identically for all four models (harmless for tree models, needed for LogisticRegression/KNN) so the comparison isolates model family rather than preprocessing. Compared 4 model families representing different inductive biases: LogisticRegression (linear), KNN (k=25, instance-based), RandomForest (300 trees, bagging), HistGradientBoosting (boosting) \u2014 all near-default hyperparameters, no per-model tuning via grid/random search, since the question is about family choice, not tuning effort. ROC-AUC chosen as primary metric over accuracy because the target is imbalanced (~24% positive); accuracy and F1 reported as secondary metrics. No explicit class-imbalance handling (e.g. class_weight, SMOTE) was applied \u2014 all models used their default handling of the ~76/24 class split.",
+    "details": {
+      "per_model": {
+        "LogisticRegression": {
+          "cv_roc_auc_mean": 0.9065884910607345,
+          "cv_roc_auc_std": 0.0036554310982418454,
+          "test_roc_auc": 0.9057341226192865,
+          "test_accuracy": 0.8543351417750026,
+          "test_f1": 0.663035756571158
+        },
+        "KNN": {
+          "cv_roc_auc_mean": 0.8948071484099224,
+          "cv_roc_auc_std": 0.005016038299908151,
+          "test_roc_auc": 0.8943584944995527,
+          "test_accuracy": 0.8478861705394616,
+          "test_f1": 0.6556997219647822
+        },
+        "RandomForest": {
+          "cv_roc_auc_mean": 0.9168281653657699,
+          "cv_roc_auc_std": 0.0035454127058184622,
+          "test_roc_auc": 0.9185737758003805,
+          "test_accuracy": 0.8667212611321528,
+          "test_f1": 0.6894083969465649
+        },
+        "HistGradientBoosting": {
+          "cv_roc_auc_mean": 0.9277240045577724,
+          "cv_roc_auc_std": 0.0023537494727581586,
+          "test_roc_auc": 0.9295029526850905,
+          "test_accuracy": 0.8762411710512846,
+          "test_f1": 0.7170606131523519
+        }
+      },
+      "baseline_majority_accuracy": 0.7606715119254785
+    }
+  }
+}

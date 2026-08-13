@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H2",
+  "summary": "Random Forest achieves higher stratified 5-fold cross-validated ROC-AUC (0.9062) compared to Logistic Regression (0.8207), with a difference of 0.0855.",
+  "primary_metric_name": "ROC-AUC difference (RF - LogReg)",
+  "primary_metric_value": 0.085478,
+  "direction": "RF > LogReg",
+  "methodological_choices": "Preprocessing: Categorical features encoded with LabelEncoder; missing values in categorical columns filled with mode, numeric columns with median. Model training: RandomForestClassifier() and LogisticRegression(max_iter=1000) using scikit-learn defaults. Validation: StratifiedKFold with 5 splits (shuffle=True, random_state=42). Metric: ROC-AUC computed via cross_val_score with scoring='roc_auc'. Target encoding: Binary (1 for >50K, 0 for <=50K). No explicit imbalance handling applied beyond stratified sampling."
+}

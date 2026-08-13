@@ -1,0 +1,25 @@
+{
+  "run_id": "H1_noverify_002_22fc9716",
+  "hypothesis_id": "H1",
+  "verify_arm": false,
+  "replicate_idx": 2,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_noverify_002_22fc9716_28ayyks8",
+  "started_at": 1785882010.59977,
+  "returncode": 0,
+  "stdout_tail": "## Findings\n\nI compared five distinct model families (Logistic Regression, Random Forest, HistGradientBoosting, KNN, Gaussian Naive Bayes) on the Adult Census Income dataset, using an identical preprocessing pipeline, an 80/20 stratified train/test split, and 5-fold cross-validation for stability checks.\n\n**Result: model family does meaningfully affect performance.** Held-out ROC-AUC ranged from 0.845 (Gaussian Naive Bayes) to 0.930 (HistGradientBoosting) \u2014 a gap of 0.084, confirmed statistically significant by a paired t-test across CV folds (p=0.001). The tree-based ensembles (HistGradientBoosting, Random Forest) clearly outperformed the simpler linear/distance/probabilistic models, though the gap among the top three (HGB, RF, LogReg) was more modest (~0.02\u20130.03 AUC), with GaussianNB's strong independence assumption being the main outlier that dragged the range wide.\n\nBoth `analysis.py` (full pipeline) and `result.json` are saved in the working directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785882291.7452931,
+  "wall_clock_seconds": 281.14552307128906,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H1",
+    "summary": "Model family matters: held-out ROC-AUC ranged from 0.845 (GaussianNB) to 0.930 (HistGradientBoosting), a gap of 0.084 that is statistically significant across 5-fold CV (paired t-test p=0.0010), though all families clearly beat chance and the top few (tree ensembles vs. logistic regression) differ only modestly.",
+    "primary_metric_name": "Test ROC-AUC range across model families (HistGradientBoosting - GaussianNB)",
+    "primary_metric_value": 0.0844,
+    "direction": "HistGradientBoosting > GaussianNB",
+    "methodological_choices": "Target binarized as class=='>50K'. Dropped 'fnlwgt' (Census sampling weight, not a subject attribute) and 'education' (redundant string duplicate of numeric 'education-num'). Missing categorical values (workclass, occupation, native-country) imputed as an explicit 'Missing' category rather than dropped or mode-imputed, since missingness may be informative. Numeric features median-imputed (none actually missing) and standardized; categoricals one-hot encoded. Identical preprocessing pipeline used for every model family for a fair comparison (no per-model feature engineering, e.g. no ordinal/target encoding for tree models). Stratified 80/20 train/test split, random_state=42. Five model families compared with fixed, reasonable (not exhaustively tuned) hyperparameters: Logistic Regression (class_weight='balanced'), Random Forest (300 trees, class_weight='balanced'), HistGradientBoosting (300 iterations), KNN (k=25), and Gaussian Naive Bayes. Primary metric is ROC-AUC on the held-out test set (robust to the ~24%/76% class imbalance; also reported PR-AUC, accuracy, F1). Stability/significance assessed via 5-fold stratified CV ROC-AUC on the training set and a paired t-test (across folds) between the best- and worst-performing families; 'meaningful' defined as ROC-AUC range > 0.01 and paired-CV p < 0.05."
+  }
+}

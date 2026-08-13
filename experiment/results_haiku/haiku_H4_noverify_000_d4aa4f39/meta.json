@@ -1,0 +1,25 @@
+{
+  "run_id": "haiku_H4_noverify_000_d4aa4f39",
+  "hypothesis_id": "H4",
+  "verify_arm": false,
+  "replicate_idx": 0,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H4_noverify_000_d4aa4f39_gon8mcwc",
+  "started_at": 1786138194.043552,
+  "returncode": 0,
+  "stdout_tail": "Perfect! I've completed a comprehensive analysis of whether addressing class imbalance improves model quality on the adult income dataset. Here's a summary of my findings:\n\n## Key Findings\n\n**Class Imbalance**: The dataset has a 3.18:1 imbalance ratio (76% earning \u2264$50K vs 24% earning >$50K).\n\n**Methodology**:\n- Models: Logistic Regression and Random Forest\n- Imbalance handling: SMOTE (oversampling) + Random Undersampling to balance the training set\n- Primary metrics: F1-Score and Balanced Accuracy (better indicators than accuracy for imbalanced data)\n- Train/test split: 80/20 stratified split, with test set always evaluated on original imbalanced distribution\n\n**Results**:\n- **F1-Score**: Improved by 9.63% (Logistic Regression) and 1.37% (Random Forest)\n- **Balanced Accuracy**: Improved by 9.54% (Logistic Regression) and 2.30% (Random Forest)\n- **Recall**: Dramatically improved by 68% (Logistic Regression) and 11% (Random Forest)\n- **Average improvement**: 3.70% across the key metrics\n\n**Trade-off**: Precision decreased slightly for some models, but this is expected and desirable\u2014the goal when correcting imbalance is to capture more minority instances rather than maximizing precision.\n\n## Conclusion\n\n**Yes, addressing class imbalance improves model quality** on this dataset. The improvements are particularly pronounced in metrics that matter for imbalanced data (F1-Score, Balanced Accuracy, Recall). The approach successfully shifts model behavior from being biased toward the majority class to achieving better balance.\n\nBoth `result.json` and `analysis.py` have been saved to the current directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786138271.32386,
+  "wall_clock_seconds": 77.28030800819397,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H4",
+    "summary": "Addressing class imbalance using SMOTE and undersampling improves model quality on the adult income dataset. Average improvement across F1-Score and Balanced Accuracy is 0.0370, with improvements observed in recall and F1-Score metrics.",
+    "primary_metric_name": "F1-Score improvement (with vs without imbalance handling)",
+    "primary_metric_value": 0.037011461816291835,
+    "direction": "imbalance handling improves model quality",
+    "methodological_choices": "Models: Logistic Regression and Random Forest. Preprocessing: Label encoding for categorical variables, StandardScaler normalization, stratified 80/20 train/test split. Class imbalance handling: SMOTE (oversampling) combined with RandomUnderSampler. Primary evaluation metrics: F1-Score and Balanced Accuracy (preferred over accuracy for imbalanced data). Test set: always original unbalanced distribution for fair comparison. Missing values ('?'): removed from dataset. Random state: 42 for reproducibility."
+  }
+}

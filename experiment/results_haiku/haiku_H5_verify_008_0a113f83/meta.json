@@ -1,0 +1,27 @@
+{
+  "run_id": "haiku_H5_verify_008_0a113f83",
+  "hypothesis_id": "H5",
+  "verify_arm": true,
+  "replicate_idx": 8,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H5_verify_008_0a113f83_k55f6gr6",
+  "started_at": 1786138796.2401888,
+  "returncode": 0,
+  "stdout_tail": "## Analysis Complete\n\nI've completed a comprehensive investigation of the research question comparing SMOTE oversampling vs. no resampling on the minority-class F1 score using a default Random Forest classifier.\n\n### Key Finding\n\n**SMOTE does NOT change the minority-class F1 score by more than 0.02.**\n\n- **Primary estimate (initial split)**: SMOTE improved F1 by 0.007137 (from 0.676631 to 0.683768)\n- **Validation average (5 seeds)**: 0.001699 \u00b1 0.004220 improvement\n- **Range across validations**: [-0.003191, 0.007137]\n- **Threshold exceeded?**: In 0 out of 5 validation runs\n\n### Stability Verification\n\nI validated this finding across 5 repeated train-test splits with different random seeds (42, 123, 456, 789, 999). The effect was small and inconsistent \u2014 sometimes positive, sometimes negative, but never approaching the 0.02 threshold. This confirms the finding is stable.\n\n### Methodological Approach\n\n- Encoded 8 categorical features with LabelEncoder\n- 70-30 stratified train-test split\n- SMOTE applied only to training data with default parameters\n- Default RandomForestClassifier() with no hyperparameter tuning\n- F1 score evaluated on held-out test set\n- Validation via repeated stratified splits (not k-fold) to ensure truly independent test sets\n\nBoth `result.json` (with structured findings) and `analysis.py` (full implementation) have been saved to your working directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786138888.508224,
+  "wall_clock_seconds": 92.26803517341614,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H5",
+    "summary": "SMOTE oversampling increased the minority-class (>50K) F1 score by 0.001699 on average across validation runs. This change is less than the 0.02 threshold. The finding that SMOTE does not change F1 by more than 0.02 was confirmed across 5 validation iterations with different random seeds.",
+    "primary_metric_name": "Minority-class F1 score difference (SMOTE - No SMOTE)",
+    "primary_metric_value": 0.001699,
+    "direction": "SMOTE improves F1 by 0.001699; does not exceed 0.02 threshold",
+    "methodological_choices": "Preprocessing: categorical variables encoded with LabelEncoder, no scaling applied. Train-test split: 70-30 stratified split with random seed 42. SMOTE applied only to training data with default parameters (sampling_strategy='auto', k_neighbors=5). Model: default RandomForestClassifier() with no hyperparameter tuning. Evaluation metric: F1 score for minority class (>50K, encoded as 1), calculated on held-out test set. Minority class defined as the less frequent class in training data.",
+    "verification_method": "Repeated stratified train-test split cross-validation with 5 different random seeds (42, 123, 456, 789, 999). For each seed, a fresh 70-30 train-test split was created, models trained, and F1 difference calculated on the held-out test set.",
+    "verification_result": "Finding CONFIRMED. Across 5 validation iterations, SMOTE changes F1 by 0.001699 \u00b1 0.00422 on average (range: [-0.003191, 0.007137]). In 0/5 iterations, the absolute difference exceeded 0.02, confirming that SMOTE does not consistently change F1 by more than 0.02."
+  }
+}

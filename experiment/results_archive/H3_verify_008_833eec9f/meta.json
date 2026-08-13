@@ -1,0 +1,17 @@
+{
+  "run_id": "H3_verify_008_833eec9f",
+  "hypothesis_id": "H3",
+  "verify_arm": true,
+  "replicate_idx": 8,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H3_verify_008_833eec9f_53ho9ycr",
+  "started_at": 1785936802.601536,
+  "returncode": 0,
+  "stdout_tail": "I've set up a monitor that will notify me once the analysis script finishes (it's running the bootstrap stability check now, which is compute-heavy). I'll wait for that completion event before proceeding.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785937504.576604,
+  "wall_clock_seconds": 701.9750678539276,
+  "result_json_found": false,
+  "analysis_py_found": true
+}

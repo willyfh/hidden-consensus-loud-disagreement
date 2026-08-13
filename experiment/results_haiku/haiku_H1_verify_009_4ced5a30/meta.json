@@ -1,0 +1,27 @@
+{
+  "run_id": "haiku_H1_verify_009_4ced5a30",
+  "hypothesis_id": "H1",
+  "verify_arm": true,
+  "replicate_idx": 9,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H1_verify_009_4ced5a30_sar2sr1x",
+  "started_at": 1786160222.909707,
+  "returncode": 0,
+  "stdout_tail": "## Investigation Complete\n\nI've thoroughly investigated the research question: **\"Does the choice of model family meaningfully affect predictive performance on the Adult income dataset?\"**\n\n### Summary of Findings\n\n**YES \u2014 model family choice DOES meaningfully affect performance.**\n\n**Key Results:**\n- **Best model:** Gradient Boosting (ROC-AUC = 0.9223)\n- **Worst model:** Decision Tree (ROC-AUC = 0.8578)\n- **Performance gap:** 0.0645 absolute difference (7.51% relative)\n- **Statistical significance:** ANOVA p-value = 1.34e-13 (highly significant)\n- **Effect size:** Model family choice explains ~7.1% of performance variation\n\n**Model Rankings (by ROC-AUC):**\n1. GradientBoosting: 0.9223 \u00b1 0.0001\n2. RandomForest: 0.9145 \u00b1 0.0001\n3. NeuralNetwork: 0.9125 \u00b1 0.0002\n4. LogisticRegression: 0.9065 \u00b1 0.0000\n5. DecisionTree: 0.8578 \u00b1 0.0022\n\n### Validation & Stability\n\nThe finding is **robust and stable**:\n- Used 3x repeated stratified 3-fold cross-validation with different random seeds (0, 1, 2)\n- Gradient Boosting consistently outperformed Decision Tree across all repeats\n- Performance gaps remained stable (coefficient of variation < 0.0002 for top models)\n- All pairwise differences between top models were statistically significant (p < 0.0001)\n\n### Methodological Choices\n\n- **Evaluation metric:** ROC-AUC (robust to class imbalance: ~76% negative, ~24% positive)\n- **Preprocessing:** StandardScaler for numerical features, OneHotEncoder for categorical\n- **Cross-validation:** Stratified to preserve class distribution\n- **Models tested:** Logistic Regression, Decision Tree, Random Forest, Gradient Boosting, Neural Network\n- **Hyperparameters:** Optimized for speed while maintaining representativeness (RandomForest: 50 trees, max_depth=15; GradientBoosting: 50 trees, max_depth=5)\n\n### Deliverables\n\n\u2705 `result.json` \u2014 Contains structured findings with all required fields\n\u2705 `analysis.py` \u2014 Complete reproducible analysis code with detailed comments\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786160995.785619,
+  "wall_clock_seconds": 772.8759119510651,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H1",
+    "summary": "Model family choice DOES meaningfully affect performance. Best model (GradientBoosting) achieves ROC-AUC of 0.9223, while worst (DecisionTree) achieves 0.8578 (7.5% difference). This difference is statistically significant (p<0.001) and represents ~7.1% variation explained by model choice.",
+    "primary_metric_name": "ROC-AUC difference (best model - worst model)",
+    "primary_metric_value": 0.0645,
+    "direction": "GradientBoosting > DecisionTree",
+    "methodological_choices": "Stratified 3-fold cross-validation with 3 repeats (different random seeds). Models tested: LogisticRegression, DecisionTree, RandomForest, GradientBoosting, NeuralNetwork. Preprocessing: StandardScaler for numerical features, OneHotEncoder for categorical. Evaluation metric: ROC-AUC (robust to class imbalance ~76% negative, ~24% positive). Hyperparameters: RandomForest(n_estimators=50, max_depth=15), GradientBoosting(n_estimators=50, max_depth=5), NeuralNetwork(hidden_layer_sizes=(50,), early_stopping=True).",
+    "verification_method": "3x repeated stratified 3-fold cross-validation with different random seeds (seed=0,1,2)",
+    "verification_result": "Finding CONFIRMED. Across all 3 repeats with different seeds, GradientBoosting consistently outperformed DecisionTree. Mean scores: GradientBoosting=0.9223\u00b10.0001, DecisionTree=0.8578\u00b10.0022. Performance gap remained stable across seeds (range: 0.0645). ANOVA p-value: 1.34e-13 indicates statistically significant differences."
+  }
+}

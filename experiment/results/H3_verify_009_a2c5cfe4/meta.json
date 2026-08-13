@@ -1,0 +1,27 @@
+{
+  "run_id": "H3_verify_009_a2c5cfe4",
+  "hypothesis_id": "H3",
+  "verify_arm": true,
+  "replicate_idx": 9,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H3_verify_009_a2c5cfe4_dwnj29tl",
+  "started_at": 1785883404.487592,
+  "returncode": 0,
+  "stdout_tail": "## Finding\n\n**Marital status** is the most important feature for predicting income class (`<=50K` vs `>50K`) in this dataset, followed by `capital-gain` and `education-num`.\n\n**Approach:** Trained a `RandomForestClassifier` (400 trees, class-weight balanced for the 76/24 class imbalance) in a pipeline with one-hot-encoded categoricals, on a 70/30 stratified split. Used **permutation importance** (mean ROC-AUC decrease) on held-out data rather than Gini importance, since Gini is biased toward high-cardinality columns (`fnlwgt`, `native-country`) \u2014 a bias confirmed here: `fnlwgt`, a meaningless census sampling weight, correctly came out near-zero importance, validating the method. Held-out test ROC-AUC was 0.919. Dropped the `education` string column since it's a 1:1 duplicate of `education-num`.\n\n**Stability check:** Recomputed permutation importance across 5 additional random train/test splits plus 5-fold cross-validation (10 independent resamples total). `marital-status` ranked #1 in **10/10** resamples, with importance ranging 0.044\u20130.053 (95% CI [0.0444, 0.0523]) \u2014 well clear of the #2 feature (`capital-gain`, ~0.034) in every resample. The top-3 set was essentially identical across all resamples.\n\nFiles written: `analysis.py` (full code) and `result.json` (structured findings) in the working directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785883882.563633,
+  "wall_clock_seconds": 478.0760409832001,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H3",
+    "summary": "Marital status is the single most predictive feature for income class, followed by capital-gain and education-num; a Random Forest's permutation importance on held-out data shows dropping marital status alone costs about 0.048 ROC-AUC, more than any other feature, and this ranking was stable across 10 independent resamples.",
+    "primary_metric_name": "permutation importance of top feature ('marital-status', mean ROC-AUC decrease)",
+    "primary_metric_value": 0.0484,
+    "direction": "'marital-status' most important",
+    "methodological_choices": "Dropped redundant 'education' string column (1:1 with education-num, kept the ordinal). Kept fnlwgt (census sampling weight) in the model as a sanity check on the importance method. Missing categoricals (workclass/occupation/native-country) imputed as literal 'Missing' category rather than dropped. RandomForestClassifier (400 trees, min_samples_leaf=2, class_weight='balanced' to offset 76/24 class imbalance, random_state=42) inside a ColumnTransformer pipeline (passthrough numeric, one-hot categorical). Single stratified 70/30 train/test split for the primary estimate. Permutation importance (scoring=ROC-AUC, 15 repeats) on the held-out test set was used instead of impurity-based (Gini) importance, since Gini importance is known to be biased toward high-cardinality/continuous columns like fnlwgt and native-country.",
+    "verification_method": "Recomputed permutation importance under 5 additional stratified 70/30 splits with different random seeds, and separately under 5-fold stratified cross-validation (out-of-fold permutation importance per fold) -- 10 independent resamples in total. Checked whether the #1-ranked feature was consistent across all 10, and built an empirical 95% interval for its importance value.",
+    "verification_result": "Finding held up: 'marital-status' was the #1 feature in 10/10 resamples (seeds+CV folds). Its permutation importance ranged [0.0438, 0.0532] with mean 0.0475 and empirical 95% CI [0.0444, 0.0523], consistently well above the #2 feature across resamples. Top-3 set (['marital-status', 'capital-gain', 'education-num']) was also stable across nearly all resamples."
+  }
+}

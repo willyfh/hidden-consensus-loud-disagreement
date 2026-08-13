@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H6",
+  "summary": "The logistic regression model is well-calibrated based on Expected Calibration Error of 0.0128 (\u00b10.0020). The model's predicted probabilities align reasonably well with observed frequencies across probability ranges.",
+  "primary_metric_name": "Expected Calibration Error (ECE)",
+  "primary_metric_value": 0.01278536995267791,
+  "direction": "model is well-calibrated",
+  "methodological_choices": "Model: Logistic Regression (standard for calibration studies). Preprocessing: Categorical encoding with LabelEncoder, numerical standardization with StandardScaler. Data split: 50-50 train-test split with stratification on target. Calibration metrics: ECE with 10 bins, Brier score, Log Loss. Threshold for well-calibrated: ECE < 0.10 (standard benchmark).",
+  "verification_method": "5 repeated 50-50 train-test splits with different random seeds (0-4). ECE, Brier score, and Log Loss computed on test set for each run.",
+  "verification_result": "Finding CONFIRMED: All 5 runs showed ECE < 0.10 (mean=0.0128, range=[0.0104, 0.0153]). Model calibration is stable across different random seeds."
+}

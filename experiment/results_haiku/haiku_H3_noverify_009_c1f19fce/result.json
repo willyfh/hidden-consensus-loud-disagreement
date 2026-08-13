@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H3",
+  "summary": "The most important feature for predicting income is 'capital-gain' (importance: 0.8966). The top 5 features are: capital-gain, relationship, education-num, age, marital-status. These findings are consistent across multiple importance methods (Random Forest, Gradient Boosting, Permutation, and Logistic Regression).",
+  "primary_metric_name": "Aggregated Feature Importance (mean across 4 methods)",
+  "primary_metric_value": 0.8965955852329449,
+  "direction": "'capital-gain' is the strongest predictor of income",
+  "methodological_choices": "Preprocessed missing values using mode imputation for categorical features. Encoded categorical variables using LabelEncoder. Used 80/20 train-test split with stratification to preserve class balance. Trained four models for importance estimation: RandomForestClassifier (max_depth=15, n_estimators=100), GradientBoostingClassifier (max_depth=5, n_estimators=100), LogisticRegression (scaled features), and computed permutation importance. Normalized importance scores from each method to [0,1] range and averaged them for robust feature ranking. Evaluation metric: ROC-AUC on test set."
+}

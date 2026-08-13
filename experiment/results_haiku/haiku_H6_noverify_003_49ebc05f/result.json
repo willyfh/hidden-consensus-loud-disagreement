@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H6",
+  "summary": "The logistic regression model is well-calibrated with an Expected Calibration Error (ECE) of 0.0094, indicating that predicted probabilities closely match actual outcome frequencies across the dataset. The model demonstrates excellent calibration, with predicted probabilities deviating from observed frequencies by less than 1% on average.",
+  "primary_metric_name": "Expected Calibration Error (ECE)",
+  "primary_metric_value": 0.0094,
+  "direction": "Model is well-calibrated",
+  "methodological_choices": "Used logistic regression as the primary model trained on label-encoded categorical features and standardized numerical features. Data preprocessing involved filling missing values (2,799 in workclass, 2,809 in occupation, 857 in native-country) with mode values for categorical columns. Applied 70-30 stratified train-test split. Calibration assessment used Expected Calibration Error (ECE) with 10 bins as the primary metric, complemented by Maximum Calibration Error (MCE), Brier Score, and log loss. ECE < 0.05 was used as the threshold for 'excellent calibration'. Also evaluated isotonic and sigmoid calibration methods as post-hoc calibration techniques, though the original model was already well-calibrated."
+}

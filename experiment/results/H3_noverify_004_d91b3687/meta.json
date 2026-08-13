@@ -1,0 +1,25 @@
+{
+  "run_id": "H3_noverify_004_d91b3687",
+  "hypothesis_id": "H3",
+  "verify_arm": false,
+  "replicate_idx": 4,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H3_noverify_004_d91b3687_pc763wvd",
+  "started_at": 1785882812.4608378,
+  "returncode": 0,
+  "stdout_tail": "**Finding:** `capital-gain` is the single most important predictor of income class (>50K vs \u226450K) in the Adult dataset, followed by `marital-status` and `education-num`. A Random Forest achieved test ROC-AUC = 0.918.\n\n**Method summary:**\n- Dropped `fnlwgt` (a census sampling weight, not a real attribute) and the redundant string `education` column (kept `education-num`).\n- Missing values in `workclass`/`occupation`/`native-country` kept as an explicit \"Missing\" category.\n- Random Forest (400 trees) as primary model, Logistic Regression as a comparison baseline (AUC 0.905).\n- 75/25 stratified split; **permutation importance on held-out test data** (ROC-AUC drop, 10 repeats) as the primary importance method, applied per raw feature to avoid the bias impurity-based importance has toward high-cardinality categoricals. Impurity-based importance was computed too as a cross-check (mostly agrees, with `marital-status`/`relationship` ranking slightly higher there due to that bias).\n\nFull ranked importances, code, and rationale are in `analysis.py` and `result.json`.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785882906.734426,
+  "wall_clock_seconds": 94.27358818054199,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H3",
+    "summary": "A Random Forest classifier (test ROC-AUC=0.918) trained on the Adult income dataset identifies 'capital-gain' as the single most important feature, by permutation importance (mean drop in ROC-AUC=0.0434 when the feature is shuffled). The next most important features are 'marital-status' and 'education-num', while attributes like race and native-country contribute comparatively little.",
+    "primary_metric_name": "top feature permutation importance (mean ROC-AUC drop)",
+    "primary_metric_value": 0.043379,
+    "direction": "'capital-gain' most important",
+    "methodological_choices": "Dropped fnlwgt (a Census sampling weight, not a demographic attribute of the individual) and the string `education` column (redundant with the ordinal `education-num`, which was kept) to avoid diluting importance across duplicate encodings of the same signal. Missing values in workclass/occupation/native-country (~2-6% of rows, coded as NaN/'?') were kept as an explicit 'Missing' category rather than dropped or imputed, since missingness itself may be informative. Categorical features were one-hot encoded. Primary model: RandomForestClassifier (400 trees, min_samples_leaf=2, default class weighting -- no oversampling/undersampling despite the ~24%/76% class imbalance, since AUC-based evaluation and permutation importance are threshold- and imbalance-insensitive). A Logistic Regression baseline (test ROC-AUC=0.905) was fit for comparison only, not for importance. 75/25 stratified train/test split, random_state=42. Feature importance was computed via permutation importance on the held-out test set (10 repeats, scoring = ROC-AUC drop), applied to raw (pre-one-hot) columns so each original feature -- regardless of its categorical cardinality -- gets one comparable score; this avoids the known bias of impurity-based importance toward high-cardinality categorical variables. Impurity-based importance (summed per raw feature across its one-hot columns) was computed as a secondary cross-check and is printed in the script output."
+  }
+}

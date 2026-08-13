@@ -1,0 +1,25 @@
+{
+  "run_id": "H1_noverify_014_84c5829a",
+  "hypothesis_id": "H1",
+  "verify_arm": false,
+  "replicate_idx": 14,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_noverify_014_84c5829a_xmplkue7",
+  "started_at": 1785855911.5580292,
+  "returncode": 0,
+  "stdout_tail": "Both `analysis.py` and `result.json` are in place. Summary of findings:\n\n**H1: Does model family meaningfully affect predictive performance?**\n\nI compared four model families (Logistic Regression, KNN, Random Forest, HistGradientBoosting) using identical preprocessing and 5-fold stratified CV ROC-AUC:\n\n| Model | CV ROC-AUC | Test ROC-AUC | Test F1 |\n|---|---|---|---|\n| HistGradientBoosting | 0.928 | 0.929 | 0.717 |\n| Random Forest | 0.917 | 0.918 | 0.687 |\n| Logistic Regression | 0.906 | 0.904 | 0.656 |\n| KNN | 0.895 | 0.894 | 0.653 |\n\n**Conclusion**: model family has a real but modest effect. Boosted trees (HistGradientBoosting) statistically significantly outperform the weakest family (KNN) by 0.033 AUC (paired t-test p\u22480.0001), but the gap between the two best families (HistGB vs Random Forest, both tree ensembles) is only 0.011 AUC \u2014 still significant but practically small. So the effect is driven more by avoiding weak choices (plain linear or instance-based models) than by picking one strong tree-ensemble family over another.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785856073.4954119,
+  "wall_clock_seconds": 161.93738269805908,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H1",
+    "summary": "Model family has a small but statistically significant effect on predictive performance: the best family (HistGradientBoosting, CV ROC-AUC=0.928) beats the worst (KNN, ROC-AUC=0.895) by 0.033 AUC points (paired t-test p=0.0001), but the two strongest families (HistGradientBoosting vs RandomForest) differ by only 0.011 AUC (p=0.0001), so the gap is mainly driven by weaker choices (e.g. KNN/linear) rather than tree-ensemble family per se.",
+    "primary_metric_name": "CV ROC-AUC gap (best=HistGradientBoosting minus worst=KNN)",
+    "primary_metric_value": 0.0328269062010248,
+    "direction": "HistGradientBoosting > RandomForest > ... > KNN (ranked: HistGradientBoosting=0.928, RandomForest=0.917, LogisticRegression=0.906, KNN=0.895)",
+    "methodological_choices": "Missing values ('?') in workclass/occupation/native-country treated as a genuine 'Missing' category via most-frequent imputation after one-hot encoding (alternative: drop rows or a dedicated missing-indicator category). Identical preprocessing (median-impute+standardize numeric, most-frequent-impute+one-hot categorical) shared across all model families to isolate the model-family effect from representation differences. Compared 4 families spanning different inductive biases: Logistic Regression (linear), KNN k=25 (instance-based), Random Forest 300 trees (bagging), HistGradientBoosting 300 iterations (boosting) \u2014 all left near-default hyperparameters rather than individually tuned, since the question is about family-level differences, not best-achievable performance per family. 80/20 stratified train/test split; primary evaluation via 5-fold stratified CV ROC-AUC on the training set (robust to the ~76/24 class imbalance), with held-out test set as a confirmatory check. Significance of the best-vs-worst and best-vs-second-best gaps assessed with a paired t-test across the 5 identical CV folds. class positive label defined as '>50K'."
+  }
+}

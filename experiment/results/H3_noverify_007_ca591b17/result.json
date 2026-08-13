@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H3",
+  "summary": "A random forest classifier (test ROC-AUC=0.914) shows that 'capital-gain', 'relationship', and 'age' are the most important predictors of income, as measured by permutation importance on held-out data; marital-status/relationship and capital-gain dominate over demographic features like race or sex.",
+  "primary_metric_name": "top feature permutation importance (mean ROC-AUC drop)",
+  "primary_metric_value": 0.0443,
+  "direction": "'capital-gain' most important",
+  "methodological_choices": "Dropped rows with missing values (workclass/occupation/native-country '?' entries, 3620 rows removed). Ordinal-encoded categorical features (not one-hot) since RandomForest doesn't assume ordinality and this avoids importance dilution across dummy columns. 75/25 stratified train/test split, random_state=42. Model: RandomForestClassifier(n_estimators=300, min_samples_leaf=2, class_weight='balanced') to address ~76/24 class imbalance. Evaluated with test-set ROC-AUC. Feature importance computed two ways: (1) built-in impurity-based importance, (2) permutation importance (10 repeats) on the held-out test set scored by ROC-AUC drop, which is reported as primary since it is unbiased by feature cardinality (unlike impurity importance, which inflates high-cardinality features like fnlwgt/native-country/occupation). Kept both 'education' and 'education-num' (redundant encodings of the same variable) rather than dropping one, to avoid imposing an assumption not specified in the task."
+}

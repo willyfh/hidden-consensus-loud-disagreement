@@ -1,0 +1,25 @@
+{
+  "run_id": "H3_noverify_009_ca6c60d9",
+  "hypothesis_id": "H3",
+  "verify_arm": false,
+  "replicate_idx": 9,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H3_noverify_009_ca6c60d9_c4ngyl9_",
+  "started_at": 1785882906.7373838,
+  "returncode": 0,
+  "stdout_tail": "Clean now. Both `result.json` and `analysis.py` are saved in the working directory.\n\n**Finding:** Trained a Random Forest (400 trees, held-out ROC-AUC = 0.917) on the Adult census data. By permutation importance (ROC-AUC drop on held-out test set, the more reliable method here since it isn't biased toward high-cardinality categoricals like Gini importance is), the top predictors of income are **marital-status** (0.047 AUC drop), then **capital-gain**, **education-num**, **age**, and **occupation** \u2014 with `relationship` also ranking high under Gini importance. Weak predictors: `race`, `native-country`, `sex`, `workclass`.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785883003.009462,
+  "wall_clock_seconds": 96.27207827568054,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H3",
+    "summary": "Random-forest feature importance on the Adult income dataset (held-out ROC-AUC=0.917) identifies 'marital-status' as the single most important predictor by permutation importance (mean ROC-AUC drop=0.0466), followed by capital-gain, education-num, age, occupation; these same features (plus 'relationship') also dominate the Gini-importance ranking, confirming the result is not an artifact of one particular importance method.",
+    "primary_metric_name": "permutation importance (ROC-AUC drop) of top feature (marital-status)",
+    "primary_metric_value": 0.046636,
+    "direction": "'marital-status' most important (top-5 by permutation importance: marital-status, capital-gain, education-num, age, occupation)",
+    "methodological_choices": "Dropped 'fnlwgt' (census sampling weight, not a demographic signal) and 'education' (redundant string duplicate of 'education-num'). Rows with '?' treated as a missing category (kept, not imputed/dropped) since RandomForest handles it fine via one-hot encoding. Categorical features one-hot encoded; numeric features passed through unscaled (tree-based model). Model: RandomForestClassifier (400 trees, min_samples_leaf=2, class_weight='balanced_subsample' to address the ~24%/76% class imbalance). Stratified 75/25 train/test split, random_state=42. Evaluated with ROC-AUC and accuracy on held-out test set. Feature importance computed two ways for robustness: (a) RF Gini/mean-decrease- in-impurity importance, known to be biased toward high-cardinality categorical features, and (b) permutation importance (10 repeats) on the held-out test set scored by ROC-AUC drop, which is less biased and was used as the primary/reported ranking. One-hot columns were aggregated (summed for Gini, or evaluated jointly per raw column for permutation) back to their original feature name so importance is reported per human-interpretable feature rather than per dummy column."
+  }
+}

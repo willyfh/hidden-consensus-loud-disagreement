@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H5",
+  "summary": "SMOTE oversampling does NOT change the minority-class (>50K) F1 score by more than 0.02 compared to no resampling with a default random forest. The test set showed an absolute difference of only 0.0011 (F1 without SMOTE: 0.6824 vs. with SMOTE: 0.6813), far below the 0.02 threshold.",
+  "primary_metric_name": "Minority-class F1 score difference (|F1_SMOTE - F1_baseline|)",
+  "primary_metric_value": 0.001088,
+  "direction": "SMOTE does NOT produce >0.02 change: difference = 0.0011, well below threshold",
+  "methodological_choices": "Train/test split: stratified 80/20 with random_state=42. Preprocessing: missing categorical values filled with 'Unknown'. Encoding: LabelEncoder for all categorical and target variables. Model: RandomForestClassifier() with default hyperparameters (no tuning). Evaluation metric: F1 score with pos_label=1 (minority class >50K). SMOTE: default parameters with random_state=42. Imbalance handling: SMOTE oversamples minority class to match majority class size in training data only.",
+  "verification_method": "Repeated stratified k-fold cross-validation: 5 repeats × 5 folds (25 total folds) with different random seeds (42-46). Each fold independently compared baseline RF vs. SMOTE+RF on validation splits.",
+  "verification_result": "Finding held up across all CV folds. Baseline mean F1: 0.6707 ± 0.0097 (95% CI: 0.6517-0.6896). SMOTE mean F1: 0.6729 ± 0.0064 (95% CI: 0.6603-0.6854). Mean CV difference: 0.0022, confirming that SMOTE produces negligible improvement (far below 0.02 threshold). SMOTE shows slight improvement in mean F1 but with higher precision and lower recall tradeoff compared to baseline."
+}

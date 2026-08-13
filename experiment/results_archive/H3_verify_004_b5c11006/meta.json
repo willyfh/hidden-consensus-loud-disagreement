@@ -1,0 +1,17 @@
+{
+  "run_id": "H3_verify_004_b5c11006",
+  "hypothesis_id": "H3",
+  "verify_arm": true,
+  "replicate_idx": 4,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H3_verify_004_b5c11006_2l08radr",
+  "started_at": 1785971317.034859,
+  "returncode": null,
+  "stdout_tail": "",
+  "stderr_tail": "",
+  "timed_out": true,
+  "finished_at": 1785972217.055845,
+  "wall_clock_seconds": 900.0209860801697,
+  "result_json_found": false,
+  "analysis_py_found": true
+}

@@ -1,0 +1,27 @@
+{
+  "run_id": "H1_verify_005_025108f1",
+  "hypothesis_id": "H1",
+  "verify_arm": true,
+  "replicate_idx": 5,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_verify_005_025108f1_0xnm7i0d",
+  "started_at": 1785936604.347677,
+  "returncode": 0,
+  "stdout_tail": "Analysis complete. Summary of findings:\n\n**H1: Does model family meaningfully affect predictive performance?** Yes.\n\n- Compared 5 model families (Logistic Regression, Decision Tree, Random Forest, HistGradientBoosting, kNN) on identical preprocessed features (one-hot encoded categoricals, scaled numerics, rows with missing `?` values dropped, ~45k rows remaining).\n- On an 80/20 stratified held-out split: HistGradientBoosting was best (ROC-AUC 0.926), kNN was worst (0.891); best tree ensemble beat plain Logistic Regression by 0.021 AUC.\n- **Stability check**: 5\u00d75 repeated stratified CV (25 folds, different seed) reproduced the same ranking \u2014 HistGradientBoosting 0.9273 vs. LogisticRegression 0.9045, a gap of 0.0228, more than 3\u00d7 the combined per-model CV noise (0.0037). Finding held up.\n\nConclusion: model family choice produces a modest but consistent and statistically stable effect \u2014 boosted tree ensembles outperform linear and instance-based methods by ~2 AUC points on this dataset, which is a meaningful (if not huge) difference given how tight the CV variance is.\n\nBoth `analysis.py` and `result.json` have been written to the working directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785936802.596213,
+  "wall_clock_seconds": 198.24853610992432,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H1",
+    "summary": "Yes, model family meaningfully affects performance: tree-ensemble methods (HistGradientBoosting, CV mean ROC-AUC=0.9273) outperform plain Logistic Regression (CV mean ROC-AUC=0.9045) by about 0.0228 AUC points, while a weak learner like kNN trails further behind (0.8958). The gap is small in absolute terms but consistent and far larger than fold-to-fold noise.",
+    "primary_metric_name": "ROC-AUC difference (best tree ensemble - LogisticRegression), 5x5 repeated CV mean",
+    "primary_metric_value": 0.0228,
+    "direction": "HistGradientBoosting > LogisticRegression > ... > kNN (tree ensembles best)",
+    "methodological_choices": "Dropped rows with missing values (marked '?') rather than imputing (~7% of rows); dropped redundant 'education' string column in favor of 'education-num'; kept 'fnlwgt' as a numeric feature; one-hot encoded categoricals and standard-scaled numerics via a shared ColumnTransformer/Pipeline so all model families saw identical features; used an 80/20 stratified train/test split for the primary comparison and 5x repeated stratified 5-fold CV (25 folds, distinct seed from primary split) for stability; compared 5 model families (Logistic Regression, Decision Tree, Random Forest, HistGradientBoosting, kNN) with reasonable off-the-shelf hyperparameters (no extensive tuning); used ROC-AUC as the primary metric since it is threshold-independent and robust to the ~24% positive-class imbalance, with accuracy as a secondary check; did not apply explicit class-imbalance correction (e.g. class_weight='balanced') since ROC-AUC already accounts for it reasonably well and imbalance is moderate.",
+    "verification_method": "5x repeated stratified 5-fold cross-validation (25 total folds, random_state=123, distinct from the primary 80/20 split's random_state=42) across all 5 model families, comparing mean ROC-AUC and its standard deviation per family, and checking whether the best-tree-ensemble-vs-LogisticRegression gap exceeds 3x the combined per-model CV noise.",
+    "verification_result": "Held up. Single-split test AUC gap (best tree ensemble - LogReg) was 0.0213; under 5x5 repeated CV the gap was 0.0228 (LogReg mean=0.9045 std=0.0027; HistGradientBoosting mean=0.9273 std=0.0025), which is more than 3x the combined per-model CV standard deviation (0.0111), and the same family ranking (tree ensembles best, kNN worst) was preserved between the single split and repeated CV, so the finding is stable and not an artifact of one train/test split."
+  }
+}

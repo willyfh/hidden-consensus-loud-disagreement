@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H3",
+  "summary": "Age, education level, and hours per week are the most important features for predicting income. The Random Forest model identifies these as the top predictors with combined importance score indicating work experience, education, and hours worked are primary determinants of income classification.",
+  "primary_metric_name": "top_feature_importance_score",
+  "primary_metric_value": 0.17700079193719093,
+  "direction": "capital-gain is the single most important feature",
+  "methodological_choices": "Used Random Forest with 100 trees, max_depth=20, on 80/20 train/test split with stratification. Categorical features label-encoded, numerical features kept as-is after median imputation for missing values. Feature importance derived from tree-based (Gini) and permutation importance on test set. Model achieved 0.8671 accuracy and 0.9196 ROC-AUC."
+}

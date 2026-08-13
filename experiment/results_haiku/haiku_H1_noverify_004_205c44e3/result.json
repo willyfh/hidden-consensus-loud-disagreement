@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H1",
+  "summary": "Model family meaningfully affects predictive performance on the Adult income dataset. Gradient Boosting (ROC-AUC: 0.9278) substantially outperforms Logistic Regression (ROC-AUC: 0.8543), with a 0.0735 point difference in ROC-AUC across 5-fold cross-validation.",
+  "primary_metric_name": "ROC-AUC difference (Gradient Boosting - Logistic Regression)",
+  "primary_metric_value": 0.0735,
+  "direction": "Gradient Boosting outperforms Logistic Regression by 0.0735 in ROC-AUC",
+  "methodological_choices": "Preprocessing: Label-encoded categorical variables, filled missing values with 'Unknown', removed fnlwgt (weight). Models: Logistic Regression (L-BFGS, balanced class weights), Random Forest (100 trees, depth=15), Gradient Boosting (100 trees, depth=5, lr=0.1), SVM (RBF kernel, balanced), Neural Network (2 hidden layers 100-50). Evaluation: 5-fold stratified cross-validation with ROC-AUC, accuracy, F1, precision, recall. Feature scaling applied only to models requiring it (LR, SVM, NN). Hyperparameters tuned to be reasonable for each model family without intensive search. Class weight balancing applied to address 76-24 class imbalance."
+}

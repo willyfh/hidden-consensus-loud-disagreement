@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H5",
+  "summary": "SMOTE oversampling does not meaningfully change the minority-class (>50K) F1 score of a default RandomForestClassifier; on a single held-out test split the difference was -0.0049 (SMOTE slightly worse), and across 25 repeated cross-validation folds the mean difference was -0.0027 (SMOTE ~ no resampling), far below the 0.02 threshold in absolute value.",
+  "primary_metric_name": "F1(>50K) difference, SMOTE minus no-resampling (mean over 5x5-fold repeated CV)",
+  "primary_metric_value": -0.0027,
+  "direction": "no meaningful difference (|diff| < 0.02); SMOTE slightly decreases F1 on average",
+  "methodological_choices": "Categorical features encoded with OrdinalEncoder (not one-hot, to keep SMOTE's k-NN interpolation in a low-dimensional, denser space); missing values in workclass/occupation/native-country (originally NaN, ~6465 cells) filled with an explicit 'Missing' category rather than dropped, to retain all 48842 rows; target binarized as >50K=1 (minority, 23.9% of rows); primary evaluation used a single 75/25 stratified train/test split (random_state=42); RandomForestClassifier and SMOTE both used entirely default hyperparameters (n_estimators=100, k_neighbors=5); F1 computed for the positive (>50K) class only; SMOTE applied to the training fold only, never to test data, to avoid leakage.",
+  "verification_method": "Repeated stratified 5-fold cross-validation with 5 different random seeds (0-4), giving 25 independent train/test folds; in each fold, RF was trained both with and without SMOTE (fit only on the training portion of that fold) and F1(>50K) was computed on the held-out portion.",
+  "verification_result": "Finding held up. Across 25 folds: no-resample F1 mean=0.6761 (sd=0.0086), SMOTE F1 mean=0.6735 (sd=0.0073); diff (SMOTE-plain) mean=-0.0027, sd=0.0045, range [-0.0141, 0.0032], 95% CI [-0.0044, -0.0009]. This closely matches the primary single-split estimate (-0.0049) and never exceeds 0.02 in magnitude in any individual fold, so the conclusion of no practically meaningful difference is stable."
+}

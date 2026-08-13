@@ -1,0 +1,17 @@
+{
+  "run_id": "H5_verify_004_0ea99033",
+  "hypothesis_id": "H5",
+  "verify_arm": true,
+  "replicate_idx": 4,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H5_verify_004_0ea99033_uxtq_lba",
+  "started_at": 1785938236.38863,
+  "returncode": 0,
+  "stdout_tail": "Waiting on the background analysis run (25-fold repeated CV with SMOTE + RandomForest per fold) \u2014 will report back once the monitor signals completion.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785938934.86747,
+  "wall_clock_seconds": 698.4788401126862,
+  "result_json_found": false,
+  "analysis_py_found": true
+}

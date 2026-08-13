@@ -1,0 +1,17 @@
+{
+  "run_id": "H5_noverify_007_a1870c9f",
+  "hypothesis_id": "H5",
+  "verify_arm": false,
+  "replicate_idx": 7,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H5_noverify_007_a1870c9f_j_wt4n6s",
+  "started_at": 1785884778.3532789,
+  "returncode": 0,
+  "stdout_tail": "I've kicked off the analysis in the background (RandomForest training with SMOTE-expanded data is taking a while on this machine). I'll report back once it completes.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785885013.0950341,
+  "wall_clock_seconds": 234.7417552471161,
+  "result_json_found": false,
+  "analysis_py_found": true
+}

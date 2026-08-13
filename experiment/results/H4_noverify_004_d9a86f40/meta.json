@@ -1,0 +1,25 @@
+{
+  "run_id": "H4_noverify_004_d9a86f40",
+  "hypothesis_id": "H4",
+  "verify_arm": false,
+  "replicate_idx": 4,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_noverify_004_d9a86f40_wq5w1hpz",
+  "started_at": 1785883666.9061608,
+  "returncode": 0,
+  "stdout_tail": "Both `analysis.py` and `result.json` are in place. \n\n**Finding:** Class imbalance handling (class-weighting or SMOTE) does not improve the models' underlying ranking quality (ROC-AUC/PR-AUC stayed flat or slightly dropped, within ~1 pt) but does meaningfully improve balanced accuracy (+0.05 for Random Forest, +0.06 for Logistic Regression) by boosting minority-class (`>50K`) recall by ~20-25 points \u2014 at the cost of precision. In other words, imbalance handling mainly shifts the effective decision threshold toward the minority class rather than making the model a better predictor; whether that counts as \"improving model quality\" depends on whether recall/balanced-accuracy or ranking/precision is what matters for the use case.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785883818.880181,
+  "wall_clock_seconds": 151.97402024269104,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H4",
+    "summary": "Handling class imbalance (class_weight='balanced' or SMOTE oversampling) does not improve ranking quality (ROC-AUC / PR-AUC virtually unchanged, within +/-0.01) for either Logistic Regression or Random Forest, but it substantially raises balanced accuracy and minority-class (>50K) recall at the cost of minority-class precision -- i.e. it shifts the decision threshold rather than improving the underlying model. For Random Forest, the best imbalance-handling regime (class_weight) improves balanced accuracy by +0.0519 over the unweighted baseline.",
+    "primary_metric_name": "Balanced accuracy difference, Random Forest (best imbalance-handling regime - baseline)",
+    "primary_metric_value": 0.0519,
+    "direction": "imbalance-handling (class_weight) > baseline on balanced accuracy; ROC-AUC ~unchanged",
+    "methodological_choices": "Target binarized as >50K=1. Missing values (workclass/occupation/native-country, originally '?') imputed with most-frequent category inside the pipeline; numeric features imputed with median and standardized. Categoricals one-hot encoded. 80/20 stratified train/test split (random_state=42), test set always kept at natural class imbalance (~76%/24%) to reflect real deployment conditions. Two model families compared: Logistic Regression (max_iter=2000) and Random Forest (300 trees, min_samples_leaf=2). Three imbalance-handling regimes per model: (a) baseline/no handling, (b) class_weight='balanced' (loss reweighting), (c) SMOTE minority oversampling applied only to training folds via an imblearn Pipeline (no leakage into test set). Metrics: ROC-AUC and PR-AUC/average precision (threshold-independent), balanced accuracy, and minority-class precision/recall/F1 at the default 0.5 threshold. No hyperparameter tuning (grid/random search) was performed for any regime, so reported deltas reflect the isolated effect of imbalance handling, not joint tuning. fnlwgt (a census sampling weight) was kept as an ordinary numeric feature rather than used as a sample weight or dropped."
+  }
+}

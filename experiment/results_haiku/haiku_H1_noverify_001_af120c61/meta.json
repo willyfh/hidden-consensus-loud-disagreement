@@ -1,0 +1,25 @@
+{
+  "run_id": "haiku_H1_noverify_001_af120c61",
+  "hypothesis_id": "H1",
+  "verify_arm": false,
+  "replicate_idx": 1,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H1_noverify_001_af120c61_0_k4mkzt",
+  "started_at": 1786050766.1728342,
+  "returncode": 0,
+  "stdout_tail": "Perfect! The analysis is complete. Here's my finding:\n\n## Summary\n\n**Model family choice meaningfully affects predictive performance on the adult income dataset.**\n\nI tested 9 different model families on the adult census income prediction task:\n\n**Key Results:**\n- **Best performer**: Gradient Boosting (87.64% accuracy, 0.9294 ROC-AUC)\n- **Worst performer**: K-Nearest Neighbors (77.84% accuracy, 0.6819 ROC-AUC)\n- **Performance gap**: 9.81 percentage points in accuracy (0.3373 in ROC-AUC)\n\n**Model Rankings (by test accuracy):**\n1. Gradient Boosting: 87.64%\n2. Random Forest: 86.75%\n3. AdaBoost: 85.92%\n4. Decision Tree: 85.01%\n5. Logistic Regression: 81.02%\n6. SVM & Neural Network: 80.06%\n7. Naive Bayes: 79.68%\n8. K-Nearest Neighbors: 77.84%\n\n**Clear Pattern**: Tree-based ensemble methods (Gradient Boosting, Random Forest, AdaBoost) substantially outperform linear models, distance-based methods, and neural networks on this dataset. The 9.81% gap between best and worst is substantial in practical terms.\n\n**Methodological choices**: 80-20 stratified train-test split, label-encoding for categorical variables, reasonable default hyperparameters for all models (no extensive tuning), and evaluation using test accuracy as the primary metric plus ROC-AUC, F1, precision, and recall for completeness.\n\nBoth `analysis.py` and `result.json` have been saved to your current directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786051057.847703,
+  "wall_clock_seconds": 291.6748688220978,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H1",
+    "summary": "Model family choice has a meaningful impact on predictive performance on the adult income dataset. The best model (Gradient Boosting) achieves 0.8764 accuracy, while the worst (K-Nearest Neighbors) achieves 0.7784, a gap of 0.0981 (9.81%). Tree-based ensemble models (Random Forest, Gradient Boosting) consistently outperform linear models and distance-based methods.",
+    "primary_metric_name": "Test Accuracy Range (Best - Worst)",
+    "primary_metric_value": 0.09806530862933771,
+    "direction": "Gradient Boosting > K-Nearest Neighbors",
+    "methodological_choices": "Preprocessing: Label-encoded all categorical features; no scaling applied (tree models are scale-invariant, non-tree models evaluated as-is). Train-test split: 80-20 stratified split on target. Models: 9 model families tested (Logistic Regression, Decision Tree, Random Forest with 100 trees and max_depth=15, Gradient Boosting with 100 trees and max_depth=5, AdaBoost with 100 estimators, SVM with RBF kernel, Gaussian Naive Bayes, KNN with k=5, and Neural Network with 2 hidden layers). Evaluation metric: Primary focus on test accuracy (most intuitive for classification); also reported ROC-AUC, F1, precision, recall. No hyperparameter tuning performed beyond reasonable defaults; same random seed used across all models for reproducibility. No class imbalance correction applied."
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H2",
+  "summary": "Random forest did not achieve a higher mean 5-fold stratified CV ROC-AUC (0.9023) than logistic regression (0.9067) on the Adult Income dataset, a difference of -0.0043 (paired t-test p=0.0438).",
+  "primary_metric_name": "ROC-AUC difference (RF - LogReg)",
+  "primary_metric_value": -0.00434,
+  "direction": "RF < LogReg",
+  "methodological_choices": "Target encoded as class==\">50K\"=1. Missing values in workclass/occupation/native-country (blank in source) imputed as a 'Missing' category rather than row-dropping. Numeric features (age, fnlwgt, education-num, capital-gain, capital-loss, hours-per-week) median-imputed and standard-scaled; categorical features one-hot encoded (handle_unknown='ignore'). Identical preprocessing pipeline used for both models so the comparison isolates classifier choice, not encoding scheme (scaling is a no-op for RF but included for parity). fnlwgt (census sampling weight) and education-num (redundant with education) kept in as features for both models. Both models used with scikit-learn default hyperparameters as specified: RandomForestClassifier() (100 trees) and LogisticRegression() (L2 penalty, C=1.0, lbfgs solver, may not fully converge on one-hot data within default max_iter but left as default since not otherwise specified). Evaluation: StratifiedKFold(n_splits=5, shuffle=True, random_state=42), scoring='roc_auc' via cross_val_score. Statistical check: paired t-test across the 5 fold AUC scores. No class-imbalance handling applied (~24% positive class) beyond stratified folds, per default settings requested in the research question."
+}

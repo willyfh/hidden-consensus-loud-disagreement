@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H5",
+  "summary": "Applying SMOTE to the training data changed the minority-class (>50K) F1 score from 0.6794 (no resampling) to 0.6785 (with SMOTE), a difference of -0.0009, which does NOT exceed the 0.02 threshold. SMOTE shifted the precision/recall balance (recall up, precision down) without materially changing the overall F1.",
+  "primary_metric_name": "F1 (>50K) difference (SMOTE - no resampling)",
+  "primary_metric_value": -0.0009,
+  "direction": "SMOTE reduces minority F1 by 0.0009; below 0.02 threshold",
+  "methodological_choices": "Missing categorical values (workclass/occupation/native-country, originally '?') kept as an explicit 'Missing' category rather than dropped. Categorical features one-hot encoded via pd.get_dummies; numeric features used as-is (no scaling, unnecessary for tree-based models). Single stratified 80/20 train/test split (random_state=42); SMOTE fit only on training fold, test set left untouched and identical across both arms. RandomForestClassifier used with library defaults (only random_state=42 set, for reproducibility) per the research question's specification. SMOTE from imbalanced-learn with default k_neighbors=5 and random_state=42. Minority class F1 computed with pos_label='>50K'. A single train/test split (rather than cross-validation) was used for simplicity and because the dataset is large enough (48842 rows) for a stable held-out estimate; a different researcher might prefer repeated k-fold CV to average out split variance."
+}

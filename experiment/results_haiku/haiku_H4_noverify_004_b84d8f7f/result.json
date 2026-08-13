@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H4",
+  "summary": "Addressing class imbalance does NOT meaningfully improve model quality on this dataset. Despite moderate class imbalance (3.18:1 ratio), SMOTE oversampling and undersampling result in negligible changes or slight degradations in ROC-AUC (the most robust metric for imbalanced data). Balanced accuracy improves slightly with SMOTE (+0.0060), but the overall effect is inconsequential.",
+  "primary_metric_name": "ROC-AUC improvement (SMOTE vs baseline) - average across LR and RF models",
+  "primary_metric_value": -0.00352120352345775,
+  "direction": "No - Imbalance handling provides negligible or negative benefits (ROC-AUC -0.0035)",
+  "methodological_choices": "Used stratified train/test split (70/30) to preserve class distribution. Categorical features encoded with LabelEncoder. For baseline models, used Logistic Regression with balanced class weights and standard Random Forest. Applied SMOTE oversampling to training data only, keeping test set unchanged to avoid data leakage. Also tested random undersampling. Evaluated on multiple metrics (ROC-AUC, F1, recall, precision, balanced accuracy) to assess quality comprehensively. ROC-AUC prioritized as primary metric as it is threshold-independent and robust to class imbalance. Random forests used unscaled data while logistic regression used scaled features."
+}

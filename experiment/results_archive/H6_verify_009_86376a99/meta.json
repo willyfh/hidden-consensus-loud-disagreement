@@ -1,0 +1,17 @@
+{
+  "run_id": "H6_verify_009_86376a99",
+  "hypothesis_id": "H6",
+  "verify_arm": true,
+  "replicate_idx": 9,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H6_verify_009_86376a99_4n81l52d",
+  "started_at": 1785885195.257385,
+  "returncode": 1,
+  "stdout_tail": "You've hit your session limit \u00b7 resets 12pm (Asia/Seoul)\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785885199.244204,
+  "wall_clock_seconds": 3.98681902885437,
+  "result_json_found": false,
+  "analysis_py_found": false
+}

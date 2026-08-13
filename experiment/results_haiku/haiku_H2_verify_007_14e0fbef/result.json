@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H2",
+  "summary": "Random Forest achieves higher stratified 5-fold cross-validated ROC-AUC (0.9066) compared to Logistic Regression (0.8534) on the Adult income dataset, with a mean difference of 0.0532. Verification via repeated CV with different seeds confirms this finding is stable.",
+  "primary_metric_name": "ROC-AUC difference (RF - LogReg)",
+  "primary_metric_value": 0.05316670965343384,
+  "direction": "RF > LogReg",
+  "methodological_choices": "Preprocessing: missing numeric values imputed with median, missing categorical values imputed with mode. All categorical features label-encoded. Logistic Regression includes feature scaling (StandardScaler) in pipeline. Models used with near-scikit-learn defaults (RandomForestClassifier with n_jobs=-1, LogisticRegression with max_iter=5000 for convergence). Stratified 5-fold cross-validation with ROC-AUC metric.",
+  "verification_method": "Repeated stratified 5-fold cross-validation (3 repetitions with different random seeds, total 15 folds). Checked if direction of difference held consistently across all repeats.",
+  "verification_result": "Repeated 5-fold CV (3 runs with different random seeds, 15 total folds) confirms the finding: RF mean ROC-AUC 0.9057 vs LogReg 0.8534, difference 0.0523 (std 0.0002). Consistent direction in all 3 repeats."
+}

@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H3",
+  "summary": "The most important feature for predicting income is 'capital-gain', with a permutation importance score of 0.0452. This finding was validated across 25 cross-validation folds and remained stable.",
+  "primary_metric_name": "Permutation Importance (Random Forest, cross-validated mean)",
+  "primary_metric_value": 0.04519,
+  "direction": "'capital-gain' is the single most predictive feature for income classification",
+  "methodological_choices": "\nModel: Random Forest Classifier with 100 trees and max_depth=15\nFeature encoding: Label encoding for categorical variables (ordinal)\nTarget encoding: Binary (<=50K vs >50K)\nTrain/test validation: Repeated stratified 5-fold cross-validation (5 repeats with different random seeds)\nFeature importance method: Permutation Importance (mean decrease in performance when feature is shuffled)\nThis approach is more stable and interpretable than Mean Decrease in Impurity because it measures\nthe actual impact on model predictions rather than tree split decisions.\nCross-validation with 5 repeats \u00d7 5 folds = 25 total trained models to assess stability of feature rankings.\n",
+  "verification_method": "Repeated stratified 5-fold cross-validation with 5 different random seeds (25 total trained models), permutation importance computed on held-out test folds",
+  "verification_result": "\nThe finding HELD UP under cross-validation. Across all 25 CV folds, 'capital-gain' consistently\nranked as the most important feature. Mean importance: 0.045190 \u00b1 0.000500.\nThe feature was ranked #1 in all CV repeats, demonstrating strong stability.\nTop 3 stable features: capital-gain, education-num, relationship\n"
+}

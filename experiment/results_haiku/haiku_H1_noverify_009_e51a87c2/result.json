@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H1",
+  "summary": "Model family meaningfully affects predictive performance on the Adult Income dataset. ROC-AUC scores range from 0.8202 to 0.9274, a difference of 0.1072. Tree-based ensemble methods (Random Forest, Gradient Boosting) substantially outperform linear and instance-based methods, with top models achieving ~95% accuracy.",
+  "primary_metric_name": "ROC-AUC performance range",
+  "primary_metric_value": 0.1072,
+  "direction": "Ensemble methods (Random Forest, Gradient Boosting) > Tree > Linear/Instance-based; 0.1072 absolute ROC-AUC gap",
+  "methodological_choices": "Stratified 5-fold cross-validation on all 48,842 samples. Target variable converted to binary (<=50K=0, >50K=1). Categorical features (8) encoded with LabelEncoder; numeric features (6) used as-is for tree-based models and scaled for distance/gradient-based models. Models: Logistic Regression, Decision Tree (max_depth=15), Random Forest (100 trees, max_depth=20), Gradient Boosting (100 trees, max_depth=5), SVM-RBF, k-NN (k=5), Gaussian Naive Bayes, Neural Network (2-layer, 100-50 units). Evaluation metrics: Accuracy, ROC-AUC, F1, Precision, Recall. No hyperparameter tuning performed - standard/moderate configurations used to isolate model family effect."
+}

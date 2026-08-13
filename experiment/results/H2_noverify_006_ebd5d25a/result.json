@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H2",
+  "summary": "No \u2014 random forest scored a mean 5-fold CV ROC-AUC of 0.9023, lower than logistic regression's 0.9067 (difference RF - LogReg = -0.0043, paired t-test p=0.0438). Logistic regression outperforms the default random forest on this dataset.",
+  "primary_metric_name": "ROC-AUC difference (RF - LogReg), mean over 5 folds",
+  "primary_metric_value": -0.0043395951136975695,
+  "direction": "LogReg >= RF",
+  "methodological_choices": "Target encoded as binary (>50K=1, <=50K=0). Missing values in categorical columns (workclass, occupation, native-country, originally '?') were kept as an explicit 'Missing' category rather than imputed or dropped, since missingness may be informative. Numeric features were standardized (StandardScaler) and categorical features one-hot encoded (handle_unknown='ignore'); the identical preprocessing pipeline was used for both models so the comparison isolates model class rather than feature representation (RF doesn't require scaling, but scaling does not affect tree splits). Both models used scikit-learn default hyperparameters except random_state=42 for RandomForestClassifier (LogisticRegression is deterministic under defaults). Evaluation used StratifiedKFold(n_splits=5, shuffle=True, random_state=42) with cross_val_score(scoring='roc_auc'); preprocessing was fit within each training fold via Pipeline to avoid leakage. No class-imbalance handling (e.g. class_weight) was applied since ROC-AUC is threshold-independent and the ~24% positive rate is not extreme. Statistical significance of the paired per-fold AUC difference was assessed with a paired t-test."
+}

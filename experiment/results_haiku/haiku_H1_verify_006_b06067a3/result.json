@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H1",
+  "summary": "Model family choice meaningfully affects performance. Random Forest (accuracy: 0.8554) substantially outperforms Logistic Regression (accuracy: 0.8089), a difference of 0.0465. This difference is stable across multiple cross-validation runs with different random seeds.",
+  "primary_metric_name": "Mean test accuracy difference (best - worst model)",
+  "primary_metric_value": 0.0464968567995101,
+  "direction": "Random Forest > Logistic Regression by 0.0465",
+  "methodological_choices": "4 model families compared: Logistic Regression, Decision Tree, Random Forest (30 trees), and Gradient Boosting (30 trees). Features: categorical labels encoded, numerical features imputed with median. Evaluation: 3-fold stratified cross-validation on full dataset (no separate test set to maximize data usage). Two random seeds (42, 123) for stability assessment.",
+  "verification_method": "Cross-validation repeated with 2 different random seeds, 3-fold stratified split each",
+  "verification_result": "Finding confirmed stable: Random Forest averaged 0.8554 \u00b1 0.0001 across runs. Logistic Regression averaged 0.8089 \u00b1 0.0009. Difference of 0.0465 is consistent across seeds."
+}

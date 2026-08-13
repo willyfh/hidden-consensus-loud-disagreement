@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H2",
+  "summary": "No: with scikit-learn defaults, LogisticRegression() achieves a slightly higher stratified 5-fold cross-validated ROC-AUC (~0.907) than RandomForestClassifier() (~0.902) on this dataset. The gap is small (~0.004 AUC) but consistent, so on this metric default logistic regression edges out default random forest rather than the reverse.",
+  "primary_metric_name": "ROC-AUC difference (RF - LogReg), mean across 5-fold CV",
+  "primary_metric_value": -0.004347567342258718,
+  "direction": "LogReg > RF",
+  "methodological_choices": "Missing values in workclass/occupation/native-country (encoded as NaN, originally '?') were kept as an explicit 'Missing' category rather than dropping rows. Categorical features one-hot encoded (handle_unknown='ignore'). Numeric features standardized for LogReg (StandardScaler) but left raw for RF (tree-based models are scale-invariant). Both models used scikit-learn defaults with only random_state fixed for reproducibility (RF: random_state=42; LogReg has no inherent randomness with default solver). No class-imbalance handling (class_weight left at default 'None') since ROC-AUC is relatively robust to the observed ~24%/76% imbalance and the question specifies pure sklearn defaults. Evaluation metric: ROC-AUC via stratified 5-fold CV (shuffle=True, random_state=42), as specified in the research question.",
+  "verification_method": "Repeated the stratified 5-fold CV five times with different random seeds (1-5, each reshuffling fold assignments) and compared the RF-LogReg ROC-AUC difference across runs.",
+  "verification_result": "Finding held up, in the direction opposite to the naive hypothesis: LogReg outperformed RF in all 5 repeated runs (RF never won). Diff (RF-LogReg) mean=-0.00403, std=0.00026, range=[-0.00449, -0.00367]. LogReg mean ROC-AUC=0.90668, RF mean ROC-AUC=0.90264. So the answer to H2 ('does RF beat LogReg?') is consistently no."
+}

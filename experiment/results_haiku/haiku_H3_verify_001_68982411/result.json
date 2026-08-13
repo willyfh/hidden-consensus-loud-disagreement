@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H3",
+  "summary": "The most important feature for predicting income (>50K) is capital-gain, with a mean permutation importance of 0.1968. This finding was validated through 5 repeated 5-fold cross-validation with different random seeds, and 5/5 repeats confirmed it as top-ranked.",
+  "primary_metric_name": "Random Forest mean feature importance (repeated 5x5-fold CV)",
+  "primary_metric_value": 0.1967625429757422,
+  "direction": "capital-gain > other features",
+  "methodological_choices": "Random Forest with 100 trees, max_depth=15, stratified 5-fold CV repeated 5 times with different seeds. Categorical features label-encoded, missing values (' ?') replaced with mode. Binary classification target: income > 50K. Model evaluated on test AUC and accuracy.",
+  "verification_method": "5 repeated 5-fold stratified cross-validation with seeds [42, 123, 456, 789, 999]. Checked feature rankings and importance values across all repeats.",
+  "verification_result": "Finding held stable. Top feature capital-gain appeared as top-1 in 5/5 repeats. Mean AUC: 0.9175 \u00b1 0.0027. Top 5 features remained consistent across repeats."
+}

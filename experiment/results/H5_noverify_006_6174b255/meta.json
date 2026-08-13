@@ -1,0 +1,25 @@
+{
+  "run_id": "H5_noverify_006_6174b255",
+  "hypothesis_id": "H5",
+  "verify_arm": false,
+  "replicate_idx": 6,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H5_noverify_006_6174b255_h1ysp36s",
+  "started_at": 1785884738.974994,
+  "returncode": 0,
+  "stdout_tail": "Analysis complete. **Finding: No, SMOTE does not change the minority-class F1 score by more than 0.02.**\n\n- Baseline (no resampling): F1 (>50K) = 0.6801\n- With SMOTE: F1 (>50K) = 0.6765\n- Difference: **-0.0037** (well under the 0.02 threshold)\n\nBoth `analysis.py` and `result.json` are saved in the working directory. Key methodological choices: 75/25 stratified split, missing categoricals filled with an explicit \"Missing\" category, ordinal encoding for RF/SMOTE compatibility, imblearn's default SMOTE (k=5) applied only to training data, and fully default RandomForestClassifier hyperparameters in both conditions.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785884910.11937,
+  "wall_clock_seconds": 171.144376039505,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H5",
+    "summary": "Applying SMOTE oversampling to the training data changed the minority-class (>50K) F1 score from 0.6801 (no resampling) to 0.6765 (SMOTE), a difference of -0.0037, which is not more than the 0.02 threshold. With a default RandomForestClassifier, SMOTE did not meaningfully change minority-class F1 on held-out test data.",
+    "primary_metric_name": "F1 (>50K) difference (SMOTE - no resampling)",
+    "primary_metric_value": -0.0037,
+    "direction": "SMOTE decreases minority F1 by 0.0037 (<= 0.02 threshold)",
+    "methodological_choices": "75/25 stratified train/test split, random_state=42. Missing categorical values (workclass/occupation/native-country, coded as NaN) filled with a 'Missing' category rather than dropped. Categorical features ordinal-encoded (fit on train only) rather than one-hot, since RandomForest handles ordinal-coded splits fine and this avoids high dimensionality; SMOTE was applied to this same encoded numeric space, treating ordinal codes as continuous (a simplification also made for computational reasons \u2014 one-hot + SMOTE is more standard but more expensive). SMOTE (imblearn, default k_neighbors=5) applied to training data only, never to test data. RandomForestClassifier used with fully default hyperparameters in both conditions (only random_state fixed for reproducibility). Minority class = '>50K'. Metric: F1 score for the '>50K' class specifically (not macro/weighted), evaluated on a single held-out test split (no cross-validation / repeated resampling to estimate variance of the difference)."
+  }
+}

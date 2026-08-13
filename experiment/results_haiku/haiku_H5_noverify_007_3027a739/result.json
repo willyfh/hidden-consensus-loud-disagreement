@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H5",
+  "summary": "SMOTE oversampling decreased the minority-class (>50K) F1 score by 0.001008, which is not greater than the 0.02 threshold.",
+  "primary_metric_name": "F1 score difference (SMOTE - No SMOTE) for minority class (>50K)",
+  "primary_metric_value": -0.001008,
+  "direction": "SMOTE worsens F1 by 0.0010 (within 0.02 threshold)",
+  "methodological_choices": "Data preprocessing: filled missing values in workclass, occupation, and native-country with mode values. Feature encoding: LabelEncoder applied to all categorical features. Train-test split: 80-20 stratified split (random_state=42). Model: RandomForestClassifier with default hyperparameters (no tuning). SMOTE configuration: default settings (random_state=42). Evaluation metric: F1 score for minority class (>50K), calculated on held-out test set. The test set was not resampled, ensuring a fair evaluation of both models on the same data distribution."
+}

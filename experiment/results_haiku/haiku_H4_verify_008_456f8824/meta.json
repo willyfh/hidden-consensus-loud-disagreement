@@ -1,0 +1,27 @@
+{
+  "run_id": "haiku_H4_verify_008_456f8824",
+  "hypothesis_id": "H4",
+  "verify_arm": true,
+  "replicate_idx": 8,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H4_verify_008_456f8824_pf1ug991",
+  "started_at": 1786138508.518979,
+  "returncode": 0,
+  "stdout_tail": "Perfect! I've completed the analysis investigating whether addressing class imbalance improves model quality on the Adult income dataset. Here's a summary:\n\n## Key Findings:\n\n**Dataset**: 48,842 samples with a 3.18:1 class imbalance (23.93% minority class earning >50K)\n\n**Models Evaluated**:\n- Baseline: Random Forest without imbalance handling\n- With SMOTE: Synthetic oversampling\n- With Class Weights: Automatic weight balancing (best performer)\n\n**Results Summary**:\n\n| Metric | Baseline | With Class Weights | Change |\n|--------|----------|-------------------|--------|\n| ROC-AUC | 0.8647 | 0.8647 | \u00b10.0000 |\n| F1-Score | 0.5728 | 0.6192 | +0.0464 |\n| Recall | 0.4538 | 0.7495 | +0.2957 |\n| Precision | 0.7801 | 0.5258 | -0.2543 |\n| Balanced Accuracy | 0.7067 | 0.7684 | +0.0617 |\n\n**Stability**: Verified across 5 repeated evaluations with different random seeds\u2014findings are robust and consistent.\n\n**Interpretation**: Addressing class imbalance improves metrics like F1-Score (+4.6%) and recall (+65%), but does not improve ROC-AUC, which is threshold-independent. The improvement represents a precision-recall tradeoff where the model becomes more sensitive to the minority class.\n\n**Answer to H4**: Yes, addressing class imbalance improves model quality on metrics that depend on the decision threshold (F1, recall, balanced accuracy), though not on threshold-independent metrics (ROC-AUC). The improvements are modest but consistent.\n\nBoth `result.json` and `analysis.py` have been saved to the current directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786138645.194067,
+  "wall_clock_seconds": 136.67508792877197,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H4",
+    "summary": "Addressing class imbalance through class weights improves F1-Score (+4.6%) and recall (+64.7%) but does not improve ROC-AUC. This indicates that imbalance handling techniques shift the prediction threshold toward detecting more positive cases, which is beneficial for F1-Score but irrelevant for ROC-AUC. Improvements are modest and come at the cost of reduced precision.",
+    "primary_metric_name": "F1-Score improvement (Imbalance-handled - Baseline)",
+    "primary_metric_value": 0.0463,
+    "direction": "With Class Weights > Baseline on F1-Score (+0.0463) and Recall (+0.2957); ROC-AUC unchanged",
+    "methodological_choices": "Random Forest (n_estimators=100, max_depth=15) with stratified 5-fold cross-validation. Categorical features encoded with LabelEncoder. Imbalance handling methods tested: SMOTE and class weights. Evaluation metrics: ROC-AUC (primary), F1-Score, Precision, Recall, Balanced Accuracy. Stability verified through 5 repeated evaluations with different random seeds (42, 123, 456, 789, 999).",
+    "verification_method": "5x repeated 5-fold stratified cross-validation with different random seeds (42, 123, 456, 789, 999)",
+    "verification_result": "Finding stable across 5 different random seeds: F1-Score improvement +0.0463 (+/- 0.0012), ROC-AUC unchanged at -0.0000 (+/- 0.0004). Precision-recall tradeoff observed: recall improves from 0.45 to 0.75, precision decreases from 0.78 to 0.53."
+  }
+}

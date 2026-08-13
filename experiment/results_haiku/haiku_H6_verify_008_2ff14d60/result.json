@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H6",
+  "summary": "The trained models are well-calibrated. Both a logistic regression model (ECE=0.0134) and random forest model (ECE=0.0151) demonstrate excellent calibration with Expected Calibration Error values far below the 0.05 threshold, indicating that predicted probabilities reliably reflect actual outcomes.",
+  "primary_metric_name": "Expected Calibration Error (ECE) on test set",
+  "primary_metric_value": 0.0142,
+  "direction": "Models are well-calibrated (ECE near 0)",
+  "methodological_choices": "Preprocessed data by imputing missing values with mode for categorical features and median for numeric features (3.7% of data). Separated target variable (>50K income classification) from 14 features and applied LabelEncoder to categorical variables. Trained logistic regression (max_iter=1000) and random forest (100 trees, max_depth=15) on 70% training split. Evaluated calibration using Expected Calibration Error (ECE) with 10 bins, Maximum Calibration Error (MCE), Brier Score, and Hosmer-Lemeshow test on 30% test set (14,653 samples). Used stratified splits to preserve class distribution (23.93% positive class).",
+  "verification_method": "Validated stability using two approaches: (1) 5-fold stratified cross-validation across full dataset; (2) Repeated 80-20 train-test splits with 5 different random seeds (42, 123, 456, 789, 999). Examined ECE values across all validation folds to ensure consistency.",
+  "verification_result": "Finding held up robustly. Cross-validation ECE: LR 0.0179±0.0035, RF 0.0144±0.0026. Repeated splits ECE: LR 0.0164±0.0024, RF 0.0147±0.0019. All estimates remained in the excellent calibration range (ECE < 0.02), with minimal variance across different data splits and random seeds, confirming the models are genuinely well-calibrated and the finding is stable."
+}

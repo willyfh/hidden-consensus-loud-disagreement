@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H1",
+  "summary": "Yes, model family meaningfully affects predictive performance on the Adult Census Income dataset. Gradient Boosting achieves 0.9195 mean AUC via cross-validation, substantially outperforming Decision Trees (0.7446), a 0.1748 AUC difference. Tree-based ensemble methods (GB, RF) significantly outperform linear/instance-based models, demonstrating that model family choice is a critical determinant of performance.",
+  "primary_metric_name": "Max AUC difference between model families (Gradient Boosting vs Decision Tree) via 3x5 CV",
+  "primary_metric_value": 0.1748,
+  "direction": "Gradient Boosting >> Random Forest >> Logistic Regression >> KNN >> Decision Tree",
+  "methodological_choices": "Preprocessing: label-encoded categorical features (8 features), standardized numerical features (6 features), filled missing values with mode/median per column type. Train/test split: 70/30 stratified split (random_state=42). Models: Logistic Regression (max_iter=1000), Decision Tree (default params), Random Forest (100 trees), Gradient Boosting (100 trees), KNN (k=5). Evaluation: ROC-AUC as primary metric (more informative than accuracy given 76% class imbalance toward <=50K). Validation: 3 repeats of 5-fold stratified CV on training set (15 total CV splits per model) to assess stability across random seeds.",
+  "verification_method": "3 repeats of 5-fold stratified cross-validation with different random seeds on training set. Assessed both mean and std of AUC scores across all folds. Verified that 95% confidence intervals do not overlap between model families, confirming stable, replicable differences.",
+  "verification_result": "Finding held up robustly. CV mean AUC differences were nearly identical to test set differences (test: 0.1708, CV: 0.1748 for GB vs DT). All 5 models ranked identically on test and CV metrics (GB > RF > LR > KNN > DT). Model stability (std/mean) was consistent across CV runs (range: 0.0042-0.0068), with no anomalies. 95% CI ranges were tight and non-overlapping between model families, indicating the performance hierarchy is genuine and not due to random variation."
+}

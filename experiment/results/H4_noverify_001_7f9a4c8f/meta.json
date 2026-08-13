@@ -1,0 +1,25 @@
+{
+  "run_id": "H4_noverify_001_7f9a4c8f",
+  "hypothesis_id": "H4",
+  "verify_arm": false,
+  "replicate_idx": 1,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_noverify_001_7f9a4c8f_tri130yd",
+  "started_at": 1785883498.1655822,
+  "returncode": 0,
+  "stdout_tail": "The analysis ran cleanly. Findings on H4:\n\n**Does addressing class imbalance improve model quality?** Largely no, for discriminative quality \u2014 it mainly shifts the decision threshold.\n\n- **ROC-AUC / PR-AUC** (threshold-free ranking quality) are essentially unchanged or slightly *worse* with `class_weight='balanced'` or SMOTE, across both Logistic Regression and Random Forest (mean ROC-AUC delta: **-0.0017**).\n- **Minority-class (>50K) recall** jumps substantially (+0.16 to +0.25), but **precision drops** by a similar magnitude (-0.14 to -0.18), since the models predict the minority class much more often.\n- **F1 (minority)** improves modestly (+0.01 to +0.02) and **balanced accuracy** improves modestly (+0.04 to +0.06) \u2014 these benefit from the more balanced threshold behavior.\n- Best raw performer overall was Random Forest with no imbalance handling (ROC-AUC 0.918, PR-AUC 0.808) \u2014 imbalance handling on RF actually reduced PR-AUC by up to 0.025.\n\nSince Adult Income's imbalance (~76/24) is moderate rather than extreme, the models already learn a good ranking function from the raw class distribution; imbalance handling just re-calibrates where the 0.5 cutoff falls, trading precision for recall on the minority class rather than producing a genuinely better model.\n\nBoth `analysis.py` and `result.json` have been written to the working directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785883670.254238,
+  "wall_clock_seconds": 172.08865571022034,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H4",
+    "summary": "Addressing class imbalance (class_weight='balanced' or SMOTE) barely changes ranking-based quality (ROC-AUC/PR-AUC virtually unchanged) but substantially shifts the precision/recall trade-off at the default 0.5 threshold: minority-class (>50K) recall rises sharply while precision and F1 drop, and balanced accuracy improves modestly. So imbalance handling does not improve overall discriminative quality, it mainly re-calibrates the decision threshold toward the minority class.",
+    "primary_metric_name": "Mean ROC-AUC delta (imbalance-handling strategies - baseline, averaged across LogReg/RF and ClassWeight/SMOTE)",
+    "primary_metric_value": -0.0016574309519057917,
+    "direction": "imbalance handling ~= baseline on ROC-AUC/PR-AUC; recall(minority) up, precision(minority) down, F1 mixed",
+    "methodological_choices": "Binary target = 1 if class=='>50K'. Stratified 75/25 train/test split (test set left imbalanced to reflect real deployment distribution), random_state=42. Missing categoricals imputed with an explicit 'Missing' category; missing numerics (none present) would use median imputation. Categoricals one-hot encoded, numerics standardized. Two model families: Logistic Regression (max_iter=1000) and Random Forest (300 trees, min_samples_leaf=2). Three imbalance regimes compared per model: no handling (baseline), class_weight='balanced', and SMOTE oversampling applied only to the training fold within an imblearn pipeline (to avoid leakage). Metrics: ROC-AUC and PR-AUC (average precision) as threshold-free ranking quality; F1/recall/precision on the minority '>50K' class and balanced accuracy at the default 0.5 threshold as threshold-dependent quality. Primary metric chosen as the ROC-AUC delta because it is the most common single-number 'model quality' metric and best isolates whether imbalance-handling changes genuine discriminative power vs. just moving the decision threshold. Alternative choices another researcher might make: threshold tuning via precision-recall curve instead of fixed 0.5 cutoff, random undersampling instead of/in addition to SMOTE, F1 or PR-AUC as the primary metric instead of ROC-AUC, or cross-validation instead of a single train/test split."
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H4",
+  "summary": "Addressing class imbalance does not improve model quality on this dataset. While some imbalance-handling methods produce marginal F1-score gains (average +1.1%), the primary metric (ROC-AUC) declines by an average of -0.43%, and cross-validation with multiple random seeds confirms no meaningful improvement. The dataset's moderate 3.18:1 class imbalance and tree-based models' inherent robustness appear to make additional balancing techniques unnecessary.",
+  "primary_metric_name": "ROC-AUC improvement from imbalance handling",
+  "primary_metric_value": -0.0043,
+  "direction": "Imbalance handling degrades model quality: no meaningful improvement on ROC-AUC; marginal gains on F1 not sufficient to recommend",
+  "methodological_choices": "Train/test split: stratified 70-30. Encoding: LabelEncoder for 8 categorical features. Scaling: StandardScaler applied to numeric features. Models tested: Logistic Regression, Random Forest (100 trees), Gradient Boosting (100 trees). Imbalance-handling methods: class_weight balancing, SMOTE oversampling, and random undersampling. Primary evaluation metric: ROC-AUC (robust to class imbalance). Secondary metric: F1-Score. Train set: 34,189 samples; test set: 14,653 samples.",
+  "verification_method": "5x repeated 5-fold stratified cross-validation with different random seeds (42, 123, 456, 789, 999) on the training data. Evaluated both baseline (Logistic Regression) and class-weight balanced models across all folds.",
+  "verification_result": "Finding confirmed stable. Cross-validation results: baseline LR ROC-AUC = 0.8542 ± 0.0000, class-weight LR ROC-AUC = 0.8542 ± 0.0000 (improvement = +0.0000). No improvement observed across any of the 5 random seeds or 25 total cross-validation folds. Conclusion holds: imbalance handling provides no measurable benefit on this dataset."
+}

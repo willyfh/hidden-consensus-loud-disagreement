@@ -1,0 +1,27 @@
+{
+  "run_id": "H2_verify_006_8ed545db",
+  "hypothesis_id": "H2",
+  "verify_arm": true,
+  "replicate_idx": 6,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_verify_006_8ed545db_7sslzh2i",
+  "started_at": 1785882427.970881,
+  "returncode": 0,
+  "stdout_tail": "Both `analysis.py` and `result.json` are now saved in the working directory and consistent with the actual results.\n\n**Finding:** Contrary to the hypothesis, logistic regression edged out the random forest \u2014 LogReg mean ROC-AUC \u2248 0.907 vs RF \u2248 0.902 (diff = -0.0043) under default hyperparameters and identical preprocessing (one-hot categoricals, scaled numerics, missing categoricals imputed as \"Missing\"). Verified with 5\u00d75 repeated stratified CV (25 folds, different seed): LogReg beat RF in **all 25 folds**, with a stable gap (mean diff -0.0045, range -0.0094 to -0.0009) \u2014 so the finding held up robustly, just in the opposite direction from what H2 proposed.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785882885.337089,
+  "wall_clock_seconds": 457.36620807647705,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H2",
+    "summary": "No: with scikit-learn default hyperparameters, LogisticRegression achieves slightly higher stratified 5-fold CV ROC-AUC than RandomForestClassifier on the Adult Income dataset (~0.907 vs ~0.902). The gap is small but consistent and held up across repeated cross-validation with different random seeds.",
+    "primary_metric_name": "ROC-AUC difference (RF - LogReg), mean over 5-fold stratified CV",
+    "primary_metric_value": -0.0043,
+    "direction": "LogReg > RF",
+    "methodological_choices": "Target encoded as binary (1 = '>50K'). Missing values (present only in workclass, occupation, native-country) imputed as a constant 'Missing' category rather than dropped or mode-imputed, to preserve rows and let 'missingness' itself be informative. Identical preprocessing pipeline used for both models for a fair comparison: numeric features standardized (StandardScaler; a no-op for RF but needed for LogReg convergence/scale-sensitivity) and categorical features one-hot encoded (handle_unknown='ignore'). No feature selection or dimensionality reduction. Both models left at pure scikit-learn defaults as specified (RandomForestClassifier(), LogisticRegression() except max_iter=2000 to ensure LogReg convergence, which does not change its decision function/defaults, only lets the solver finish). No explicit class-imbalance handling (class_weight left at default 'None') since AUC is fairly robust to the ~3:1 imbalance and the question specifies sklearn defaults. Evaluation metric: ROC-AUC via stratified 5-fold CV (StratifiedKFold, shuffle=True, random_state=42), scored with cross_val_score.",
+    "verification_method": "Repeated stratified 5-fold CV with 5 repeats (25 total folds total, RepeatedStratifiedKFold, random_state=123, different from the primary analysis's seed) to check whether the RF-vs-LogReg AUC gap is stable across different fold splits/seeds, and to see how often RF actually outperforms LogReg fold-by-fold rather than relying on a single 5-fold split.",
+    "verification_result": "Repeated 5x5 stratified CV (25 folds, seed=123): RF mean AUC = 0.9022 (std 0.0028), LogReg mean AUC = 0.9067 (std 0.0028). RF - LogReg diff = -0.0045 (range -0.0094 to -0.0009); RF outperformed LogReg on 0/25 folds (LogReg > RF overall). Direction of the primary finding held: the primary 5-fold split showed LogReg > RF (diff -0.0043), and the sign/magnitude replicated consistently across all 25 repeated-CV folds with a similarly small gap."
+  }
+}

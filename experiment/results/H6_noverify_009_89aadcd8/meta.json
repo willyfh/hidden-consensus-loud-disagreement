@@ -1,0 +1,25 @@
+{
+  "run_id": "H6_noverify_009_89aadcd8",
+  "hypothesis_id": "H6",
+  "verify_arm": false,
+  "replicate_idx": 9,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H6_noverify_009_89aadcd8_pb5psps8",
+  "started_at": 1785939032.790881,
+  "returncode": 0,
+  "stdout_tail": "Both `analysis.py` and `result.json` are saved in the working directory.\n\n**Finding:** The model (HistGradientBoostingClassifier) is well-calibrated. On a held-out 40% test split, the Expected Calibration Error is 0.0073, Max Calibration Error is 0.0336, Brier score is 0.0877, and a calibration-curve regression gives slope \u22481.03 / intercept \u22480.016 (ideal: slope=1, intercept=0) \u2014 predicted probabilities track observed outcome frequencies closely across all 10 probability bins, with only mild overconfidence in the 0.4\u20130.5 and 0.8\u20130.9 bins. A logistic regression baseline showed comparably good calibration (ECE 0.0063), reinforcing the conclusion.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785939133.863195,
+  "wall_clock_seconds": 101.07231402397156,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H6",
+    "summary": "A HistGradientBoostingClassifier trained on the Adult Income data is reasonably well-calibrated: its Expected Calibration Error (ECE) on a held-out test set is 0.0073 (Brier score 0.0877), with predicted probabilities tracking observed outcome frequencies closely across probability bins, though the model is very slightly overconfident. A plain logistic regression baseline is similarly well-calibrated by construction (ECE 0.0063).",
+    "primary_metric_name": "Expected Calibration Error (ECE, 10 equal-width bins, GBM test set)",
+    "primary_metric_value": 0.0073,
+    "direction": "model is well-calibrated (low ECE, near-diagonal reliability curve)",
+    "methodological_choices": "Model: HistGradientBoostingClassifier (primary) plus LogisticRegression (comparison), both from scikit-learn with default-ish hyperparameters (GBM: max_iter=200). Preprocessing: rows with '?' treated as missing; numeric features standard-scaled; categorical features one-hot encoded (unknown categories ignored at test time). Target: binary, '>50K'=1. Validation: single stratified 60/40 train/test split (random_state=42), no cross-validation or post-hoc recalibration (e.g. Platt scaling or isotonic regression) applied \u2014 calibration assessed on raw predict_proba output. Calibration metrics: 10 equal-width probability bins for reliability diagram, Expected Calibration Error (sample-weighted mean |confidence-accuracy| across bins), Maximum Calibration Error, Brier score, and logistic calibration slope/intercept (regressing outcome on logit of predicted probability) as a complementary check. No class-imbalance correction (e.g. class_weight='balanced') was applied, since calibration should be judged on the model's natural predicted probabilities."
+  }
+}

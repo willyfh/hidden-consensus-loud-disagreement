@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H5",
+  "summary": "SMOTE oversampling changes the minority-class (>50K) F1 score by 0.001163 on the test set, which does not exceed the 0.02 threshold. Cross-validation validation (mean difference: 0.001764) does not confirm this finding.",
+  "primary_metric_name": "F1 Score difference (SMOTE - No Resampling) for minority class (>50K)",
+  "primary_metric_value": 0.001163,
+  "direction": "SMOTE improves F1 by 0.001163 (does not exceed 0.02 threshold)",
+  "methodological_choices": "Preprocessing: Dropped rows with missing values. Encoded all categorical features using LabelEncoder. Train-test split: 80-20 stratified split (random_state=42). Model: Default RandomForestClassifier(random_state=42) for both conditions. SMOTE: Applied only to training data using imblearn.over_sampling.SMOTE(random_state=42), using default k_neighbors=5. Evaluation: F1 score on test set, focusing on minority class (>50K) as pos_label=1. Target encoding: 1 = >50K (minority), 0 = <=50K (majority).",
+  "verification_method": "Repeated Stratified K-Fold Cross-Validation: 5-fold split repeated 5 times (25 total folds) with stratification to maintain class balance. Each fold evaluated for both baseline and SMOTE conditions.",
+  "verification_result": "Finding NEGATIVE. Test-set F1 difference: 0.001163. CV mean difference: 0.001764 (std=0.005768, 95% CI=[-0.008826, 0.011445]). 15/25 CV folds show improvement with SMOTE."
+}

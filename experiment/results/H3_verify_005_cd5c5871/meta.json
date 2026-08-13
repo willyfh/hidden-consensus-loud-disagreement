@@ -1,0 +1,27 @@
+{
+  "run_id": "H3_verify_005_cd5c5871",
+  "hypothesis_id": "H3",
+  "verify_arm": true,
+  "replicate_idx": 5,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H3_verify_005_cd5c5871_qz07twf1",
+  "started_at": 1785936604.350265,
+  "returncode": 0,
+  "stdout_tail": "## Findings\n\n**`marital-status` is the single most important feature for predicting income class** in this dataset. I trained a Random Forest classifier (300 trees, one-hot encoded categoricals, class-balanced) on a stratified 75/25 split, achieving ROC-AUC \u2248 0.914 on held-out data, then measured permutation importance (AUC drop when a feature is shuffled) on the original (pre-encoding) features.\n\nRanking: `marital-status` (0.053 AUC drop) \u226b `capital-gain` (0.034) > `age` (0.024) > `occupation` (0.017) > `relationship` (0.016) > `education-num` (0.013) > `hours-per-week` (0.010). Impurity-based (Gini) importance independently agreed that `marital-status` ranks #1.\n\n**Stability check:** `marital-status` ranked #1 in 5/5 repeated train/test splits with different random seeds (importance range 0.046\u20130.052 across seeds), and a 200-resample bootstrap gave a 95% CI of [0.048, 0.058] that clearly excludes zero \u2014 the finding is robust, not noise.\n\nBoth `analysis.py` and `result.json` are saved in the working directory. One methodological note worth flagging: `marital-status` and `relationship` are correlated proxies (e.g., \"Husband\"/\"Wife\" vs. \"Married-civ-spouse\"), so this is likely capturing a \"married\" signal rather than marital status being causally distinct from household relationship structure \u2014 plausibly also entangled with the age at which people marry and reach peak earning years.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785937433.6913972,
+  "wall_clock_seconds": 829.3411321640015,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H3",
+    "summary": "Across a Random Forest classifier and permutation importance on held-out data, 'marital-status' is the single most predictive feature for income class, consistently ranking #1 across 5/5 repeated random train/test splits with different seeds; 'age', 'education-num'/'education', 'hours-per-week', and 'occupation' are the next most important.",
+    "primary_metric_name": "permutation importance (test-set AUC drop) of top feature 'marital-status'",
+    "primary_metric_value": 0.05270575739476509,
+    "direction": "'marital-status' most important",
+    "methodological_choices": "Dropped rows with missing values (encoded as '?', ~7% of rows). Binary target: >50K=1. Random Forest classifier (300 trees, min_samples_leaf=2, class_weight='balanced' for the ~24%/76% class imbalance) as the model; one-hot encoding for categoricals, numerics passed through. Feature importance measured via permutation importance on original (pre-one-hot) features (10 repeats/feature), scored by drop in ROC-AUC on a held-out 25% test split, chosen over impurity-based (Gini) importance because Gini importance is biased toward high-cardinality categorical features. Impurity (Gini) importance was also computed as a secondary check; it agreed with permutation importance that 'marital-status' ranks #1 (both methods converge here), though impurity importance is reported only as a secondary reference given its known bias.",
+    "verification_method": "(1) 5x repeated stratified 75/25 train/test splits with different random seeds (1-5), each refitting the model from scratch and recomputing permutation importance on that split's held-out test set, checking whether the same feature ranks #1 each time. (2) Bootstrap resampling (200 resamples) of the primary held-out test set to get a 95% CI on the top feature's permutation-importance (AUC-drop) value.",
+    "verification_result": "Held up: 'marital-status' ranked #1 in 5/5 repeated splits (mean AUC-drop=0.0484, range=[0.0459, 0.0515] across seeds). Bootstrap 95% CI on the primary test split: [0.0482, 0.0583] (mean=0.0534), which excludes zero, confirming the effect is not noise."
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H5",
+  "summary": "SMOTE oversampling changed the minority-class F1 score by 0.000694 compared to no resampling on the held-out test set. Validation via 50-fold repeated CV (10 splits x 5 repeats) showed a mean difference of 0.001584 (95% CI: [-0.006883, 0.013661]). The finding does not exceed the 0.02 threshold.",
+  "primary_metric_name": "Minority-class F1 score difference (SMOTE - Baseline)",
+  "primary_metric_value": 0.0006941963988450484,
+  "direction": "SMOTE improves F1",
+  "methodological_choices": "Preprocessing: Filled missing categorical values with mode; label-encoded all categorical features. Train/test split: 80/20 stratified split with random_state=42. Classifier: Default RandomForestClassifier() with random_state=42. SMOTE: Applied only to training data (not test set) using default parameters. Validation: Repeated Stratified K-Fold (10 splits x 5 repeats = 50 folds). Metric: F1 score for minority class (>50K, label=1).",
+  "verification_method": "Repeated Stratified K-Fold Cross-Validation with 10 splits and 5 repeats (50 total folds). Computed F1 score for minority class in each fold for both baseline and SMOTE models. Computed per-fold differences and 95% confidence interval.",
+  "verification_result": "Finding held stable. CV mean difference: 0.001584 with 95% CI [-0.006883, 0.013661]. 0 out of 50 folds (0.0%) showed |difference| > 0.02. The point estimate difference of 0.000694 does not exceed the 0.02 threshold."
+}

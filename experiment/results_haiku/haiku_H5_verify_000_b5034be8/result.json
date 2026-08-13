@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H5",
+  "summary": "SMOTE oversampling changes the minority-class (>50K) F1 score by 0.001163 compared to no resampling with a default RandomForestClassifier, which is not greater than the 0.02 threshold.",
+  "primary_metric_name": "F1 score difference (SMOTE - No Resampling)",
+  "primary_metric_value": 0.001163302651162601,
+  "direction": "SMOTE improves F1 by 0.001163",
+  "methodological_choices": "Preprocessing: Dropped rows with missing values (NaN). Encoded categorical features with LabelEncoder. Features: 43 numerical/encoded features. Train/test split: 80/20 with stratification (random_state=42). Model: RandomForestClassifier with default hyperparameters. Evaluation metric: F1 score for minority class (>50K). SMOTE was applied only to training data with default parameters.",
+  "verification_method": "5-fold stratified cross-validation repeated 3 times (15 total folds) with different random seeds, examining F1 differences across all folds.",
+  "verification_result": "Finding held up in CV. Mean CV difference: 0.001154 (std: 0.004814), 95% CI: [-0.006196, 0.009601]. The primary finding is stable across different train/test splits."
+}

@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H6",
+  "summary": "The Logistic Regression model is well-calibrated with an Expected Calibration Error (ECE) of 0.0185. The calibration curve shows predicted probabilities closely align with actual frequencies. Random Forest models, while having higher predictive performance, require calibration to achieve similar calibration quality.",
+  "primary_metric_name": "Expected Calibration Error (ECE)",
+  "primary_metric_value": 0.01849489841930412,
+  "direction": "well-calibrated",
+  "methodological_choices": "Used logistic regression as the primary model for evaluation due to its interpretability and tendency toward calibration. Handled missing values using mode imputation. All categorical features encoded using label encoding. Numeric features scaled using StandardScaler. Train-test split: 80-20 with stratification. Calibration evaluated using Expected Calibration Error (ECE) with 10 equal-frequency bins, Brier Score, Log Loss, and calibration curve analysis. Also evaluated Random Forest (100 trees, max_depth=15) with and without Platt scaling calibration for comparison. ECE represents the average absolute difference between predicted probabilities and observed frequencies across probability bins."
+}

@@ -1,0 +1,27 @@
+{
+  "run_id": "haiku_H1_verify_005_8090a4cb",
+  "hypothesis_id": "H1",
+  "verify_arm": true,
+  "replicate_idx": 5,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H1_verify_005_8090a4cb_5yoexfq2",
+  "started_at": 1786136505.851428,
+  "returncode": 0,
+  "stdout_tail": "Perfect! The analysis is complete. Here's a summary of my findings:\n\n## Research Question: Does model family choice meaningfully affect predictive performance?\n\n**Answer: YES. Model family choice has a statistically significant and practically large effect on performance.**\n\n### Key Findings\n\n**Primary Analysis (5-fold CV):**\n- Gradient Boosting: 0.9209 ROC-AUC\n- Random Forest: 0.9068 ROC-AUC  \n- SVM: 0.8911 ROC-AUC\n- Logistic Regression: 0.8544 ROC-AUC\n- Naive Bayes: 0.8561 ROC-AUC\n- KNN: 0.8516 ROC-AUC\n- Decision Tree: 0.7456 ROC-AUC\n\n**Performance Difference:** 0.1721 ROC-AUC (23% relative difference) between best and worst models\n\n**Validation (Repeated 10-fold CV, 5 random seeds):**\n- Best: Gradient Boosting (\u03bc=0.9210, 95% CI=[0.9132, 0.9279])\n- Worst: Decision Tree (\u03bc=0.7489, 95% CI=[0.7335, 0.7636])\n- **No confidence interval overlap**, indicating statistically significant differences\n- **Effect size (CV of model means): 0.0611** \u2192 Large effect\n\n### Methodological Approach\n- **Preprocessing:** Label-encoded categorical features; StandardScaler for distance-based models\n- **Models:** 7 diverse families (linear, tree-based, ensemble, distance-based, probabilistic)\n- **Validation:** Stratified 5-fold CV (primary); repeated 10-fold CV with 5 seeds (verification)\n- **Metric:** ROC-AUC (handles class imbalance in this 76% negative, 24% positive dataset)\n\nThe finding is robust and holds across repeated cross-validation with different random seeds.\n\n**Files saved:**\n- `result.json` - Structured findings with metadata\n- `analysis.py` - Complete analysis code for reproducibility\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786137061.1695518,
+  "wall_clock_seconds": 555.3181238174438,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H1",
+    "summary": "Model family choice meaningfully affects predictive performance on the Adult Income dataset. The best model (Gradient Boosting) achieves ROC-AUC of 0.9210, while the worst (Decision Tree) achieves 0.7489, a difference of 0.1721 (23.0%). This effect is stable across repeated cross-validation.",
+    "primary_metric_name": "ROC-AUC difference (Gradient Boosting - Decision Tree)",
+    "primary_metric_value": 0.17210787088003554,
+    "direction": "Gradient Boosting > Decision Tree (model family choice matters)",
+    "methodological_choices": "Preprocessing: Label-encoded categorical features, StandardScaler for SVM/KNN/LogReg. Models: LogisticRegression, DecisionTree, RandomForest, GradientBoosting, SVM, KNN, GaussianNB. Validation: 5-fold stratified CV on original features; repeated 10-fold CV (5 seeds) for stability. Metric: ROC-AUC (handles class imbalance well). Random state fixed at 42 for reproducibility.",
+    "verification_method": "Repeated 10-fold stratified cross-validation with 5 different random seeds (50 total folds per model)",
+    "verification_result": "Finding held up: performance differences remained consistent. Best model Gradient Boosting (\u03bc=0.9210, 95% CI=[0.9132, 0.9279]) vs worst model Decision Tree (\u03bc=0.7489, 95% CI=[0.7335, 0.7636]). No CI overlap between models, indicating statistically significant differences."
+  }
+}

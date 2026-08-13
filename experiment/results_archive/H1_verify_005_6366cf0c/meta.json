@@ -1,0 +1,17 @@
+{
+  "run_id": "H1_verify_005_6366cf0c",
+  "hypothesis_id": "H1",
+  "verify_arm": true,
+  "replicate_idx": 5,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_verify_005_6366cf0c_2fktchat",
+  "started_at": 1785882010.6018162,
+  "returncode": 0,
+  "stdout_tail": "I've set up a watcher that will notify me once the analysis script finishes or fails. I'll continue once that notification arrives.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785882427.964643,
+  "wall_clock_seconds": 417.36282682418823,
+  "result_json_found": false,
+  "analysis_py_found": true
+}

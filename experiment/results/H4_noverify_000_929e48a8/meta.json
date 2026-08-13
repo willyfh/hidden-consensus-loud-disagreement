@@ -1,0 +1,25 @@
+{
+  "run_id": "H4_noverify_000_929e48a8",
+  "hypothesis_id": "H4",
+  "verify_arm": false,
+  "replicate_idx": 0,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_noverify_000_929e48a8_abws3vlu",
+  "started_at": 1785883489.7600908,
+  "returncode": 0,
+  "stdout_tail": "Results are consistent and sensible. Both `analysis.py` and `result.json` are saved in the working directory.\n\n**Finding:** Class imbalance handling (class-weighting or SMOTE) does **not** improve ranking quality \u2014 ROC-AUC stays ~0.90-0.91 and PR-AUC actually drops slightly for both model families. What it does is shift the decision threshold: minority-class (>50K) recall jumps substantially (e.g., RF: 0.62\u21920.74 with class weighting, LogReg: 0.59\u21920.84), at the cost of precision and overall accuracy. Macro-F1, a balanced measure of both classes, moves only marginally (+0.006 for RF, actually -0.011 for LogReg).\n\nSo the answer to H4 is nuanced: imbalance correction helps if you specifically value catching more of the minority (`>50K`) class, but it doesn't improve the model's underlying discriminative power, and by some balanced metrics (macro-F1 for LogReg) it's slightly worse. I picked RF's class-weighted macro-F1 delta as the primary metric since it's the most literal \"does it improve overall model quality\" number, but flagged in `methodological_choices` that choosing minority-recall or PR-AUC instead would tell a different story.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785883679.0232909,
+  "wall_clock_seconds": 189.26320004463196,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H4",
+    "summary": "Addressing class imbalance (via class_weight='balanced' or SMOTE) does not improve ranking quality (ROC-AUC/PR-AUC are essentially unchanged) but it does trade accuracy and precision for substantially higher minority-class (>50K) recall, shifting the decision threshold rather than the underlying model; macro-F1 barely moves and can even decrease slightly, so 'quality' improves only if recall on the minority class is the priority metric.",
+    "primary_metric_name": "macro-F1 difference (RF class_weight='balanced' - RF baseline)",
+    "primary_metric_value": 0.0064,
+    "direction": "improves recall/balanced-accuracy, not ranking (ROC-AUC ~unchanged), macro-F1 ~flat",
+    "methodological_choices": "Missing categorical values (workclass/occupation/native-country, ~2-6% of rows) imputed with an explicit 'Missing' category rather than dropped or mode-imputed. One-hot encoding for 8 categorical columns, StandardScaler for 6 numeric columns (fnlwgt, age, education-num, capital-gain/loss, hours-per-week) inside a ColumnTransformer. Single stratified 75/25 train/test split (random_state=42), no k-fold CV, so estimates carry some sampling variance. Two model families: LogisticRegression (max_iter=1000) and RandomForestClassifier (n_estimators=300); both are reasonable defaults, not tuned via grid/random search. Three imbalance treatments compared per family: (a) baseline/no handling, (b) class_weight='balanced' (reweights the loss, no resampling), (c) SMOTE oversampling of the minority class applied only to the training fold (via imblearn.Pipeline to avoid leakage into test data). Evaluation kept the test set in its natural ~76/24 imbalanced ratio (imbalance-correction should not leak into evaluation), using ROC-AUC, PR-AUC (average precision), balanced accuracy, macro-F1, and minority-class precision/recall/F1 as complementary metrics rather than relying on plain accuracy, which is misleading here. Primary metric chosen as macro-F1 delta for RF class-weighting vs RF baseline (RF was the stronger of the two families); other researchers might instead prioritize minority-class recall, PR-AUC, or a cost-weighted metric, which would shift the headline conclusion toward 'yes it helps' rather than 'roughly neutral, trades precision for recall'."
+  }
+}

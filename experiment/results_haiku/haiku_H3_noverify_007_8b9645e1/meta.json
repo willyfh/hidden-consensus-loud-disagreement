@@ -1,0 +1,25 @@
+{
+  "run_id": "haiku_H3_noverify_007_8b9645e1",
+  "hypothesis_id": "H3",
+  "verify_arm": false,
+  "replicate_idx": 7,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H3_noverify_007_8b9645e1_56jmtnnf",
+  "started_at": 1786137978.517909,
+  "returncode": 0,
+  "stdout_tail": "Analysis complete. I've investigated which features are most important for predicting income in the adult dataset.\n\n## Key Finding\n\n**Marital status is the most important feature** for predicting income, with an importance score of 0.3685 in the Gradient Boosting model. Being married (specifically married-civ-spouse) is the dominant factor.\n\n### Top 3 Features:\n1. **Marital-status** (importance: 0.37) \u2014 30.91% of predictive power\n2. **Capital-gain** (importance: 0.20) \u2014 Investment gains are a strong indicator  \n3. **Education** (importance: 0.20) \u2014 Education level matters significantly\n\nThese three features account for **64.2%** of the model's total predictive power.\n\n### Approach\n\nI trained a Gradient Boosting Classifier (87.19% accuracy) on the preprocessed data:\n- Cleaned 46,033 rows (removed rows with missing workclass/occupation)\n- One-hot encoded 13 categorical features\n- Used 6 numeric features unchanged\n- Grouped one-hot components back to original features for interpretability\n- Compared with Random Forest for validation\n\nBoth models confirm marital status and capital gains as top predictors, with education also ranking highly.\n\n**Files saved:**\n- `result.json` \u2014 findings in required format\n- `analysis.py` \u2014 complete analysis code\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786138065.8696692,
+  "wall_clock_seconds": 87.35176014900208,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H3",
+    "summary": "Using Gradient Boosting classification with one-hot encoded categorical features and numeric features, the most important feature for predicting income is marital-status with an importance score of 0.3685. The top 3 features are marital-status, capital-gain, and education, which together account for 64.2% of the model's predictive power.",
+    "primary_metric_name": "Top feature importance (Gradient Boosting)",
+    "primary_metric_value": 0.36849839734078826,
+    "direction": "marital-status is most important",
+    "methodological_choices": "Gradient Boosting Classifier (100 estimators, max_depth=5) trained on preprocessed data with one-hot encoding for 13 categorical features and 1 numeric feature (fnlwgt). Rows with missing values in workclass and occupation were removed. Target was binary encoded (<=50K=0, >50K=1). 80-20 train-test split with stratification. Feature importance calculated from tree-based model's native importance scores. Original features grouped by name to aggregate one-hot encoded components."
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "run_id": "H6_verify_007_320d81de",
+  "hypothesis_id": "H6",
+  "verify_arm": true,
+  "replicate_idx": 7,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H6_verify_007_320d81de_juyqu_2k",
+  "started_at": 1785939288.486333,
+  "returncode": 0,
+  "stdout_tail": "I'm waiting for the background analysis script (fitting a gradient boosting model plus 20 repeated stability re-fits) to finish running before I can report results \u2014 this should complete within the next few minutes and I'll follow up with the findings once it does.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785939693.984436,
+  "wall_clock_seconds": 405.49810314178467,
+  "result_json_found": false,
+  "analysis_py_found": true
+}

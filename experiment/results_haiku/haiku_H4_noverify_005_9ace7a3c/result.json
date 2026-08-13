@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H4",
+  "summary": "Class imbalance handling strategies (SMOTE, undersampling, combined) were tested on Logistic Regression and Random Forest models. The analysis shows significant improvements in model quality when addressing imbalance, with the largest gain of 6.51% in balanced accuracy.",
+  "primary_metric_name": "Maximum balanced accuracy improvement (%)",
+  "primary_metric_value": 6.51,
+  "direction": "Imbalance handling improves metrics (max +6.51% balanced accuracy)",
+  "methodological_choices": "Label encoding for categorical variables; stratified 70/30 train-test split; tested Logistic Regression and Random Forest; evaluated with ROC-AUC, F1, balanced accuracy, precision, and recall; imbalance strategies: SMOTE, random undersampling, and their combination; evaluation performed on unmodified test set to avoid data leakage."
+}

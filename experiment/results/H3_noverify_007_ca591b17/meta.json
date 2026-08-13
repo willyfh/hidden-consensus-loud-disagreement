@@ -1,0 +1,25 @@
+{
+  "run_id": "H3_noverify_007_ca591b17",
+  "hypothesis_id": "H3",
+  "verify_arm": false,
+  "replicate_idx": 7,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H3_noverify_007_ca591b17_bk6w67w1",
+  "started_at": 1785882885.2106528,
+  "returncode": 0,
+  "stdout_tail": "This matches the actual output correctly. The `result.json` and `analysis.py` files are both complete and consistent.\n\n## Findings\n\nUsing a RandomForestClassifier (300 trees, class-balanced, 75/25 stratified split) on the cleaned dataset (45,222 rows after dropping missing values), the model achieved **test ROC-AUC = 0.914**.\n\nRanking features by **permutation importance** (mean ROC-AUC drop on held-out data, more reliable than impurity-based importance since it isn't biased toward high-cardinality columns like `fnlwgt` or `native-country`):\n\n| Rank | Feature | Importance |\n|---|---|---|\n| 1 | capital-gain | 0.0443 |\n| 2 | relationship | 0.0429 |\n| 3 | age | 0.0324 |\n| 4 | education-num | 0.0270 |\n| 5 | marital-status | 0.0206 |\n| 6 | hours-per-week | 0.0148 |\n\n`capital-gain` and `relationship` (marital/household role) are the two dominant predictors, followed by `age` and `education-num`. Demographic attributes like `race`, `sex`, and `native-country` contribute very little (importance < 0.004). Impurity-based importance largely agrees but ranks `relationship` first and inflates `fnlwgt` (a high-cardinality, semantically meaningless census weight) \u2014 another reason permutation importance was chosen as primary.\n\nBoth `result.json` and `analysis.py` are saved in the working directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785882947.7075999,
+  "wall_clock_seconds": 62.496947050094604,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H3",
+    "summary": "A random forest classifier (test ROC-AUC=0.914) shows that 'capital-gain', 'relationship', and 'age' are the most important predictors of income, as measured by permutation importance on held-out data; marital-status/relationship and capital-gain dominate over demographic features like race or sex.",
+    "primary_metric_name": "top feature permutation importance (mean ROC-AUC drop)",
+    "primary_metric_value": 0.0443,
+    "direction": "'capital-gain' most important",
+    "methodological_choices": "Dropped rows with missing values (workclass/occupation/native-country '?' entries, 3620 rows removed). Ordinal-encoded categorical features (not one-hot) since RandomForest doesn't assume ordinality and this avoids importance dilution across dummy columns. 75/25 stratified train/test split, random_state=42. Model: RandomForestClassifier(n_estimators=300, min_samples_leaf=2, class_weight='balanced') to address ~76/24 class imbalance. Evaluated with test-set ROC-AUC. Feature importance computed two ways: (1) built-in impurity-based importance, (2) permutation importance (10 repeats) on the held-out test set scored by ROC-AUC drop, which is reported as primary since it is unbiased by feature cardinality (unlike impurity importance, which inflates high-cardinality features like fnlwgt/native-country/occupation). Kept both 'education' and 'education-num' (redundant encodings of the same variable) rather than dropping one, to avoid imposing an assumption not specified in the task."
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H2",
+  "summary": "Random forest achieved a mean stratified 5-fold CV ROC-AUC of 0.9016 versus 0.9053 for logistic regression on the Adult Income dataset, so random forest does not outperform logistic regression by 0.0037 AUC points with default hyperparameters.",
+  "primary_metric_name": "ROC-AUC difference (RF - LogReg)",
+  "primary_metric_value": -0.00367,
+  "direction": "RF < LogReg",
+  "methodological_choices": "Target binarized as class=='>50K' (positive). Numeric features median-imputed and standardized; categorical features ('?' treated as missing) most-frequent-imputed and one-hot encoded (handle_unknown='ignore'); identical preprocessing pipeline used for both models to isolate model choice as the only difference (scaling doesn't affect RF but ensures fairness/consistency). Both models used scikit-learn default hyperparameters (RandomForestClassifier(), LogisticRegression()), aside from random_state=42 for reproducibility of RF and the CV splitter. Evaluated via StratifiedKFold(n_splits=5, shuffle=True, random_state=42) cross_val_score with scoring='roc_auc' on the full dataset (no held-out test set), since the research question is specifically about cross-validated performance. No class-imbalance correction applied (class_weight left at sklearn default of None for LogisticRegression), consistent with using 'scikit-learn defaults' as specified in the question."
+}

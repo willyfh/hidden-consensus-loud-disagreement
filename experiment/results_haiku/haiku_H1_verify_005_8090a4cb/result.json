@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H1",
+  "summary": "Model family choice meaningfully affects predictive performance on the Adult Income dataset. The best model (Gradient Boosting) achieves ROC-AUC of 0.9210, while the worst (Decision Tree) achieves 0.7489, a difference of 0.1721 (23.0%). This effect is stable across repeated cross-validation.",
+  "primary_metric_name": "ROC-AUC difference (Gradient Boosting - Decision Tree)",
+  "primary_metric_value": 0.17210787088003554,
+  "direction": "Gradient Boosting > Decision Tree (model family choice matters)",
+  "methodological_choices": "Preprocessing: Label-encoded categorical features, StandardScaler for SVM/KNN/LogReg. Models: LogisticRegression, DecisionTree, RandomForest, GradientBoosting, SVM, KNN, GaussianNB. Validation: 5-fold stratified CV on original features; repeated 10-fold CV (5 seeds) for stability. Metric: ROC-AUC (handles class imbalance well). Random state fixed at 42 for reproducibility.",
+  "verification_method": "Repeated 10-fold stratified cross-validation with 5 different random seeds (50 total folds per model)",
+  "verification_result": "Finding held up: performance differences remained consistent. Best model Gradient Boosting (\u03bc=0.9210, 95% CI=[0.9132, 0.9279]) vs worst model Decision Tree (\u03bc=0.7489, 95% CI=[0.7335, 0.7636]). No CI overlap between models, indicating statistically significant differences."
+}

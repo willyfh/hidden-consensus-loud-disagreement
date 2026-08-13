@@ -1,0 +1,27 @@
+{
+  "run_id": "H3_verify_002_2cf4c1da",
+  "hypothesis_id": "H3",
+  "verify_arm": true,
+  "replicate_idx": 2,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H3_verify_002_2cf4c1da_jand738s",
+  "started_at": 1785936604.3474472,
+  "returncode": 0,
+  "stdout_tail": "## Findings\n\nTrained a Random Forest classifier (300 trees, `class_weight='balanced'`, one-hot encoded categoricals) on a 70/30 stratified split, achieving test ROC-AUC = 0.917. Feature importance was measured via permutation importance on the *original* (pre-one-hot) feature columns \u2014 shuffling each raw column and re-running the full pipeline \u2014 to avoid the two common pitfalls: impurity-importance bias toward high-cardinality categoricals, and importance getting diluted across dummy columns for categorical features.\n\n**`marital-status` is the most important predictor** (mean ROC-AUC drop \u2248 0.046), followed by `capital-gain`, `age`, `occupation`, `relationship`, and `education-num`. `fnlwgt`, `native-country`, and `race` were essentially irrelevant.\n\n**Stability check**: repeated the entire pipeline (fresh split, fresh model fit, fresh permutation importance) across 5 additional random seeds (1, 7, 13, 21, 99). `marital-status` ranked #1 in every single one of the 5 re-runs, and the top-3 ranking (`marital-status`, `capital-gain`, `age`) was identical across all seeds \u2014 the finding is robust, not an artifact of one particular split.\n\nOutput files written:\n- `analysis.py` \u2014 full analysis code\n- `result.json` \u2014 structured findings per the required schema\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785936838.766459,
+  "wall_clock_seconds": 234.41901183128357,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H3",
+    "summary": "Using a Random Forest classifier and permutation importance (grouped by original feature, measured as ROC-AUC drop on held-out data), 'marital-status' is the single most important predictor of income class, consistently ranking #1 across the original test split and 5 independent re-splits with different random seeds. 'capital-gain', 'age', 'occupation', and 'relationship' round out the next most important predictors.",
+    "primary_metric_name": "top feature mean permutation importance (ROC-AUC drop)",
+    "primary_metric_value": 0.04637695309751333,
+    "direction": "'marital-status' most important",
+    "methodological_choices": "RandomForestClassifier (n_estimators=300, min_samples_leaf=2, class_weight='balanced' to address ~24%/76% class imbalance), one-hot encoding for 8 categorical features, numeric features passed through unscaled (tree model, scale-invariant), 70/30 stratified train/test split, '?' values recoded to an explicit 'Missing' category rather than dropped. Importance measured via permutation importance on the ORIGINAL (pre-one-hot) feature columns (shuffling each raw column and re-running the full pipeline, 10 repeats per feature), rather than impurity-based importance or naive one-hot permutation importance, specifically to avoid (a) bias toward high-cardinality categoricals and (b) importance being diluted across dummy columns for categorical features. Scored by ROC-AUC drop rather than accuracy drop, since the target is imbalanced.",
+    "verification_method": "Repeated the entire pipeline (fresh train/test split, fresh model fit, fresh permutation importance) across 5 different random seeds (1, 7, 13, 21, 99) and checked whether the #1-ranked feature was consistent, then averaged importance scores across seeds.",
+    "verification_result": "Finding held up: top-1 feature per seed = ['marital-status', 'marital-status', 'marital-status', 'marital-status', 'marital-status']. Averaged across the original split + 5 re-splits, 'marital-status' had the highest mean permutation importance (0.0464 mean ROC-AUC drop), matching the original single-split result ('marital-status')."
+  }
+}

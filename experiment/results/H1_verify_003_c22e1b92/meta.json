@@ -1,0 +1,27 @@
+{
+  "run_id": "H1_verify_003_c22e1b92",
+  "hypothesis_id": "H1",
+  "verify_arm": true,
+  "replicate_idx": 3,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_verify_003_c22e1b92_mv5rasa_",
+  "started_at": 1785856011.520361,
+  "returncode": 0,
+  "stdout_tail": "Both `analysis.py` and `result.json` are in the working directory.\n\n## Findings\n\nI tested 5 model families (Logistic Regression, Random Forest, Gradient Boosting, KNN, Gaussian Naive Bayes) using consistent preprocessing (median/mode imputation, one-hot encoding, scaling where appropriate) with 5-fold stratified CV on an 80% train split, confirmed on a held-out 20% test set.\n\n**Result:** Model family does matter, but the effect size depends heavily on which families you compare:\n\n- Among the well-suited classifiers (LogReg, RF, GradientBoosting, KNN), performance is fairly close: ROC-AUC ranges from 0.897 (KNN) to 0.928 (GradientBoosting). GradientBoosting beat Logistic Regression by a **small but real gap of ~0.023 AUC**.\n- Gaussian Naive Bayes was a dramatic outlier at 0.836 AUC / 0.59 accuracy \u2014 much worse than the rest, because its independence assumption is badly violated by this feature set.\n\n**Stability check:** I ran 5\u00d75 repeated stratified CV (25 folds, 5 seeds) and a 2000-resample bootstrap CI on the held-out test set. GradientBoosting beat Logistic Regression in **100% of the 25 repeated folds** (mean gap 0.022, std 0.0015), and the bootstrap 95% CI on the test-set gap was [0.0215, 0.0278], excluding zero. The finding held up \u2014 the tree-based advantage is small but consistently reproducible, not a fluke of one split.\n\n**Bottom line:** model family has a measurable but modest effect on top-performing standard classifiers (~2 AUC points), but choosing a poorly-suited family (Naive Bayes here) can cost far more (~9 AUC points).\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785856447.159982,
+  "wall_clock_seconds": 435.6396210193634,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H1",
+    "summary": "Model family matters, but the effect is modest: tree-based ensembles (GradientBoosting) beat Logistic Regression by 0.023 ROC-AUC on cross-validation (0.928 vs 0.905), confirmed on a held-out test set (0.025 gap). The weakest family tested, Gaussian Naive Bayes, trails logistic regression by a much larger margin (0.836 AUC), showing model choice can matter a lot if a poorly-suited family is chosen, but among well-tuned standard classifiers (logistic regression, random forest, gradient boosting, KNN) the differences are small and consistent rather than dramatic.",
+    "primary_metric_name": "ROC-AUC difference (GradientBoosting - LogisticRegression), 5-fold CV",
+    "primary_metric_value": 0.0227,
+    "direction": "GradientBoosting > LogisticRegression (small but consistent gap); GaussianNB much worse than both",
+    "methodological_choices": "Dropped 52 exact duplicate rows found in the raw 48842-row file; dropped redundant 'education' string column (education-num is its ordinal encoding); kept 'fnlwgt' census sampling weight as a numeric feature; imputed missing numeric values with median and missing categoricals with mode (missingness was <6% and confined to workclass/occupation/native-country, all coded as '?'); one-hot encoded categoricals for all model families for a fair/consistent comparison; standardized numeric features for LogisticRegression/KNN/GaussianNB but not for RandomForest/HistGradientBoosting (tree splits are scale-invariant); used ROC-AUC as the primary metric rather than accuracy because the target is imbalanced (~24% positive class) and AUC is threshold-independent; also tracked accuracy and F1 as secondary metrics; did not do explicit hyperparameter tuning (used reasonable defaults / lightly-set params: RF n_estimators=300, KNN k=25) since the question is about model *family* differences, not about squeezing maximum performance from any one family; used an 80/20 stratified train/test split with a separate 5-fold stratified CV on the training portion for the primary comparison, reserving the test set for a single confirmatory check.",
+    "verification_method": "(1) 5x repeated stratified 5-fold CV (25 folds total, 5 different random seeds via RepeatedStratifiedKFold) comparing the AUC gap between the best model (GradientBoosting) and LogisticRegression on the training set; (2) a 2000-resample bootstrap 95% CI on the same AUC gap computed on the untouched held-out test set.",
+    "verification_result": "Finding held up. Across the 25 repeated-CV folds, GradientBoosting beat LogisticRegression in 100% of folds, with mean AUC gap 0.0222 (std 0.0015, range [0.0183, 0.0249]). The bootstrap 95% CI on the held-out test AUC gap was [0.0215, 0.0278] (mean 0.0246), excluding zero, confirming the tree-based advantage over logistic regression is small but real and stable, not a fold-specific artifact."
+  }
+}

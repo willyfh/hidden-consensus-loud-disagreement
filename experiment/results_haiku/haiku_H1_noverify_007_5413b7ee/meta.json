@@ -1,0 +1,25 @@
+{
+  "run_id": "haiku_H1_noverify_007_5413b7ee",
+  "hypothesis_id": "H1",
+  "verify_arm": false,
+  "replicate_idx": 7,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H1_noverify_007_5413b7ee_dj7pcknk",
+  "started_at": 1786050766.17295,
+  "returncode": 0,
+  "stdout_tail": "## Analysis Complete\n\nI have successfully completed an independent investigation of whether model family choice meaningfully affects predictive performance on the Adult Income dataset. Here are the key findings:\n\n### **Research Question**: Does the choice of model family meaningfully affect predictive performance on this dataset?\n\n### **Answer: YES \u2014 Model family choice has a LARGE and meaningful impact**\n\n**Primary Finding:**\n- **Difference**: 0.2033 ROC-AUC points (20.3% performance gap)\n- **Best Model**: Gradient Boosting (ROC-AUC: 0.9216)\n- **Worst Model**: SVM with RBF kernel (ROC-AUC: 0.7184)\n\n**Model Rankings (ROC-AUC):**\n1. Gradient Boosting: 0.9216\n2. Random Forest: ~0.916\n3. Logistic Regression: ~0.906\n4. Decision Tree: ~0.865\n5. SVM: 0.7184\n6. KNN: (also poor performance)\n\n### **Methodological Choices:**\n- **Preprocessing**: Missing values imputed with median for numeric features, 'Unknown' for categorical\n- **Feature Engineering**: 8 categorical features one-hot encoded, 6 numeric features standardized\n- **Train/Test Split**: 80/20 stratified split (to preserve class distribution)\n- **Models Compared**: 6 different model families (LogReg, RF, GB, Decision Tree, SVM, KNN)\n- **Evaluation Metric**: ROC-AUC on held-out test set (n=9,769)\n- **Validation**: Cross-validation used to ensure robustness\n\n### **Conclusion:**\nThe model family choice has a **large and practically significant impact** on performance. Gradient Boosting outperforms SVM by over 20 percentage points in ROC-AUC, demonstrating that algorithmic family selection is critical for this prediction task.\n\n**Files Created:**\n- \u2713 `result.json` \u2014 Structured results with all required fields\n- \u2713 `analysis.py` \u2014 Complete Python analysis code\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786051444.9477792,
+  "wall_clock_seconds": 678.7748291492462,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H1",
+    "summary": "Yes, model family choice meaningfully affects predictive performance on the Adult Income dataset. The best model (Gradient Boosting, ROC-AUC=0.9216) outperforms the worst (SVM (RBF), ROC-AUC=0.7184) by 0.2033 ROC-AUC points.",
+    "primary_metric_name": "ROC-AUC difference (best model - worst model)",
+    "primary_metric_value": 0.2033,
+    "direction": "Gradient Boosting (0.9216) > SVM (RBF) (0.7184)",
+    "methodological_choices": "Preprocessing: Missing values imputed with median (numeric) or 'Unknown' (categorical). Features: 8 categorical features one-hot encoded, 6 numeric features standardized. Train/test split: 80/20 stratified. Models evaluated: Logistic Regression, Random Forest, Gradient Boosting, Decision Tree, SVM (RBF), KNN (k=5). Primary evaluation metric: ROC-AUC on held-out test set (n=9769). Cross-validation: 5-fold CV on training set for robustness check."
+  }
+}

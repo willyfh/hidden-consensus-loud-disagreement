@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H4",
+  "summary": "Addressing class imbalance via SMOTE improves model quality on the Adult Income dataset. Average F1-score improvement is +0.0329 across Logistic Regression and Random Forest models, with Logistic Regression showing larger gains (+0.0536) than Random Forest (+0.0121).",
+  "primary_metric_name": "Average F1-Score improvement (SMOTE vs Baseline)",
+  "primary_metric_value": 0.0329,
+  "direction": "SMOTE improves model quality (positive impact)",
+  "methodological_choices": "Logistic Regression and Random Forest (100 trees); Stratified train-test split (70-30); StandardScaler for feature normalization; SMOTE for oversampling minority class; F1-Score and Balanced Accuracy as primary metrics since they handle class imbalance better than accuracy; no feature selection",
+  "verification_method": "Repeated Stratified 5-Fold Cross-Validation (3 repeats, 15 total folds) followed by held-out test set validation (30% of data)",
+  "verification_result": "YES - Finding held up consistently. CV results: LR F1 +0.0627, RF F1 +0.0094. Test set results: LR F1 +0.0536, RF F1 +0.0121. Improvements are consistent and stable."
+}

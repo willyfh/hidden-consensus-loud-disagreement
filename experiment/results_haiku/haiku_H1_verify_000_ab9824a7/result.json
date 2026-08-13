@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H1",
+  "summary": "Yes, model family choice meaningfully affects predictive performance. Random Forest achieves 0.8587 accuracy while SVM (Linear) achieves 0.4502, a difference of 0.4085 (55.4% relative).",
+  "primary_metric_name": "Accuracy difference (Random Forest - SVM (Linear))",
+  "primary_metric_value": 0.4085,
+  "direction": "Random Forest > SVM (Linear)",
+  "methodological_choices": "Binary classification (>50K vs <=50K, accuracy metric). Preprocessing: label encoding for categorical features, median imputation for numerical. Models: Logistic Regression, Random Forest (20 trees, max_depth=10), SVM (linear), Naive Bayes, KNN (k=5). Validation: 70/30 train/test split with 3 random seeds + 2-fold stratified CV with 3 seeds. Reported scores are average of train/test and CV results.",
+  "verification_method": "Train/test split (3 seeds) + 2-fold stratified CV (3 seeds) to validate stability",
+  "verification_result": "Finding confirmed. Both train/test and CV methods show consistent ranking with Random Forest outperforming SVM (Linear). Performance difference of 55.4% indicates model family choice substantially impacts results. Stability confirmed across different random seeds and validation approaches."
+}

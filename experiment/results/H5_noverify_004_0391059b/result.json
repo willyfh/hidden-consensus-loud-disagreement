@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H5",
+  "summary": "Applying SMOTE changed the >50K-class F1 score from 0.6795 (no resampling) to 0.6730 (with SMOTE), a difference of -0.0065. This does not exceed the 0.02 threshold, so SMOTE does not meaningfully change minority-class F1 for a default-hyperparameter random forest on this dataset.",
+  "primary_metric_name": "F1 (>50K) difference (SMOTE - no resampling)",
+  "primary_metric_value": -0.0065,
+  "direction": "|diff| <= 0.02: SMOTE does not move F1 by more than 0.02 (reduces it)",
+  "methodological_choices": "75/25 stratified train/test split (random_state=42); literal '?' strings recoded as NaN alongside existing NaNs; numeric features median-imputed, categorical features most-frequent-imputed then one-hot encoded (unknown categories ignored at test time); preprocessing pipeline fit once on the training set and reused for both conditions so the only difference between arms is SMOTE; SMOTE (imbalanced-learn, random_state=42, default k_neighbors=5) applied only to the encoded training data, never to the test set; RandomForestClassifier used with library-default hyperparameters (n_estimators=100) in both arms, random_state=42; F1 computed for the >50K (minority, pos_label=1) class on the held-out test set; threshold for 'meaningful change' taken as |\u0394F1| > 0.02 per the research question."
+}

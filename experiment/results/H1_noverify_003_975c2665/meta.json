@@ -1,0 +1,25 @@
+{
+  "run_id": "H1_noverify_003_975c2665",
+  "hypothesis_id": "H1",
+  "verify_arm": false,
+  "replicate_idx": 3,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_noverify_003_975c2665_m6lmoe9g",
+  "started_at": 1785855465.184631,
+  "returncode": 0,
+  "stdout_tail": "Wait \u2014 the mistaken date-change reminder aside, everything's in order: `result.json` and `analysis.py` are both written to the working directory.\n\n**Finding:** Model family meaningfully affects predictive performance on this dataset. Comparing 5-fold CV ROC-AUC across four families (all fed through an identical preprocessing pipeline):\n\n| Model | CV ROC-AUC |\n|---|---|\n| HistGradientBoosting | 0.9276 |\n| LogisticRegression | 0.9055 |\n| RandomForest | 0.9027 |\n| KNN | 0.8948 |\n\nThe best-worst spread (0.033 AUC) is ~8x larger than typical fold-to-fold noise (std \u2248 0.004), so it's not just sampling variation. The boosted-tree model (HistGradientBoosting) clearly wins; interestingly, plain logistic regression edges out RandomForest, and both sit well ahead of KNN \u2014 so the effect isn't simply \"trees beat linear models,\" it's more nuanced by specific algorithm. All results held up on the untouched test set too.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785855791.684843,
+  "wall_clock_seconds": 326.5002119541168,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H1",
+    "summary": "Model family clearly matters: CV ROC-AUC ranges from 0.8948 (KNN) to 0.9276 (HistGradientBoosting), a gap of 0.0328 AUC points that is 8.4x larger than typical fold-to-fold noise (0.0039). Tree-based ensembles (HistGradientBoosting, RandomForest) outperform the linear (LogisticRegression) and instance-based (KNN) models, indicating non-linear feature interactions matter for this task.",
+    "primary_metric_name": "CV ROC-AUC spread across model families (HistGradientBoosting - KNN)",
+    "primary_metric_value": 0.0328,
+    "direction": "HistGradientBoosting > KNN (best=0.9276, worst=0.8948)",
+    "methodological_choices": "Target: class=='>50K' as positive label. Cleaning: stripped whitespace, treated '?' as missing. Split: single 80/20 stratified train/test split (random_state=42); model comparison based on 5-fold stratified CV on the training set (ROC-AUC primary metric, chosen for the ~76/24 class imbalance; accuracy and F1 also reported). Preprocessing: identical pipeline for all models to isolate the model-family effect - median imputation + standard scaling for numeric features, most-frequent imputation + one-hot encoding for categoricals (scaling is unnecessary for tree models but included for pipeline consistency). Models compared: LogisticRegression (linear baseline), RandomForest (300 trees, bagging), HistGradientBoostingClassifier (boosting), KNN (k=25, instance-based), plus a DummyClassifier majority-class baseline for reference (not used in the model-family spread calculation). No hyperparameter tuning was performed (used reasonable defaults/light choices) - a tuned comparison could shift relative rankings, especially for KNN. 'Meaningful' difference judged by comparing the best-worst CV ROC-AUC spread to the average within-model fold-to-fold standard deviation."
+  }
+}

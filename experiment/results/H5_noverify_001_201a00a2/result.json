@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H5",
+  "summary": "Applying SMOTE oversampling to the training data changed the minority-class (>50K) F1 score from 0.6752 (no resampling) to 0.6745 (SMOTE), a difference of -0.0007, which is not more than the 0.02 threshold. SMOTE did not help and in fact slightly hurt F1 for a default RandomForestClassifier on this dataset.",
+  "primary_metric_name": "F1 (>50K) difference (SMOTE - no resampling)",
+  "primary_metric_value": -0.0007,
+  "direction": "difference does not exceed 0.02 threshold",
+  "methodological_choices": "Dropped rows with missing values (marked '?') rather than imputing (~7% of rows). Encoded all categorical features with OrdinalEncoder (label encoding) rather than one-hot encoding, since RandomForest handles ordinal-coded categoricals reasonably and it keeps dimensionality low and compatible with SMOTE's numeric requirement. Used a single stratified 75/25 train/test split (random_state=42) rather than cross-validation, for simplicity and speed. Target treated as binary with '>50K' as the positive/minority class. RandomForestClassifier used with all default hyperparameters (n_estimators=100, etc.) as specified by the hypothesis. SMOTE (imbalanced-learn, default k_neighbors=5) applied only to the training set after the split, never to the test set, to avoid leakage. F1 score computed on the held-out test set for the '>50K' class only (pos_label=1)."
+}

@@ -1,0 +1,25 @@
+{
+  "run_id": "H6_noverify_004_38a60a8c",
+  "hypothesis_id": "H6",
+  "verify_arm": false,
+  "replicate_idx": 4,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H6_noverify_004_38a60a8c_z7d9vj_e",
+  "started_at": 1785938918.492219,
+  "returncode": 0,
+  "stdout_tail": "This looks correct and complete. Both `analysis.py` and `result.json` are saved.\n\n**Finding:** The RandomForestClassifier (300 trees, default depth, one-hot encoded categoricals) trained on a stratified 70/30 split is **well-calibrated** on held-out test data \u2014 Expected Calibration Error (10-bin) = 0.0159, Brier score = 0.1003. Predicted probabilities track observed frequencies closely across almost all bins (mean predicted 0.239 vs. actual base rate 0.239 overall); the largest local gap is in the 0.5\u20130.6 predicted-probability bin (predicted 0.55 vs. observed 0.48). A logistic regression reference model is calibrated even more tightly (ECE = 0.0088), but both land comfortably in the \"well-calibrated\" range, so miscalibration doesn't appear to be a meaningful concern for this dataset/model combination.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785939000.946955,
+  "wall_clock_seconds": 82.45473599433899,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H6",
+    "summary": "The primary model (RandomForestClassifier) is well-calibrated overall on the held-out test set, with an Expected Calibration Error (ECE) of 0.0159 and Brier score of 0.1003; predicted probabilities track observed frequencies closely in most bins, with the largest local deviation in the [0.5, 0.6] predicted-probability bin (predicted 0.55 vs. observed 0.48). A logistic regression reference model is even better calibrated (ECE=0.0088), but both models fall in the 'well-calibrated' range under the threshold used here.",
+    "primary_metric_name": "Expected Calibration Error (10-bin, RandomForest, test set)",
+    "primary_metric_value": 0.0159,
+    "direction": "well-calibrated (RF ECE=0.0159 vs LogReg ECE=0.0088)",
+    "methodological_choices": "Target binarized as class=='>50K'. Missing categorical values filled with an explicit 'Missing' category (no rows dropped); no missingness in numeric columns. Single stratified 70/30 train/test split (random_state=42), no cross-validation. Primary model: RandomForestClassifier(n_estimators=300, default depth) with one-hot encoded categoricals and raw numeric features. Reference model: LogisticRegression(max_iter=2000) with the same one-hot encoding plus StandardScaler on numeric features. No class-imbalance correction applied (class_weight=None) \u2014 base rate of '>50K' is ~24%, which is used as the calibration reference point. Calibration measured via Expected Calibration Error (10 equal-width bins on predicted probability) as the primary metric, with Brier score and a full reliability table reported as supporting evidence. Thresholds for the well/mildly/materially calibrated verdict (ECE<0.02 / <0.05 / >=0.05) are a subjective judgment call, not a standard convention. No post-hoc recalibration (e.g. Platt scaling, isotonic regression) was applied \u2014 the question asks about calibration of the fitted model as-is."
+  }
+}

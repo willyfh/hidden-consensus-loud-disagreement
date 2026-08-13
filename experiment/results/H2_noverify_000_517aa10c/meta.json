@@ -1,0 +1,25 @@
+{
+  "run_id": "H2_noverify_000_517aa10c",
+  "hypothesis_id": "H2",
+  "verify_arm": false,
+  "replicate_idx": 0,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_noverify_000_517aa10c_zmo5w227",
+  "started_at": 1785856765.821134,
+  "returncode": 0,
+  "stdout_tail": "The analysis ran successfully and `result.json` was written.\n\n**Finding:** With scikit-learn default hyperparameters, logistic regression slightly outperformed random forest on stratified 5-fold CV ROC-AUC (0.9067 vs 0.9023, difference of \u22120.0043, paired t-test p=0.044). So the hypothesis that RF beats LogReg is **not supported** \u2014 LogReg edges out RF here, likely because this dataset has a fairly linear/monotonic relationship between features (education, capital-gain, hours-worked, etc.) and income, and the default (unpruned-depth-wise, `n_estimators=100`) RF isn't tuned to exploit any nonlinear structure enough to overcome that.\n\nBoth `analysis.py` and `result.json` are saved in the working directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785856845.60191,
+  "wall_clock_seconds": 79.78077602386475,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H2",
+    "summary": "Random forest achieved a mean stratified 5-fold CV ROC-AUC of 0.9023 versus 0.9067 for logistic regression on the Adult Income dataset (lower by 0.0043), so the random forest does not outperform logistic regression on this metric.",
+    "primary_metric_name": "ROC-AUC difference (RF - LogReg), mean over 5 folds",
+    "primary_metric_value": -0.004339595113697525,
+    "direction": "RF < LogReg",
+    "methodological_choices": "Target encoded as binary (1 = '>50K'). Missing values in workclass/occupation/native-country (originally NaN, ~1.7-5.7% of rows) were imputed as a constant 'Missing' category rather than dropped, to preserve full sample size of 48842 rows. Numeric features (age, fnlwgt, education-num, capital-gain, capital-loss, hours-per-week) were standardized (StandardScaler); categorical features (workclass, education, marital-status, occupation, relationship, race, sex, native-country) were one-hot encoded (handle_unknown='ignore'). Identical preprocessed feature matrix used for both models for a fair comparison, even though RF does not require scaling and could in principle use raw/ordinal-encoded features. Both classifiers used scikit-learn default hyperparameters as specified by the research question, except LogisticRegression max_iter was raised from 100 to 1000 solely to achieve convergence on the expanded one-hot feature space (this does not change the model's default regularization or solver). Evaluation used StratifiedKFold(n_splits=5, shuffle=True, random_state=42) and scoring='roc_auc' (binary ROC-AUC using predicted probability of class '>50K'). A paired t-test across the 5 fold scores was used to assess whether the RF-LogReg difference is consistent across folds. education-num was kept as numeric (it is an ordinal encoding of the categorical education column) and education was also kept as one-hot categorical, which is redundant but harmless for both models. random_state=42 fixed throughout for reproducibility."
+  }
+}

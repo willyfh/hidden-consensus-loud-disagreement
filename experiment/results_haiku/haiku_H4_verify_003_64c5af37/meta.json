@@ -1,0 +1,27 @@
+{
+  "run_id": "haiku_H4_verify_003_64c5af37",
+  "hypothesis_id": "H4",
+  "verify_arm": true,
+  "replicate_idx": 3,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H4_verify_003_64c5af37_w75fhz5t",
+  "started_at": 1786138407.7227259,
+  "returncode": 0,
+  "stdout_tail": "## Investigation Complete\n\nI've completed a comprehensive investigation of whether addressing class imbalance improves model quality on the Adult Income dataset. Here's what I found:\n\n### Key Findings\n\n**Class Imbalance Present**: 3.18:1 ratio (76% `\u226450K`, 24% `>50K`)\n\n**Cross-Validated Results** (ROC-AUC, 5-fold \u00d7 3 seeds):\n- **Baseline RandomForest**: 0.9164 \u00b1 0.0024 \u2713 Best\n- **Weighted RandomForest**: 0.9162 \u00b1 0.0025 (\u0394 -0.0002)\n- **SMOTE RandomForest**: 0.9125 \u00b1 0.0026 (\u0394 -0.0039)\n- **Undersampling RandomForest**: 0.9139 \u00b1 0.0024 (\u0394 -0.0025)\n\n**Conclusion**: **Addressing class imbalance does NOT improve model quality.** The baseline outperformed all imbalance-handling approaches in 10 of 15 validation folds. The negligible difference (-0.0002 ROC-AUC) persisted consistently across all random seeds.\n\n### Why?\nTree-based models are naturally robust to class imbalance through their splitting mechanism. The 3.18:1 imbalance ratio, while noticeable, is not severe enough to harm RandomForest performance and doesn't warrant intervention.\n\n### Methodological Rigor\n- Multiple imbalance techniques: class weights, SMOTE, undersampling\n- Robust validation: 5-fold stratified cross-validation with 3 random seeds (15 total folds)\n- Multiple model classes: RandomForest and LogisticRegression\n- Primary metric: ROC-AUC (appropriate for imbalanced data)\n\nBoth `analysis.py` and `result.json` have been saved to your current directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786138562.7810519,
+  "wall_clock_seconds": 155.05832600593567,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H4",
+    "summary": "Addressing class imbalance does not meaningfully improve model quality on this dataset. Cross-validated ROC-AUC scores show minimal differences between baseline models and imbalance-handling approaches (\u0394 \u2264 0.003), with the baseline RandomForest performing comparably to or better than weighted, SMOTE, or undersampled variants. The 3.18:1 class imbalance ratio is not severe enough to warrant intervention, and tree-based models are naturally robust to this degree of imbalance.",
+    "primary_metric_name": "ROC-AUC difference (Imbalance-Handled minus Baseline)",
+    "primary_metric_value": -0.0002,
+    "direction": "No meaningful difference; imbalance handling slightly degrades or has negligible effect",
+    "methodological_choices": "Model: RandomForest (n_estimators=100, max_depth=20) as primary learner, validated with LogisticRegression. Imbalance handling methods: class weights (balanced), SMOTE, random undersampling. Preprocessing: LabelEncoder for categorical features, StandardScaler for numeric features. Train-test split: 80-20 stratified split (random_state=42). Evaluation metric: ROC-AUC (primary) and F1-Score (secondary). Validation: 5-fold stratified cross-validation repeated with 3 different random seeds (42, 123, 456) for stability assessment.",
+    "verification_method": "5-fold stratified cross-validation repeated with 3 random seeds (15 total folds per approach). Evaluated both RandomForest and LogisticRegression across four imbalance-handling strategies: (1) baseline (no handling), (2) class weights, (3) SMOTE, (4) random undersampling. Assessed consistency by examining min/max/range of fold scores and proportion of folds where imbalance-handling outperformed baseline.",
+    "verification_result": "Finding held up under cross-validation. Best-performing imbalance approach (Weighted RF: 0.9162\u00b10.0025 ROC-AUC) performed virtually identically to baseline (0.9164\u00b10.0024). Other approaches (SMOTE: 0.9125\u00b10.0026, Undersampling: 0.9139\u00b10.0024) showed consistent degradation. Baseline outperformed in 10 of 15 folds. The negligible difference (-0.0002) persisted across all random seeds, confirming that addressing imbalance provides no benefit on this dataset."
+  }
+}

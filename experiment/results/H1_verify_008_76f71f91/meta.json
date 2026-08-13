@@ -1,0 +1,27 @@
+{
+  "run_id": "H1_verify_008_76f71f91",
+  "hypothesis_id": "H1",
+  "verify_arm": true,
+  "replicate_idx": 8,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_verify_008_76f71f91_yra92bhc",
+  "started_at": 1785856235.487272,
+  "returncode": 0,
+  "stdout_tail": "Both files are finalized and validated.\n\n**Finding:** Model family has a small but real and reproducible effect on predictive performance for this dataset. HistGradientBoosting (test AUC=0.926) beats RandomForest (AUC=0.901) by 0.025 AUC points \u2014 but interestingly, plain LogisticRegression (AUC=0.905) performs on par with (even fractionally better than) RandomForest, and only gradient boosting stands out as a meaningfully better family. All models exceed AUC 0.90, so while the differences are statistically robust, they're modest in absolute size.\n\n**Stability check:** 5\u00d7 repeated stratified 5-fold CV (25 folds, new seed) reproduced the gap almost exactly (0.0245 vs 0.0248), and a 2000-resample bootstrap on the held-out test set gave a 95% CI of [0.0212, 0.0285] for the best-vs-worst AUC gap \u2014 excluding zero. The finding held up.\n\nFiles written: `analysis.py` and `result.json` in the working directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785856765.813466,
+  "wall_clock_seconds": 530.3261940479279,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H1",
+    "summary": "Model family has a small but statistically consistent effect on predictive performance: HistGradientBoosting (test AUC=0.9260) modestly outperforms RandomForest (test AUC=0.9012), a gap of 0.0248 AUC points. Notably, plain logistic regression (AUC=0.9047) performs on par with random forest and only gradient boosting stands out as meaningfully better. The gap is real and reproducible across resampling but is not large in absolute terms \u2014 all three model families achieve AUC > 0.90 on this dataset.",
+    "primary_metric_name": "ROC-AUC difference (HistGradientBoosting - RandomForest), held-out test set",
+    "primary_metric_value": 0.02481365792994461,
+    "direction": "HistGradientBoosting > LogisticRegression > RandomForest (gradient boosting is the clear winner; logistic regression and random forest are statistically indistinguishable from each other)",
+    "methodological_choices": "Dropped rows with '?' missing values (~7% of rows) rather than imputing. Target binarized (>50K=1). Single shared preprocessing pipeline (StandardScaler on numeric features, OneHotEncoder on categoricals) applied identically to all models for fairness, even though scaling is unnecessary for tree ensembles. Compared 3 model families with mostly default/lightly-tuned hyperparameters: LogisticRegression (max_iter=1000), RandomForestClassifier (n_estimators=300), HistGradientBoostingClassifier (defaults) - no extensive hyperparameter search was performed, so results reflect 'typical' out-of-the-box performance per family rather than each family's ceiling. Metric = ROC-AUC (chosen over accuracy due to ~24%/76% class imbalance); accuracy and F1 also reported for context. 80/20 stratified train/test split, 5-fold stratified CV for model selection on the training set.",
+    "verification_method": "(1) 5x repeated stratified 5-fold CV (25 folds total, seed=123) on the full dataset for each model family, comparing mean AUC and paired per-fold AUC differences between best and worst model. (2) Bootstrap (2000 resamples) 95% CI on the held-out test-set AUC gap between the best and worst model family.",
+    "verification_result": "Finding held up. Repeated CV gap (HistGradientBoosting - RandomForest): 0.0245 AUC (paired per-fold diff mean=0.0245, range=[0.0224, 0.0272]). Bootstrap 95% CI on test-set gap: [0.0212, 0.0285], mean=0.0249 - CI excludes 0 (True), confirming the gap between model families is small but consistently nonzero and reproducible, not a fluke of one split or seed."
+  }
+}

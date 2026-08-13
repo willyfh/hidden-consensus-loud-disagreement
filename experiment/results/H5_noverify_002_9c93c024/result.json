@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H5",
+  "summary": "Applying SMOTE to the training data changed the >50K F1 score from 0.6797 (no resampling) to 0.6721 (SMOTE), a difference of -0.0075, which does not exceed the 0.02 threshold. With a default RandomForestClassifier, SMOTE has little practical effect on minority-class F1 on this dataset.",
+  "primary_metric_name": "F1 (>50K) difference, SMOTE minus no-resampling",
+  "primary_metric_value": -0.0075,
+  "direction": "SMOTE decreases minority-class F1 by 0.0075 (does not exceed the 0.02 threshold)",
+  "methodological_choices": "One 75/25 stratified train/test split (random_state=42), test set never resampled. Missing values in workclass/occupation/native-country (originally '?') imputed as a 'missing' category for categoricals; no missingness in numeric columns. Categorical features one-hot encoded (handle_unknown='ignore'); numeric features passed through unscaled (tree ensembles are scale-invariant). Target binarized with '>50K' as the positive/minority class. Classifier: RandomForestClassifier() with all default hyperparameters (n_estimators=100 etc.), random_state=42 for reproducibility, fixed identically across both conditions. Resampling: imblearn SMOTE(random_state=42) with default k_neighbors=5, applied only to the training set after preprocessing/encoding. Metric: F1 score for the '>50K' class specifically (not macro/weighted-averaged), since the question asks about minority-class F1. Single train/test split used rather than cross-validation for simplicity; results could vary with a different split or with CV-averaged estimates."
+}

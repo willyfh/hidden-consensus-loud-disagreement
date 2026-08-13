@@ -1,0 +1,17 @@
+{
+  "run_id": "haiku_H1_verify_000_f2fd1446",
+  "hypothesis_id": "H1",
+  "verify_arm": true,
+  "replicate_idx": 0,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H1_verify_000_f2fd1446_uuoin5hz",
+  "started_at": 1786139515.962858,
+  "returncode": 1,
+  "stdout_tail": "You've hit your session limit \u00b7 resets 10:50am (Asia/Seoul)\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786140209.620022,
+  "wall_clock_seconds": 693.6571640968323,
+  "result_json_found": false,
+  "analysis_py_found": true
+}

@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H5",
+  "summary": "Applying SMOTE to the training data changed the >50K-class F1 score from 0.6771 (no resampling) to 0.6756 (SMOTE), a difference of -0.0015, which does not exceed the 0.02 threshold. SMOTE did not meaningfully change minority-class F1 for a default RandomForestClassifier on this dataset.",
+  "primary_metric_name": "F1 (>50K) difference (SMOTE - no resampling)",
+  "primary_metric_value": -0.0015,
+  "direction": "|diff| <= 0.02: SMOTE ~ no resampling (baseline F1=0.6771, SMOTE F1=0.6756)",
+  "methodological_choices": "75/25 stratified train/test split (random_state=42), test set left untouched (reflects true population imbalance) and only the training set resampled with SMOTE. '?' values in categorical columns (workclass, occupation, native-country) recoded as an explicit 'Missing' category rather than dropped, to retain all rows. Categorical features one-hot encoded (handle_unknown='ignore'); numeric features passed through unscaled since RandomForestClassifier is scale-invariant. Both RandomForestClassifier() and SMOTE() used with fully default hyperparameters except random_state=42 for reproducibility. Minority class defined as '>50K'. F1 computed via sklearn f1_score with pos_label=1 (>50K). Single train/test split used (no cross-validation) per the question's framing as a direct before/after comparison; a CV-based estimate would give a less noisy but more expensive answer."
+}

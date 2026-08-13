@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H1",
+  "summary": "Model family choice meaningfully affects predictive performance on this dataset. The best-performing model (random forest, AUC=0.9288) substantially outperforms the worst-performing model (SVM, AUC=0.7316), with a difference of 0.1972 in ROC-AUC score. This represents a 26.9% relative improvement.",
+  "primary_metric_name": "ROC-AUC difference (Best - Worst model family)",
+  "primary_metric_value": 0.1972,
+  "direction": "GradientBoosting > SVM",
+  "methodological_choices": "Preprocessing: LabelEncoding for categorical features, StandardScaling for numeric features. Train-test split: 80-20 with stratification (random_state=42). Evaluation metric: ROC-AUC (chosen for its robustness to class imbalance). Models tested: Logistic Regression (L-BFGS, max_iter=1000), Random Forest (100 trees, max_depth=15), Gradient Boosting (100 trees, max_depth=7, lr=0.1), SVM (RBF kernel), Neural Network (2 hidden layers: 100, 50 neurons). Hyperparameters: moderate defaults chosen based on dataset size. No hyperparameter tuning was performed; focus was on comparing model families with standard configurations."
+}

@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H3",
+  "summary": "The analysis identifies 'capital-gain' as the most important feature for predicting income, with normalized importance of 0.4426. The top 5 features are: capital-gain, education-num, relationship, age, capital-loss. These findings are consistent across Random Forest MDI, Permutation Importance, and Gradient Boosting methods.",
+  "primary_metric_name": "average normalized feature importance (Random Forest + Permutation + Gradient Boosting)",
+  "primary_metric_value": 0.4426,
+  "direction": "capital-gain is most important (relative importance: 0.4426)",
+  "methodological_choices": "Missing value handling: Dropped rows with missing values in workclass, occupation, and native-country. Encoding: LabelEncoder for categorical variables. Train-test split: 80-20 stratified split. Primary model: Random Forest (n_estimators=100, max_depth=15, class_weight='balanced'). Feature importance methods: (1) Mean Decrease in Impurity (MDI) from Random Forest, (2) Permutation Importance on test set (10 repeats), (3) Feature importance from Gradient Boosting. Final importance metric: Average of normalized importance scores across all three methods for robustness. Validation model: Gradient Boosting (n_estimators=100, learning_rate=0.1) for comparison."
+}

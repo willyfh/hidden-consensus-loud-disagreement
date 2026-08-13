@@ -1,0 +1,17 @@
+{
+  "run_id": "H5_verify_002_7a8539ca",
+  "hypothesis_id": "H5",
+  "verify_arm": true,
+  "replicate_idx": 2,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H5_verify_002_7a8539ca_7p75ma26",
+  "started_at": 1785938026.832756,
+  "returncode": 0,
+  "stdout_tail": "The analysis is fitting many random forest models (primary comparison plus 25 cross-validation folds, each with a SMOTE-resampled variant) on 48K rows \u2014 this takes several minutes. I've armed a Monitor that will notify me automatically the moment `result.json` is written, so I'll pause here and resume as soon as that fires.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785938752.338109,
+  "wall_clock_seconds": 725.505352973938,
+  "result_json_found": false,
+  "analysis_py_found": true
+}

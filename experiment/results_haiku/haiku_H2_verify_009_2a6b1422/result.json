@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H2",
+  "summary": "Random Forest achieves ROC-AUC of 0.906650 while Logistic Regression achieves 0.854319 in stratified 5-fold cross-validation on the Adult income dataset. RF outperforms LR with a mean difference of +0.052331 (95% CI: [+0.051601, +0.053003]).",
+  "primary_metric_name": "ROC-AUC difference (RF - LogReg)",
+  "primary_metric_value": 0.052331,
+  "direction": "RF > LogReg",
+  "methodological_choices": "\nPreprocessing:\n- Missing values in numeric columns (fnlwgt) filled with median\n- Missing values in categorical columns (workclass, occupation, native-country) filled with 'Unknown'\n- Categorical variables encoded using LabelEncoder\n\nModel Configuration:\n- Random Forest: scikit-learn defaults (100 estimators, random_state=42)\n- Logistic Regression: scikit-learn defaults (max_iter=1000, random_state=42)\n- Features scaled for LogReg only (StandardScaler), RF uses raw features\n\nValidation Scheme:\n- Primary: Stratified 5-fold cross-validation (stratified by class to maintain ~24%/>50K proportion)\n- Verification: 10 repeated stratified 5-fold CV with different random seeds (0-9)\n- Shuffle used in verification repeats to ensure robustness\n\nEvaluation Metric:\n- ROC-AUC (Receiver Operating Characteristic Area Under Curve)\n- Appropriate for imbalanced binary classification (24% vs 76% class split)\n\nOther:\n- No class weighting or resampling applied\n- No hyperparameter tuning beyond defaults\n- fnlwgt (population weight) included as a feature\n",
+  "verification_method": "10x repeated stratified 5-fold cross-validation with random seeds 0-9. Each repeat uses shuffled CV folds to ensure stability across different data orderings.",
+  "verification_result": "STABLE: RF outperformed LR in 10/10 repeats. Revised estimate: RF ROC-AUC = 0.906650, LR ROC-AUC = 0.854319, difference = +0.052331 (95% CI: [+0.051601, +0.053003])"
+}

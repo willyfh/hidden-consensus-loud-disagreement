@@ -1,0 +1,27 @@
+{
+  "run_id": "H2_verify_008_8d7387f7",
+  "hypothesis_id": "H2",
+  "verify_arm": true,
+  "replicate_idx": 8,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_verify_008_8d7387f7_e8wueku4",
+  "started_at": 1785972396.617717,
+  "returncode": 0,
+  "stdout_tail": "**Finding: no robust winner.** In the primary stratified 5-fold CV, RandomForestClassifier (defaults) edged out LogisticRegression (defaults) by a tiny margin (0.9052 vs 0.9050 ROC-AUC, diff = +0.00018). But that edge didn't survive verification \u2014 under repeated 5\u00d75 CV with a different seed, LogisticRegression came out ahead (diff = -0.00071, RF won only 44% of 25 folds), and on an independent held-out 80/20 split LogisticRegression also won (0.9044 vs 0.9029). The sign of the difference flips depending on the random seed, so the honest conclusion is that the two models are statistically indistinguishable on this dataset with default hyperparameters \u2014 the initial RF \"win\" was noise, not a real effect.\n\nBoth `analysis.py` and `result.json` are saved in the working directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785972737.385779,
+  "wall_clock_seconds": 340.768061876297,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H2",
+    "summary": "In the primary 5-fold CV, RandomForestClassifier scored marginally higher than LogisticRegression (0.9052 vs 0.9050, diff=+0.00018), but this tiny edge did not replicate: under repeated 5x5 CV with a different seed and on an independent held-out test split, LogisticRegression actually scored slightly higher. The two models are effectively tied on ROC-AUC for this dataset with default hyperparameters -- the difference is within noise, not a robust advantage for either model.",
+    "primary_metric_name": "ROC-AUC difference (RF - LogReg), 5-fold stratified CV mean",
+    "primary_metric_value": 0.00018451451218415293,
+    "direction": "RF ~= LogReg (no consistent winner)",
+    "methodological_choices": "Dropped redundant 'education' string column (duplicate of numeric 'education-num'). Treated '?' as missing and imputed (median for numeric, most-frequent for categorical). One-hot encoded categoricals (handle_unknown='ignore'); standard-scaled numeric features (neutral for RF, helps LogReg converge). Both models used sklearn default hyperparameters inside identical ColumnTransformer preprocessing pipelines for a fair, apples-to-apples comparison. Target encoded as 1 for '>50K', 0 for '<=50K'. No class-imbalance handling applied (ROC-AUC is threshold-independent and reasonably robust to the ~24%/76% imbalance in this data). Evaluation metric: ROC-AUC via cross_val_score with StratifiedKFold(5, shuffle=True, random_state=42).",
+    "verification_method": "(1) RepeatedStratifiedKFold with 5 splits x 5 repeats (25 total folds, different seed=123) to check stability of the CV estimate; (2) an independent 80/20 stratified train/test split (random_state=999, not used in any CV above) with models refit on the training portion and evaluated once on the held-out test set.",
+    "verification_result": "Did NOT hold up robustly -- the sign of the RF-LogReg difference flipped. Primary 5-fold CV: RF=0.90522 vs LogReg=0.90504 (diff=+0.00018, RF ahead). Repeated 5x5 CV (25 folds, seed=123): RF=0.90453 vs LogReg=0.90525 (diff=-0.00071, LogReg ahead); RF beat LogReg in only 44% of folds. Held-out test split: RF=0.90288 vs LogReg=0.90443 (diff=-0.00155, LogReg ahead). Conclusion: the two models perform statistically indistinguishably on this dataset with default hyperparameters; the small initial RF edge was noise, not a genuine effect."
+  }
+}

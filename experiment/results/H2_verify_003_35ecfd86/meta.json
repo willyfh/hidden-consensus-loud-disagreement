@@ -1,0 +1,27 @@
+{
+  "run_id": "H2_verify_003_35ecfd86",
+  "hypothesis_id": "H2",
+  "verify_arm": true,
+  "replicate_idx": 3,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_verify_003_35ecfd86_v2sz4ui4",
+  "started_at": 1785882010.599617,
+  "returncode": 0,
+  "stdout_tail": "**Finding: H2 is not supported.** Logistic regression (default hyperparameters) achieved a slightly but consistently *higher* stratified 5-fold CV ROC-AUC than random forest (default hyperparameters) \u2014 the opposite of what the hypothesis claimed.\n\n- **Primary result** (seed=42): LogReg AUC = 0.9053, RF AUC = 0.9016, diff (RF \u2212 LogReg) = **\u22120.0037**\n- **Stability check**: Repeated 5-fold CV across 5 additional seeds (0\u20134) \u2014 LogReg won all 5 runs, with a diff range of \u22120.0031 to \u22120.0041. The gap is small in absolute terms (~0.3\u20130.4 AUC points) but never flips sign across 10 total CV runs.\n\nLikely explanation (not formally tested): unregularized default RF tends to overfit on this dataset relative to a linear model with one-hot encoded, mostly near-linear predictors like education level and capital gain, while LogReg's defaults already generalize well here.\n\nFiles written:\n- `analysis.py` \u2014 full pipeline (median-impute + scale numerics, most-frequent-impute + one-hot categoricals, StratifiedKFold CV, repeated-seed stability check)\n- `result.json` \u2014 final structured result reflecting the actual (LogReg > RF) finding\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785882766.944112,
+  "wall_clock_seconds": 756.3444950580597,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H2",
+    "summary": "No \u2014 logistic regression (default hyperparameters) achieves a slightly but consistently higher stratified 5-fold CV ROC-AUC than random forest (default hyperparameters) on the Adult Income dataset, so the hypothesis that RF outperforms LogReg is not supported.",
+    "primary_metric_name": "ROC-AUC difference (RF - LogReg), mean over stratified 5-fold CV",
+    "primary_metric_value": -0.0036665632345087573,
+    "direction": "LogReg > RF",
+    "methodological_choices": "Target encoded as binary (1 = '>50K'). Numeric features (age, fnlwgt, education-num, capital-gain, capital-loss, hours-per-week) median-imputed and standardized; categorical features (workclass, education, marital-status, occupation, relationship, race, sex, native-country) most-frequent-imputed (raw '?' values parsed as NaN by pandas) and one-hot encoded (unknown categories ignored at transform time). Both models used pure sklearn defaults (RandomForestClassifier(), LogisticRegression()) aside from a fixed random_state=42 for the RF for reproducibility; no class-imbalance handling (e.g. class_weight) was applied despite the ~76/24 class split, since the question specifies defaults. Evaluation used StratifiedKFold(n_splits=5, shuffle=True, random_state=42) with scoring='roc_auc', no held-out test set was reserved since CV alone was requested.",
+    "verification_method": "Repeated stratified 5-fold CV with 5 different random seeds (0-4) for the fold splits, re-fitting both pipelines fresh each time, to check whether the observed LogReg > RF gap was consistent rather than an artifact of one particular fold split.",
+    "verification_result": "Did NOT hold up in RF's favor \u2014 the finding reverses the naive expectation and is itself confirmed stable in the opposite direction: across 5 repeated stratified 5-fold CV runs (seeds 0-4), RF beat LogReg in 0/5 runs (i.e. LogReg beat RF in 5/5). Mean AUC RF=0.9017 (range 0.9010-0.9022) vs LogReg=0.9053 (range 0.9051-0.9056). Mean diff (RF-LogReg)=-0.0035 (range -0.0041 to -0.0031), consistent in sign and magnitude with the primary finding of diff=-0.0037. LogReg's advantage is small (~0.3-0.4 AUC points) but highly consistent across all 10 CV runs (1 primary + 5 stability seeds)."
+  }
+}

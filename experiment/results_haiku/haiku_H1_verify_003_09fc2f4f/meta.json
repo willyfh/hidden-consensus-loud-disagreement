@@ -1,0 +1,27 @@
+{
+  "run_id": "haiku_H1_verify_003_09fc2f4f",
+  "hypothesis_id": "H1",
+  "verify_arm": true,
+  "replicate_idx": 3,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H1_verify_003_09fc2f4f_hkv38rrf",
+  "started_at": 1786163411.93518,
+  "returncode": 0,
+  "stdout_tail": "## Analysis Complete\n\nI've successfully investigated whether model choice meaningfully affects predictive performance on the Adult Income dataset. Here are the key findings:\n\n### **Main Finding: YES, model choice DOES meaningfully affect performance**\n\n**Performance Hierarchy (by ROC-AUC):**\n1. **Gradient Boosting: 0.9287** \u2190 Best\n2. Random Forest: 0.9206\n3. SVM: 0.8930\n4. Decision Tree: 0.8639\n5. **Logistic Regression: 0.8570** \u2190 Worst\n\n**Key Metrics:**\n- **ROC-AUC difference:** 0.0716 (8.36% relative difference) \u2014 this is substantial\n- **F1 Score range:** 27% relative difference (0.5603 to 0.7121)\n- **Recall range:** 41.5% relative difference (0.4534 to 0.6416)\n\n### **Validation Results**\nThe finding is **robust and confirmed** through 5\u00d75 Repeated Stratified K-Fold Cross-Validation:\n- CV ROC-AUC difference: 0.0795 (even larger than test set)\n- Model ranking remained perfectly consistent across all 25 folds\n- Low standard deviations (\u00b10.0039 to \u00b10.0083) indicate stable performance\n\n### **Methodological Choices**\n- **Models tested:** Logistic Regression, Decision Tree, Random Forest, Gradient Boosting, SVM\n- **Preprocessing:** LabelEncoding for categoricals, median imputation for missing values, StandardScaler for scale-sensitive models\n- **Train/test split:** 80/20 stratified\n- **Primary metric:** ROC-AUC (handles class imbalance well: 76% vs 24%)\n\nBoth `analysis.py` and `result.json` have been saved to your current directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786163834.032633,
+  "wall_clock_seconds": 422.0974531173706,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H1",
+    "summary": "Model choice meaningfully affects predictive performance. Random Forest and Gradient Boosting significantly outperform Logistic Regression, with ROC-AUC differences of 0.0716 (up to 8.4% relative difference). Performance hierarchy is consistent across cross-validation folds.",
+    "primary_metric_name": "ROC-AUC difference (best - worst)",
+    "primary_metric_value": 0.07164539368117673,
+    "direction": "Gradient Boosting > Logistic Regression (ROC-AUC difference: 0.0716)",
+    "methodological_choices": "Models: Logistic Regression, Decision Tree, Random Forest (100 trees, max_depth=15), Gradient Boosting (100 trees, max_depth=5), SVM (RBF kernel). Preprocessing: LabelEncoding for categorical variables (filled missing with 'Unknown'), median imputation for numeric features. Scaling: StandardScaler applied for Logistic Regression and SVM. Train/test split: 80/20 stratified. Evaluation metric: ROC-AUC (primary), plus Accuracy, F1, Precision, Recall. Hyperparameters tuned conservatively for fair comparison.",
+    "verification_method": "5x5 Repeated Stratified K-Fold Cross-Validation on training set (ROC-AUC scoring). Checked consistency of model ranking and performance differences across CV folds.",
+    "verification_result": "Finding CONFIRMED. CV mean ROC-AUC difference: 0.0795. Model ranking remained consistent across all 25 CV folds. Best/worst models in CV matched test set. Conclusion: model choice has stable, meaningful impact on performance."
+  }
+}

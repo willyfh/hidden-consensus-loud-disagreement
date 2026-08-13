@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H6",
+  "summary": "The logistic regression model trained on the Adult Income dataset is very well-calibrated, with an Expected Calibration Error (ECE) of 0.0247. The model's predicted probabilities closely match actual outcome frequencies across probability bins, indicating reliable confidence estimates.",
+  "primary_metric_name": "Expected Calibration Error (ECE)",
+  "primary_metric_value": 0.024667,
+  "direction": "model is very well-calibrated",
+  "methodological_choices": "Model: Logistic Regression (L-BFGS solver, max 1000 iterations). Preprocessing: dropped rows with missing values in workclass, occupation, and native-country (6465 rows removed, final N=45222); label-encoded 8 categorical features; kept 6 numerical features. Train/test split: 70/30 stratified random split. Calibration metrics: Expected Calibration Error (ECE) with 10 equal-width probability bins, Brier score, and Maximum Calibration Error (MCE). Validation: repeated stratified train/test splits with 5 different random seeds (42-46) to assess stability.",
+  "verification_method": "5 repeated stratified 70/30 train/test splits with random seeds 42-46. ECE calculated independently for each run using 10 probability bins. Evaluated stability via mean, standard deviation, and range of ECE across runs.",
+  "verification_result": "Finding held up strongly under stability check. ECE range across 5 runs: [0.0207, 0.0302], mean=0.0247±0.0035 (std). All runs showed ECE < 0.05, confirming the model is very well-calibrated. Brier scores were also stable (mean=0.1360±0.0007), ranging from 0.1349-0.1370."
+}

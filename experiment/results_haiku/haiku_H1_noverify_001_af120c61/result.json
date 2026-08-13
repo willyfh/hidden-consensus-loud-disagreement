@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H1",
+  "summary": "Model family choice has a meaningful impact on predictive performance on the adult income dataset. The best model (Gradient Boosting) achieves 0.8764 accuracy, while the worst (K-Nearest Neighbors) achieves 0.7784, a gap of 0.0981 (9.81%). Tree-based ensemble models (Random Forest, Gradient Boosting) consistently outperform linear models and distance-based methods.",
+  "primary_metric_name": "Test Accuracy Range (Best - Worst)",
+  "primary_metric_value": 0.09806530862933771,
+  "direction": "Gradient Boosting > K-Nearest Neighbors",
+  "methodological_choices": "Preprocessing: Label-encoded all categorical features; no scaling applied (tree models are scale-invariant, non-tree models evaluated as-is). Train-test split: 80-20 stratified split on target. Models: 9 model families tested (Logistic Regression, Decision Tree, Random Forest with 100 trees and max_depth=15, Gradient Boosting with 100 trees and max_depth=5, AdaBoost with 100 estimators, SVM with RBF kernel, Gaussian Naive Bayes, KNN with k=5, and Neural Network with 2 hidden layers). Evaluation metric: Primary focus on test accuracy (most intuitive for classification); also reported ROC-AUC, F1, precision, recall. No hyperparameter tuning performed beyond reasonable defaults; same random seed used across all models for reproducibility. No class imbalance correction applied."
+}

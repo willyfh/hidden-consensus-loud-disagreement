@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H1",
+  "summary": "Yes, model family matters: tree-based ensembles (HistGradientBoosting) clearly outperform linear Logistic Regression on this dataset. On the held-out test set, HistGradientBoosting achieved ROC-AUC=0.9311 vs 0.9078 for Logistic Regression (a gap of 0.0233), and this gap was confirmed stable under repeated cross-validation.",
+  "primary_metric_name": "ROC-AUC difference (HistGradientBoosting - LogisticRegression, held-out test)",
+  "primary_metric_value": 0.0233,
+  "direction": "HistGradientBoosting > LogisticRegression (tree ensembles > linear model)",
+  "methodological_choices": "Target binarized as class=='>50K'. '?' treated as missing and imputed (median for numeric, most-frequent for categorical); one-hot encoding for categoricals, standard scaling for numerics (shared preprocessing pipeline across all models for fairness). Compared 3 model families with light/default hyperparameters (no extensive tuning) representing distinct inductive biases: Logistic Regression (linear), Random Forest (bagged trees, 300 estimators), HistGradientBoostingClassifier (boosted trees). Single stratified 70/15/15 train/val/test split (val unused beyond sanity-checking, since no tuning was done). Primary metric: ROC-AUC (robust to the ~24%/76% class imbalance in this dataset); accuracy and F1 also reported as secondary metrics. No explicit class-imbalance handling (e.g. class_weight) was applied to keep models comparable on equal footing/defaults.",
+  "verification_method": "5x repeated stratified 5-fold CV (25 total folds, 5 different random seeds via RepeatedStratifiedKFold) on the combined train+val pool (85% of data), scoring ROC-AUC for all three model families. Compared fold-paired differences between best and worst performing families.",
+  "verification_result": "Finding held up. Repeated CV: HistGradientBoosting mean ROC-AUC=0.9273 (std=0.0028) vs LogisticRegression mean ROC-AUC=0.9048 (std=0.0037). Paired per-fold gap = 0.0226, 95% range=[0.0195, 0.0248], entirely positive (gap is consistent, not a fluke of one split)."
+}

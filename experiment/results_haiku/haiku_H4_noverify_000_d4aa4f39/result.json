@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H4",
+  "summary": "Addressing class imbalance using SMOTE and undersampling improves model quality on the adult income dataset. Average improvement across F1-Score and Balanced Accuracy is 0.0370, with improvements observed in recall and F1-Score metrics.",
+  "primary_metric_name": "F1-Score improvement (with vs without imbalance handling)",
+  "primary_metric_value": 0.037011461816291835,
+  "direction": "imbalance handling improves model quality",
+  "methodological_choices": "Models: Logistic Regression and Random Forest. Preprocessing: Label encoding for categorical variables, StandardScaler normalization, stratified 80/20 train/test split. Class imbalance handling: SMOTE (oversampling) combined with RandomUnderSampler. Primary evaluation metrics: F1-Score and Balanced Accuracy (preferred over accuracy for imbalanced data). Test set: always original unbalanced distribution for fair comparison. Missing values ('?'): removed from dataset. Random state: 42 for reproducibility."
+}

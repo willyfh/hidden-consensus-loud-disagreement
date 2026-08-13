@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H4",
+  "summary": "Addressing class imbalance on the Adult income dataset (3.18:1 imbalance ratio) yields minimal improvement in discriminative ability. While class_weight='balanced' provides negligible ROC-AUC gains (+0.0005) and modest F1-Score improvements (+0.0407), these improvements are too small to be practically significant. The finding is robust across model types and validated via repeated cross-validation.",
+  "primary_metric_name": "ROC-AUC improvement (Balanced - Unbalanced average across model types)",
+  "primary_metric_value": 0.0005,
+  "direction": "Minimal/negligible improvement from class imbalance handling",
+  "methodological_choices": "Binary classification on Adult income dataset using two model families (Logistic Regression, Random Forest). Preprocessing: label encoding for 8 categorical features, standard scaling for 6 numeric features, median imputation for missing values. Class imbalance handling via class_weight='balanced' parameter. Evaluation metrics: ROC-AUC (primary), F1-Score, Precision, Recall, Balanced Accuracy. Train-test split: 80-20 stratified. Threshold for significance: >0.005 ROC-AUC improvement.",
+  "verification_method": "5 repeated stratified 5-fold cross-validation with different random seeds (42, 123, 456, 789, 999). Computed mean and standard deviation of ROC-AUC and F1-Score across all folds and repeats to assess stability.",
+  "verification_result": "Finding held up under validation. Repeated CV showed consistent ROC-AUC improvement of +0.0001 to +0.0008 across model types (mean ±0.0000-0.0007 SD), confirming negligible gains. F1-Score improvements were more substantial (+0.0192 to +0.0622) and stable, indicating class balancing helps with minority class detection but not overall model discrimination. Results were consistent across 5 different random seeds, demonstrating robustness."
+}

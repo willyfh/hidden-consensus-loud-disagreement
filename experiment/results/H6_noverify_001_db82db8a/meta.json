@@ -1,0 +1,25 @@
+{
+  "run_id": "H6_noverify_001_db82db8a",
+  "hypothesis_id": "H6",
+  "verify_arm": false,
+  "replicate_idx": 1,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H6_noverify_001_db82db8a_8tc8xiq0",
+  "started_at": 1785938784.135993,
+  "returncode": 0,
+  "stdout_tail": "Both `result.json` and `analysis.py` are saved in the working directory.\n\n**Finding:** A Gradient Boosting classifier trained to predict income (`>50K` vs `<=50K`) on the Adult dataset is well-calibrated overall \u2014 its predicted probabilities are within 0.96 percentage points of observed outcome frequencies on average (ECE, 10-bin, held-out test set), with AUC 0.926. The largest gap sits in the 0.7\u20130.9 predicted-probability range (up to ~3.8 points), reflecting mild overconfidence there, and isotonic post-hoc recalibration can tighten this further to 0.51 points without hurting discrimination. A Logistic Regression baseline is marginally better calibrated (ECE 0.83 pts) but has lower AUC (0.906).\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785938918.489579,
+  "wall_clock_seconds": 134.35358595848083,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H6",
+    "summary": "The Gradient Boosting classifier is well-calibrated overall: predicted probabilities differ from observed outcome frequencies by only 0.96 percentage points on average (ECE) on held-out data, below the 2-point materiality threshold, though it shows mild overconfidence in the 0.7-0.9 predicted-probability range (worst single-bin gap, MCE, of 3.76 points). It is very slightly less calibrated than a Logistic Regression baseline (ECE=0.83 pts), and isotonic post-hoc recalibration tightens its ECE further to 0.51 points without hurting discrimination (AUC 0.926 -> 0.926).",
+    "primary_metric_name": "Expected Calibration Error (10-bin, raw Gradient Boosting model)",
+    "primary_metric_value": 0.0096,
+    "direction": "well-calibrated overall (ECE well under 2pp), with mild overconfidence in the 0.7-0.9 probability range",
+    "methodological_choices": "Binary target = 1 if class=='>50K'. Missing categorical values (workclass, occupation, native-country) filled with 'Missing' category rather than dropped (~6% of rows affected). 75/25 stratified train/test split, random_state=42. Numeric features standardized; categorical features one-hot encoded. Primary model: GradientBoostingClassifier (n_estimators=200, max_depth=3, learning_rate=0.1) chosen as a model class known to be prone to overconfidence, making calibration a non-trivial question; Logistic Regression fit as a naturally-calibrated baseline for comparison. Calibration measured via Expected Calibration Error (ECE) and Maximum Calibration Error (MCE) using 10 equal-width probability bins on held-out test predictions, cross-checked against sklearn's quantile-binned calibration_curve; Brier score and ROC-AUC reported alongside. Post-hoc isotonic recalibration via 5-fold CalibratedClassifierCV (fit only on the training set) tests whether miscalibration is fixable. Miscalibration materiality threshold set subjectively at ECE > 0.02 (2 percentage points)."
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H4",
+  "summary": "Yes, addressing class imbalance improves model quality on the Adult Income dataset. While discrimination ability (ROC-AUC) shows minimal improvement (+0.0001), balanced metrics like F1-Score improve substantially (+0.0609 mean improvement with class weights). This finding is stable across 10 random seeds with consistent F1 improvements ranging from +0.0526 to +0.0689.",
+  "primary_metric_name": "F1-Score improvement (class weights - baseline) averaged over 10 random seeds",
+  "primary_metric_value": 0.0609,
+  "direction": "Positive - class weight balancing improves F1-Score by 6.09 percentage points on average",
+  "methodological_choices": "Used stratified train-test split (80-20) with 39073 training and 9769 test samples. Evaluated two model classes: LogisticRegression and RandomForest. Preprocessing: label encoding for 8 categorical features, standardization of features. Handled missing values (2799 in workclass, 2809 in occupation, 857 in native-country) via mode imputation. Compared baseline (no imbalance handling) versus class_weight='balanced' approach. Evaluation metrics: ROC-AUC (discrimination), F1-Score (balance of precision-recall), precision, and recall. Cross-validation: 5-fold repeated stratified CV with 5 repeats (25 total splits).",
+  "verification_method": "Repeated evaluation across 10 different random train-test splits (seeds 0-9) with stratified sampling to preserve class distribution. Each split trained both baseline and class-weighted LogisticRegression models, recording F1-Score and ROC-AUC improvements.",
+  "verification_result": "Finding held up strongly across all splits. F1-Score improvement: +0.0609 ± 0.0051 (mean ± std), with range [+0.0526, +0.0689] across 10 seeds - ALL improvements positive. ROC-AUC improvement: +0.0001 ± 0.0004, with mixed direction [-0.0003, +0.0012] - minimal but stable near zero. The primary takeaway is that class imbalance handling significantly improves balanced classification metrics (F1) but has negligible impact on discrimination metrics (ROC-AUC), which is theoretically expected."
+}

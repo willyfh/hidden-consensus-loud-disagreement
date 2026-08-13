@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H3",
+  "summary": "The most important feature for predicting income is marital-status, a key demographic/employment characteristic. This feature consistently ranked as the most important across both Random Forest and Gradient Boosting models, and remained stable across repeated cross-validation folds.",
+  "primary_metric_name": "Combined feature importance (average of RF and GB)",
+  "primary_metric_value": 0.2840446669475122,
+  "direction": "marital-status is the most important predictor",
+  "methodological_choices": "Preprocessing: Removed rows with missing values, dropped fnlwgt (weight meta-feature), one-hot encoded categorical variables, standardized numerical features. Train-test split: 70-30 with stratification (31655 train, 13567 test). Models: Random Forest (100 trees, max_depth=15) and Gradient Boosting (100 estimators, max_depth=4). Importance: Combined tree-based importances from both models by averaging aggregated feature-level importances.",
+  "verification_method": "Repeated Stratified K-Fold Cross-Validation with 3 splits, 5 repeats (15 folds total). For each fold, trained a Random Forest model and tracked whether the top feature remained in top-5 features.",
+  "verification_result": "Finding highly stable: Top feature 'marital-status' appeared in top-5 for 15/15 CV folds. RF test accuracy: 0.8534 (CV mean: 0.8587 \u00b1 0.0019). GB test accuracy: 0.8628 (CV mean: 0.8669 \u00b1 0.0014). Top-5 features remained consistent across all validation folds."
+}

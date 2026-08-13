@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H5",
+  "summary": "Applying SMOTE to the training data changed the >50K-class F1 score by -0.002 on the primary held-out split (no-resampling F1=0.676, SMOTE F1=0.674), which does not exceed the 0.02 threshold. Across 10 repeated splits with different random seeds, the mean difference was -0.004 (sd=0.003, range [-0.010, 0.000]), confirming SMOTE does not meaningfully change RF's minority-class F1 on this dataset -- and if anything trends slightly negative.",
+  "primary_metric_name": "F1(>50K) difference (SMOTE - no resampling)",
+  "primary_metric_value": -0.0042,
+  "direction": "no meaningful change (|diff| < 0.02); slight negative trend from SMOTE",
+  "methodological_choices": "One-hot encoding for all categorical features (handle_unknown='ignore'); missing values in workclass/occupation/native-country filled with an explicit 'Missing' category rather than dropped or imputed. 75/25 stratified train/test split. Classifier fixed as RandomForestClassifier() with all default hyperparameters (including default random_state=None, so each fit has its own internal randomness) per the research question. SMOTE (imbalanced-learn, default k_neighbors=5) applied only to the training fold, never to the test fold, to avoid leakage. Positive/minority class defined as '>50K'. Metric is binary F1 on the >50K class specifically (not macro/weighted), since the question asks about minority-class F1.",
+  "verification_method": "10 repeated independent 75/25 stratified train/test splits, each with a different random seed for both the split and (implicitly) the untracked RF internal randomness, comparing SMOTE vs. no-resampling F1 within each repeat.",
+  "verification_result": "Finding held up: across 10 repeats the mean SMOTE-minus-no-resampling F1 difference was -0.0042 (sd=0.0031), with individual-repeat diffs ranging from -0.0096 to +0.0002 -- all repeats stayed within +/-0.02, so no single split drove the primary result and the threshold was never exceeded in either direction."
+}

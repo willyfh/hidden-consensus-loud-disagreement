@@ -1,0 +1,25 @@
+{
+  "run_id": "H5_noverify_005_cd3fe220",
+  "hypothesis_id": "H5",
+  "verify_arm": false,
+  "replicate_idx": 5,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H5_noverify_005_cd3fe220_7tl7is9y",
+  "started_at": 1785884728.560744,
+  "returncode": 0,
+  "stdout_tail": "Both `analysis.py` and `result.json` are in place in the working directory.\n\n**Finding:** SMOTE oversampling does **not** meaningfully change the minority-class (>50K) F1 score for a default RandomForestClassifier on this dataset. F1 went from 0.6771 (no resampling) to 0.6756 (with SMOTE) \u2014 a difference of **-0.0015**, well under the 0.02 threshold. Precision dropped slightly (0.739\u21920.726) while recall rose slightly (0.625\u21920.632), roughly offsetting each other in F1. This makes sense: random forests already handle moderate class imbalance (76/24 split here) reasonably well via bootstrap aggregation, so synthetic oversampling has little to add.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785885123.104922,
+  "wall_clock_seconds": 394.5441780090332,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H5",
+    "summary": "With a default RandomForestClassifier, applying SMOTE to the training data changed the minority-class (>50K) F1 score from 0.6771 to 0.6756, a difference of -0.0015, which is not more than the 0.02 threshold. SMOTE made little practical difference for this classifier/dataset combination.",
+    "primary_metric_name": "F1 difference (SMOTE - no resampling), minority class >50K",
+    "primary_metric_value": -0.0015,
+    "direction": "No meaningful difference: SMOTE changes F1 by only -0.0015 (<= 0.02 threshold)",
+    "methodological_choices": "Target encoded as binary (1='>50K', the minority/positive class). Missing values in workclass, occupation, native-country (categorical only) imputed with an explicit 'Missing' category rather than row-dropping, to preserve ~7% of rows where missingness may be informative. Categorical features one-hot encoded (handle_unknown='ignore'); numeric features passed through unscaled (fine for tree-based RF). Single stratified 75/25 train/test split (random_state=42), evaluated once (no CV) since the question compares two fixed pipelines on held-out data. Preprocessing (encoder) fit on training split only, then applied to test split, to avoid leakage. SMOTE (imbalanced-learn default, k_neighbors=5, random_state=42) applied only to the training data after encoding/splitting (never to test data). RandomForestClassifier() used with all default hyperparameters (n_estimators=100, no class_weight adjustment) in both conditions, per the research question. F1 computed for the positive class (>50K) via sklearn f1_score(pos_label=1). No hyperparameter tuning or cross-validation was done for either condition, since the question specifies default hyperparameters and a single resampling comparison."
+  }
+}

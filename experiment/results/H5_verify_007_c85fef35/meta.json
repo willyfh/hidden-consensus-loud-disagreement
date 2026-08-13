@@ -1,0 +1,27 @@
+{
+  "run_id": "H5_verify_007_c85fef35",
+  "hypothesis_id": "H5",
+  "verify_arm": true,
+  "replicate_idx": 7,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H5_verify_007_c85fef35_sdrsmzev",
+  "started_at": 1785970530.1317198,
+  "returncode": 0,
+  "stdout_tail": "## Finding\n\n**SMOTE does not meaningfully change the >50K F1 score** for a default `RandomForestClassifier()`.\n\n- Primary split (75/25, stratified): F1 = 0.6816 (no resampling) vs 0.6769 (SMOTE) \u2192 **diff = \u22120.0047**\n- Stability check (5\u00d75 repeated stratified CV, 25 independent runs): mean diff = **+0.0001** (std 0.0041, range \u22120.0072 to +0.0081, 95% CI [\u22120.0015, +0.0017])\n\nThe magnitude of the difference never approached the 0.02 threshold in any run \u2014 the finding is stable. This makes sense: random forests already handle moderate class imbalance (~24% minority) reasonably well via bagging/bootstrap and per-tree feature randomness, so synthetic oversampling adds noise without shifting the decision boundary much on this dataset.\n\nKey methodological choices: target = `class == '>50K'` as minority/positive class; categorical features ordinal-encoded (no leakage, since it doesn't use the target); missing values (`?`/NaN, ~2-6% in `workclass`/`occupation`/`native-country`) filled as an explicit \"Missing\" category; SMOTE applied only to the training fold, never to test data.\n\nResults saved to `result.json`, code saved to `analysis.py`.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785971017.680216,
+  "wall_clock_seconds": 487.5484962463379,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H5",
+    "summary": "SMOTE oversampling did NOT meaningfully change the >50K-class F1 score when holding RandomForestClassifier() at default hyperparameters. On the primary held-out test split, F1 was 0.6816 without resampling vs 0.6769 with SMOTE (diff = -0.0047), well under the 0.02 threshold. Repeated 5x5 stratified CV confirmed the mean difference was +0.0001 (std=0.0041), consistently below 0.02 in magnitude across all 25 runs.",
+    "primary_metric_name": "F1 difference (SMOTE - no resampling), minority class >50K",
+    "primary_metric_value": -0.0047,
+    "direction": "no meaningful change (|diff| < 0.02)",
+    "methodological_choices": "Target binarized as >50K=1 (minority, ~24% of data). Categorical features ordinal-encoded (fit on full column before split; label-only encoding introduces no leakage) rather than one-hot, since RandomForest splits on category codes effectively and this keeps dimensionality low. Missing values (blank/NaN in this CSV, corresponding to '?' in the raw UCI data) filled with an explicit 'Missing' category rather than imputed or dropped. Primary split: single stratified 75/25 train/test split, random_state=42. Classifier: RandomForestClassifier() with all defaults (n_estimators=100, no max_depth cap, etc.) per hypothesis spec. Resampling: imblearn SMOTE() with default k_neighbors=5, applied to the training fold only (never to test/val data, to avoid leakage). Metric: F1 score on the >50K (minority) class specifically, computed on held-out data never touched by SMOTE.",
+    "verification_method": "5x5 repeated stratified K-fold cross-validation (5 different random seeds, 5 folds each = 25 independent train/test evaluations), each refitting both the no-resample and SMOTE pipelines from scratch and comparing F1 on the held-out fold.",
+    "verification_result": "Finding held up. Across 25 CV runs, mean diff (SMOTE - no resample) = +0.0001 (std=0.0041, range [-0.0072, +0.0081]), 95% CI [-0.0015, +0.0017]. The magnitude never approached the 0.02 threshold in any run, consistent with the primary split result of -0.0047."
+  }
+}

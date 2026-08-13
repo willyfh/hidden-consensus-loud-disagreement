@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H5",
+  "summary": "Applying SMOTE oversampling to the training data does NOT change the minority-class (>50K) F1 score by more than 0.02 compared to no resampling. The F1 score increased by only 0.0037 (from 0.6798 to 0.6836) on the held-out test set, and cross-validation confirms the effect is negligible with a mean difference of 0.0013 and 95% CI of [-0.0065, 0.0090].",
+  "primary_metric_name": "F1 Score difference (SMOTE - No SMOTE) for minority class >50K",
+  "primary_metric_value": 0.003746,
+  "direction": "SMOTE effect is negligible (diff < 0.02); no meaningful improvement",
+  "methodological_choices": "Removed rows with missing values (NaN and '?'); used label encoding for 8 categorical features; 80-20 stratified train-test split (random_state=42); default RandomForestClassifier() with no hyperparameter tuning as specified; SMOTE applied only to training set with random_state=42; F1 score evaluated for minority class (>50K, pos_label=1) on held-out test set.",
+  "verification_method": "5-fold stratified cross-validation repeated with 5 different random seeds (42, 123, 456, 789, 999) for a total of 25 fold evaluations. Each fold replicated the full pipeline: train-test split, SMOTE application, model training, and F1 score computation.",
+  "verification_result": "Finding held up under cross-validation. Mean F1 difference across 25 folds was 0.001250 with 95% CI [-0.006542, 0.009042], confirming that SMOTE produces negligible improvement (far below 0.02 threshold). Not a single fold showed a difference exceeding 0.02 in absolute value."
+}

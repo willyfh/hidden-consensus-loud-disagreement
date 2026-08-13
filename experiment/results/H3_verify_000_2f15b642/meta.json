@@ -1,0 +1,27 @@
+{
+  "run_id": "H3_verify_000_2f15b642",
+  "hypothesis_id": "H3",
+  "verify_arm": true,
+  "replicate_idx": 0,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H3_verify_000_2f15b642_ry3rz7f2",
+  "started_at": 1785882928.520982,
+  "returncode": 0,
+  "stdout_tail": "## Summary\n\n**Finding: `marital-status` is the most important feature for predicting income class**, followed by `capital-gain` and `education-num`.\n\n**Method:**\n- Cleaned data (filled true NaNs in workclass/occupation/native-country with \"Missing\"; dropped redundant `education` string column, kept `education-num`)\n- Trained a RandomForestClassifier (300 trees, class-balanced) in a pipeline with one-hot encoding for categoricals\n- Test ROC-AUC = 0.918 (vs. 0.906 for a logistic regression baseline), confirming real predictive signal\n- Computed permutation importance (ROC-AUC drop) on held-out data by permuting original columns through the pipeline \u2014 avoids the high-cardinality bias of impurity importance and doesn't dilute one-hot-encoded features\n- Cross-checked with logistic regression standardized coefficients (capital-gain and marital-status also rank at the top there, alongside occupation)\n\n**Stability check:** Repeated the full split\u2192fit\u2192permutation-importance pipeline across 5 independent random seeds. `marital-status` ranked #1 in **5/5 seeds** (mean importance = 0.044, std = 0.0025) \u2014 the finding held up cleanly, with no instability in the ranking.\n\nFull results are in `result.json`, code in `analysis.py`.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785883357.239969,
+  "wall_clock_seconds": 428.7189869880676,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H3",
+    "summary": "Across a Random Forest classifier and permutation importance (ROC-AUC drop), 'marital-status' is consistently the single most important feature for predicting income class, followed by capital-gain and education-num; this ranking was stable across 5 independently-seeded train/test splits (5/5 seeds agreeing on the top feature).",
+    "primary_metric_name": "top feature permutation importance (mean ROC-AUC drop, RF, primary split)",
+    "primary_metric_value": 0.0456,
+    "direction": "'marital-status' most important",
+    "methodological_choices": "Dropped the redundant string 'education' column (kept 'education-num'); kept 'fnlwgt' though it is a census sampling weight without direct demographic meaning and its importance should be interpreted cautiously; missing values in workclass/occupation/native-country (true NaNs, ~2-6% of rows) filled with an explicit 'Missing' category rather than dropped or mode-imputed, since missingness may itself be informative. Primary model: RandomForestClassifier (300 trees, min_samples_leaf=2, class_weight='balanced') in a Pipeline with one-hot encoding for 7 categorical features and passthrough numerics; single 75/25 stratified train/test split (random_state=42). Importance method: permutation importance (15 repeats, scoring=ROC-AUC) computed on the held-out test set by permuting each *original* column through the fitted pipeline (rather than one-hot dummies), avoiding both the high-cardinality bias of impurity-based importance and dilution of a single feature's signal across many one-hot columns. Logistic regression with standardized coefficients was fit as a secondary cross-check. class_weight='balanced' used to address the roughly 3:1 class imbalance (<=50K vs >50K); metric of choice was ROC-AUC rather than accuracy for the same reason.",
+    "verification_method": "Repeated the entire pipeline (stratified 75/25 split -> fit RandomForest -> permutation importance, 10 repeats, scoring=ROC-AUC) across 5 independent random seeds (1-5, different train/test splits and different RF random_state each time), and checked whether the same feature ranked #1 each time.",
+    "verification_result": "Finding held: 'marital-status' was the #1 ranked feature in 5/5 seeds (mean importance across seeds = 0.0442, std = 0.0025). Primary-split estimate was marital-status = 0.0456. RF test ROC-AUC on primary split = 0.9175 (LR baseline = 0.9058), confirming the model has genuine predictive signal to attribute importance from."
+  }
+}

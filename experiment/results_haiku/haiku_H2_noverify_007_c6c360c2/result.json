@@ -1,0 +1,12 @@
+{
+  "hypothesis_id": "H2",
+  "summary": "Random Forest achieves a mean ROC-AUC of 0.906824 while Logistic Regression achieves 0.820703 in stratified 5-fold cross-validation. The difference is 0.086121, with Random Forest performing better.",
+  "primary_metric_name": "ROC-AUC difference (RF - LogReg)",
+  "primary_metric_value": 0.086121,
+  "direction": "RF > LogReg",
+  "methodological_choices": "Used LabelEncoder for categorical and target encoding; no scaling applied to preserve tree model interpretability. Handled missing values (represented as '?') by replacing with mode per column. Stratified 5-fold cross-validation ensures balanced class distribution across folds. Random Forest uses scikit-learn defaults (100 estimators, max_depth=None, min_samples_split=2, min_samples_leaf=1). Logistic Regression uses defaults with max_iter=1000 for convergence (standard default is 100, but increased for stability). ROC-AUC metric chosen as specified in research question. random_state=42 for reproducibility. No hyperparameter tuning applied\u2014used scikit-learn out-of-box defaults as specified.",
+  "rf_mean_roc_auc": 0.906824,
+  "rf_std_roc_auc": 0.001868,
+  "lr_mean_roc_auc": 0.820703,
+  "lr_std_roc_auc": 0.004208
+}

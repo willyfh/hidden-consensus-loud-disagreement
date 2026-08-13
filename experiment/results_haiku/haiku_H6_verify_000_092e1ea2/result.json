@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H6",
+  "summary": "The logistic regression model trained on the adult income dataset is well-calibrated, with an Expected Calibration Error (ECE) of 0.020631. This finding is stable across 5 independent random splits with different seeds.",
+  "primary_metric_name": "Expected Calibration Error (ECE) - Logistic Regression",
+  "primary_metric_value": 0.020631,
+  "direction": "WELL-CALIBRATED",
+  "methodological_choices": "Logistic regression classifier with L2 regularization, 70/30 train-test split, categorical encoding via LabelEncoder, calibration evaluation using Expected Calibration Error (ECE) with 10 bins, Brier score, and log-loss. Stability validated via 5 repeated train-test splits with different random seeds.",
+  "verification_method": "5 repeated stratified train-test splits (70/30) with different random seeds (42, 123, 456, 789, 999)",
+  "verification_result": "Finding stable: ECE mean = 0.020631 \u00b1 0.004687, range [0.015582, 0.029311]"
+}

@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H3",
+  "summary": "The most important features for predicting income are relationship, capital-gain, and education-num. Relationship status is the strongest predictor, followed closely by capital-gain. These three features account for the majority of predictive power in the model.",
+  "primary_metric_name": "Average normalized feature importance (RF + GB + Permutation)",
+  "primary_metric_value": 0.2388948800432783,
+  "direction": "'relationship' is the most important feature for income prediction",
+  "methodological_choices": "Train-test split (70-30, stratified). Random Forest (200 estimators, max_depth=20) and Gradient Boosting (200 estimators, max_depth=5) models trained on label-encoded categorical features. Missing values imputed with mode (categorical) or median (numeric). Feature importance calculated using: (1) built-in model feature importance, (2) permutation importance on test set. Final importance is the average of normalized importance scores from all three methods to provide robust ranking."
+}

@@ -1,0 +1,10 @@
+{
+  "hypothesis_id": "H3",
+  "summary": "Across a Random Forest classifier evaluated with permutation importance on held-out data, 'capital-gain' is consistently the single most important predictor of income (>50K vs <=50K), followed by relationship and education-num. This ranking was stable across 5 independently-seeded train/test splits.",
+  "primary_metric_name": "RF permutation importance (mean ROC-AUC drop) of top feature, averaged over 5 seeds",
+  "primary_metric_value": 0.0488,
+  "direction": "'capital-gain' most important",
+  "methodological_choices": "Dropped rows with missing values (marked '?') rather than imputing (7.4% of rows, consistent with common practice for this dataset). Ordinal-encoded categoricals for the Random Forest (tree splits don't assume ordinality) and one-hot-encoded + standardized for Logistic Regression comparison. 80/20 stratified train/test split, RandomForestClassifier (300 trees, min_samples_leaf=2) as primary model since it captures nonlinearities/interactions and its permutation importance is model-agnostic and not biased by feature cardinality (unlike impurity-based importance, which is reported only for context and inflates 'fnlwgt' and 'age'). Used ROC-AUC as the scoring metric for permutation importance since classes are imbalanced (~24% positive class). Also computed |coefficient| from a standardized Logistic Regression as a second, independent importance signal.",
+  "verification_method": "Repeated the full pipeline (fresh 80/20 stratified split, refit RandomForestClassifier, permutation importance with 10 repeats on held-out test set) across 5 independent random seeds (1-5), and checked whether the same feature ranked #1 each time and how much its importance value varied.",
+  "verification_result": "Finding held up: 'capital-gain' ranked #1 in 5/5 independent seeded splits, with mean permutation importance 0.0488 (std 0.0036) across seeds. Top-3 features (in order) were consistently ['capital-gain', 'relationship', 'education-num'] across all 5 splits."
+}

@@ -1,0 +1,25 @@
+{
+  "run_id": "H4_noverify_007_8ed8c01b",
+  "hypothesis_id": "H4",
+  "verify_arm": false,
+  "replicate_idx": 7,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_noverify_007_8ed8c01b_uub0iunk",
+  "started_at": 1785883753.908818,
+  "returncode": 0,
+  "stdout_tail": "**Finding:** Class imbalance handling (class_weight, undersampling, SMOTE) does **not** improve ROC-AUC on the Adult Income dataset \u2014 mean change was essentially zero (-0.0002) across Logistic Regression and Random Forest. What it *does* change is the operating point: balanced accuracy and minority-class (\">50K\") recall rise substantially (e.g. +0.056 balanced accuracy with random undersampling), but at the cost of precision and plain accuracy, since it shifts the default 0.5 decision threshold rather than improving the model's underlying discriminative ranking.\n\nFiles written: `analysis.py`, `result.json` (plus `results_full.csv`/`results_deltas.csv` as supporting detail).\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785883858.58386,
+  "wall_clock_seconds": 104.6750419139862,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H4",
+    "summary": "Addressing class imbalance (class_weight='balanced', random undersampling, or SMOTE) does not improve overall discriminative model quality as measured by ROC-AUC on the held-out (naturally imbalanced) test set for either Logistic Regression or Random Forest \u2014 the mean change was -0.0002 AUC. It does shift the operating point: balanced accuracy and minority-class recall rise substantially (best: 'random_undersample', +0.0559 balanced accuracy) at the cost of minority-class precision and plain accuracy, because the model's default 0.5 threshold moves toward flagging more '>50K' cases.",
+    "primary_metric_name": "Mean ROC-AUC change (best imbalance-handling condition - baseline, averaged over LogReg & RF)",
+    "primary_metric_value": -0.0001550531183900361,
+    "direction": "ROC-AUC ~unchanged (-0.0002); balanced accuracy improves most with 'random_undersample' (+0.0559) via a recall/precision trade-off",
+    "methodological_choices": "Dropped rows with '?' missing values (~7% of rows) rather than imputing. Used a single stratified 70/30 train/test split (random_state=42) with the TEST SET LEFT IN ITS NATURAL IMBALANCED DISTRIBUTION (imbalance handling applied to training data only) to reflect realistic deployment evaluation. Numeric features standardized, categoricals one-hot encoded via a shared ColumnTransformer fit on train only. Compared two base classifiers (Logistic Regression, Random Forest with 300 trees) x four conditions (baseline, class_weight='balanced', RandomUnderSampler, SMOTE oversampling). Treated '>50K' as the positive/minority class. Primary metric is ROC-AUC (threshold-independent) since it isolates whether imbalance-handling improves the model's ranking ability rather than just moving the decision threshold; balanced accuracy, minority F1/recall/precision were also computed as secondary metrics because ROC-AUC can mask threshold-driven trade-offs that matter in imbalanced settings. No hyperparameter tuning was performed for any condition beyond the imbalance-handling technique itself, to isolate its effect."
+  }
+}

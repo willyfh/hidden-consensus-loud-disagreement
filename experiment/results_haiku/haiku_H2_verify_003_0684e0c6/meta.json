@@ -1,0 +1,27 @@
+{
+  "run_id": "haiku_H2_verify_003_0684e0c6",
+  "hypothesis_id": "H2",
+  "verify_arm": true,
+  "replicate_idx": 3,
+  "model": "haiku",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H2_verify_003_0684e0c6_6yr1m9e_",
+  "started_at": 1786137405.8900638,
+  "returncode": 0,
+  "stdout_tail": "## Analysis Complete\n\nI've successfully investigated the research question H2 using the Adult Income dataset. Here's a summary of my findings:\n\n**Research Question:** Does a random forest classifier achieve higher stratified 5-fold cross-validated ROC-AUC than logistic regression?\n\n**Answer: YES** \u2014 Random Forest significantly outperforms Logistic Regression.\n\n### Key Results:\n\n**Primary Finding (Stratified 5-Fold CV):**\n- **Random Forest:** ROC-AUC = 0.9068 \u00b1 0.0019\n- **Logistic Regression:** ROC-AUC = 0.8544 \u00b1 0.0030\n- **Difference:** 0.0525 (RF > LogReg)\n\n**Stability Validation (Repeated 5-Fold CV, 10 repetitions):**\n- **Random Forest:** ROC-AUC = 0.9070 \u00b1 0.0036 (95% CI: [0.9006, 0.9120])\n- **Logistic Regression:** ROC-AUC = 0.8543 \u00b1 0.0038 (95% CI: [0.8469, 0.8609])\n- **Result:** Confidence intervals do **not overlap** \u2192 Finding is **STABLE and CONFIRMED**\n\n### Methodological Choices:\n- Removed rows with missing values (resulted in 48,842 clean samples)\n- Used LabelEncoder for 8 categorical features\n- Applied StandardScaler to Logistic Regression (via pipeline)\n- Used scikit-learn defaults for both models\n- Stratified 5-fold CV to respect class imbalance (11.7K positive, 37.2K negative)\n- Validated with repeated CV using different random seeds\n\nBoth `analysis.py` and `result.json` have been saved to the current directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1786137595.459611,
+  "wall_clock_seconds": 189.56954717636108,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H2",
+    "summary": "Yes, Random Forest classifier achieves significantly higher stratified 5-fold cross-validated ROC-AUC (0.9068 \u00b1 0.0019) compared to Logistic Regression (0.8544 \u00b1 0.0030), with a difference of 0.0525. This finding is stable and confirmed across repeated cross-validation with different random seeds.",
+    "primary_metric_name": "ROC-AUC difference (RF - LogReg)",
+    "primary_metric_value": 0.052457,
+    "direction": "RF > LogReg",
+    "methodological_choices": "Removed rows with missing values (NaN in workclass, occupation, native-country columns), resulting in 48,842 clean samples with 14 features. Encoded 8 categorical variables using LabelEncoder. Applied StandardScaler to features in Logistic Regression pipeline (required for proper model function), but not for Random Forest. Used both models with scikit-learn defaults (RandomForestClassifier and LogisticRegression with random_state=42). Evaluated using stratified 5-fold cross-validation with ROC-AUC as the metric. Class distribution was imbalanced (11,687 positive vs 37,155 negative).",
+    "verification_method": "Repeated stratified 5-fold cross-validation with 10 repetitions using different random seeds (RepeatedStratifiedKFold), yielding 50 total folds per model. Compared 95% confidence intervals derived from repeated CV scores to assess finding stability.",
+    "verification_result": "Finding is CONFIRMED and STABLE. RF maintained higher mean ROC-AUC (0.906988 \u00b1 0.003595) compared to LR (0.854346 \u00b1 0.003781) across repeated CV. Confidence intervals do not overlap: RF 95% CI [0.900616, 0.911969] vs LR 95% CI [0.846918, 0.860889]. The ROC-AUC difference of 0.0525 persisted consistently (original 5-fold: 0.0525, repeated CV: 0.0526)."
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "run_id": "H3_noverify_006_14fa7ec8",
+  "hypothesis_id": "H3",
+  "verify_arm": false,
+  "replicate_idx": 6,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H3_noverify_006_14fa7ec8_j0mpk2z_",
+  "started_at": 1785882885.1761081,
+  "returncode": 0,
+  "stdout_tail": "The analysis ran successfully. Both importance methods agree on the top features.\n\n**Findings**: Using a Random Forest classifier (ROC-AUC = 0.918 on held-out test data, vs. 0.905 for a logistic regression sanity check), permutation importance identifies **marital-status** as the single most important predictor of income, followed by **capital-gain**, **education-num**, **age**, and **occupation**. This ranking is broadly consistent with the impurity-based feature importances (which rank marital-status and relationship highest, with age/education-num/occupation/capital-gain close behind) \u2014 marital-status and relationship status likely serve as strong proxies for career stage and household economic structure in this dataset.\n\nBoth `result.json` and `analysis.py` have been written to the working directory. Key methodological choices: dropped `education` (redundant with `education-num`) and `fnlwgt` (a Census sampling weight, not a real feature); missing categoricals kept as an explicit \"Missing\" category; 80/20 stratified split; permutation importance (not impurity-based) used as the primary measure since it's unbiased by feature cardinality.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785882966.2982779,
+  "wall_clock_seconds": 81.12216973304749,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H3",
+    "summary": "Using permutation importance on a held-out test set (Random Forest, ROC-AUC=0.918), 'marital-status' is the single most important predictor of income, followed by capital-gain, education-num, age. The top 5 features by permutation importance are: marital-status (0.0499), capital-gain (0.0367), education-num (0.0274), age (0.0246), occupation (0.0221).",
+    "primary_metric_name": "top feature permutation importance (mean ROC-AUC decrease)",
+    "primary_metric_value": 0.0499,
+    "direction": "'marital-status' most important",
+    "methodological_choices": "Dropped `education` (redundant string duplicate of numeric `education-num`) and `fnlwgt` (Census sampling weight, not a person-level feature). Missing categorical values imputed as an explicit 'Missing' category rather than dropped/mode-imputed, to preserve all 48842 rows and let missingness itself be informative. 80/20 stratified train/test split, random_state=42. Numeric features standardized; categoricals one-hot encoded. Main model: RandomForestClassifier(n_estimators=400, min_samples_leaf=2, class_weight='balanced') to handle the ~3:1 class imbalance without resampling; Logistic Regression fit as a secondary sanity-check model (ROC-AUC=0.9051). Evaluation metric: ROC-AUC (robust to class imbalance, unlike raw accuracy). Feature importance primarily assessed via permutation importance (10 repeats, ROC-AUC scoring) on the held-out test set, since it is model-agnostic and unbiased by feature cardinality, unlike impurity-based importance; impurity-based RF feature_importances_ computed as a secondary check and one-hot-encoded categorical importances were summed back to their original source feature for both methods so all features are compared on equal footing regardless of cardinality."
+  }
+}

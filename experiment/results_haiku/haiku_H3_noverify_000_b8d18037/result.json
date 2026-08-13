@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H3",
+  "summary": "Based on tree-based models trained on the adult income dataset, capital-gain is the most important feature for predicting income (>50K vs <=50K), with a Random Forest importance score of 0.1492. Education level, marital status, and hours per week are also consistently important predictors.",
+  "primary_metric_name": "Random Forest feature importance (top feature)",
+  "primary_metric_value": 0.14924528154042593,
+  "direction": "capital-gain most important",
+  "methodological_choices": "Data preprocessing: removed rows with missing values (dropping 7653 rows from original 48842). Feature encoding: used LabelEncoder for categorical features. Model: trained Random Forest (100 estimators, max_depth=20) and Gradient Boosting (100 estimators) for comparison. Feature importance computed using: (1) Gini-based importance from tree models, (2) Permutation importance on test set. Train/test split: 80/20 with stratification on target class. Model performance: RF achieved 86.7% accuracy and 0.927 AUC on test set."
+}

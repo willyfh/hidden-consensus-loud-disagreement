@@ -1,0 +1,27 @@
+{
+  "run_id": "H5_verify_003_40240dbf",
+  "hypothesis_id": "H5",
+  "verify_arm": true,
+  "replicate_idx": 3,
+  "model": "sonnet",
+  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H5_verify_003_40240dbf_hqfuyn1c",
+  "started_at": 1785972396.6177769,
+  "returncode": 0,
+  "stdout_tail": "## Finding\n\n**SMOTE oversampling does not change the >50K F1 score by more than 0.02** \u2014 the answer to H5 is **no**.\n\n- Primary split (75/25 stratified, seed 42): F1 without SMOTE = 0.6816, with SMOTE = 0.6767, diff = **-0.0049**\n- Stability check (5\u00d75-fold repeated CV, 25 folds, seeds 0-4): mean diff = **-0.0027** (sd 0.0045), 95% CI [-0.0044, -0.0009], with the largest single-fold magnitude only -0.0141\n\nThe direction is consistent (SMOTE very slightly *hurts* F1 rather than helping), and the effect never approaches the 0.02 threshold in any fold, so the finding is stable.\n\nKey methodological choices: ordinal-encoded categoricals, missing values filled as an explicit \"Missing\" category, default-hyperparameter RF and SMOTE, F1 on the positive (>50K) class only, resampling applied only to training folds.\n\nFiles written: `analysis.py` and `result.json` in the working directory.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1785972814.557801,
+  "wall_clock_seconds": 417.94002413749695,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H5",
+    "summary": "SMOTE oversampling does not meaningfully change the minority-class (>50K) F1 score of a default RandomForestClassifier; on a single held-out test split the difference was -0.0049 (SMOTE slightly worse), and across 25 repeated cross-validation folds the mean difference was -0.0027 (SMOTE ~ no resampling), far below the 0.02 threshold in absolute value.",
+    "primary_metric_name": "F1(>50K) difference, SMOTE minus no-resampling (mean over 5x5-fold repeated CV)",
+    "primary_metric_value": -0.0027,
+    "direction": "no meaningful difference (|diff| < 0.02); SMOTE slightly decreases F1 on average",
+    "methodological_choices": "Categorical features encoded with OrdinalEncoder (not one-hot, to keep SMOTE's k-NN interpolation in a low-dimensional, denser space); missing values in workclass/occupation/native-country (originally NaN, ~6465 cells) filled with an explicit 'Missing' category rather than dropped, to retain all 48842 rows; target binarized as >50K=1 (minority, 23.9% of rows); primary evaluation used a single 75/25 stratified train/test split (random_state=42); RandomForestClassifier and SMOTE both used entirely default hyperparameters (n_estimators=100, k_neighbors=5); F1 computed for the positive (>50K) class only; SMOTE applied to the training fold only, never to test data, to avoid leakage.",
+    "verification_method": "Repeated stratified 5-fold cross-validation with 5 different random seeds (0-4), giving 25 independent train/test folds; in each fold, RF was trained both with and without SMOTE (fit only on the training portion of that fold) and F1(>50K) was computed on the held-out portion.",
+    "verification_result": "Finding held up. Across 25 folds: no-resample F1 mean=0.6761 (sd=0.0086), SMOTE F1 mean=0.6735 (sd=0.0073); diff (SMOTE-plain) mean=-0.0027, sd=0.0045, range [-0.0141, 0.0032], 95% CI [-0.0044, -0.0009]. This closely matches the primary single-split estimate (-0.0049) and never exceeds 0.02 in magnitude in any individual fold, so the conclusion of no practically meaningful difference is stable."
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H1",
+  "summary": "Model family choice has a meaningful impact on predictive performance. Test AUC ranges from 0.8473 (Logistic Regression) to 0.9249 (Gradient Boosting), a difference of 0.0776. Tree-based and linear models show substantial variation in performance.",
+  "primary_metric_name": "Test ROC-AUC difference (best - worst)",
+  "primary_metric_value": 0.0776,
+  "direction": "Best: Gradient Boosting (AUC=0.9249), Worst: Logistic Regression (AUC=0.8473)",
+  "methodological_choices": "Preprocessing: Label-encoded categorical variables, standardized numerical features with StandardScaler. Train/test split: 80/20 stratified by target. Models compared: Logistic Regression, Decision Tree (max_depth=10), Random Forest (100 trees, max_depth=10), Gradient Boosting (100 trees, max_depth=5), SVM with RBF kernel. Evaluation metric: Primary metric is test ROC-AUC; also reported accuracy and F1-score. Missing value handling: Removed rows with missing values (represented as '?'). Imbalance handling: Used stratified split; class imbalance ratio ~0.24. Hyperparameters: Used default or moderate settings without extensive tuning to reflect typical usage patterns."
+}

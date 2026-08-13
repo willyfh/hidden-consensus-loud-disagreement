@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H6",
+  "summary": "The models demonstrate excellent calibration on the adult income classification task. Both Logistic Regression and Random Forest have Expected Calibration Error values well below 0.05, indicating that predicted probabilities align very closely with observed frequencies. The Random Forest model is particularly well-calibrated with an ECE of 0.0268, showing minimal deviation between predicted confidence and actual outcomes.",
+  "primary_metric_name": "Expected Calibration Error (ECE) - Random Forest",
+  "primary_metric_value": 0.0268,
+  "direction": "model is well-calibrated",
+  "methodological_choices": "Trained both Logistic Regression and Random Forest classifiers on a stratified 80-20 train-test split. Handled missing values through mode imputation for categorical features (workclass, occupation, native-country) and median imputation for numeric features. Used LabelEncoder to convert categorical variables to numeric format. Computed calibration metrics using sklearn's calibration_curve function with 10 uniform-width probability bins. Expected Calibration Error (ECE) was selected as the primary metric, computed as the mean absolute difference between predicted probability and observed frequency across bins. Also evaluated Maximum Calibration Error (MCE) and Brier Score for robustness. No class imbalance handling was applied (positive class rate: 23.93%)."
+}

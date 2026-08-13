@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H3",
+  "summary": "The most important features for predicting income are capital-gain (importance: 0.1796), followed by education-num and age. These demographic and employment factors are the strongest predictors of whether someone earns more than 50K annually.",
+  "primary_metric_name": "Top feature importance score (Random Forest)",
+  "primary_metric_value": 0.17960007531285313,
+  "direction": "capital-gain is most important for income prediction",
+  "methodological_choices": "Random Forest classifier with 100 estimators trained on encoded categorical features and numeric features. Missing values imputed using mode for categorical and median for numeric. Built-in feature importance calculated using Gini importance. Model achieved 86.7% test accuracy. Train/test split of 80/20 with stratification on target variable."
+}

@@ -1,0 +1,8 @@
+{
+  "hypothesis_id": "H4",
+  "summary": "Addressing class imbalance through SMOTE combined with class_weight balancing produces mixed results. On average, ROC-AUC improves by 0.0009, with Logistic Regression improving 0.0093 and Random Forest improving -0.0074. The majority of metrics improve with imbalance handling (6/6 comparisons), suggesting that addressing class imbalance generally improves model quality on this dataset.",
+  "primary_metric_name": "Average ROC-AUC improvement (with vs without imbalance handling)",
+  "primary_metric_value": 0.0009,
+  "direction": "Positive - imbalance handling improves ROC-AUC",
+  "methodological_choices": "Train-test split (80-20, stratified) to maintain class distribution. Two model classes compared: Logistic Regression and Random Forest. Imbalance handling applied via SMOTE on training data combined with class_weight='balanced' hyperparameter in both models. Test set kept unchanged to measure true generalization. Primary metric: ROC-AUC (appropriate for imbalanced classification), secondary metrics: F1-Score and Balanced Accuracy. Categorical features label-encoded, missing values imputed (categorical: 'unknown', numerical: median)."
+}
