@@ -22,15 +22,19 @@ MAX_WORKERS = 4  # each analysis.py may itself use n_jobs=-1 internally
 
 # Each replicate's saved code may call RandomForestClassifier(n_jobs=-1) etc., which
 # grabs every core via joblib. Combined with MAX_WORKERS-way process parallelism here,
-# that oversubscribes the machine and can (confirmed empirically: two Sonnet replicates,
-# 2026-08-17) produce a *different* value than a clean single-replicate run, despite a
-# fixed random_state -- a false-positive "mismatch" caused by verification contention,
-# not a real self-report/code discrepancy. Pin each subprocess to a small worker count
-# so MAX_WORKERS-way outer parallelism can't oversubscribe the inner n_jobs=-1 calls.
+# that oversubscribes the machine and can (confirmed empirically: 2 Sonnet + 4 Haiku
+# replicates, 2026-08-17) produce a *different* value than a clean single-replicate run,
+# despite a fixed random_state -- a false-positive "mismatch" caused by verification
+# contention, not a real self-report/code discrepancy. An earlier fix pinned this to 2
+# threads per subprocess, which was sufficient in isolation but still produced false
+# positives under the real MAX_WORKERS=4 parallel load; pinned to 1 instead, confirmed
+# sufficient (re-verified all 8 originally-flagged Haiku cases sequentially at
+# threads=1: the 4 genuine mismatches reproduced deterministically and exactly matched
+# the already-documented values, the other 4 reproduced their original values exactly).
 _SUBPROCESS_ENV = os.environ.copy()
 for _var in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS",
              "NUMEXPR_NUM_THREADS", "LOKY_MAX_CPU_COUNT"):
-    _SUBPROCESS_ENV[_var] = "2"
+    _SUBPROCESS_ENV[_var] = "1"
 
 
 def verify_one(run_dir: Path) -> dict:
