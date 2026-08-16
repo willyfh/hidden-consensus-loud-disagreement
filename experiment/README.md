@@ -52,6 +52,11 @@ condensed version in the paper's Appendix C is drawn from this file).
   text.
 - `qualitative_examples.md` -- full free-text replicate output (summary, methodological
   choices) for a representative sample, not just metric names/values.
+- `paper_notes/` -- working notes from drafting the paper (decision log, section drafts,
+  key-findings summary) plus the figure outputs `make_figures.py` writes to; kept for
+  provenance. `decisions_log.md` is the chronological record Part 2's human-interventions
+  disclosure is drawn from. `submission/fig1_diversity.pdf` and
+  `submission/fig2_verify_arm.pdf` are manual copies of the files generated here.
 - `requirements.txt` -- exact Python package versions used.
 
 ## Reproducing the analysis (no new agent runs needed)
@@ -62,7 +67,8 @@ python harness/load_results.py            # rebuilds results_combined.csv from r
 python harness/load_haiku_results.py      # rebuilds results_haiku_combined.csv from results_haiku/
 python harness/analyze.py                 # reproduces the Section 1.3 diversity numbers (Figure 1, Table 2)
 python harness/analyze_cross_model.py     # reproduces the Sonnet-vs-Haiku comparison (Table 2, Table 4)
-python harness/make_figures.py            # reproduces Figures 1 and 2
+python harness/make_figures.py            # writes Figures 1 and 2 to paper_notes/; the
+                                           # submission/*.pdf copies are updated by hand
 python harness/collection_stats.py        # reproduces the batch-dispatch statistics (Table 5)
 python harness/archive_stats.py           # reproduces the archive-exclusion breakdown (Table 7)
 python harness/verify_results.py --results-dir results --out harness/verification_log.jsonl
