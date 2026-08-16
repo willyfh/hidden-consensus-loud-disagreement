@@ -22,7 +22,7 @@
     \item[] Question: Does the paper discuss the limitations of the work performed by the authors?
     \item[] Answer: \answerYes{}
     \item[] Justification: Section~2.8 discusses isolation guarantees (prompt-level, not
-    OS-level), the two-model-family scope (broader coverage not attempted), sample size
+    OS-level), the two-model scope (broader coverage not attempted), sample size
     (N=10 per cell, well below the most comparable prior study's 150), and the documented
     limits of our re-execution verification method (Section~2.5).
     \item[] Guidelines:
@@ -83,7 +83,7 @@
     \item[] Justification: The experimental harness, verification pipeline, and the full
     collected dataset (240 structured replicate reports) are not yet hosted at a public,
     citable location as of this draft. \emph{[Author note: strongly recommend releasing
-    an anonymized repository before submission --- this is a paper about verification and
+    an anonymized repository before submission: this is a paper about verification and
     reproducibility, and shipping without open code/data undercuts that argument. If
     released, update this answer to \textbackslash answerYes\{\} with the repository URL
     and update the New Assets answer below to match.]}
@@ -122,7 +122,7 @@
     report descriptive statistics (standard deviation, sign-agreement percentages) for the
     H2/H5 numeric comparisons and raw counts for the measure-choice-diversity comparison,
     rather than formal confidence intervals or significance tests. We consider the reported
-    patterns (e.g., 100\% vs.\ 0\% substantive agreement; 15--19 vs.\ 2--10 unique framings)
+    patterns (e.g., 75--100\% substantive agreement; 1--10 unique framings per hypothesis)
     large enough to be informative at this scale, but we do not claim formal statistical
     significance and flag this as a direction for a higher-N follow-up.
     \item[] Guidelines:
@@ -173,9 +173,10 @@
 \item {\bf Broader impacts}
     \item[] Question: Does the paper discuss both potential positive societal impacts and negative societal impacts of the work performed?
     \item[] Answer: \answerYes{}
-    \item[] Justification: Section~3 discusses the positive implication (the mitigation
-    demonstrated --- specifying the measure, not just the goal --- is cheap and immediately
-    actionable) and states explicitly why we see no significant negative societal impact
+    \item[] Justification: Section~3 discusses the positive implication: the mitigation
+    demonstrated, specifying the measure rather than just the goal, is cheap and
+    immediately actionable. It also states explicitly why we see no significant negative
+    societal impact
     specific to this work.
     \item[] Guidelines:
     \begin{itemize}
@@ -268,7 +269,7 @@
     \item[] Justification: LLM agents (Claude Sonnet and Claude Haiku) are the central
     object of study and the sole means of experimental data generation in this paper, not
     merely a writing
-    aid --- their methodological choices and responses to the verification manipulation
+    aid: their methodological choices and responses to the verification manipulation
     are the paper's entire empirical subject, described fully in Sections~1.2, 2.1, and
     2.3.
     \item[] Guidelines:

@@ -196,3 +196,73 @@ here on as decisions happen, not reconstructed after the fact.
   worth remembering that "let's also verify the second dataset the same way" was almost
   skipped as redundant busywork, and instead surfaced the single most important integrity
   finding added this session.
+
+## Citation gap found and closed: Bertran et al. (2026) (2026-08-14)
+
+- While discussing keyword choice for the abstract, human asked whether "measure-choice
+  diversity" already had an existing term in the literature -- prompted a live web search
+  rather than relying on recall. Search surfaced Bertran, Fogliato, and Wu, "Many AI
+  Analysts, One Dataset: Navigating the Agentic Data Science Multiverse" (arXiv:2602.18710,
+  Feb/Mar 2026), which turned out to be the same "Bertran et al. PNAS" paper informally
+  noted during the original topic-selection brainstorm (see the Topic selection entry
+  above) -- flagged as part of why the first framing was abandoned, but never verified,
+  never given a real citation, and never added to references.md's tracked list. The
+  reference sat as an unresolved TODO for the entire project until this point.
+- Verified directly against the source (title, authors, arXiv ID, dates, abstract,
+  methodology) before doing anything else. Confirmed it is closely adjacent -- AI agents
+  replicating human multi-analyst/"nonstandard errors"-style studies -- but distinguishable
+  on three concrete points: their datasets are observational/social-science (e.g. ANES),
+  not ML tasks with mechanically-checkable ground truth; they do not manipulate question
+  specificity as a driver of dispersion; their validity check is a separate AI auditor
+  reviewing each run, not the same agent verifying its own work (no analogue to our
+  verification arm).
+- Added as a full citation in Section 1.1 (Hypothesis) alongside Menkveld et al. and Gao
+  and Xiao, with the three-point differentiation stated explicitly rather than left
+  implicit, plus a bibliography entry and a references.md Tier 0 entry. This is a genuine
+  scholarly-integrity fix, not a stylistic one: a paper that is known to have shaped this
+  project's research design should never have gone uncited for this long. Required
+  re-trimming Part 1 by a few lines and shrinking Figure 2 slightly to stay within the
+  4-page limit after the addition -- same pattern as the Part 2 diagram addition earlier
+  in the project.
+
+## Second citation gap found in the same pass: multiverse/specification-curve analysis (2026-08-14)
+
+- Immediately after the Bertran fix, human asked a sharper follow-up: not just "is there
+  an existing *term*" but "is there an existing *concept* under a different name?" Search
+  surfaced Steegen et al. (2016) "multiverse analysis" and Simonsohn, Simmons, and Nelson
+  (2020) "specification curve analysis" -- an established methodology for mapping how
+  results vary across the full space of defensible analytical choices, which is close in
+  spirit to measure-choice diversity.
+- Verified directly rather than assuming overlap either way: the original 2016 multiverse
+  paper explicitly scopes itself to data-processing choices and states operationalization
+  choice is outside what they demonstrate; later specification-curve applications (e.g.
+  allostatic-load studies) do vary outcome measures directly. So the general concept
+  (different measures/operationalizations of the same construct yield different results)
+  is established; what's genuinely different here is the mechanism -- multiverse analysis
+  is one team deliberately enumerating a pre-specified choice space, while this paper's
+  diversity is emergent, arising spontaneously from independent agents never asked to
+  enumerate alternatives.
+- Human's explicit instruction shaped how this got handled: add citations where they make
+  the paper stronger, but don't let accumulating precursor citations make it look weaker
+  or more derivative. Resolved by treating this as a lighter-weight fix than Bertran:
+  since the mechanism difference is already evident from the paper's own framing
+  (independent teams/agents, stated in the very first sentence of Section 1.1), a full
+  differentiation paragraph would have been redundant. Instead added \citep as a
+  parenthetical at the exact point Section 1.1 already describes "the space of defensible
+  analytical choices," plus a five-word clause ("rather than one team deliberately
+  mapping the space itself"). Zero net page cost, no new paragraph, no dilution of the
+  Menkveld/Gao-Xiao/Bertran precursor chain. General lesson: the right amount of
+  differentiation is proportional to how directly a precursor's *mechanism* overlaps, not
+  just its topic -- a direct empirical precursor (Bertran) earned a full paragraph; a
+  general methodology cited for lineage (Steegen/Simonsohn) earned one clause.
+
+## Abstract registration submitted (2026-08-14)
+
+- Submitted to OpenReview ahead of the Aug 22 deadline: title, keywords (autonomous
+  research, measure-choice diversity, nonstandard errors, LLM agents, self-verification),
+  a newly drafted TL;DR, and the current 321-word abstract -- all pulled directly from
+  `submission/neurips_2026.tex` after the Bertran/Steegen/Simonsohn citation fixes above,
+  so the portal record matches the paper as of this date.
+- Human plans to give the abstract its own careful read separately and may revise the
+  OpenReview entry before the Aug 29 final deadline; if so, mirror any change back into
+  `neurips_2026.tex` so the two stay in sync.

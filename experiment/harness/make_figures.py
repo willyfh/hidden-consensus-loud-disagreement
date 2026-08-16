@@ -71,7 +71,7 @@ ax.set_xticks(x)
 ax.set_xticklabels(fig1_df["hyp"], fontsize=10)
 ax.set_ylabel("Unique measure framings (out of 20 replicates)", fontsize=9.5, color=TEXT_SECONDARY)
 ax.set_ylim(0, max_val + 2)
-ax.set_title("Measure-choice diversity is far higher for abstractly-worded questions",
+ax.set_title("Abstract questions can produce high diversity (H1, H4), but not uniformly",
              fontsize=11, color=TEXT_PRIMARY, pad=14, loc="left")
 ax.spines[["top", "right", "left"]].set_visible(False)
 ax.spines["bottom"].set_color(BASELINE)

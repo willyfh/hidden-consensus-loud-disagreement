@@ -32,6 +32,46 @@ the paper cites it**; search snippets are not a substitute for reading the sourc
   it. This is the human-researcher-teams study Gao & Xiao model their AI-agent design on
   (their "#fincap" → AI analog). Citation confirmed, no longer a TODO.
 
+- **Many AI Analysts, One Dataset: Navigating the Agentic Data Science Multiverse** —
+  Martin Bertran, Riccardo Fogliato, Zhiwei Steven Wu. arXiv:2602.18710 (v1 Feb 2026, v2
+  Mar 2026). https://arxiv.org/abs/2602.18710
+  Confirmed via direct fetch (2026-08-14) — the informal "Bertran et al. PNAS" note from
+  the original topic-selection brainstorm (see decisions_log.md) was never verified or
+  properly tracked; this is that follow-up. Fully autonomous LLM-based "AI analysts" each
+  independently execute a complete analysis pipeline on a fixed dataset/hypothesis; a
+  separate AI auditor screens each run for methodological validity. Tested across three
+  observational/social-science datasets (incl. ANES); substantial dispersion in effect
+  sizes, p-values, and conclusions, steerable by LLM/persona choice. This is the closest
+  prior work to ours in mechanism (AI agents replicating human multi-analyst studies) —
+  now cited and differentiated in Section 1.1: (1) their datasets are observational/social
+  science, not ML tasks with mechanically-checkable ground truth; (2) they do not
+  manipulate question specificity as a driver of dispersion; (3) their validity check is a
+  separate AI auditor, not the analyst agent verifying its own work (our verification-arm
+  manipulation has no analogue in their design).
+
+- **Increasing Transparency Through a Multiverse Analysis** — Sara Steegen, Francis
+  Tuerlinckx, Andrew Gelman, Wolf Vanpaemel. *Perspectives on Psychological Science*,
+  11(5), 702–712, 2016.
+  Confirmed via direct fetch (2026-08-14), prompted by asking "is there already a term
+  for measure-choice diversity under a different name?" rather than assuming our framing
+  was clear of prior art. Founding "multiverse analysis" paper: perform the analysis
+  across the whole set of reasonable data-processing choices to show how results vary.
+  Checked directly whether they treat outcome-measure/operationalization choice as a
+  studied dimension — they explicitly scope themselves to data-processing choices only
+  and flag operationalization-level choices as outside their demonstration's scope.
+
+- **Specification Curve Analysis** — Uri Simonsohn, Joseph P. Simmons, Leif D. Nelson.
+  *Nature Human Behaviour*, 4(11), 1208–1214, 2020.
+  The more general/later formalization of the same methodology; later applications of
+  this method (e.g. allostatic-load specification-curve studies) do explicitly vary
+  outcome measures as one dimension. Both papers now cited together in Section 1.1 at
+  the point where the paper describes "the space of defensible analytical choices," with
+  a short in-line differentiation (deliberate single-team enumeration of the full choice
+  space, vs. this paper's emergent diversity from independent agents who were never asked
+  to enumerate alternatives) rather than a full differentiation paragraph like Bertran et
+  al. — proportionate to how directly each precursor overlaps in mechanism, not just
+  topic.
+
 ## Tier 1 — Closely related, needs explicit differentiation in Part 1/2
 
 - **Preregistration for Experiments with AI Agents** — arXiv:2606.11217 (June 2026).

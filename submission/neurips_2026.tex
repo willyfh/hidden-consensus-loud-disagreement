@@ -14,9 +14,10 @@
 \usepackage{microtype}
 \usepackage{xcolor}
 \usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning}
 
-\title{Hidden Consensus, Loud Disagreement: Autonomous ML Agents Diverge in What They
-Measure but Converge on What They Conclude}
+\title{Hidden Consensus, Loud Disagreement: When the ML \\ Researcher Is an AI}
 
 \author{%
   Anonymous Author(s) \\
@@ -29,89 +30,100 @@ Measure but Converge on What They Conclude}
 \maketitle
 
 \begin{abstract}
-Independent AI agents given identical machine
-learning research questions and an identical dataset (UCI Adult/Census Income) diverge
-sharply in what they choose to report when a question's operationalization is left
-unspecified --- abstractly-worded questions produced 9.1 unique measure framings per 10
-replicates on average across 120 independent, memory-isolated replicate analyses, versus
-3.8 for concretely-specified questions. We show, however, that this surface-level divergence substantially overstates
-genuine disagreement: on two abstract questions, replicates converge on the same
-qualitative conclusion in 65--100\% of cases despite near-total disagreement on which
-specific number to headline --- loud disagreement about what to report can coexist with
-hidden consensus about what is true. We additionally test a domain-appropriate
-intervention unavailable in prior (non-executable) research settings --- requiring agents
-to verify their own finding via repeated cross-validation or bootstrap re-estimation
-before reporting --- and find it does not reduce measure-choice diversity, but
-appropriately tightens numeric estimates for robust effects while surfacing genuine
-fragility in weak ones (sign agreement on a small effect drops from 90\% to 70\% once
-agents are required to check it). A matching 120-replicate dataset collected with Claude
-Haiku in place of Sonnet replicates these patterns, but also reveals a further failure
-mode: on two hypotheses where both model families converge almost completely on
-\emph{what} to measure, they reach opposite conclusions about \emph{what value they get}
-(one effect reverses sign and grows 15$\times$ larger), traced to an upstream
-preprocessing choice invisible in the measure name itself --- apparent consensus can mask
-real disagreement just as easily as loud disagreement can mask real consensus. All
-reported findings were independently verified via re-execution of each replicate's saved
-analysis code against the original data: 208/240 (87\%) reproduced exactly or within
-tolerance. The Sonnet dataset showed zero value mismatches; 4/120 Haiku replicates did,
-traced to self-reported values not matching their own confirmed-deterministic code, a
-distinct reliability gap we disclose in full.
+When AI agents, standing in for the researcher, are asked to answer the same research
+question from the same data, do they agree on what they find? We test this for machine
+learning specifically, where results are directly checkable by execution. Across 240
+independent, memory-isolated agent replicates analyzing the UCI Adult/Census Income
+dataset under six research questions, we measure \emph{measure-choice diversity}: how many
+distinct ways replicates choose to measure the same answer. This turns out to depend
+heavily on the specific question, not simply on whether it is worded abstractly or
+concretely. One abstract question alone produced 10 distinct model-comparison choices out
+of 20 replicates; two of the other three abstract questions, by contrast, converge tightly
+on a single measure once cosmetic wording differences are collapsed. Pooled across
+questions, abstract framing still roughly doubles diversity over concrete framing (2.6 vs.\
+1.3 distinct measures per 10 replicates), but the effect is concentrated, not uniform.
+Despite this surface disagreement, replicates converged on the same qualitative conclusion
+in 75--100\% of cases on two abstract questions, even while disagreeing widely on which
+number to report. Loud disagreement about what to report can coexist with hidden consensus
+about what is true. We also test whether having agents verify their own analysis, via
+repeated cross-validation or bootstrapping, changes their reported confidence. Numeric
+estimates tighten for genuinely robust effects, while instability is exposed in fragile
+ones: sign agreement on a small effect fell from 90\% to 70\% once checked. Repeating the
+study with a different model, Claude Haiku in place of Sonnet, replicates the overall
+pattern. It also surfaces a new failure mode: on one question, both models agreed almost
+completely on what to measure, yet reached opposite conclusions about the value itself, a
+14$\times$ swing traced to an invisible preprocessing choice. Finally, we independently
+re-executed every replicate's saved code against the original data to check our own
+numbers: 208/240 (87\%) reproduced within tolerance. Sonnet had zero contradictions between
+reported and re-executed values. Haiku had four: cases where the agent's self-reported
+number did not match what its own
+deterministic code actually computed, a distinct reliability gap we disclose in full.
 \end{abstract}
 
-\noindent\textbf{Keywords:} autonomous research, nonstandard errors, machine learning
-evaluation, multi-agent verification, researcher degrees of freedom
+\noindent\textbf{Keywords:} autonomous research, measure-choice diversity, nonstandard
+errors, LLM agents, self-verification
 
 \section{Autonomous research result}
 This part is for the research itself: the hypothesis, method, evidence, and primary
 result generated or developed by the agent.
 
 \subsection{Hypothesis}
+\label{sec:hypothesis}
 
 When independent human research teams are given the same dataset and question, they
-routinely reach different quantitative conclusions --- not from error, but because the
+routinely reach different quantitative conclusions, not from error, but because the
 space of defensible analytical choices (model, controls, metric, validation scheme) is
-large, and different teams occupy different corners of it. \citet{menkveld2024} documented
+large \citep{steegen2016,simonsohn2020,gelmanloken2013}, and different teams occupy different corners of
+it, rather than one team deliberately mapping the space itself.
+\citet{menkveld2024} documented
 this directly: 164 independent teams analyzing the same financial dataset produced
-estimates whose disagreement --- ``nonstandard errors'' --- often rivaled or exceeded each
-team's own reported statistical uncertainty. \citet{gaoxiao2026} recently showed
-autonomous AI agents reproduce this: 150 independent Claude Code agents given the same six
+estimates whose disagreement (``nonstandard errors'') often rivaled or exceeded each
+team's own reported statistical uncertainty. \citet{gaoxiao2026} recently showed autonomous
+AI agents \citep{lu2024} reproduce this: 150 independent Claude Code agents given the same six
 market microstructure questions diverged sharply, driven by stable methodological forks,
 with AI peer review largely failing to resolve the disagreement while exemplar exposure
-did.
+did. Concurrently, \citet{bertran2026} showed this AI-agent dispersion scales cheaply
+across observational social-science datasets, using a separate AI auditor to screen each
+run for validity.
 
-Both studies are confined to finance and social-science-style empirical analysis, where
-the ``correct'' measure is inherently a matter of judgment rather than something
-executable and checkable --- unlike machine learning research, whose central operations
-(train a model, evaluate it, compute a metric) are directly checkable. This raises two
-questions neither prior study could address: does the same nonstandard-errors phenomenon
-appear when the domain provides mechanical ground truth, and, because ML tasks are
-executable, does asking agents to verify their own findings by re-running the analysis
-under a stability check reduce disagreement the way exemplar exposure did for Gao and Xiao
---- an intervention with no clean analogue where the underlying ``truth'' cannot itself be
-re-executed?
+All three studies are confined to observational, finance, or social-science-style
+empirical analysis, where the ``correct'' measure is inherently a matter of judgment
+rather than something executable and checkable, unlike machine learning research, whose
+central operations (train a model, evaluate it, compute a metric) are directly checkable.
+None manipulates question specificity or tests same-agent self-verification (Gao and Xiao
+rely on exemplar exposure; Bertran et al.\ on a separate auditor), raising two questions
+none address: does nonstandard-errors disagreement appear when the domain offers mechanical
+ground truth, and, since ML tasks are executable, does asking agents to verify their own
+findings via a stability check reduce disagreement the way exemplar exposure did for Gao
+and Xiao, given that this kind of self-check has no analogue where the underlying
+``truth'' cannot itself be re-executed?
 
-We hypothesize that (H-a) measure-choice divergence replicates in the ML domain, driven
-primarily by whether a question's operationalization is specified, and (H-b)
-self-verification reduces numeric uncertainty in a chosen measure without resolving
-disagreement about which measure to choose. H-a predicts higher measure-framing diversity
-for abstract than concrete questions; H-b predicts the verification arm changes numeric
-dispersion/sign agreement without changing measure-choice diversity.
+We hypothesize that (H-a) measure-choice diversity replicates in the ML domain, driven by
+whether a question's operationalization is specified, and (H-b) self-verification changes
+reported numeric confidence, tightening robust effects and exposing instability in fragile
+ones, without reopening the measure choice, since verification runs after that choice is
+made. H-a predicts higher diversity for abstract than concrete questions; H-b predicts the
+verification arm shifts numeric dispersion/sign agreement depending on the underlying
+effect's robustness.
 
 \subsection{Method}
 
 \textbf{Dataset.} All replicates analyze a single, static copy of the UCI/OpenML Adult
-(Census Income) dataset (48{,}842 rows, mixed categorical/numeric features, binary income
-target, ${\sim}$24\% positive class), fetched once and frozen so every replicate receives
-byte-identical data.
+(Census Income) dataset \citep{beckerkohavi1996} (48{,}842 rows, mixed categorical/numeric
+features, binary income target, ${\sim}$24\% positive class), fetched once and frozen so
+every replicate receives byte-identical data.
 
-\textbf{Research questions.} We wrote six research questions about this dataset, in three
-matched abstract/concrete pairs (Table~\ref{tab:hypotheses}). Each replicate agent
-receives only the dataset and one research question --- no documentation, no access to any
+\textbf{Research questions.} We wrote six research questions about this dataset: two
+abstract/concrete pairs, plus two abstract questions with an implicit method, testing
+whether method convergence can coexist with target divergence
+(Table~\ref{tab:hypotheses}; Section~\ref{sec:evidence}). Each replicate agent
+receives only the dataset and one research question: no documentation, no access to any
 other replicate's work, and no information about which other measures might be
 reasonable.
 
 \begin{table}[h]
-  \caption{The six research questions, in three abstract/concrete matched pairs.}
+  \caption{The six research questions: two abstract/concrete pairs (H1/H2, H4/H5), plus
+  two abstract questions with an implicit method (H3, H6).}
   \label{tab:hypotheses}
   \centering
   \small
@@ -133,11 +145,12 @@ reasonable.
 
 \textbf{Isolation and scale.} Every replicate runs as an independent, non-interactive
 Claude Code CLI invocation (\texttt{claude -p ... --dangerously-skip-permissions}) in a
-freshly created, unpredictably-named temporary directory with no persistent sibling
-directories visible at any point, and an explicit instruction not to explore outside its
-own working directory. We collected 10 independent replicates per (hypothesis $\times$
-arm) cell --- 120 replicates total with Claude Sonnet, plus a matching 120-replicate
-cross-model-family check with Claude Haiku (Section~\ref{sec:research-loop}).
+freshly created, unpredictably-named temporary directory, with an explicit instruction not
+to explore outside its own working directory; up to 8 replicates run concurrently, so
+sibling directories do coexist (Section~\ref{sec:limitations}). We collected 10
+independent replicates per (hypothesis
+$\times$ arm) cell: 120 replicates total with Claude Sonnet, plus a matching 120-replicate
+cross-model check with Claude Haiku (Section~\ref{sec:research-loop}).
 
 \textbf{The verification arm.} Half of the replicates for each hypothesis (the ``verify''
 arm) receive an additional instruction: before reporting, validate your finding's
@@ -150,74 +163,92 @@ its value, a direction, and free-text on its methodological choices) rather than
 common statistical form, since abstract questions admit incompatible units.
 
 \textbf{Verification of our own data.} Independent of the verification \emph{arm}, we
-re-executed every replicate's saved code against fresh data: 208/240 (87\%) reproduced.
+re-executed every replicate's saved code against the original data: 208/240 (87\%) reproduced.
 Sonnet showed zero contradicting values; 4/120 Haiku replicates did, traced to
 self-reports not matching their own deterministic code (Section~\ref{sec:verification}).
 
 \subsection{Evidence}
+\label{sec:evidence}
 
-\textbf{Measure-choice diversity tracks abstractness.} Figure~\ref{fig:diversity} shows
-the number of distinct measure framings (collapsing trivial rewordings into one canonical
-form) each hypothesis produced across 20 replicates. The contrast is stark: H2 (concrete)
-produced only 2 distinct framings, essentially all rewordings of ``ROC-AUC difference (RF
-$-$ LogReg)''; its abstract counterpart H1 produced 15. H5 (concrete) produced 10; H4
-(abstract) produced 19. H3 and H6, abstract questions with an implicit but unstated
-method, land in between (15 and 17): agents agreed on \emph{method} (permutation
-importance; 10-bin ECE) while diverging on \emph{target}. Collapsed into abstract vs.\
-concrete, this is a 2.4$\times$ difference in mean unique framings (9.1 vs.\ 3.8 per 10)
-and 3.6$\times$ in how much the modal framing dominates (19\% vs.\ 68\%).
+\textbf{Measure-choice diversity is concentrated, not uniform.} Figure~\ref{fig:diversity}
+shows the number of distinct measure framings each hypothesis produced across 20
+replicates, collapsing pure wording differences (fold counts, ``test set'' mentions) into
+one canonical form (coding rule in Appendix~\ref{sec:reproducibility}). The picture is
+uneven: H1 (abstract) produced 10 framings, entirely from disagreement over \emph{which
+pair} of models to compare -- the underlying metric (ROC-AUC) is uniform. H4 (abstract)
+produced 3, genuinely different base metrics (balanced accuracy, macro-F1, ROC-AUC). H2
+(concrete) produced 1; H3 and H6 -- both abstract, both with an implicit method -- also
+converge to 1: every H3 replicate uses permutation-importance ROC-AUC drop, every H6
+replicate uses 10-bin ECE \citep{guo2017}, differing only in which feature or model is
+named. Pooled per
+arm of 10, abstract questions still average more distinct measures than concrete (2.6 vs.\
+1.3, 2.1$\times$) with a less dominant modal framing (73\% vs.\ 98\%, 1.3$\times$), driven
+almost entirely by H1 and H4.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.85\linewidth]{fig1_diversity.pdf}
+  \includegraphics[width=0.56\linewidth]{fig1_diversity.pdf}
   \caption{Unique measure framings per hypothesis (out of 20 replicates, 10 per arm).
-  Concrete questions (blue) converge on a small number of framings; abstract questions
-  (orange) produce near-total diversity.}
+  Diversity is concentrated in H1 (which model pair to compare) and H4 (which metric
+  family); the other two abstract questions (H3, H6) converge as tightly as the concrete
+  ones.}
   \label{fig:diversity}
 \end{figure}
 
-\textbf{Surface disagreement overstates substantive disagreement.} The diversity counts
-above, read alone, would suggest near-total disagreement on abstract questions --- too
-strong a conclusion. For H1, 20/20 replicates (100\%) agreed a tree-ensemble model
-(Gradient Boosting, HistGradientBoosting, or Random Forest) outranks linear/naive
-baselines, despite zero agreement on which pair to headline. For H4, 13/20 (65\%)
-explicitly stated the full pattern ``balanced accuracy/minority recall improves, ROC-AUC
-stays roughly flat''; 18/20 (90\%) agreed at minimum on ``improves,'' despite 19/20 unique
-framings.
+\textbf{Surface disagreement overstates substantive disagreement.} H1's diversity count
+alone would suggest near-total disagreement, but that is too strong a conclusion: 20/20 replicates
+(100\%) agreed a tree-ensemble model (Gradient Boosting \citep{friedman2001},
+HistGradientBoosting, or Random Forest \citep{breiman2001}) outranks linear/naive
+baselines, despite no majority consensus on which pair to
+headline (10/20 unique framings). For H4, 15/20 (75\%) explicitly stated the full pattern
+``balanced accuracy/minority recall improves, ROC-AUC stays roughly flat''; 18/20 (90\%)
+agreed at minimum on ``improves,'' despite 3 distinct base metrics.
 
 \textbf{Verification changes numeric confidence, not measure choice.}
-Figure~\ref{fig:verifyarm} compares the no-verify and verify arms for H2 and H5. For H2 ---
-a large, robust effect --- sign agreement is 100\% in both arms, and verification tightens
-the spread (SD 0.0038 $\rightarrow$ 0.0022). For H5 --- small and fragile --- sign
+Figure~\ref{fig:verifyarm} compares the no-verify and verify arms for H2 and H5. For H2
+(a robust, consistently-signed effect), sign agreement is 100\% in both arms, and verification tightens
+the spread (SD 0.0038 $\rightarrow$ 0.0022). For H5 (small and fragile), sign
 agreement \emph{falls} under verification, 90\% $\rightarrow$ 70\%, and the mean effect
 shrinks toward zero ($-0.0028 \rightarrow -0.0016$): several verify-arm replicates that saw
 an effect on one split found, once checked via repeated CV, that the sign was unstable
-across folds, and reported this explicitly.
+across folds, and reported this explicitly. This is unlikely to be pure split-to-split
+randomness: all 20 replicates set \texttt{random\_state=42} for their primary split, though
+a shared seed does not guarantee identical folds once split size, CV scheme, and
+preprocessing also vary; the likelier source is differing pipeline choices (imputation,
+encoding, SMOTE parameters), the same invisible-fork pattern as the H2 reversal below.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.95\linewidth]{fig2_verify_arm.pdf}
+  \includegraphics[width=0.5\linewidth]{fig2_verify_arm.pdf}
   \caption{Replicate-level values for H2 and H5 by arm. Verification tightens a robust
   effect (H2) and shrinks a fragile one toward zero (H5); black bars show arm means.}
   \label{fig:verifyarm}
 \end{figure}
 
-\textbf{A cross-model-family check surfaces hidden disagreement despite apparent
-consensus.} The core patterns replicate with Haiku in place of Sonnet: unique framings
-remain higher for abstract than concrete questions (Table~\ref{tab:crossmodel}), and H1's
-substantive convergence holds (18/20 Haiku vs.\ 20/20 Sonnet agree a tree ensemble wins)
---- though the gap's size varies and even reverses for H6, where Haiku converged more (5
-vs.\ 17). More strikingly, H2 and H5 --- where both models agree almost completely on
-\emph{what} to measure --- reverse on \emph{what value they get}: Sonnet unanimously finds
-logistic regression beating random forest on H2 (mean $-0.0049$); 90\% of Haiku replicates
-find the opposite, 15$\times$ larger (mean $+0.0765$), traced to Haiku disproportionately
-using naive label-encoding where Sonnet one-hot encoded --- invisible in the measure name
-itself. This is close to the mirror image of our main finding: not loud disagreement
-masking hidden consensus, but apparent consensus masking real disagreement.
+\textbf{A cross-model check surfaces hidden disagreement despite apparent
+consensus.} Core patterns replicate with Haiku: framing diversity is concentrated in the
+same two hypotheses (Table~\ref{tab:crossmodel}), and H1's substantive convergence holds
+(18/20 Haiku vs.\ 20/20 Sonnet agree a tree ensemble wins). H3 is the clearest case where
+Haiku's extra diversity is a real methodological difference rather than wording (4 vs.\ 1):
+Sonnet always uses permutation importance, while Haiku splits across permutation,
+impurity-based (Gini), and multi-method
+consensus scores -- a real difference in \emph{method}, not just wording. More strikingly,
+H2 (where both models agree completely on \emph{what} to measure, ROC-AUC difference
+RF$-$LogReg) reverses on \emph{what value they get}: Sonnet unanimously finds logistic
+regression beats random forest (mean $-0.0048$, both arms); 85\% of Haiku replicates find
+the opposite, 14$\times$ larger in magnitude (mean $+0.0675$), traced to an unprompted
+encoding difference the brief never specifies. Reading the saved code directly (self-report
+undercounts this): Sonnet one-hot encodes in 108/120 replicates across all hypotheses
+(12/120 use ordinal encoding only), Haiku uses \texttt{LabelEncoder} in 118/120, invisible
+in the measure name. H5, the other question
+where both models converge on a single measure, does \emph{not} show this pattern: all 40
+replicates across both models and arms report the SMOTE effect as below the question's own
+0.02 threshold, so this mirror-image failure mode is currently evidenced by one question,
+not two, and should not be over-generalized.
 
 \begin{table}[h]
-  \caption{Cross-model-family diversity: unique canonical measure framings per hypothesis
-  (out of 20 replicates, both arms combined).}
+  \caption{Cross-model diversity: unique canonical measure framings per hypothesis
+  (pooled, out of 20 replicates).}
   \label{tab:crossmodel}
   \centering
   \small
@@ -225,49 +256,77 @@ masking hidden consensus, but apparent consensus masking real disagreement.
     \toprule
     Hypothesis & Specificity & Sonnet & Haiku \\
     \midrule
-    H1 & Abstract & 15 & 17 \\
-    H2 & Concrete & 2 & 1 \\
-    H3 & Abstract & 16 & 19 \\
-    H4 & Abstract & 19 & 20 \\
-    H5 & Concrete & 10 & 15 \\
-    H6 & Abstract & 17 & 5 \\
+    H1 & Abstract & 10 & 9 \\
+    H2 & Concrete & 1 & 1 \\
+    H3 & Abstract & 1 & 4 \\
+    H4 & Abstract & 3 & 3 \\
+    H5 & Concrete & 2 & 2 \\
+    H6 & Abstract & 1 & 2 \\
     \bottomrule
   \end{tabular}
 \end{table}
 
 \subsection{Primary Result}
 
-Across six machine learning research questions and 240 independent, memory-isolated agent
-replicates (120 Sonnet, 120 Haiku): (1) question specificity is, as in prior non-ML
-domains, the primary driver of agent-to-agent disagreement, extending nonstandard errors
-in AI-conducted research \citep{gaoxiao2026,menkveld2024} into the one domain their method
-could not reach; (2) this surface-level divergence overstates genuine disagreement, with
-substantive conclusions converging in 65--100\% of cases despite near-total disagreement on
-what to report; (3) self-verification recalibrates numeric confidence without touching
-measure-choice diversity, tightening robust effects and surfacing fragile ones; and (4)
-these patterns replicate across model families, but agreement on \emph{what} to measure
-does not guarantee agreement on the value obtained --- a second model family can reverse a
-unanimous finding entirely. Results (3)--(4) jointly show how ``self-verification'' should
-be read as a mitigation: it targets estimation noise in an already-chosen measure, with no
-mechanism to resolve disagreement about which measure was right, or what a different agent
-would have found.
+Across six research questions and 240 replicates (120 Sonnet, 120 Haiku): (1) question
+specificity can drive large disagreement, extending nonstandard errors in AI-conducted
+research \citep{gaoxiao2026,menkveld2024} to ML, concentrated in specific questions rather
+than uniform across abstract wording; (2) surface disagreement overstates genuine
+disagreement: conclusions converge in
+75--100\% of cases despite near-total disagreement on what to report; (3) self-verification
+recalibrates confidence without touching measure choice, tightening robust effects and
+surfacing fragile ones; (4) core patterns replicate across a second, differently-sized
+Claude model, but agreement on \emph{what} to measure does not guarantee the value: for H2,
+the second model reverses a unanimous finding.
 
 \clearpage
 \section{System Design and Meta-Analysis}
 This is a human-author companion to the main result and should act as a meta-analysis of
 the research process undertaken.
 
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+  node distance=2.5mm,
+  box/.style={draw, rounded corners, align=center, minimum height=0.58cm,
+    minimum width=1.55cm, font=\footnotesize, fill=blue!5},
+  arr/.style={-{Latex[length=1.5mm]}, thick}
+]
+\node[box] (topic) {Topic\\selection};
+\node[box, right=of topic] (dispatch) {Isolated\\dispatch};
+\node[box, right=of dispatch] (exec) {Agent\\execution};
+\node[box, right=of exec] (report) {Structured\\report};
+\node[box, right=of report] (verify) {Verification\\\& analysis};
+
+\draw[arr] (topic) -- (dispatch);
+\draw[arr] (dispatch) -- (exec);
+\draw[arr] (exec) -- (report);
+\draw[arr] (report) -- (verify);
+
+\draw[arr, dashed] (exec.south) .. controls +(0,-0.35) and +(0,-0.35) .. (dispatch.south)
+  node[midway, below, font=\tiny] {session limit $\rightarrow$ resume incomplete cells (5
+  waves)};
+\end{tikzpicture}
+\caption{Research-loop pipeline (240 replicates: 120 Sonnet, 120 Haiku). The harness
+resumes only incomplete cells after a session-limit interruption; every replicate is
+re-verified before entering analysis (Section~\ref{sec:verification}).}
+\label{fig:pipeline}
+\end{figure}
+
 \subsection{Agent and Harness}
 
-All experimental replicates were produced by Claude Sonnet, invoked through the standalone
-Claude Code CLI (\texttt{@anthropic-ai/claude-code}, v2.1.221) rather than through the
-Anthropic API directly, using the author's existing subscription rather than separate
-metered billing. Each replicate is a single, non-interactive invocation ---
-\texttt{claude -p "<brief>" --dangerously-skip-permissions --model sonnet} --- run with its
+The primary experimental replicates were produced by Claude Sonnet \citep{anthropic2026},
+invoked through the standalone Claude Code CLI (\texttt{@anthropic-ai/claude-code},
+v2.1.221) rather than through the Anthropic API directly, using the author's existing
+subscription rather than separate metered billing. Each replicate is a single,
+non-interactive invocation:
+\texttt{claude -p "<brief>" --dangerously-skip-permissions --model sonnet}, run with its
 working directory set to a freshly created, unpredictably-named temporary directory
 containing only a static copy of the dataset. \texttt{--dangerously-skip-permissions} was
 necessary for unattended batch execution across well over a hundred replicate runs, a real
-reduction in interactive safety guardrails relative to normal Claude Code use.
+reduction in interactive safety guardrails relative to normal Claude Code use. The
+cross-model check (Section~\ref{sec:evidence}) used an identical harness and brief
+template, invoked with \texttt{--model haiku} in place of \texttt{--model sonnet}.
 
 Isolation between replicates was approximated at two levels: a fresh, non-shared
 filesystem location per replicate, and an explicit brief instruction not to read, list, or
@@ -289,17 +348,78 @@ front.
 The agent's own toolset within each replicate session was the standard Claude Code toolset
 (file read/write, bash execution) with no additional MCP servers or external tools
 configured; agents wrote and executed their own Python analysis code, predominantly using
-scikit-learn, pandas, and, for several replicates addressing class imbalance,
-imbalanced-learn/SMOTE. The orchestrating batch harness --- dispatching replicates,
-managing isolation, collecting results, and the later verification and analysis passes ---
-was written in Python using standard scientific-Python tooling
-(\texttt{concurrent.futures}, pandas, scikit-learn, matplotlib), run locally with no cloud
-infrastructure beyond the Claude Code CLI calls themselves. All experiments ran on a
-single Apple Silicon laptop with no dedicated GPU or compute cluster. Total data
-collection spanned roughly 33 calendar hours across five retry waves, but only about 3--4
-of those hours involved any replicate actively running; the remainder was idle time between
-waves, reflecting both the CLI's session usage limit and whenever the human author was
-next available to check and relaunch collection (Section~\ref{sec:research-loop}).
+scikit-learn \citep{pedregosa2011} (240/240), pandas \citep{mckinney2010} (240/240), and
+numpy \citep{harris2020} (239/240). For the class-imbalance hypotheses, 78 of 80 H4/H5
+replicates used imbalanced-learn \citep{lemaitre2017} to apply SMOTE \citep{chawla2002}.
+Model choice shows the opposite of Section~\ref{sec:evidence}'s measure-choice pattern:
+Table~\ref{tab:models} breaks down the model classes agents chose across all 240
+replicates. \texttt{RandomForestClassifier} alone appears in 220/240 (92\%), far ahead of
+\texttt{LogisticRegression} (180) and everything else. Agents converge on which tool to use
+even while diverging on how to report what it found.
+
+\begin{table}[h]
+  \caption{Model classes used across all 240 replicates' saved analysis code (not mutually
+  exclusive; a replicate may compare several).}
+  \label{tab:models}
+  \centering
+  \footnotesize
+  \renewcommand{\arraystretch}{0.72}
+  \begin{tabular}{lc}
+    \toprule
+    Model class & Replicates using it \\
+    \midrule
+    \texttt{RandomForestClassifier} & 220 (92\%) \\
+    \texttt{LogisticRegression} & 180 (75\%) \\
+    \texttt{GradientBoostingClassifier} & 45 (19\%) \\
+    \texttt{HistGradientBoostingClassifier} & 24 (10\%) \\
+    \texttt{KNeighborsClassifier} & 22 (9\%) \\
+    \texttt{DecisionTreeClassifier} & 21 (9\%) \\
+    \texttt{SVC} & 16 (7\%) \\
+    \texttt{GaussianNB} & 13 (5\%) \\
+    \texttt{MLPClassifier} & 7 (3\%) \\
+    \texttt{AdaBoostClassifier} & 2 (1\%) \\
+    \bottomrule
+  \end{tabular}
+  \renewcommand{\arraystretch}{1}
+\end{table}
+
+Table~\ref{tab:toolvsmethod} breaks this down per hypothesis against the
+measure-framing counts (Section~\ref{sec:evidence}). H2 and H5 name a model in the
+question, so uniformity there is not a free choice; H1, H3, and H4 leave it open and
+still land on \texttt{RandomForestClassifier} in all 20 replicates. H6 converges instead
+on \texttt{LogisticRegression} (17/20, 85\%), plausibly since its outputs are already
+well-calibrated by construction. Model choice converges tightly even where free, just not
+always on the same model; measure names track a different, largely independent split
+(H1/H4 diverge, H3/H6 converge).
+
+\begin{table}[h]
+  \caption{Model-choice convergence per hypothesis (Sonnet, 20 replicates each) against
+  unique measure framings (Figure~\ref{fig:diversity}). H2/H5 name a model in the
+  question; H1/H3/H4/H6 leave it open.}
+  \label{tab:toolvsmethod}
+  \centering
+  \footnotesize
+  \renewcommand{\arraystretch}{0.82}
+  \begin{tabular}{lccc}
+    \toprule
+    Hyp. & Model named in question? & Dominant model (usage) & Unique measure framings \\
+    \midrule
+    H1 & No & \texttt{RandomForestClassifier} (20/20) & 10 \\
+    H2 & Yes (RF vs.\ LR) & \texttt{RandomForestClassifier} (20/20) & 1 \\
+    H3 & No & \texttt{RandomForestClassifier} (20/20) & 1 \\
+    H4 & No & \texttt{RandomForestClassifier} (20/20) & 3 \\
+    H5 & Yes (RF fixed) & \texttt{RandomForestClassifier} (20/20) & 2 \\
+    H6 & No & \texttt{LogisticRegression} (17/20) & 1 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The orchestrating batch harness running the pipeline in
+Figure~\ref{fig:pipeline} was written in Python using standard scientific-Python tooling
+(\texttt{concurrent.futures}, pandas, scikit-learn, matplotlib \citep{hunter2007}), run
+locally on a single
+Apple Silicon laptop with no dedicated GPU, cluster, or other cloud infrastructure; timing
+and retry-wave details are given in Section~\ref{sec:research-loop}.
 
 \subsection{Research Loop}
 \label{sec:research-loop}
@@ -311,33 +431,49 @@ fifteen candidate research questions across three genres (LLM agent behavior/rel
 classical ML mechanisms; large-scale systematic ML audits) were proposed and checked
 against current literature via web search, and the great majority were found to already
 have close prior art, in several cases published within weeks of the check. The direction
-pursued here was arrived at only after an earlier framing was found to substantially
-overlap with \citet{gaoxiao2026} and an adjacent cluster of very recent work, prompting a
-search for a structurally, not just incidentally, distinct angle: the ML domain those
-studies could not reach.
+pursued here followed only after an earlier framing was found to substantially overlap
+with \citet{gaoxiao2026} and adjacent recent work, prompting a search for a structurally
+distinct angle: the ML domain those studies could not reach.
 
-\textbf{Data collection} proceeded in waves rather than a single pass. During batch
-execution, the harness repeatedly encountered the Claude Code CLI's session usage limit;
-since each replicate's result is logged independently, the harness resumed by re-running
-only cells without a completed replicate, so already-completed runs were never discarded.
-This required five separate retry waves spanning roughly 33 calendar hours, though only
-about 3--4 hours of that involved any replicate actively running --- the rest was idle time
-between waves, reflecting both the session limit itself and when the human author was next
-available to check and relaunch collection. The practical per-window ceiling turned out to
-be far smaller and more variable (roughly 15--56 successful heavy-agentic runs per window)
-than anticipated. Collection also surfaced a
-genuine failure mode: a subset of replicates --- disproportionately the more compute-heavy
-verification-arm ones --- were found to spawn their analysis as a background shell task and
-then end their turn waiting for a completion notification that could never arrive in a
-single-shot, non-interactive session. An explicit instruction against this was added to
-the brief template; it measurably reduced but did not eliminate the failure mode. A
-separate lifecycle issue --- three replicate slots that each succeeded twice under
-different run identifiers, traced to an orchestration process being halted without
-terminating its already-spawned subprocesses --- was resolved by keeping the
+\textbf{Data collection} proceeded in five retry waves (Figure~\ref{fig:pipeline}) rather
+than a single pass, since the harness resumed only cells without a completed replicate
+whenever the Claude Code CLI's session usage limit was hit. Collection spanned roughly 33
+calendar hours, though only about 3--4 hours involved any replicate actively running (the
+rest was idle time reflecting both the session limit and when the human author was next
+available to relaunch collection), and the practical per-window ceiling (roughly 15--56
+successful heavy-agentic runs) proved far smaller and more variable than anticipated.
+Collection also surfaced a genuine failure mode, disproportionate among compute-heavy
+verification-arm replicates: agents would spawn their analysis as a background shell task
+and end their turn awaiting a completion notification that could never arrive in a
+single-shot, non-interactive session. An explicit brief instruction against this reduced
+but did not eliminate the pattern. A separate lifecycle issue (three dispatch slots
+each succeeding twice under different run identifiers, traced to an orchestration process
+halted without terminating its already-spawned subprocesses) was resolved by keeping the
 earlier-started run of each pair, a rule fixed before any outcome was inspected. The
-dataset was finally trimmed to a uniform N=10 replicates per cell (120 total) by
-restricting to a fixed replicate-index range in every cell, a rule fixed at dispatch time
-for presentational clarity.
+dataset was finally trimmed to a uniform N=10 per cell (120 total) via a fixed
+replicate-index range set at dispatch time.
+
+\begin{table}[h]
+  \caption{Batch-dispatch attempts by model across all retry waves, from the raw
+  dispatch log (the final dataset keeps N=10 replicates per cell, 120 per model).}
+  \label{tab:collection}
+  \centering
+  \footnotesize
+  \begin{tabular}{lccccc}
+    \toprule
+    Model & Attempts & Succeeded & Timed out & Replicate slots needing $>$1 attempt & Mean wall-clock (success) \\
+    \midrule
+    Sonnet & 363 & 134 (37\%) & 35 & 93/180 (52\%) & 312s \\
+    Haiku & 152 & 120 (79\%) & 18 & 10/120 (8\%) & 195s \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Table~\ref{tab:collection} extends this to Haiku: per attempt, Sonnet succeeded only 37\%
+of the time (52\% of slots needed a retry) against Haiku's 79\% (8\%), and ran longer on
+average (312s vs.\ 195s). Both gaps are consistent with Sonnet hitting the session-limit
+and background-task failure modes above more often, though we did not log which cause
+ended each failed attempt.
 
 \textbf{Analysis} proceeded through iterative drafting, figure generation, and review,
 detailed further in Section~\ref{sec:human-interventions}.
@@ -349,54 +485,72 @@ The human author made every scope decision throughout the loop described in
 Section~\ref{sec:research-loop}: rejecting an initial research direction once it was found
 to overlap with recent prior art and directing the agent toward the ML-domain extension;
 choosing the execution mechanism (CLI over a raw API key) and model-family scope (single
-family, deferred rather than abandoned); setting and later defending the replicate count
-(N=10 per cell) against a further reduction to N=5 that the agent had not proposed but the
-human considered and overruled on statistical grounds, since the verification-arm
-comparison --- the paper's most novel manipulation --- would have had too little power at
-that sample size; and reviewing drafted figures and text at each stage. During review, the
-human author caught a specific framing problem the agent had not flagged on its own: an
-early draft title reused a precursor paper's exact title as a substring, which would have
-read as a derivative reskin before a reader reached the abstract; the title was changed to
-lead with this paper's own distinctive contribution instead. The human author also set the
+family, deferred rather than abandoned); setting and defending the replicate count (N=10
+per cell) against a further reduction to N=5 the human rejected on statistical grounds,
+since the verification-arm comparison (this paper's most novel manipulation) would have
+had too little power at that size; and reviewing drafted figures and text at each stage.
+During review, the human author caught a framing problem the agent had not flagged: an
+early draft title reused a precursor paper's exact title as a substring, reading as a
+derivative reskin before a reader reached the abstract; it was changed to lead with this
+paper's own contribution instead. The human author also set the
 boundary that all reported figures (including replicate counts and the record of process
 incidents in this section) must reflect what actually happened, rather than a
 retrospectively cleaner narrative, and that this section's substantial drafting
-collaboration with the agent be disclosed rather than presented as solely human-authored
---- consistent with, and enforcing, this workshop's disclosure policy.
+collaboration with the agent be disclosed rather than presented as solely human-authored,
+consistent with, and enforcing, this workshop's disclosure policy.
 
 \subsection{Verification}
 \label{sec:verification}
 
 Two distinct verification mechanisms appear in this paper and should not be conflated. The
-\textbf{verification arm} is an experimental manipulation under study (Section~1.3), not a
+\textbf{verification arm} is an experimental manipulation under study
+(Section~\ref{sec:evidence}), not a
 claim about data quality. Separately, we independently verified the \textbf{correctness of
-the underlying dataset} by re-executing every replicate's saved analysis code against a
-fresh copy of the source data and comparing the reproduced primary metric to the one
-originally reported --- a check made possible, and cheap, by the fact that ML analyses are
+the underlying dataset} by re-executing every replicate's saved analysis code against the
+original data and comparing the reproduced primary metric to the one
+originally reported, a check made possible, and cheap, by the fact that ML analyses are
 directly executable, unlike the empirical-finance analyses in the most comparable prior
 work.
 
 For the primary Sonnet dataset, 113 of 120 replicates (94\%) reproduced exactly or within
 small numerical tolerance, and zero replicates showed a script running to completion and
 producing a value that contradicted its own report; every discrepancy traced to a
-limitation of the re-verification method itself (a timeout on the heaviest
-verification-arm scripts, and a smaller number of replicates whose saved script was not
-fully self-contained).
+limitation of the re-verification method itself: 6 replicates' saved scripts were not
+fully self-contained (the majority cause) and 1 timed out on the heaviest verification-arm
+script.
 
 Running the same check on the Haiku dataset surfaced a different and more concerning
 pattern: 95 of 120 replicates (79\%) reproduced, and this time 4 replicates' saved scripts
 ran to completion and produced a value that contradicted their own report. We manually
 re-ran a sample of these mismatching scripts twice each and confirmed they are fully
 deterministic (identical output both times), ruling out simple run-to-run non-determinism;
-the discrepancy is instead between what the agent's saved code actually computes and what
-it self-reported, which for these replicates were apparently produced independently rather
-than the report being derived from that code's own execution. The remaining 21
+the discrepancy is between what the saved code computes and what was self-reported,
+apparently produced independently rather than derived from that code's own execution. The
+remaining 21
 non-reproducing Haiku replicates match the same not-self-contained-script pattern seen in
-Sonnet, at a notably higher rate (17.5\% vs.\ 5\%).
+Sonnet, at a notably higher rate (17.5\% vs.\ 5\%). Table~\ref{tab:verification}
+summarizes both datasets.
+
+\begin{table}[h]
+  \caption{Independent re-execution verification: reproduction of each replicate's
+  self-reported primary metric from its own saved analysis code.}
+  \label{tab:verification}
+  \centering
+  \footnotesize
+  \begin{tabular}{lcccc}
+    \toprule
+    Dataset & N & Reproduced & Value mismatches & Non-self-contained rate \\
+    \midrule
+    Sonnet & 120 & 113 (94\%) & 0 & 5\% \\
+    Haiku & 120 & 95 (79\%) & 4 & 17.5\% \\
+    Combined & 240 & 208 (87\%) & 4 & N/A \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 We disclose all of this plainly: re-execution establishes that reported numbers were not
-fabricated on the runs it could fully check and confirm, but it also surfaced --- rather
-than merely failed to rule out --- a real, model-family-specific self-report reliability
+fabricated on the runs it could fully check and confirm, but it also surfaced (rather
+than merely failed to rule out) a real, model-specific self-report reliability
 gap. This is itself consistent with this paper's main finding: verification is not one
 thing, and a check aimed at one failure mode (fabrication) can, run rigorously enough,
 catch a different one (self-report/execution inconsistency) it was not specifically
@@ -404,50 +558,72 @@ designed to find.
 
 \subsection{Significance of result}
 
-The result matters for two different audiences. For researchers using AI agents as
-empirical collaborators, it is a direct, actionable warning: an underspecified request to
-an AI agent does not fail loudly, it fails quietly, by returning a confident, well-argued
-answer to a question subtly different from the one intended --- and the fix demonstrated
-here (specifying the measure, not just the goal) is cheap and available today. For the
-autonomous-research community this workshop represents, the more important result may be
-the second one: that a verification step targeting numerical stability does not, and
-structurally cannot, resolve disagreement about what to measure in the first place. As
-autonomous agents are given more latitude in real research pipelines, ``have the agent
-check its own work'' is a natural first line of defense; this result suggests that defense
-has a specific, identifiable blind spot, and that closing it likely requires a different
-kind of intervention (in the spirit of the exemplar-exposure result of \citet{gaoxiao2026})
-rather than a more thorough version of the same one.
+The result matters for two audiences. For researchers using AI agents as empirical
+collaborators, it is a direct warning: an underspecified request fails quietly, not
+loudly, returning a confident answer to a subtly different question, and the fix
+(specifying the measure, not just the goal) is cheap and available today. For the autonomous-research community this workshop represents, the more
+important result may be that a verification step targeting numerical stability structurally
+cannot resolve disagreement about what to measure. As autonomous agents gain more latitude
+in real research pipelines, ``have the agent check its own work'' is a natural first line
+of defense; this result suggests that defense has a specific blind spot, closable only by a
+different intervention (in the spirit of the exemplar-exposure result of
+\citet{gaoxiao2026}), not a more thorough version of the same one. One caveat:
+Section~\ref{sec:hypothesis} compares self-verification to exemplar exposure, but they differ: exemplar
+exposure could change which measure agents pick, while our stability check runs only after
+that choice is made.
 
 \subsection{Interpretability}
 
-All experimental artifacts were tracked to support post-hoc audit. Every replicate's raw
-result, saved analysis code, and run metadata (timing, success/failure status, verification
-outcome) were written to a dedicated, per-run directory identified by a unique run ID.
-Every batch dispatch and retry wave was logged, one line per attempt, to an append-only
-log recording hypothesis, arm, replicate index, and outcome, so the full history of
-successes, failures, retries, and duplicates is independently reconstructable rather than
-overwritten. Excluded and superseded runs (failed attempts, and duplicate successes
-resolved during data cleaning) were archived rather than deleted and remain available for
-inspection. Separately from the experimental logs, a chronological process log recording
-every scope decision, incident, and its resolution was maintained throughout the project
-and is available as supplementary material; Section~\ref{sec:research-loop} and
-Section~\ref{sec:human-interventions} are drawn directly from it.
+All experimental artifacts were tracked to support post-hoc audit: every replicate's raw
+result, code, and metadata went to a dedicated per-run directory, and every batch dispatch
+and retry wave was logged, one line per attempt, so the full history is independently
+reconstructable rather than overwritten. Excluded and superseded runs were archived, not
+deleted. A separate chronological process log
+recording every scope decision and incident is available as supplementary material;
+Sections~\ref{sec:research-loop}--\ref{sec:human-interventions} are drawn directly from it.
+
+Table~\ref{tab:archive} breaks the archive down by reason, from each excluded run's saved
+metadata. Consistent with the background-task failure mode (Section~\ref{sec:research-loop}),
+most excluded Sonnet attempts (194/243, 80\%) never produced a result file; only 13 (5\%)
+were extras beyond the fixed N=10 slots. The smaller Haiku archive differs: timeouts are
+the largest cause (16/33, 48\%).
+
+\begin{table}[h]
+  \caption{Why archived replicate attempts were excluded, by model (from saved run
+  metadata).}
+  \label{tab:archive}
+  \centering
+  \footnotesize
+  \begin{tabular}{lcc}
+    \toprule
+    Reason & Sonnet ($N$=243) & Haiku ($N$=33) \\
+    \midrule
+    No result file produced & 194 (80\%) & 14 (42\%) \\
+    Timed out & 32 (13\%) & 16 (48\%) \\
+    Succeeded, extra beyond N=10 & 13 (5\%) & 3 (9\%) \\
+    Other error & 4 (2\%) & 0 (0\%) \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \subsection{Limitations}
 \label{sec:limitations}
 
-Isolation between replicates is prompt-level and filesystem-layout-based, not an OS-level
-sandbox guarantee; we cannot rule out imperfect isolation in ways container-based isolation
-would have prevented, though we have no direct evidence of cross-contamination in our
-data. This study covers two model families (Sonnet, Haiku; Section~1.3); broader coverage
-(e.g.\ Opus, or non-Anthropic families) was not attempted, and unlike the primary Sonnet
-dataset, the Haiku dataset's re-verification (Section~\ref{sec:verification}) was run as a
-follow-up check rather than alongside initial collection. N=10 replicates per cell is well
-below the 150 used in the most
-comparable prior study, sized for laptop/subscription-quota feasibility rather than by
-power analysis. Our re-verification of replicate outputs, while extensive, could not fully
-check every replicate's process end-to-end, for the reasons given in
-Section~\ref{sec:verification}.
+Isolation is prompt-level and filesystem-based, not OS-level sandboxing; up to 8
+replicates run concurrently so siblings coexist, and we cannot rule out imperfect
+isolation, though found no evidence of cross-contamination. This study covers two Claude
+models of different capability tiers (Sonnet, Haiku), not distinct families; broader
+coverage (e.g.\ Opus, non-Anthropic) was not attempted, and Haiku's re-verification
+followed initial collection rather than running alongside it. N=10 per cell, well below
+the 150 in the most comparable prior study, was sized for laptop/subscription-quota
+feasibility, not power analysis. Our re-execution tolerance ($\pm$1\% absolute or 5\%
+relative) exceeds the entire effect size for H2 and H5, so a small-effect replicate can
+pass despite a materially different re-executed value; under a stricter same-file
+criterion, reproduction is 108/120 (90\%) for Sonnet and 94/120 (78\%) for Haiku, versus
+the reported 113/120 and 95/120. Measure-choice diversity and H4's substantive-agreement
+figures use a documented but judgment-based coding rule
+(Appendix~\ref{sec:reproducibility}); a different reasonable coding could shift counts by
+one or two.
 
 \clearpage
 \section{Reflections and Broader Impact}
@@ -456,19 +632,27 @@ This paper's main practical implication is a warning with an inverted risk profi
 the usual failure mode people worry about with autonomous agents: the danger here is not
 that an agent visibly fails, but that it succeeds confidently and quietly at a slightly
 different task than intended, in a way that is only detectable by comparing many
-independent attempts. As autonomous agents take on a larger share of applied ML work ---
-model selection, feature engineering, evaluation design --- this failure mode will mostly
-go unnoticed by a single researcher running a single analysis, since nothing about a lone
-run signals that a different, equally defensible choice existed. The positive implication
-is equally direct: this risk is cheap to mitigate. Specifying the measure, not just the
-goal, collapsed measure-choice diversity by roughly $2.4\times$ in our data, at zero
-additional cost. We would encourage practitioners delegating open-ended ML analysis to
-agents to treat explicit measure specification as a default, not an afterthought.
+independent attempts. Our own Sonnet-vs-Haiku encoding difference
+(Section~\ref{sec:evidence}) is a clean
+illustration: 108/120 Sonnet replicates one-hot encoded categorical features (reading the
+saved code, not self-report), 118/120 Haiku replicates used label encoding instead, and
+no replicate's self-reported metric name hinted at the difference. As autonomous
+agents take on a larger share of applied ML work (model selection, feature engineering,
+evaluation design), this failure mode will mostly go unnoticed by a single researcher
+running a single analysis, since nothing about a lone run signals that a different, equally
+defensible choice existed. The positive implication is equally direct: this risk is cheap
+to mitigate where it actually bites. H1 (10 distinct framings) and its
+concretely-specified counterpart H2 (1 framing) are the same underlying comparison; naming
+the model pair, not just the metric, is what separates them, at zero additional cost. The
+same intervention would likely help H4 (which metric family), but does little for H3, H5,
+or H6, which converge on their own. We would encourage practitioners delegating open-ended
+ML analysis to agents to specify both the metric and the comparison target explicitly,
+rather than assuming the metric alone is enough.
 
-For this workshop's broader question of how the field should adapt, we would highlight two
-points beyond this paper's specific result. First, our own novelty-checking process ---
-roughly fifteen candidate directions checked against current literature, the great
-majority already covered by work published within weeks --- suggests that ``we searched
+For this workshop's broader question of how the field should adapt, we would highlight
+three points beyond this paper's specific result. First, our own novelty-checking process
+(roughly fifteen candidate directions checked against current literature, the great
+majority already covered by work published within weeks) suggests that ``we searched
 and found nothing'' is weakening as evidence of novelty specifically for autonomous
 research submissions, since the same tools that accelerate one group's research loop
 accelerate everyone else's. Venues may need to treat rapid, independent convergent
@@ -482,13 +666,26 @@ standard mitigation for autonomous-agent unreliability, we would encourage revie
 discussants to ask specifically which kind of wrongness a given verification step could
 and could not have caught, rather than treating any plausible-sounding check as covering
 all of them. Third, a laptop and a subscription are not yet a research lab, and the gap is
-measurable: this paper's 120 replicates needed roughly 33 calendar hours and five retry
-waves despite only 3--4 hours of active computation (Section~2.3) --- an artificial usage
-cap, not compute capability, where the most comparable prior study ran 150 agents against
-metered billing with no such wall \citep{gaoxiao2026}. Access to a research lab
-increasingly means access to a \emph{budget}, which shapes which questions are practically
-askable, not just how quickly they get answered --- worth this workshop's attention, since
-it bears on who gets to participate in autonomous research at all.
+measurable: this paper's Sonnet collection alone needed roughly 33 calendar hours and five
+retry waves despite only 3--4 hours of active computation (Section~\ref{sec:research-loop}),
+a limit imposed by an artificial usage cap, not by compute capability, and compounded by
+tooling reliability: Sonnet succeeded on only 37\% of dispatched attempts per try,
+consistent with, though not conclusively caused by, the background-task
+completion-notification bug described above (we did not log which cause ended each failed
+attempt). The most comparable prior study ran 150 agents against metered billing with no
+such wall \citep{gaoxiao2026}. Access to a research lab increasingly means access to a
+\emph{budget} and to tooling mature enough to finish what it starts. That shapes which
+questions are practically askable, not just how quickly they get answered, and is worth
+this workshop's attention, since it bears on who gets to participate in autonomous
+research at all.
+
+This point held during our own review process, not just in the collected data: the Haiku
+re-verification (Section~\ref{sec:verification}) was nearly skipped as redundant, since
+re-running a pipeline already applied to Sonnet seemed unlikely to surface anything new. It
+caught the paper's most significant integrity finding instead, a genuine self-report/execution
+mismatch absent from Sonnet entirely. A check that already ``passed once'' feeling safe to
+skip on a second dataset is exactly the instinct worth resisting; that is precisely where a
+verification step earns its cost.
 
 We do not see meaningful negative societal impact specific to this work: it uses a
 standard public benchmark dataset, introduces no new model or capability, and its
@@ -499,27 +696,68 @@ from autonomous-agent-driven research.
 \appendix
 
 \section{Reproducibility Statement}
+\label{sec:reproducibility}
 
-The dataset (UCI/OpenML Adult/Census Income) is public and freely available. The six
-research questions are given in full in Table~\ref{tab:hypotheses}; the exact brief text
-given to each replicate agent, including the verification-arm instruction, is available as
-supplementary material. Reproducing the replicate-collection process requires the Claude
+Three early pilot replicates (used only to validate the harness mechanics before full
+collection began) are excluded from every reported figure and archived separately from the
+240 replicates the paper analyzes.
+
+\textbf{Measure-choice diversity coding rule.} A replicate's metric name is reduced to its
+base statistical measure (e.g.\ ROC-AUC, balanced accuracy, macro-F1, minority-class F1,
+Expected Calibration Error, or a feature-importance sub-type: permutation, impurity/Gini,
+or multi-method consensus), stripping wording that does not change what is computed
+(fold/CV/test-set phrasing, which specific feature or model is named). For H1 only, which
+pair of model families is compared is kept as part of the code, since the question ``does
+model family affect performance'' is not well-defined without choosing a pair; for H3's
+``top feature'' and H6's ``which model to calibrate,'' the named entity is an output of a
+fixed method rather than a chosen operationalization, so it is not counted (model choice is
+reported separately, Table~\ref{tab:models}/\ref{tab:toolvsmethod}). This is a documented, but ultimately judgment-based,
+coding decision; the exact rule is implemented in \texttt{harness/analyze.py}
+(\texttt{base\_metric} and \texttt{h1\_comparison\_target}) and is re-run, not hand-edited,
+to produce every diversity number in this paper. The H4 substantive-agreement figures
+(Section~\ref{sec:evidence}) use a similarly documented rule: a replicate counts toward the
+full ``improves, ROC-AUC flat'' pattern only if it explicitly states both clauses, and
+toward ``improves'' alone if it states any accuracy/recall-family improvement, even without
+an explicit ROC-AUC clause.
+
+The dataset (UCI/OpenML Adult/Census Income \citep{beckerkohavi1996}) is public and freely
+available; no dataset-level documentation in the style of \citet{gebru2021} accompanies it
+beyond the UCI repository page, which is itself disclosed to replicate agents as the only
+provenance information they receive. The six research questions are given in full in
+Table~\ref{tab:hypotheses}; the exact brief text given to each replicate agent is available
+as supplementary material
+(\texttt{harness/hypotheses.py}) and has five parts: (1) role framing as an independent,
+single-shot researcher with no access to other replicates' work; (2) the dataset and its
+row count, with no further documentation; (3) the one research question this replicate
+receives, plus an explicit instruction to make its own methodological choices (named
+examples: preprocessing, \emph{encoding}, split, hyperparameters, metric) for anything the
+question leaves unspecified; (4) an explicit instruction to run everything synchronously in
+the foreground rather than backgrounding long-running commands, since no follow-up turn
+will arrive (Section~\ref{sec:research-loop}); and (5) a required \texttt{result.json}
+schema (summary, named metric, value, direction, methodological choices), extended with
+two verification
+fields for the verify arm. Reproducing the replicate-collection process requires the Claude
 Code CLI and access to Claude Sonnet and Claude Haiku under the same or comparable
 versions; because model
 behavior can drift across versions, we do not expect bit-exact reproduction of individual
-replicate outputs, but do expect the qualitative pattern (higher measure-choice diversity
-for abstract questions; verification tightening robust effects and surfacing fragile ones)
-to be checkable by any lab with CLI access to a comparable agent. All analysis code
+replicate outputs, but do expect the qualitative pattern (concentrated, question-specific
+measure-choice diversity rather than a uniform abstract-vs-concrete split; verification
+tightening robust effects and surfacing fragile ones) to be checkable by any lab with CLI
+access to a comparable agent. All analysis code
 (harness, verification, figure generation) is standard Python/scikit-learn and is included
 in supplementary material along with the full experimental log described in
-Section~\ref{sec:research-loop}. \emph{[Author note: confirm final code/data hosting
-location --- e.g., an anonymized repository --- before submission, and update this
+Section~\ref{sec:research-loop} and a fuller set of representative replicate examples than
+Appendix~\ref{sec:examples} shows. \emph{[Author note: confirm final code/data hosting
+location (e.g., an anonymized repository) before submission, and update this
 statement with the access details.]}
 
 \section{Disclosure Statement}
 
-\paragraph{Agent(s) / model(s) used} Claude Sonnet and Claude Haiku, via the Claude Code
-CLI (\texttt{@anthropic-ai/claude-code} v2.1.221). The agent conducted all 240 experimental
+\paragraph{Agent(s) / model(s) used} Claude Sonnet and Claude Haiku \citep{anthropic2026},
+via the Claude Code CLI (\texttt{@anthropic-ai/claude-code} v2.1.221); Anthropic's public
+model documentation serves the disclosure role model cards \citep{mitchell2019} are
+designed for, though it is not published in that specific format. The agent conducted all
+240 experimental
 replicates (120 Sonnet, 120 Haiku: data analysis, code writing and execution, result
 reporting) as described in Section~1--2, and substantially assisted in drafting this
 paper, including Section~1 in full and a first draft of Section~2, subsequently reviewed,
@@ -534,21 +772,157 @@ Section~\ref{sec:human-interventions}.
 \end{itemize}
 
 \emph{[Author note: check both boxes only once you have personally verified every claim,
-figure, and reference below --- do not check these before that review is actually done.]}
+figure, and reference below; do not check these before that review is actually done.]}
+
+\section{Representative Examples}
+\label{sec:examples}
+
+Table~\ref{tab:examples} shows the raw (uncanonicalized) reported metric from five
+no-verify replicates of H1 (abstract) and H2 (concrete): measure-choice diversity at the
+replicate level, not just aggregate counts. H2's five rows differ only in CV-related
+wording, not in substance, illustrating why the canonicalization in
+Section~\ref{sec:evidence} is necessary before counting. Full reasoning and saved code are
+in the supplementary material.
+
+\begin{table}[h]
+  \caption{Representative examples: reported metric per replicate. H1 is abstract, H2 is
+  concrete.}
+  \label{tab:examples}
+  \centering
+  \footnotesize
+  \begin{tabular}{p{0.06\linewidth}p{0.1\linewidth}p{0.74\linewidth}}
+    \toprule
+    Hyp. & Replicate & Reported metric \\
+    \midrule
+    H1 & 000 & ROC-AUC difference (GradientBoosting$-$LogisticRegression), 5-fold CV \\
+    H1 & 001 & ROC-AUC gap (HistGradientBoosting$-$KNN), 5-fold CV mean \\
+    H1 & 002 & Test ROC-AUC range (HistGradientBoosting$-$GaussianNB) \\
+    H1 & 003 & CV ROC-AUC spread (HistGradientBoosting$-$KNN) \\
+    H1 & 004 & Test ROC-AUC spread (best$-$worst model family) \\
+    H2 & 000 & ROC-AUC difference (RF$-$LogReg), mean over 5 folds \\
+    H2 & 001 & ROC-AUC difference (RF$-$LogReg) \\
+    H2 & 002 & ROC-AUC difference (RF$-$LogReg), mean over 5 stratified CV folds \\
+    H2 & 003 & ROC-AUC difference (RF$-$LogReg) \\
+    H2 & 004 & ROC-AUC difference (RF$-$LogReg) \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \bibliographystyle{plainnat}
 \begin{thebibliography}{9}
+
+\bibitem[Anthropic(2026)]{anthropic2026}
+Anthropic.
+\newblock Claude.
+\newblock Anthropic technical documentation, 2026.
+\newblock URL \url{https://www.anthropic.com/claude}.
+
+\bibitem[Becker and Kohavi(1996)]{beckerkohavi1996}
+Barry Becker and Ronny Kohavi.
+\newblock Adult.
+\newblock UCI Machine Learning Repository, 1996.
+\newblock \url{https://doi.org/10.24432/C5XW20}.
+
+\bibitem[Bertran et~al.(2026)]{bertran2026}
+Martin Bertran, Riccardo Fogliato, and Zhiwei~Steven Wu.
+\newblock Many AI analysts, one dataset: Navigating the agentic data science multiverse.
+\newblock \emph{arXiv preprint arXiv:2602.18710}, 2026.
+
+\bibitem[Breiman(2001)]{breiman2001}
+Leo Breiman.
+\newblock Random forests.
+\newblock \emph{Machine Learning}, 45(1):5--32, 2001.
+
+\bibitem[Chawla et~al.(2002)]{chawla2002}
+Nitesh~V. Chawla, Kevin~W. Bowyer, Lawrence~O. Hall, and W.~Philip Kegelmeyer.
+\newblock {SMOTE}: Synthetic minority over-sampling technique.
+\newblock \emph{Journal of Artificial Intelligence Research}, 16:321--357, 2002.
+
+\bibitem[Friedman(2001)]{friedman2001}
+Jerome~H. Friedman.
+\newblock Greedy function approximation: A gradient boosting machine.
+\newblock \emph{Annals of Statistics}, 29(5):1189--1232, 2001.
 
 \bibitem[Gao and Xiao(2026)]{gaoxiao2026}
 Ruijiang Gao and Steven Chong Xiao.
 \newblock Nonstandard errors in AI agents.
 \newblock \emph{arXiv preprint arXiv:2603.16744}, 2026.
 
+\bibitem[Gebru et~al.(2021)]{gebru2021}
+Timnit Gebru, Jamie Morgenstern, Briana Vecchione, Jennifer~Wortman Vaughan, Hanna Wallach,
+Hal Daum{\'e}~III, and Kate Crawford.
+\newblock Datasheets for datasets.
+\newblock \emph{Communications of the ACM}, 64(12):86--92, 2021.
+
+\bibitem[Gelman and Loken(2013)]{gelmanloken2013}
+Andrew Gelman and Eric Loken.
+\newblock The garden of forking paths: Why multiple comparisons can be a problem, even when
+there is no ``fishing expedition'' or ``p-hacking'' and the research hypothesis was posited
+ahead of time.
+\newblock Department of Statistics, Columbia University, 2013.
+
+\bibitem[Guo et~al.(2017)]{guo2017}
+Chuan Guo, Geoff Pleiss, Yu~Sun, and Kilian~Q. Weinberger.
+\newblock On calibration of modern neural networks.
+\newblock In \emph{Proceedings of the 34th International Conference on Machine Learning},
+volume~70, pages 1321--1330, 2017.
+
+\bibitem[Harris et~al.(2020)]{harris2020}
+Charles~R. Harris, K.~Jarrod Millman, St{\'e}fan~J. van~der Walt, et~al.
+\newblock Array programming with {NumPy}.
+\newblock \emph{Nature}, 585(7825):357--362, 2020.
+
+\bibitem[Hunter(2007)]{hunter2007}
+John~D. Hunter.
+\newblock Matplotlib: A {2D} graphics environment.
+\newblock \emph{Computing in Science \& Engineering}, 9(3):90--95, 2007.
+
+\bibitem[Lema{\^i}tre et~al.(2017)]{lemaitre2017}
+Guillaume Lema{\^i}tre, Fernando Nogueira, and Christos~K. Aridas.
+\newblock Imbalanced-learn: A {P}ython toolbox to tackle the curse of imbalanced datasets in
+machine learning.
+\newblock \emph{Journal of Machine Learning Research}, 18(17):1--5, 2017.
+
+\bibitem[Lu et~al.(2024)]{lu2024}
+Chris Lu, Cong Lu, Robert~Tjarko Lange, Jakob Foerster, Jeff Clune, and David Ha.
+\newblock The {AI} scientist: Towards fully automated open-ended scientific discovery.
+\newblock \emph{arXiv preprint arXiv:2408.06292}, 2024.
+
+\bibitem[McKinney(2010)]{mckinney2010}
+Wes McKinney.
+\newblock Data structures for statistical computing in {P}ython.
+\newblock In \emph{Proceedings of the 9th Python in Science Conference}, pages 56--61, 2010.
+
 \bibitem[Menkveld et~al.(2024)]{menkveld2024}
 Albert~J. Menkveld, Anna Dreber, Felix Holzmeister, Juergen Huber, Magnus Johannesson,
 Michael Kirchler, Michael Razen, Utz Weitzel, et~al.
 \newblock Nonstandard errors.
 \newblock \emph{The Journal of Finance}, 79(3):2339--2390, 2024.
+
+\bibitem[Mitchell et~al.(2019)]{mitchell2019}
+Margaret Mitchell, Simone Wu, Andrew Zaldivar, Parker Barnes, Lucy Vasserman, Ben
+Hutchinson, Elena Spitzer, Inioluwa~Deborah Raji, and Timnit Gebru.
+\newblock Model cards for model reporting.
+\newblock In \emph{Proceedings of the Conference on Fairness, Accountability, and
+Transparency}, pages 220--229, 2019.
+
+\bibitem[Pedregosa et~al.(2011)]{pedregosa2011}
+Fabian Pedregosa, Ga{\"e}l Varoquaux, Alexandre Gramfort, Vincent Michel, Bertrand Thirion,
+Olivier Grisel, Mathieu Blondel, Peter Prettenhofer, Ron Weiss, Vincent Dubourg, Jake
+Vanderplas, Alexandre Passos, David Cournapeau, Matthieu Brucher, Matthieu Perrot, and
+{\'E}douard Duchesnay.
+\newblock Scikit-learn: Machine learning in {P}ython.
+\newblock \emph{Journal of Machine Learning Research}, 12:2825--2830, 2011.
+
+\bibitem[Simonsohn et~al.(2020)]{simonsohn2020}
+Uri Simonsohn, Joseph~P. Simmons, and Leif~D. Nelson.
+\newblock Specification curve analysis.
+\newblock \emph{Nature Human Behaviour}, 4(11):1208--1214, 2020.
+
+\bibitem[Steegen et~al.(2016)]{steegen2016}
+Sara Steegen, Francis Tuerlinckx, Andrew Gelman, and Wolf Vanpaemel.
+\newblock Increasing transparency through a multiverse analysis.
+\newblock \emph{Perspectives on Psychological Science}, 11(5):702--712, 2016.
 
 \end{thebibliography}
 
