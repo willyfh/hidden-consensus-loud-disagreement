@@ -17,7 +17,10 @@ from pathlib import Path
 EXPERIMENT_DIR = Path(__file__).resolve().parent.parent
 DATA_CSV = EXPERIMENT_DIR / "data" / "adult_income.csv"
 RESULTS_DIR = EXPERIMENT_DIR / "results"
-TIMEOUT_SECONDS = 900
+TIMEOUT_SECONDS = 3600  # generous: threads=1 (see below) makes CPU-heavy replicates
+# (e.g. H4/H5 verify-arm's 25-fold repeated CV) meaningfully slower than under full
+# parallelism; confirmed empirically (2026-08-17) that 900s was too tight and produced
+# spurious timeouts once oversubscription was fixed by capping threads.
 MAX_WORKERS = 4  # each analysis.py may itself use n_jobs=-1 internally
 
 # Each replicate's saved code may call RandomForestClassifier(n_jobs=-1) etc., which
