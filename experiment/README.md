@@ -53,10 +53,14 @@ condensed version in the paper's Appendix C is drawn from this file).
 - `qualitative_examples.md` -- full free-text replicate output (summary, methodological
   choices) for a representative sample, not just metric names/values.
 - `paper_notes/` -- working notes from drafting the paper (decision log, section drafts,
-  key-findings summary) plus the figure outputs `make_figures.py` writes to; kept for
-  provenance. `decisions_log.md` is the chronological record Part 2's human-interventions
-  disclosure is drawn from. `submission/fig1_diversity.pdf` and
-  `submission/fig2_verify_arm.pdf` are manual copies of the files generated here.
+  key-findings summary, literature-scoping log) plus the figure outputs `make_figures.py`
+  writes to; kept for provenance. `decisions_log.md` is the chronological record Part 2's
+  human-interventions disclosure is drawn from. `references.md` is the tiered log of
+  candidate related-work papers found during topic scoping, with dated verification
+  notes; it backs Part 2's disclosed claim that roughly fifteen candidate research
+  directions were checked against current literature before this one was pursued.
+  `submission/fig1_diversity.pdf` and `submission/fig2_verify_arm.pdf` are manual copies
+  of the files generated here.
 - `requirements.txt` -- exact Python package versions used.
 
 ## Reproducing the analysis (no new agent runs needed)

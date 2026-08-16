@@ -21,7 +21,6 @@ answers, traced to an invisible preprocessing choice.
 - [`experiment/`](experiment/) -- all experiment code, data, and results; see
   [`experiment/README.md`](experiment/README.md) for the full directory layout and how to
   reproduce every table and figure in the paper.
-- [`references.md`](references.md) -- working notes on related work and citations.
 
 ## Reproducing the paper's numbers
 
