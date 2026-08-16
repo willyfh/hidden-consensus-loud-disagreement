@@ -6,6 +6,7 @@ an experimental condition, not our own check on the agents' numbers.
 Pure local compute, no API calls -- safe to run against all successful replicates.
 """
 import json
+import os
 import shutil
 import subprocess
 import tempfile
@@ -18,6 +19,18 @@ DATA_CSV = EXPERIMENT_DIR / "data" / "adult_income.csv"
 RESULTS_DIR = EXPERIMENT_DIR / "results"
 TIMEOUT_SECONDS = 900
 MAX_WORKERS = 4  # each analysis.py may itself use n_jobs=-1 internally
+
+# Each replicate's saved code may call RandomForestClassifier(n_jobs=-1) etc., which
+# grabs every core via joblib. Combined with MAX_WORKERS-way process parallelism here,
+# that oversubscribes the machine and can (confirmed empirically: two Sonnet replicates,
+# 2026-08-17) produce a *different* value than a clean single-replicate run, despite a
+# fixed random_state -- a false-positive "mismatch" caused by verification contention,
+# not a real self-report/code discrepancy. Pin each subprocess to a small worker count
+# so MAX_WORKERS-way outer parallelism can't oversubscribe the inner n_jobs=-1 calls.
+_SUBPROCESS_ENV = os.environ.copy()
+for _var in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS",
+             "NUMEXPR_NUM_THREADS", "LOKY_MAX_CPU_COUNT"):
+    _SUBPROCESS_ENV[_var] = "2"
 
 
 def verify_one(run_dir: Path) -> dict:
@@ -47,6 +60,7 @@ def verify_one(run_dir: Path) -> dict:
             cwd=str(work_dir),
             capture_output=True,
             text=True,
+            env=_SUBPROCESS_ENV,
             timeout=TIMEOUT_SECONDS,
         )
         out["returncode"] = proc.returncode
