@@ -98,15 +98,16 @@ none address: does nonstandard-errors disagreement appear when the domain offers
 ground truth, and, since ML tasks are executable, does asking agents to verify their own
 findings via a stability check reduce disagreement the way exemplar exposure did for Gao
 and Xiao, given that this kind of self-check has no analogue where the underlying
-``truth'' cannot itself be re-executed?
+``truth'' cannot itself be re-executed? The closest human precedent, the Fragile Families
+Challenge \citep{salganik2020}, had 160 teams build predictive models on shared data with
+checkable ground truth, but its common-task framework fixed the metric in advance, leaving
+open whether analysts converge on what to measure.
 
 We hypothesize that (H-a) measure-choice diversity replicates in the ML domain, driven by
-whether a question's operationalization is specified, and (H-b) self-verification changes
-reported numeric confidence, tightening robust effects and exposing instability in fragile
-ones, without reopening the measure choice, since verification runs after that choice is
-made. H-a predicts higher diversity for abstract than concrete questions; H-b predicts the
-verification arm shifts numeric dispersion/sign agreement depending on the underlying
-effect's robustness.
+whether a question's operationalization is specified -- predicting higher diversity for
+abstract than concrete questions -- and (H-b) self-verification changes reported numeric
+confidence without reopening the measure choice, tightening robust effects and exposing
+instability in fragile ones, since verification runs after that choice is made.
 
 \subsection{Method}
 
@@ -179,7 +180,7 @@ pair} of models to compare -- the underlying metric (ROC-AUC) is uniform. H4 (ab
 produced 3, genuinely different base metrics (balanced accuracy, macro-F1, ROC-AUC). H2
 (concrete) produced 1; H3 and H6 -- both abstract, both with an implicit method -- also
 converge to 1: every H3 replicate uses permutation-importance ROC-AUC drop, every H6
-replicate uses 10-bin ECE \citep{guo2017}, differing only in which feature or model is
+replicate uses ECE \citep{guo2017} with 10 bins, differing only in which feature or model is
 named. Pooled per
 arm of 10, abstract questions still average more distinct measures than concrete (2.6 vs.\
 1.3, 2.1$\times$) with a less dominant modal framing (73\% vs.\ 98\%, 1.3$\times$), driven
@@ -209,9 +210,9 @@ Figure~\ref{fig:verifyarm} compares the no-verify and verify arms for H2 and H5.
 (a robust, consistently-signed effect), sign agreement is 100\% in both arms, and verification tightens
 the spread (SD 0.0038 $\rightarrow$ 0.0022). For H5 (small and fragile), sign
 agreement \emph{falls} under verification, 90\% $\rightarrow$ 70\%, and the mean effect
-shrinks toward zero ($-0.0028 \rightarrow -0.0016$): several verify-arm replicates that saw
-an effect on one split found, once checked via repeated CV, that the sign was unstable
-across folds, and reported this explicitly. All 20 replicates set \texttt{random\_state=42}
+shrinks toward zero ($-0.0028 \rightarrow -0.0016$): several verify-arm replicates found the
+sign unstable across folds once checked via repeated CV, and reported this explicitly. All
+20 replicates set \texttt{random\_state=42}
 for their primary split, so the likelier source is differing pipeline choices (imputation,
 encoding, SMOTE parameters) rather than split randomness -- the same invisible-fork pattern
 as the H2 reversal below.
@@ -230,8 +231,7 @@ same two hypotheses (Table~\ref{tab:crossmodel}), and H1's substantive convergen
 (18/20 Haiku vs.\ 20/20 Sonnet agree a tree ensemble wins). H3 is the clearest case where
 Haiku's extra diversity is a real methodological difference rather than wording (4 vs.\ 1):
 Sonnet always uses permutation importance, while Haiku splits across permutation,
-impurity-based (Gini), and multi-method
-consensus scores -- a real difference in \emph{method}, not just wording. More strikingly,
+impurity-based (Gini), and multi-method consensus scores. More strikingly,
 H2 (where both models agree completely on \emph{what} to measure, ROC-AUC difference
 RF$-$LogReg) reverses on \emph{what value they get}: Sonnet unanimously finds logistic
 regression beats random forest (mean $-0.0048$, both arms); 85\% of Haiku replicates find
@@ -267,9 +267,9 @@ replicates across both models and arms report the SMOTE effect as below the ques
 \subsection{Primary Result}
 
 Across six research questions and 240 replicates (120 Sonnet, 120 Haiku): (1) question
-specificity can drive large disagreement, extending nonstandard errors in AI-conducted
-research \citep{gaoxiao2026,menkveld2024} to ML, concentrated in specific questions rather
-than uniform across abstract wording; (2) surface disagreement overstates genuine
+specificity can drive large disagreement, extending nonstandard errors \citep{menkveld2024}
+in AI-conducted research \citep{gaoxiao2026} to ML, concentrated in specific questions
+rather than uniform across abstract wording; (2) surface disagreement overstates genuine
 disagreement: conclusions converge in
 75--100\% of cases despite near-total disagreement on what to report; (3) self-verification
 recalibrates confidence without touching measure choice, tightening robust effects and
@@ -819,7 +819,7 @@ Barry Becker and Ronny Kohavi.
 \bibitem[Bertran et~al.(2026)]{bertran2026}
 Martin Bertran, Riccardo Fogliato, and Zhiwei~Steven Wu.
 \newblock Many AI analysts, one dataset: Navigating the agentic data science multiverse.
-\newblock \emph{arXiv preprint arXiv:2602.18710}, 2026.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 123(29):e2606495123, 2026.
 
 \bibitem[Breiman(2001)]{breiman2001}
 Leo Breiman.
@@ -888,7 +888,7 @@ Wes McKinney.
 
 \bibitem[Menkveld et~al.(2024)]{menkveld2024}
 Albert~J. Menkveld, Anna Dreber, Felix Holzmeister, Juergen Huber, Magnus Johannesson,
-Michael Kirchler, Michael Razen, Utz Weitzel, et~al.
+Michael Kirchler, Sebastian Neus{\"u}{\ss}, Michael Razen, Utz Weitzel, et~al.
 \newblock Nonstandard errors.
 \newblock \emph{The Journal of Finance}, 79(3):2339--2390, 2024.
 
@@ -901,11 +901,16 @@ Transparency}, pages 220--229, 2019.
 
 \bibitem[Pedregosa et~al.(2011)]{pedregosa2011}
 Fabian Pedregosa, Ga{\"e}l Varoquaux, Alexandre Gramfort, Vincent Michel, Bertrand Thirion,
-Olivier Grisel, Mathieu Blondel, Andreas M{\"u}ller, Joel Nothman, Gilles Louppe, Peter
-Prettenhofer, Ron Weiss, Vincent Dubourg, Jake Vanderplas, Alexandre Passos, David
-Cournapeau, Matthieu Brucher, Matthieu Perrot, and {\'E}douard Duchesnay.
+Olivier Grisel, Mathieu Blondel, Peter Prettenhofer, Ron Weiss, Vincent Dubourg, Jake
+Vanderplas, Alexandre Passos, David Cournapeau, Matthieu Brucher, Matthieu Perrot, and
+{\'E}douard Duchesnay.
 \newblock Scikit-learn: Machine learning in {P}ython.
 \newblock \emph{Journal of Machine Learning Research}, 12:2825--2830, 2011.
+
+\bibitem[Salganik et~al.(2020)]{salganik2020}
+Matthew~J. Salganik, Ian Lundberg, Alexander~T. Kindel, et~al.
+\newblock Measuring the predictability of life outcomes with a scientific mass collaboration.
+\newblock \emph{Proceedings of the National Academy of Sciences}, 117(15):8398--8403, 2020.
 
 \bibitem[Simonsohn et~al.(2020)]{simonsohn2020}
 Uri Simonsohn, Joseph~P. Simmons, and Leif~D. Nelson.
