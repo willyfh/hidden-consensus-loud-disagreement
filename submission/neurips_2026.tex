@@ -85,11 +85,11 @@ reproduce this: 150 independent Claude Code agents given the same six
 market microstructure questions diverged sharply, driven by stable methodological forks,
 with AI peer review largely failing to resolve the disagreement while exemplar exposure
 did. Concurrently, \citet{bertran2026} showed this AI-agent dispersion scales cheaply
-across observational social-science datasets, using a separate AI auditor to screen each
+across three distinct empirical domains, using a separate AI auditor to screen each
 run for validity.
 
-All three studies are confined to observational, finance, or social-science-style
-empirical analysis, where the ``correct'' measure is inherently a matter of judgment
+All three studies are confined to finance, social-science, or software-engineering-productivity
+domains, where the ``correct'' measure is inherently a matter of judgment
 rather than something executable and checkable, unlike machine learning research, whose
 central operations (train a model, evaluate it, compute a metric) are directly checkable.
 None manipulates question specificity or tests same-agent self-verification (Gao and Xiao
@@ -340,10 +340,9 @@ isolation for this laptop-scale study (Section~\ref{sec:limitations}).
 
 Every replicate was asked to produce a structured result file (a named primary metric, its
 value, a qualitative direction, and free-text methodological-choices text) plus its
-analysis code as a saved script, avoiding the unit-normalization problem
-\citet{gaoxiao2026} had to solve after data collection by asking each agent to self-report
-one named metric and its own reasoning rather than forcing a common statistical form up
-front.
+analysis code as a saved script. Asking for a single self-reported metric and rationale up
+front side-steps the unit-normalization problem that \citet{gaoxiao2026} instead resolved
+after data collection, with a separate automated conversion pipeline.
 
 \subsection{Tools}
 
@@ -674,8 +673,8 @@ a limit imposed by an artificial usage cap, not by compute capability, and compo
 tooling reliability: Sonnet succeeded on only 37\% of dispatched attempts per try,
 consistent with, though not conclusively caused by, the background-task
 completion-notification bug described above (we did not log which cause ended each failed
-attempt). The most comparable prior study ran 150 agents against metered billing with no
-such wall \citep{gaoxiao2026}. Access to a research lab increasingly means access to a
+attempt). The most comparable prior study ran 150 agents against a per-agent-stage budget cap
+that was rarely binding \citep{gaoxiao2026}. Access to a research lab increasingly means access to a
 \emph{budget} and to tooling mature enough to finish what it starts. That shapes which
 questions are practically askable, not just how quickly they get answered, and is worth
 this workshop's attention, since it bears on who gets to participate in autonomous
