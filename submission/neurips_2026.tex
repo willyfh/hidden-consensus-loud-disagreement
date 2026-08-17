@@ -146,11 +146,9 @@ reasonable.
 \end{table}
 
 \textbf{Isolation and scale.} Every replicate runs as an independent, non-interactive
-Claude Code CLI invocation (\texttt{claude -p ... --dangerously-skip-permissions}) in a
-freshly created, unpredictably-named temporary directory, with an explicit instruction not
-to explore outside its own working directory; up to 8 replicates run concurrently, so
-sibling directories do coexist (Section~\ref{sec:limitations}). We collected 10
-independent replicates per (hypothesis
+Claude Code CLI invocation in its own temporary directory, instructed not to explore
+outside it; up to 8 replicates run concurrently, so sibling directories do coexist
+(Section~\ref{sec:limitations}). We collected 10 independent replicates per (hypothesis
 $\times$ arm) cell: 120 replicates total with Claude Sonnet, plus a matching 120-replicate
 cross-model check with Claude Haiku (Section~\ref{sec:research-loop}).
 
@@ -213,15 +211,14 @@ the spread (SD 0.0038 $\rightarrow$ 0.0022). For H5 (small and fragile), sign
 agreement \emph{falls} under verification, 90\% $\rightarrow$ 70\%, and the mean effect
 shrinks toward zero ($-0.0028 \rightarrow -0.0016$): several verify-arm replicates that saw
 an effect on one split found, once checked via repeated CV, that the sign was unstable
-across folds, and reported this explicitly. This is unlikely to be pure split-to-split
-randomness: all 20 replicates set \texttt{random\_state=42} for their primary split, though
-a shared seed does not guarantee identical folds once split size, CV scheme, and
-preprocessing also vary; the likelier source is differing pipeline choices (imputation,
-encoding, SMOTE parameters), the same invisible-fork pattern as the H2 reversal below.
+across folds, and reported this explicitly. All 20 replicates set \texttt{random\_state=42}
+for their primary split, so the likelier source is differing pipeline choices (imputation,
+encoding, SMOTE parameters) rather than split randomness -- the same invisible-fork pattern
+as the H2 reversal below.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.5\linewidth]{fig2_verify_arm.pdf}
+  \includegraphics[width=0.62\linewidth]{fig2_verify_arm.pdf}
   \caption{Replicate-level values for H2 and H5 by arm. Verification tightens a robust
   effect (H2) and shrinks a fragile one toward zero (H5); black bars show arm means.}
   \label{fig:verifyarm}
@@ -245,8 +242,7 @@ undercounts this): Sonnet one-hot encodes in 108/120 replicates across all hypot
 in the measure name. H5, the other question
 where both models converge on a single measure, does \emph{not} show this pattern: all 40
 replicates across both models and arms report the SMOTE effect as below the question's own
-0.02 threshold, so this mirror-image failure mode is currently evidenced by one question,
-not two, and should not be over-generalized.
+0.02 threshold, so this mirror-image failure mode has one supporting case, not two.
 
 \begin{table}[h]
   \caption{Cross-model diversity: unique canonical measure framings per hypothesis
