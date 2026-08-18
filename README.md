@@ -16,8 +16,9 @@ answers, traced to an invisible preprocessing choice.
 
 ## Repository structure
 
-- [`submission/`](submission/) -- the paper itself (`neurips_2026.tex`, compiled PDF,
-  reproducibility checklist).
+This repository holds the supplementary code and data for the paper, referenced from its
+Reproducibility Statement -- not the paper source itself.
+
 - [`experiment/`](experiment/) -- all experiment code, data, and results; see
   [`experiment/README.md`](experiment/README.md) for the full directory layout and how to
   reproduce every table and figure in the paper.
