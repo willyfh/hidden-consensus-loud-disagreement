@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 0,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H3_verify_000_2f15b642_ry3rz7f2",
+  "work_dir": "<TMP_DIR>/aml_replicate_H3_verify_000_2f15b642_ry3rz7f2",
   "started_at": 1785882928.520982,
   "returncode": 0,
   "stdout_tail": "## Summary\n\n**Finding: `marital-status` is the most important feature for predicting income class**, followed by `capital-gain` and `education-num`.\n\n**Method:**\n- Cleaned data (filled true NaNs in workclass/occupation/native-country with \"Missing\"; dropped redundant `education` string column, kept `education-num`)\n- Trained a RandomForestClassifier (300 trees, class-balanced) in a pipeline with one-hot encoding for categoricals\n- Test ROC-AUC = 0.918 (vs. 0.906 for a logistic regression baseline), confirming real predictive signal\n- Computed permutation importance (ROC-AUC drop) on held-out data by permuting original columns through the pipeline \u2014 avoids the high-cardinality bias of impurity importance and doesn't dilute one-hot-encoded features\n- Cross-checked with logistic regression standardized coefficients (capital-gain and marital-status also rank at the top there, alongside occupation)\n\n**Stability check:** Repeated the full split\u2192fit\u2192permutation-importance pipeline across 5 independent random seeds. `marital-status` ranked #1 in **5/5 seeds** (mean importance = 0.044, std = 0.0025) \u2014 the finding held up cleanly, with no instability in the ranking.\n\nFull results are in `result.json`, code in `analysis.py`.\n",

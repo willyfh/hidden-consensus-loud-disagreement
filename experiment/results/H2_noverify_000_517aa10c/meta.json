@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 0,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_noverify_000_517aa10c_zmo5w227",
+  "work_dir": "<TMP_DIR>/aml_replicate_H2_noverify_000_517aa10c_zmo5w227",
   "started_at": 1785856765.821134,
   "returncode": 0,
   "stdout_tail": "The analysis ran successfully and `result.json` was written.\n\n**Finding:** With scikit-learn default hyperparameters, logistic regression slightly outperformed random forest on stratified 5-fold CV ROC-AUC (0.9067 vs 0.9023, difference of \u22120.0043, paired t-test p=0.044). So the hypothesis that RF beats LogReg is **not supported** \u2014 LogReg edges out RF here, likely because this dataset has a fairly linear/monotonic relationship between features (education, capital-gain, hours-worked, etc.) and income, and the default (unpruned-depth-wise, `n_estimators=100`) RF isn't tuned to exploit any nonlinear structure enough to overcome that.\n\nBoth `analysis.py` and `result.json` are saved in the working directory.\n",

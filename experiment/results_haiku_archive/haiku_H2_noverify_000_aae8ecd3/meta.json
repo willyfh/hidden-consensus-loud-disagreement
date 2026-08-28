@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 0,
   "model": "haiku",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H2_noverify_000_aae8ecd3_z95zgm2_",
+  "work_dir": "<TMP_DIR>/aml_replicate_haiku_H2_noverify_000_aae8ecd3_z95zgm2_",
   "started_at": 1786051057.853791,
   "returncode": 0,
   "stdout_tail": "## Analysis Complete\n\nI've successfully investigated whether Random Forest achieves higher ROC-AUC than Logistic Regression on the Adult Income dataset.\n\n**Key Findings:**\n\n- **Random Forest Mean ROC-AUC**: 0.9071\n- **Logistic Regression Mean ROC-AUC**: 0.8530\n- **Difference (RF - LogReg)**: 0.0541 (5.41 percentage points)\n- **Conclusion**: **YES** \u2014 Random Forest significantly outperforms Logistic Regression\n\n**Methodological Approach:**\n\n1. **Data Exploration**: 48,842 samples with 14 features (8 categorical, 6 numerical)\n2. **Preprocessing**: Label-encoded categorical features; filled missing values with column mean\n3. **Validation**: 5-fold stratified cross-validation (preserving class balance: 76% \u226450K, 24% >50K)\n4. **Models**: Scikit-learn defaults with LogisticRegression using StandardScaler pipeline and RandomForestClassifier without scaling\n5. **Metric**: ROC-AUC via cross-validation\n\nBoth `analysis.py` and `result.json` have been saved to the current directory with all required information.\n",

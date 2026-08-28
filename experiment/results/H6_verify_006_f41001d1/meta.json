@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 6,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H6_verify_006_f41001d1_xayg8934",
+  "work_dir": "<TMP_DIR>/aml_replicate_H6_verify_006_f41001d1_xayg8934",
   "started_at": 1785939280.137847,
   "returncode": 0,
   "stdout_tail": "Analysis complete. Both `analysis.py` and `result.json` are written in the working directory.\n\n**Finding:** A HistGradientBoostingClassifier trained on Adult Income is well-calibrated in practice. Expected Calibration Error (10-bin, held-out test set) = 0.007, calibration-regression slope \u2248 1.02 and intercept \u2248 0.05 (perfect = 1.0/0.0), and every reliability-diagram bin has a gap under 3.2 percentage points.\n\n**Verification:** Bootstrap CI (2000 resamples) for ECE was [0.006, 0.013] \u2014 excludes zero, so there's a real but tiny residual miscalibration, not noise. Five independent fresh 70/30 splits with different seeds, retrained from scratch, gave ECE in [0.006, 0.009] (mean 0.008) \u2014 consistent with the primary result. Isotonic recalibration barely moved ECE further (0.0070 vs 0.0071), corroborating that there's little miscalibration left to correct.\n",

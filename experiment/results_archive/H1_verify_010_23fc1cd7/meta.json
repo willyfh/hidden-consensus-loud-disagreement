@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 10,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_verify_010_23fc1cd7_se_15jln",
+  "work_dir": "<TMP_DIR>/aml_replicate_H1_verify_010_23fc1cd7_se_15jln",
   "started_at": 1785856353.8276422,
   "returncode": 0,
   "stdout_tail": "The analysis ran cleanly. Results are consistent and stable across both verification methods.\n\n**Finding:** Model family does meaningfully affect performance on this dataset, though the effect size is modest. Gradient Boosting was best (test ROC-AUC 0.9187), a single Decision Tree was worst (0.8968) \u2014 a gap of ~0.022 AUC points. Random Forest (0.9026) and Logistic Regression (0.9054) landed in between, close to each other. Notably, plain Logistic Regression was competitive with Random Forest, showing the income-prediction signal in this dataset is largely near-linear/well-captured by simple features \u2014 the main separation is boosted trees pulling ahead of everything, and a single unconstrained-depth-8 tree lagging behind ensembles.\n\n**Verification:** Repeated 5\u00d75-fold CV (25 folds, different seed) and a 1000-iteration paired bootstrap on the held-out test set both confirmed the gap \u2014 the bootstrap 95% CI for the Gradient Boosting \u2212 Decision Tree gap was (0.0185, 0.0255), safely excluding zero.\n\nFiles written:\n- `analysis.py` \u2014 full pipeline (shared preprocessing, 4 model families, CV, held-out test, repeated-CV + bootstrap stability checks)\n- `result.json` \u2014 structured findings per the requested schema\n",

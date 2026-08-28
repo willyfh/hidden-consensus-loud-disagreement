@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 7,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_noverify_007_5d7b697f_5wffwon4",
+  "work_dir": "<TMP_DIR>/aml_replicate_H1_noverify_007_5d7b697f_5wffwon4",
   "started_at": 1785855465.1855738,
   "returncode": 0,
   "stdout_tail": "The analysis ran successfully. Notably, \"GradientBoosting > ... > LogisticRegression\" isn't quite right in the direction field since the actual order is GradientBoosting > RandomForest \u2248 DecisionTree > LogisticRegression \u2014 but the summary text already spells this out correctly, so it's fine.\n\n**Findings:** Model family does affect performance, but modestly. Across 5-fold CV on the training set:\n\n| Model | CV ROC-AUC | Test ROC-AUC |\n|---|---|---|\n| Logistic Regression | 0.8944 | 0.8825 |\n| Decision Tree (depth 8) | 0.9019 | 0.9032 |\n| Random Forest | 0.9027 | 0.9054 |\n| Gradient Boosting | 0.9205 | 0.9214 |\n\nThe best-worst spread (0.026 ROC-AUC) is about 7.6x the typical fold-to-fold noise, so the gap is real, not noise \u2014 Gradient Boosting consistently wins, plain Logistic Regression consistently trails \u2014 but the practical size of the effect is modest (all models within ~2.6 points of ROC-AUC, all in the 0.85\u20130.87 accuracy range).\n\nBoth `analysis.py` and `result.json` are saved in the working directory.\n",

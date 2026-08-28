@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 12,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_noverify_012_d4986648_gu7k6h5e",
+  "work_dir": "<TMP_DIR>/aml_replicate_H2_noverify_012_d4986648_gu7k6h5e",
   "started_at": 1785856952.892434,
   "returncode": 0,
   "stdout_tail": "The analysis ran successfully and `result.json` / `analysis.py` have been written to the working directory.\n\n**Finding:** Logistic regression slightly outperformed random forest \u2014 mean stratified 5-fold ROC-AUC of 0.9067 (LogReg) vs 0.9023 (RF), a difference of **-0.0043** (RF \u2212 LogReg), which is statistically significant by a paired t-test across folds (p=0.044) but small in practical terms. So the hypothesis that RF beats LogReg is **not supported** with default hyperparameters on this dataset.\n\nKey methodological choices: missing values (`workclass`, `occupation`, `native-country`) were imputed rather than dropped (categorical \u2192 \"Missing\" as its own category); numeric features were standardized and categoricals one-hot encoded via a shared `ColumnTransformer` inside per-model `Pipeline`s (refit within each CV fold, no leakage); `LogisticRegression` needed `max_iter=1000` to converge (pure convergence fix, not a hyperparameter change); no class-imbalance correction was applied since both models were kept at sklearn defaults as specified.\n",

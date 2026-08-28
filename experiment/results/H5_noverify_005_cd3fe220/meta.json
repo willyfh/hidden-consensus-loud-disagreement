@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 5,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H5_noverify_005_cd3fe220_7tl7is9y",
+  "work_dir": "<TMP_DIR>/aml_replicate_H5_noverify_005_cd3fe220_7tl7is9y",
   "started_at": 1785884728.560744,
   "returncode": 0,
   "stdout_tail": "Both `analysis.py` and `result.json` are in place in the working directory.\n\n**Finding:** SMOTE oversampling does **not** meaningfully change the minority-class (>50K) F1 score for a default RandomForestClassifier on this dataset. F1 went from 0.6771 (no resampling) to 0.6756 (with SMOTE) \u2014 a difference of **-0.0015**, well under the 0.02 threshold. Precision dropped slightly (0.739\u21920.726) while recall rose slightly (0.625\u21920.632), roughly offsetting each other in F1. This makes sense: random forests already handle moderate class imbalance (76/24 split here) reasonably well via bootstrap aggregation, so synthetic oversampling has little to add.\n",

@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 7,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_noverify_007_2ead8c3d_1czeplwj",
+  "work_dir": "<TMP_DIR>/aml_replicate_H2_noverify_007_2ead8c3d_1czeplwj",
   "started_at": 1785856876.221152,
   "returncode": 0,
   "stdout_tail": "Analysis complete. Both `analysis.py` and `result.json` are written.\n\n**Finding:** Contrary to H2's premise, default `LogisticRegression()` actually beat default `RandomForestClassifier()` on stratified 5-fold CV ROC-AUC \u2014 0.9065 vs. 0.8913 (RF \u2212 LogReg = **\u22120.0152**, paired t-test p=0.0003, consistent across all 5 folds). So the answer to \"does RF achieve higher AUC than LogReg\" is **no**, at default hyperparameters.\n\nKey methodological choices: dropped `fnlwgt` (a sampling weight, not a real feature), imputed missing categorical values (workclass/occupation/native-country, ~2\u20136% each) as an explicit \"Missing\" category, one-hot encoded categoricals, standard-scaled numerics (helps LogReg, neutral for RF), and used `StratifiedKFold(5, shuffle=True, random_state=42)` with `scoring='roc_auc'`. This result is a known pattern for this dataset \u2014 sklearn's default untuned RF (100 trees, unlimited depth) tends to overfit on Adult relative to a well-behaved linear model, while LogReg's linear decision boundary suits the largely additive relationships in the data.\n",

@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 0,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H6_noverify_000_ab5091cd_5kgef_e8",
+  "work_dir": "<TMP_DIR>/aml_replicate_H6_noverify_000_ab5091cd_5kgef_e8",
   "started_at": 1785855115.6642199,
   "returncode": 0,
   "stdout_tail": "**Finding:** The logistic regression model is well-calibrated on the Adult Income dataset \u2014 ECE = 0.0088 (10 uniform bins), Brier score 0.1012 vs. 0.1820 for a base-rate-only baseline. Predicted probabilities track observed frequencies closely across all 10 bins, with the largest gap around 2 percentage points. A Random Forest fit for comparison is somewhat worse calibrated (ECE = 0.0146), underconfident at low probabilities and overconfident in the 0.4\u20130.8 range \u2014 but even that is a modest miscalibration.\n\nFiles written: `analysis.py`, `result.json`, and a `reliability_diagram.png` plot comparing both models against the perfect-calibration line.\n",

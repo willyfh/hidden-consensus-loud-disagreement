@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 3,
   "model": "haiku",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H3_verify_003_4324f4bd_zx1m3bsu",
+  "work_dir": "<TMP_DIR>/aml_replicate_haiku_H3_verify_003_4324f4bd_zx1m3bsu",
   "started_at": 1786138065.876153,
   "returncode": 0,
   "stdout_tail": "## Analysis Complete\n\nI've completed a comprehensive feature importance analysis for income prediction in the Adult dataset. Here's what I found:\n\n### Key Finding\n\n**`relationship` is the most important feature** for predicting income, with an importance score of 0.2127 (21.3% of total importance).\n\n### Top 5 Features\n1. **relationship** (21.3%)\n2. **marital-status** (16.9%)\n3. **age** (12.2%)\n4. **education-num** (11.8%)\n5. **capital-gain** (11.1%)\n\nThese five features collectively account for **73.2%** of the model's predictive power.\n\n### Methodology\n- **Model**: Random Forest classifier (200 trees, max_depth=20, balanced class weights)\n- **Data split**: 80-20 train-test with stratification\n- **Encoding**: Label encoding for categorical features, mean imputation for missing values\n- **Test accuracy**: 82.25%\n\n### Stability Validation\n\u2705 **Finding is robust:**\n- Cross-validation (5-fold \u00d7 5 repeats = 25 folds): Mean accuracy 0.8223 \u00b1 0.0033\n- Bootstrap validation with 5 different random seeds: `relationship` remained the top feature in **all 5 samples**\n- Feature importance rankings were highly consistent across all verification runs\n\n### Deliverables\n- \u2705 `result.json` - Results in required JSON format\n- \u2705 `analysis.py` - Complete reproducible analysis code\n",

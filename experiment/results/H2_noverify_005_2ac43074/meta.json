@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 5,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_noverify_005_2ac43074_yct7at7p",
+  "work_dir": "<TMP_DIR>/aml_replicate_H2_noverify_005_2ac43074_yct7at7p",
   "started_at": 1785856851.5429618,
   "returncode": 0,
   "stdout_tail": "The analysis ran cleanly and results are stable across folds (low variance in both models).\n\n**Finding:** Logistic regression slightly outperformed random forest \u2014 mean stratified 5-fold ROC-AUC of 0.9053 (LogReg) vs 0.9016 (RF), a difference of **-0.0037**. Both models perform well and similarly, but with default hyperparameters, random forest does *not* achieve higher ROC-AUC than logistic regression on this dataset \u2014 the answer to H2 is **no**.\n\nKey methodological choices: missing categorical values (workclass, occupation, native-country \u2014 ~6465 cells) imputed with most-frequent category rather than dropped; numeric features standardized (unnecessary for RF but kept identical across both pipelines for a fair comparison); categoricals one-hot encoded; both models otherwise left at sklearn defaults with no tuning or class-imbalance handling.\n\nFiles written: `analysis.py` and `result.json` in the current directory.\n",

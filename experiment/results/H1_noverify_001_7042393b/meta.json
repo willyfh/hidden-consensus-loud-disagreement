@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 1,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_noverify_001_7042393b_n65qs9fk",
+  "work_dir": "<TMP_DIR>/aml_replicate_H1_noverify_001_7042393b_n65qs9fk",
   "started_at": 1785855465.1832058,
   "returncode": 0,
   "stdout_tail": "**Finding:** Yes, model family meaningfully affects performance on this dataset. Comparing four families (Logistic Regression, k-NN, Random Forest, HistGradientBoosting) via 5-fold stratified CV with identical preprocessing/folds, mean ROC-AUC ranged from 0.896 (k-NN) to 0.928 (HistGradientBoosting) \u2014 a 0.033 gap that's highly significant (paired t-test p\u22482.5e-06). Boosted/bagged tree ensembles beat the linear and distance-based baselines. Results and code are saved to `result.json` and `analysis.py`.\n",

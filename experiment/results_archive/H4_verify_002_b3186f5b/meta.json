@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 2,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_verify_002_b3186f5b_2n8n7kes",
+  "work_dir": "<TMP_DIR>/aml_replicate_H4_verify_002_b3186f5b_2n8n7kes",
   "started_at": 1785883821.8846369,
   "returncode": 0,
   "stdout_tail": "The script is still running the repeated cross-validation (300-tree Random Forests \u00d7 25 folds \u00d7 3 configs is compute-heavy). I'll wait for the completion notification rather than polling.\n",

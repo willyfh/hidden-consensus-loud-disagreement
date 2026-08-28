@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 7,
   "model": "haiku",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H4_verify_007_23ae13cf_b_pnxlmh",
+  "work_dir": "<TMP_DIR>/aml_replicate_haiku_H4_verify_007_23ae13cf_b_pnxlmh",
   "started_at": 1786138471.896066,
   "returncode": 0,
   "stdout_tail": "## Summary of Findings\n\nI've completed an independent investigation of whether addressing class imbalance improves model quality on the Adult Income dataset. Both `result.json` and `analysis.py` have been saved to the current directory.\n\n### Key Findings:\n\n**Dataset Characteristics:**\n- 48,842 rows with 14 features + target\n- Class imbalance: 76% negative (\u2264$50K) vs 24% positive (>$50K)\n- Imbalance ratio: 3.18:1\n\n**Tested Approaches:**\n1. **Baseline** (no imbalance handling): ROC-AUC = 0.9263\n2. **Class Weighting**: ROC-AUC = 0.9263 (no difference)\n3. **SMOTE Oversampling**: ROC-AUC = 0.9178 (-0.85% worse)\n\n**Validation Results:**\n- 5-fold stratified cross-validation: Confirmed baseline > SMOTE\n- 5 different random seed evaluations: Consistent finding across different train-test splits\n- The conclusion held firm: imbalance handling does NOT improve model quality\n\n**Why?** Gradient Boosting naturally handles moderate class imbalance well, the imbalance ratio isn't extreme, and ROC-AUC is already very high (0.926), leaving little room for improvement. SMOTE actually introduces noise rather than beneficial patterns.\n\n**Primary Metric:** ROC-AUC difference (SMOTE vs Baseline) = **-0.0085** (negative = no improvement)\n",

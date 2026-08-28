@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 3,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_noverify_003_975c2665_m6lmoe9g",
+  "work_dir": "<TMP_DIR>/aml_replicate_H1_noverify_003_975c2665_m6lmoe9g",
   "started_at": 1785855465.184631,
   "returncode": 0,
   "stdout_tail": "Wait \u2014 the mistaken date-change reminder aside, everything's in order: `result.json` and `analysis.py` are both written to the working directory.\n\n**Finding:** Model family meaningfully affects predictive performance on this dataset. Comparing 5-fold CV ROC-AUC across four families (all fed through an identical preprocessing pipeline):\n\n| Model | CV ROC-AUC |\n|---|---|\n| HistGradientBoosting | 0.9276 |\n| LogisticRegression | 0.9055 |\n| RandomForest | 0.9027 |\n| KNN | 0.8948 |\n\nThe best-worst spread (0.033 AUC) is ~8x larger than typical fold-to-fold noise (std \u2248 0.004), so it's not just sampling variation. The boosted-tree model (HistGradientBoosting) clearly wins; interestingly, plain logistic regression edges out RandomForest, and both sit well ahead of KNN \u2014 so the effect isn't simply \"trees beat linear models,\" it's more nuanced by specific algorithm. All results held up on the untouched test set too.\n",

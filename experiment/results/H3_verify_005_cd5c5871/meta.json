@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 5,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H3_verify_005_cd5c5871_qz07twf1",
+  "work_dir": "<TMP_DIR>/aml_replicate_H3_verify_005_cd5c5871_qz07twf1",
   "started_at": 1785936604.350265,
   "returncode": 0,
   "stdout_tail": "## Findings\n\n**`marital-status` is the single most important feature for predicting income class** in this dataset. I trained a Random Forest classifier (300 trees, one-hot encoded categoricals, class-balanced) on a stratified 75/25 split, achieving ROC-AUC \u2248 0.914 on held-out data, then measured permutation importance (AUC drop when a feature is shuffled) on the original (pre-encoding) features.\n\nRanking: `marital-status` (0.053 AUC drop) \u226b `capital-gain` (0.034) > `age` (0.024) > `occupation` (0.017) > `relationship` (0.016) > `education-num` (0.013) > `hours-per-week` (0.010). Impurity-based (Gini) importance independently agreed that `marital-status` ranks #1.\n\n**Stability check:** `marital-status` ranked #1 in 5/5 repeated train/test splits with different random seeds (importance range 0.046\u20130.052 across seeds), and a 200-resample bootstrap gave a 95% CI of [0.048, 0.058] that clearly excludes zero \u2014 the finding is robust, not noise.\n\nBoth `analysis.py` and `result.json` are saved in the working directory. One methodological note worth flagging: `marital-status` and `relationship` are correlated proxies (e.g., \"Husband\"/\"Wife\" vs. \"Married-civ-spouse\"), so this is likely capturing a \"married\" signal rather than marital status being causally distinct from household relationship structure \u2014 plausibly also entangled with the age at which people marry and reach peak earning years.\n",

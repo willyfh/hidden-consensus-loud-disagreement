@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 4,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_verify_004_929a80ed_m1ez3ljn",
+  "work_dir": "<TMP_DIR>/aml_replicate_H1_verify_004_929a80ed_m1ez3ljn",
   "started_at": 1785856021.845741,
   "returncode": 0,
   "stdout_tail": "## Findings\n\n**Does model family matter?** Yes, but not in the naive \"trees beat linear models\" sense.\n\n- **HistGradientBoosting** clearly and stably wins: test ROC-AUC = 0.9295 vs Logistic Regression's 0.9057 (a +0.024 gap, 95% bootstrap CI [0.021, 0.027] \u2014 excludes zero).\n- **Random Forest** (300 trees, default depth) essentially **tied** Logistic Regression \u2014 it edged ahead on the single test split (0.9063 vs 0.9057) but was actually slightly *behind* LR under repeated CV (0.9028 vs 0.9066). That ordering flip means the RF-vs-LR \"difference\" isn't a real, stable effect \u2014 just noise.\n- All three models cluster in the 0.90\u20130.93 ROC-AUC range, so even the real effect (boosting's edge) is statistically robust but modest in absolute magnitude.\n\n**Stability check:** 5\u00d75 repeated stratified CV (25 folds/model, 5 different seeds) confirmed HistGradientBoosting's advantage and, importantly, *caught* that the RF > LR ordering from the initial single test split was not reproducible \u2014 a paired bootstrap on the held-out test set gave a clean, non-zero CI for the HGB\u2212LR gap specifically.\n\nBoth `analysis.py` and `result.json` are written to the working directory.\n",

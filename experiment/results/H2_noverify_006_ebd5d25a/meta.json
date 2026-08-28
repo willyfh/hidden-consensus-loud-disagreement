@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 6,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_noverify_006_ebd5d25a_720lkmd_",
+  "work_dir": "<TMP_DIR>/aml_replicate_H2_noverify_006_ebd5d25a_720lkmd_",
   "started_at": 1785856859.209771,
   "returncode": 0,
   "stdout_tail": "Result now reads correctly and `result.json` / `analysis.py` are both saved in the working directory.\n\n**Finding (H2):** No \u2014 with scikit-learn defaults, logistic regression (mean ROC-AUC 0.9067) beat the default random forest (0.9023) across stratified 5-fold CV, a difference of -0.0043 (RF \u2212 LogReg), statistically significant by paired t-test (p=0.044). Untuned RF likely overfits on this dataset's mostly linear/monotonic relationships (education level, capital gains, hours worked), while the well-regularized default logistic regression generalizes slightly better.\n",

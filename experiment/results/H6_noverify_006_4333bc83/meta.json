@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 6,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H6_noverify_006_4333bc83_pc95du_n",
+  "work_dir": "<TMP_DIR>/aml_replicate_H6_noverify_006_4333bc83_pc95du_n",
   "started_at": 1785938944.7724202,
   "returncode": 0,
   "stdout_tail": "Both `analysis.py` and `result.json` are in place, valid, and self-verified.\n\n**Finding:** The gradient-boosted classifier (test AUC = 0.928) is well-calibrated. Across all 10 predicted-probability bins on the held-out test set, predicted probabilities closely track observed frequencies (ECE = 0.0068, max bin gap = 0.032), and the calibration-curve slope/intercept (0.98 / -0.006) sit right at their ideal values (1 / 0). Applying isotonic recalibration on a separate calibration split didn't improve Brier score or ECE, reinforcing that the raw model's probability outputs are already trustworthy for this dataset.\n",

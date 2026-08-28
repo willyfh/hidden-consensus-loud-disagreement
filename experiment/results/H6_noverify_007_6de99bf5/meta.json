@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 7,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H6_noverify_007_6de99bf5_rdg549xi",
+  "work_dir": "<TMP_DIR>/aml_replicate_H6_noverify_007_6de99bf5_rdg549xi",
   "started_at": 1785939000.949648,
   "returncode": 0,
   "stdout_tail": "The schema matches exactly. Both `analysis.py` and `result.json` are complete.\n\n**Finding:** Both a Logistic Regression and a Gradient Boosting model, trained on a 70/30 stratified split, are well-calibrated on held-out test data. Expected Calibration Error is ~0.9% for both (LogReg: 0.0088, GBC: 0.0093), with per-decile gaps between predicted probability and observed frequency mostly under 2 percentage points. The Hosmer-Lemeshow test doesn't reject calibration for Logistic Regression (p=0.22) but does reject it for Gradient Boosting (p<0.0001), which shows a mild overconfidence wobble in its 0.5\u20130.6 and 0.8\u20130.9 probability bins \u2014 likely due to it having a sharper, less regularized probability distribution than a linear model. Overall, the practical miscalibration is small for both, so the answer to H6 is: yes, the model (particularly logistic regression) is reasonably well-calibrated, with gradient boosting showing statistically detectable but practically minor miscalibration.\n",

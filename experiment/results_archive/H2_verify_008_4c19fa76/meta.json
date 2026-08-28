@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 8,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_verify_008_4c19fa76_7tw522s2",
+  "work_dir": "<TMP_DIR>/aml_replicate_H2_verify_008_4c19fa76_7tw522s2",
   "started_at": 1785971317.034701,
   "returncode": 0,
   "stdout_tail": "I've kicked off the analysis in the background (RF cross-validation on ~49k rows takes a while) and am monitoring for completion \u2014 I'll report the results as soon as it finishes.\n",

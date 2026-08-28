@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 7,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H6_verify_007_710b8244_7tvpk5ct",
+  "work_dir": "<TMP_DIR>/aml_replicate_H6_verify_007_710b8244_7tvpk5ct",
   "started_at": 1785961913.922957,
   "returncode": 0,
   "stdout_tail": "## Summary\n\nI trained a `GradientBoostingClassifier` on the Adult Income dataset (75/25 stratified split, one-hot/median-imputed preprocessing) and evaluated calibration on the held-out test set using Expected Calibration Error (ECE, 10 bins), Brier score, and a calibration slope/intercept regression.\n\n**Finding:** The model is reasonably but not perfectly calibrated. ECE = 0.0163 (predictions off by ~1.6 percentage points on average), with calibration slope \u2248 1.18 \u2014 a systematic pattern where the model is mildly underconfident in the mid-to-upper probability range (observed positive rates exceed predicted probabilities for most bins above ~0.2). Isotonic recalibration cut ECE by more than half (0.0163 \u2192 0.0063), confirming the miscalibration is real and correctable, even though it's small in absolute terms.\n\n**Stability check:** Repeated the full pipeline across 10 independent random seeds and bootstrapped the test set 1000 times. ECE stayed consistently low and in a tight range (0.011\u20130.021 across seeds, 95% CI [0.014, 0.018]), and the slope>1 underconfidence pattern held in every single run \u2014 the conclusion is robust, not an artifact of one split.\n\nBoth `analysis.py` and `result.json` are saved in the working directory.\n",

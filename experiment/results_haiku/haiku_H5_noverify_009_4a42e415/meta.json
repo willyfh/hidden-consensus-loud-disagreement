@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 9,
   "model": "haiku",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H5_noverify_009_4a42e415_e3apk9zw",
+  "work_dir": "<TMP_DIR>/aml_replicate_haiku_H5_noverify_009_4a42e415_e3apk9zw",
   "started_at": 1786138645.196426,
   "returncode": 0,
   "stdout_tail": "## Analysis Complete\n\nI've investigated the research question independently. Here's what I found:\n\n**Key Results:**\n- **Without SMOTE:** Minority-class (>50K) F1 score = 0.6693\n- **With SMOTE:** Minority-class (>50K) F1 score = 0.6748\n- **Difference:** 0.0055 (less than 0.02 threshold)\n\n**Finding:** SMOTE oversampling does **NOT** change the minority-class F1 score by more than 0.02. The actual improvement is only ~0.55%, well below the 0.02 (2%) threshold.\n\n**Methodological approach:**\n- Preprocessed 48,842 rows into 45,222 clean samples after removing missing values\n- Applied label encoding to 8 categorical features\n- Used stratified 70-30 train-test split on target class distribution (~24.8% minority)\n- Applied SMOTE only to training data (increasing minority from 24.8% to 50%)\n- Evaluated both models on identical held-out test set\n- Used default RandomForestClassifier hyperparameters as specified\n\nThe results suggest that while SMOTE does provide a marginal improvement in F1 score for this dataset and classifier, the improvement is modest and falls short of the 0.02 threshold.\n\nBoth `analysis.py` and `result.json` have been saved to the current directory with complete details.\n",

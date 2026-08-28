@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 1,
   "model": "haiku",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H4_verify_001_a2b77dfe_ndvxs3pg",
+  "work_dir": "<TMP_DIR>/aml_replicate_haiku_H4_verify_001_a2b77dfe_ndvxs3pg",
   "started_at": 1786138389.153245,
   "returncode": 0,
   "stdout_tail": "## Analysis Complete\n\nI've investigated whether addressing class imbalance improves model quality on the Adult Income dataset. Here are my findings:\n\n**Key Results:**\n\n1. **Class Distribution**: The dataset has a 3.18:1 imbalance (76% \u226450K, 24% >50K) - moderate, not extreme.\n\n2. **Effect of Imbalance Handling**: \n   - Class-weight balancing: +0.0001 to +0.0006 ROC-AUC improvement\n   - SMOTE resampling: -0.0053 to -0.0072 ROC-AUC degradation\n   - Average improvement: +0.0002 (negligible)\n\n3. **Model Performance (ROC-AUC baseline)**:\n   - Logistic Regression: 0.8543\n   - Random Forest: 0.9067\n   - Gradient Boosting: 0.9209\n\n4. **Validation**: Repeated 5-fold stratified cross-validation with 5 different random seeds confirmed the finding is stable and consistent across all models and seeds.\n\n**Conclusion**: Addressing class imbalance provides **negligible benefit** on this dataset. Despite the moderate imbalance, baseline models already perform well, and applying imbalance techniques either provides no meaningful improvement (class weights) or actually degrades performance (SMOTE).\n\n**Deliverables**:\n- \u2705 `analysis.py`: Complete Python analysis with all methodological details\n- \u2705 `result.json`: Structured findings with hypothesis ID, metrics, and verification results\n",

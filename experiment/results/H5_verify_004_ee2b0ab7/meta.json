@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 4,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H5_verify_004_ee2b0ab7_wep9gxsd",
+  "work_dir": "<TMP_DIR>/aml_replicate_H5_verify_004_ee2b0ab7_wep9gxsd",
   "started_at": 1785971317.034817,
   "returncode": 0,
   "stdout_tail": "Both `result.json` and `analysis.py` are written and valid.\n\n**Finding (H5): No.** SMOTE oversampling does not change the minority-class (>50K) F1 score by more than 0.02 for a default `RandomForestClassifier()`.\n\n- Primary split (75/25, stratified, seed=42): F1 without SMOTE = 0.6752, F1 with SMOTE = 0.6745 (diff = **-0.0007**).\n- Stability check (5\u00d7 repeated 5-fold stratified CV, 25 folds, seeds 100\u2013104): mean diff = **-0.0023** (SD 0.0046, 95% CI [-0.0041, -0.0005]), with per-fold differences ranging from -0.0106 to +0.0040 \u2014 never exceeding the 0.02 threshold in either direction.\n\nKey methodological choices: dropped `?` rows, ordinal-encoded categoricals (fine for tree models), kept `fnlwgt`, all other RF/SMOTE hyperparameters left at sklearn/imblearn defaults, SMOTE applied only to the training fold.\n",

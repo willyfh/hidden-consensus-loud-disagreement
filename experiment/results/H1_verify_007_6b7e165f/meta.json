@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 7,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_verify_007_6b7e165f_jfghacnb",
+  "work_dir": "<TMP_DIR>/aml_replicate_H1_verify_007_6b7e165f_jfghacnb",
   "started_at": 1785856082.4261692,
   "returncode": 0,
   "stdout_tail": "Analysis complete. Both `analysis.py` and `result.json` are written to the working directory.\n\n**Finding:** Model family does meaningfully affect predictive performance on this dataset, though the effect is modest in absolute terms. Comparing Logistic Regression, Random Forest, and Gradient Boosting (HistGradientBoostingClassifier) via stratified 5-fold CV on ROC-AUC:\n\n- Logistic Regression: 0.9045\n- Random Forest: 0.9174\n- Gradient Boosting: 0.9271\n\nGradient Boosting beats Logistic Regression by ~0.023 ROC-AUC. This gap was confirmed via repeated 5\u00d75-fold CV (25 folds, different seed) \u2014 mean gap 0.0227, 95% CI [0.0222, 0.0233], paired t-test p=4.7e-31 \u2014 and again on a fresh 75/25 holdout split not used elsewhere (gap=0.0244). The ranking (tree-based > linear) was stable across every check, so the finding held up robustly, even though the raw magnitude (~2 AUC points) is a modest practical effect.\n",

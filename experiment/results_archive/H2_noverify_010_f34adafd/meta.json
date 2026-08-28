@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 10,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_noverify_010_f34adafd_7v0hc03m",
+  "work_dir": "<TMP_DIR>/aml_replicate_H2_noverify_010_f34adafd_7v0hc03m",
   "started_at": 1785856923.00483,
   "returncode": 0,
   "stdout_tail": "Analysis complete. With default hyperparameters and identical preprocessing/CV folds, logistic regression (mean ROC-AUC 0.9067) slightly **outperformed** the default random forest (0.9023) on this dataset \u2014 a difference of -0.0043 (RF - LogReg), consistent across all 5 folds. This makes sense: `RandomForestClassifier()` defaults to unlimited-depth trees (no `max_depth`), which tends to overfit on tabular data like this without tuning, while default `LogisticRegression()` benefits from the largely linear/monotonic relationships between features like education, hours-worked, and capital-gain and the income target.\n\nResults saved to `result.json`, code saved to `analysis.py`.\n",

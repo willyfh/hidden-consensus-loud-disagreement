@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 4,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_noverify_004_d00ef2b5_u6j73oj0",
+  "work_dir": "<TMP_DIR>/aml_replicate_H1_noverify_004_d00ef2b5_u6j73oj0",
   "started_at": 1785855465.184739,
   "returncode": 0,
   "stdout_tail": "Both `analysis.py` and `result.json` are written to the working directory.\n\n**Finding:** Model family has a modest but real effect on the Adult Income prediction task. Comparing four model families (Logistic Regression, KNN, Random Forest, HistGradientBoosting) with identical preprocessing and 5-fold CV + held-out test evaluation:\n\n| Model | Test ROC-AUC | Test Accuracy |\n|---|---|---|\n| HistGradientBoosting | 0.9295 | 0.876 |\n| RandomForest | 0.9186 | 0.867 |\n| LogisticRegression | 0.9057 | 0.854 |\n| KNN | 0.8944 | 0.848 |\n\nSpread (best \u2212 worst) = **0.0351 ROC-AUC**. Tree ensembles beat the linear/instance-based baselines, but the gap is modest rather than dramatic \u2014 model family matters at the margin, not as the dominant factor.\n",

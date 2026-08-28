@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 2,
   "model": "haiku",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H3_noverify_002_6b6e5656_90say_pa",
+  "work_dir": "<TMP_DIR>/aml_replicate_haiku_H3_noverify_002_6b6e5656_90say_pa",
   "started_at": 1786137863.250448,
   "returncode": 0,
   "stdout_tail": "## Analysis Complete\n\nI've successfully analyzed the Adult Income dataset to identify the most important features for predicting income. Here's a summary of my investigation:\n\n### Methodology\nI employed a multi-method approach for robustness:\n1. **Random Forest** (primary model with 81.27% accuracy, 0.9165 ROC-AUC)\n2. **Permutation Importance** (on test set with 10 repeats)\n3. **Gradient Boosting** (validation model with 86.76% accuracy, 0.9249 ROC-AUC)\n\n### Key Finding\n**`capital-gain`** is the most important feature for predicting income, with an averaged normalized importance score of **0.4426**. This is notably dominant in permutation importance (highest impact when values are shuffled randomly).\n\n### Top 5 Features Ranked:\n1. **capital-gain** (0.4426) - Investment income is strongly predictive\n2. **education-num** (0.3319) - Years of education matters\n3. **relationship** (0.2633) - Marital/family status is significant\n4. **age** (0.2019) - Age correlates with income\n5. **capital-loss** (0.1323) - Loss deductions are relevant\n\n### Data Handling\n- Removed 3,620 rows (~7.4%) with missing values in workclass, occupation, or native-country\n- Analyzed 45,222 clean records\n- Class distribution: 75.1% earn \u226450K, 24.9% earn >50K\n\nBoth `result.json` and `analysis.py` have been saved to the current directory with full documentation of my methodological choices.\n",

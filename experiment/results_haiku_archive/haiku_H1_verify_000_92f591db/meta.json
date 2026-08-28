@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 0,
   "model": "haiku",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H1_verify_000_92f591db_qlr342e4",
+  "work_dir": "<TMP_DIR>/aml_replicate_haiku_H1_verify_000_92f591db_qlr342e4",
   "started_at": 1786160932.279655,
   "returncode": null,
   "stdout_tail": "",

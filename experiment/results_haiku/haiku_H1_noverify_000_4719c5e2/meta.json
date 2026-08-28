@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 0,
   "model": "haiku",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H1_noverify_000_4719c5e2_meqnlofo",
+  "work_dir": "<TMP_DIR>/aml_replicate_haiku_H1_noverify_000_4719c5e2_meqnlofo",
   "started_at": 1786050766.172907,
   "returncode": 0,
   "stdout_tail": "Perfect! The analysis is complete. Here's a summary of the findings:\n\n## Research Question\n**Does the choice of model family meaningfully affect predictive performance on this dataset?**\n\n## Answer: YES\n\nThe analysis compared 5 different model families on the UCI Adult Census Income dataset (48,842 rows):\n\n### Performance Results (ROC-AUC):\n- **Gradient Boosting: 0.9216** (best)\n- Logistic Regression: 0.9057\n- Random Forest: 0.9039\n- Support Vector Machine: 0.9010\n- **Neural Network: 0.8711** (worst)\n\n### Key Finding\nThe performance gap is **0.0505 (5.8% relative difference)**, which exceeds the meaningfulness threshold of >2% absolute or >5% relative difference. This indicates that **model family choice significantly impacts performance**.\n\n### Methodological Choices\n- **Preprocessing**: StandardScaler for 6 numeric features, OneHotEncoder for 8 categorical features\n- **Train/test split**: 80/20 stratified split\n- **Evaluation metric**: ROC-AUC (robust to the dataset's class imbalance)\n- **Models**: 5 distinct families with standard/default hyperparameters (no tuning)\n- **Meaningfulness criterion**: >2% absolute or >5% relative performance difference\n\nBoth output files have been saved to the current directory:\n- `result.json` - Structured findings in the required format\n- `analysis.py` - Complete reproducible analysis code\n",

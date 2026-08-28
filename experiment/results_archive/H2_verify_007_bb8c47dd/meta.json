@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 7,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_verify_007_bb8c47dd_xy2o87ju",
+  "work_dir": "<TMP_DIR>/aml_replicate_H2_verify_007_bb8c47dd_xy2o87ju",
   "started_at": 1785936604.350503,
   "returncode": 0,
   "stdout_tail": "**Finding: No \u2014 logistic regression beats random forest here.** With scikit-learn defaults, stratified 5-fold CV ROC-AUC was 0.906 (LogReg) vs 0.891 (RF), a gap of ~0.016 in LogReg's favor. This held up under two independent stability checks (5\u00d75 repeated CV with a different seed, and a fresh 70/30 held-out re-test split) \u2014 all three estimates agreed within 0.0003, and RF never beat LogReg on any of 25 repeated-CV folds. Likely explanation: default RF (unbounded tree depth) tends to overfit on this dataset relative to the well-preprocessed (scaled + one-hot encoded) linear model.\n\nOutputs written: `analysis.py` and `result.json` in the working directory.\n",

@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 7,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_noverify_007_8ed8c01b_uub0iunk",
+  "work_dir": "<TMP_DIR>/aml_replicate_H4_noverify_007_8ed8c01b_uub0iunk",
   "started_at": 1785883753.908818,
   "returncode": 0,
   "stdout_tail": "**Finding:** Class imbalance handling (class_weight, undersampling, SMOTE) does **not** improve ROC-AUC on the Adult Income dataset \u2014 mean change was essentially zero (-0.0002) across Logistic Regression and Random Forest. What it *does* change is the operating point: balanced accuracy and minority-class (\">50K\") recall rise substantially (e.g. +0.056 balanced accuracy with random undersampling), but at the cost of precision and plain accuracy, since it shifts the default 0.5 decision threshold rather than improving the model's underlying discriminative ranking.\n\nFiles written: `analysis.py`, `result.json` (plus `results_full.csv`/`results_deltas.csv` as supporting detail).\n",

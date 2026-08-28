@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 4,
   "model": "haiku",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H5_noverify_004_8dcd02b2_bokv1tul",
+  "work_dir": "<TMP_DIR>/aml_replicate_haiku_H5_noverify_004_8dcd02b2_bokv1tul",
   "started_at": 1786138602.036034,
   "returncode": 0,
   "stdout_tail": "## Analysis Complete\n\nI've investigated the research question using the Adult Income dataset. Here are the key findings:\n\n**Research Question**: Does SMOTE oversampling improve the minority-class (>50K) F1 score by more than 0.02 compared to no resampling in a default Random Forest?\n\n**Answer**: **No** \u2014 SMOTE does not produce a meaningful improvement.\n\n**Key Results**:\n- **F1 score without SMOTE**: 0.6723\n- **F1 score with SMOTE**: 0.6735\n- **Difference**: +0.0012 (far below the 0.02 threshold)\n\n**Analysis Details**:\n1. Cleaned the data by handling missing values (dropped ~3,600 rows with NaN)\n2. Encoded 8 categorical features using LabelEncoder\n3. Split data 80/20 (stratified) \u2192 36,177 training samples\n4. Trained two RandomForestClassifier() models (default hyperparameters):\n   - One on original imbalanced training data\n   - One on SMOTE-resampled training data (27,211 \u2192 54,422 samples with balanced classes)\n5. Evaluated both on the same held-out test set using minority-class F1 score\n\nThe minimal improvement (0.12 percentage points) suggests that for this dataset and model combination, SMOTE provides negligible benefit. This is likely because Random Forests already handle class imbalance reasonably well through their tree-based splits.\n\nBoth `analysis.py` and `result.json` have been saved to the current directory.\n",

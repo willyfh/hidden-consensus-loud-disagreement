@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 0,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_noverify_000_719e9303_gl377lgo",
+  "work_dir": "<TMP_DIR>/aml_replicate_H2_noverify_000_719e9303_gl377lgo",
   "started_at": 1785854953.670143,
   "returncode": 0,
   "stdout_tail": "Both files are in the correct working directory.\n\n**Finding:** Contrary to the hypothesis, `RandomForestClassifier()` does **not** outperform `LogisticRegression()` with sklearn defaults on this dataset \u2014 LogReg was marginally *higher* (mean ROC-AUC 0.9065 vs RF's 0.9054, diff = -0.0011), and a paired t-test across the 5 folds shows this gap is not statistically significant (p=0.48). Practically, the two models are indistinguishable in ranking performance here.\n\nKey choices: dropped the redundant `education` string column (duplicate of `education-num`), imputed categorical NaNs (`?`) as an explicit \"Missing\" category, one-hot encoded categoricals + standardized numerics (same pipeline for both models for fairness), used `StratifiedKFold(5, shuffle=True, random_state=42)` scored on ROC-AUC, and bumped LogReg's `max_iter` to 1000 purely for convergence (no other hyperparameter changes from defaults).\n",

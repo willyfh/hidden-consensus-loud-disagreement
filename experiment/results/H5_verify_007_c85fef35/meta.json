@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 7,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H5_verify_007_c85fef35_sdrsmzev",
+  "work_dir": "<TMP_DIR>/aml_replicate_H5_verify_007_c85fef35_sdrsmzev",
   "started_at": 1785970530.1317198,
   "returncode": 0,
   "stdout_tail": "## Finding\n\n**SMOTE does not meaningfully change the >50K F1 score** for a default `RandomForestClassifier()`.\n\n- Primary split (75/25, stratified): F1 = 0.6816 (no resampling) vs 0.6769 (SMOTE) \u2192 **diff = \u22120.0047**\n- Stability check (5\u00d75 repeated stratified CV, 25 independent runs): mean diff = **+0.0001** (std 0.0041, range \u22120.0072 to +0.0081, 95% CI [\u22120.0015, +0.0017])\n\nThe magnitude of the difference never approached the 0.02 threshold in any run \u2014 the finding is stable. This makes sense: random forests already handle moderate class imbalance (~24% minority) reasonably well via bagging/bootstrap and per-tree feature randomness, so synthetic oversampling adds noise without shifting the decision boundary much on this dataset.\n\nKey methodological choices: target = `class == '>50K'` as minority/positive class; categorical features ordinal-encoded (no leakage, since it doesn't use the target); missing values (`?`/NaN, ~2-6% in `workclass`/`occupation`/`native-country`) filled as an explicit \"Missing\" category; SMOTE applied only to the training fold, never to test data.\n\nResults saved to `result.json`, code saved to `analysis.py`.\n",

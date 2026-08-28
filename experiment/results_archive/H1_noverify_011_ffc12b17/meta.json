@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 11,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_noverify_011_ffc12b17_0ebbyotq",
+  "work_dir": "<TMP_DIR>/aml_replicate_H1_noverify_011_ffc12b17_0ebbyotq",
   "started_at": 1785855858.1220968,
   "returncode": 0,
   "stdout_tail": "Analysis complete. `analysis.py` and `result.json` are written in the working directory.\n\n**Finding:** Model family has a modest but consistent effect on this dataset. Comparing four families with matched preprocessing (Logistic Regression, KNN, Random Forest, Hist Gradient Boosting) under 5-fold CV + held-out test evaluation:\n\n| Model | Test ROC-AUC | Test Accuracy |\n|---|---|---|\n| KNN (k=25) | 0.894 | 0.848 |\n| Logistic Regression | 0.906 | 0.854 |\n| Random Forest | 0.919 | 0.867 |\n| HistGradientBoosting | **0.930** | **0.876** |\n\nBoosted/bagged tree ensembles beat linear and instance-based models by a real but modest margin (ROC-AUC spread \u2248 0.035, i.e. ~3.5 points). CV standard deviations (0.002\u20130.005) are much smaller than this spread, so the ranking is not noise. All four models comfortably beat the majority-class baseline (0.761 accuracy), meaning family choice matters far less than using any reasonably-configured model at all.\n",

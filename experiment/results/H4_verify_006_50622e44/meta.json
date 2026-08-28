@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 6,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_verify_006_50622e44_kxg4f7v3",
+  "work_dir": "<TMP_DIR>/aml_replicate_H4_verify_006_50622e44_kxg4f7v3",
   "started_at": 1785969947.6761348,
   "returncode": 0,
   "stdout_tail": "Both output files are in place. Summary of findings:\n\n**H4: Does addressing class imbalance improve model quality?** \u2014 Yes, but nuanced.\n\n- Dataset is moderately imbalanced (~76% `<=50K` vs. ~24% `>50K`, ratio 3.18:1).\n- Tested Logistic Regression and Random Forest, each under 3 regimes: no handling, `class_weight='balanced'`, and SMOTE oversampling.\n- **Threshold-based metrics improved substantially**: RF balanced accuracy rose from 0.781 \u2192 0.831 with class weighting (+0.051); minority-class recall jumped from 0.615 \u2192 0.842, at some cost to precision (0.782 \u2192 0.596).\n- **Threshold-invariant ranking metrics (ROC-AUC, PR-AUC) barely moved** (ROC-AUC actually dipped slightly, -0.001 to -0.005) \u2014 the model's underlying discriminative ability didn't really change; imbalance handling mainly shifted the decision threshold/operating point.\n- **Stability check**: 5\u00d75 repeated stratified CV (25 folds) showed the balanced-accuracy improvement in **25/25 folds** (mean +0.054, 95% CI [+0.050, +0.057]). An independent re-split with a different seed reproduced a nearly identical +0.053 improvement. The finding is very robust.\n\nBoth `analysis.py` and `result.json` are saved in the working directory.\n",

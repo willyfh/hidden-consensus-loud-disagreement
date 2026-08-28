@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 5,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_noverify_005_3654c7cf_5106lbji",
+  "work_dir": "<TMP_DIR>/aml_replicate_H4_noverify_005_3654c7cf_5106lbji",
   "started_at": 1785883670.260679,
   "returncode": 0,
   "stdout_tail": "Both files are in place and valid.\n\n**Finding (H4):** On this dataset (~75%/25% class split), addressing imbalance via `class_weight='balanced'` or SMOTE does **not** improve threshold-independent quality (ROC-AUC stays ~0.89\u20130.91, PR-AUC actually drops slightly) and it lowers raw accuracy (by 1\u20134 points). What it does do is shift the operating point: minority-class (`>50K`) recall jumps substantially (+6 to +26 points depending on model/method) at the cost of precision, which raises balanced accuracy (+1.2 to +6.4 points) and minority F1 modestly. So \"improvement\" is metric-dependent \u2014 it helps if you care about balanced/minority-class performance, but hurts on raw accuracy and doesn't move ranking quality (ROC-AUC) at all.\n\nFiles written: `analysis.py` and `result.json` in the working directory.\n",

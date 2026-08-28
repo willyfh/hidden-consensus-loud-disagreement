@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 3,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_noverify_003_ba1244e4_4pwd57mx",
+  "work_dir": "<TMP_DIR>/aml_replicate_H2_noverify_003_ba1244e4_4pwd57mx",
   "started_at": 1785856814.488736,
   "returncode": 0,
   "stdout_tail": "Both `analysis.py` and `result.json` are in place.\n\n**Finding:** Contrary to the hypothesis, logistic regression (mean ROC-AUC = 0.9067) slightly outperformed the random forest (mean ROC-AUC = 0.9023) under stratified 5-fold CV with default hyperparameters for both models \u2014 a difference of -0.0043 in favor of logistic regression, which is statistically significant across folds (paired t-test p=0.0438) though small in absolute terms. This is plausible: an unpruned default `RandomForestClassifier` (no depth limit) tends to overfit on a dataset of this size, while `LogisticRegression`'s regularization plus well-behaved, roughly linearly-separable features (education, capital-gain, hours-per-week, etc.) works in its favor.\n",

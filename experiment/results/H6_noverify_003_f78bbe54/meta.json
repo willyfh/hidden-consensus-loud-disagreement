@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 3,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H6_noverify_003_f78bbe54_i9o85p5f",
+  "work_dir": "<TMP_DIR>/aml_replicate_H6_noverify_003_f78bbe54_i9o85p5f",
   "started_at": 1785938909.4650838,
   "returncode": 0,
   "stdout_tail": "## Finding\n\n**H6: Yes, the model is well-calibrated.**\n\nI trained a HistGradientBoostingClassifier on the Adult Income data (75/25 stratified split, one-hot + standard-scaled features, missing categoricals imputed as \"Unknown\") and evaluated calibration on the held-out test set using 10-bin reliability diagrams, Expected Calibration Error (ECE), Maximum Calibration Error (MCE), and Brier score.\n\n- **ECE = 0.0046**, **MCE = 0.0223** \u2014 predicted probabilities track observed outcome frequencies closely in every bin; the biggest gap is only ~2.2 percentage points, in a sparsely populated mid-probability bin.\n- Applying isotonic recalibration (5-fold `CalibratedClassifierCV`) barely changed anything (ECE = 0.0049), confirming there's no systematic over/under-confidence left to correct.\n- A Logistic Regression reference model showed similarly small miscalibration (ECE = 0.0083), consistent with this being an easy dataset for calibration rather than an artifact of model choice.\n\nResults, code, and full methodology notes are saved to `result.json` and `analysis.py` in the working directory.\n",

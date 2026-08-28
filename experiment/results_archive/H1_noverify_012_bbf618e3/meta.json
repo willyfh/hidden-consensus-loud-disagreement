@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 12,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_noverify_012_bbf618e3_4ctgahpq",
+  "work_dir": "<TMP_DIR>/aml_replicate_H1_noverify_012_bbf618e3_4ctgahpq",
   "started_at": 1785855888.409276,
   "returncode": 0,
   "stdout_tail": "The analysis ran cleanly and both files are written.\n\n**Finding:** Model family does affect performance, but the effect is modest. Comparing four families (Logistic Regression, KNN, Random Forest, HistGradientBoosting) with 5-fold CV + a held-out test set:\n\n| Model | Test ROC-AUC | Accuracy | F1 |\n|---|---|---|---|\n| KNN | 0.894 | 0.847 | 0.653 |\n| Logistic Regression | 0.904 | 0.852 | 0.656 |\n| Random Forest | 0.918 | 0.867 | 0.692 |\n| HistGradientBoosting | 0.929 | 0.876 | 0.716 |\n\nThe spread (0.034 AUC, best\u2212worst) is small in absolute terms but exceeds the typical fold-to-fold noise of any single model (~0.004 std), so it's a real, reproducible difference \u2014 not resampling noise. Boosted/bagged tree ensembles consistently beat the linear and instance-based models, likely reflecting nonlinear interactions (e.g., between age, education, and hours-per-week) that trees capture more naturally.\n\nResults and code are saved to `result.json` and `analysis.py` in the working directory.\n",

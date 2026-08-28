@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 1,
   "model": "haiku",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H1_noverify_001_af120c61_0_k4mkzt",
+  "work_dir": "<TMP_DIR>/aml_replicate_haiku_H1_noverify_001_af120c61_0_k4mkzt",
   "started_at": 1786050766.1728342,
   "returncode": 0,
   "stdout_tail": "Perfect! The analysis is complete. Here's my finding:\n\n## Summary\n\n**Model family choice meaningfully affects predictive performance on the adult income dataset.**\n\nI tested 9 different model families on the adult census income prediction task:\n\n**Key Results:**\n- **Best performer**: Gradient Boosting (87.64% accuracy, 0.9294 ROC-AUC)\n- **Worst performer**: K-Nearest Neighbors (77.84% accuracy, 0.6819 ROC-AUC)\n- **Performance gap**: 9.81 percentage points in accuracy (0.3373 in ROC-AUC)\n\n**Model Rankings (by test accuracy):**\n1. Gradient Boosting: 87.64%\n2. Random Forest: 86.75%\n3. AdaBoost: 85.92%\n4. Decision Tree: 85.01%\n5. Logistic Regression: 81.02%\n6. SVM & Neural Network: 80.06%\n7. Naive Bayes: 79.68%\n8. K-Nearest Neighbors: 77.84%\n\n**Clear Pattern**: Tree-based ensemble methods (Gradient Boosting, Random Forest, AdaBoost) substantially outperform linear models, distance-based methods, and neural networks on this dataset. The 9.81% gap between best and worst is substantial in practical terms.\n\n**Methodological choices**: 80-20 stratified train-test split, label-encoding for categorical variables, reasonable default hyperparameters for all models (no extensive tuning), and evaluation using test accuracy as the primary metric plus ROC-AUC, F1, precision, and recall for completeness.\n\nBoth `analysis.py` and `result.json` have been saved to your current directory.\n",

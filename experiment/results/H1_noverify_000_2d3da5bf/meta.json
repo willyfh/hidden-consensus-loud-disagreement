@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 0,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_noverify_000_2d3da5bf_nro8c72a",
+  "work_dir": "<TMP_DIR>/aml_replicate_H1_noverify_000_2d3da5bf_nro8c72a",
   "started_at": 1785855465.183357,
   "returncode": 0,
   "stdout_tail": "Both files are written to the working directory and the results are confirmed on the held-out test set (GB test ROC-AUC 0.922 vs LogReg 0.906, matching the CV gap).\n\n**Finding:** Model family has a modest but real effect. Across 5-fold CV, ROC-AUC ranges from 0.907 (logistic regression) \u2192 0.917 (random forest) \u2192 0.921 (gradient boosting) \u2014 a ~0.014 AUC spread that's roughly 4x the fold-to-fold noise (std \u2248 0.0035), so it's a genuine if not dramatic difference. Tree-based ensembles consistently beat the linear model, likely because they capture interactions/nonlinearities (e.g. capital-gain thresholds, education\u00d7occupation effects) that logistic regression misses.\n\nFiles written: `analysis.py` and `result.json` in the working directory.\n",

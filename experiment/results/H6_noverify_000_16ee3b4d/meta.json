@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 0,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H6_noverify_000_16ee3b4d_0_mh_ie4",
+  "work_dir": "<TMP_DIR>/aml_replicate_H6_noverify_000_16ee3b4d_0_mh_ie4",
   "started_at": 1785938752.341825,
   "returncode": 0,
   "stdout_tail": "## Finding\n\nI trained a `HistGradientBoostingClassifier` on the Adult Census Income data (70/30 stratified split, one-hot/standardized preprocessing) as the primary model, with logistic regression as a well-calibrated reference point.\n\n**Calibration on the held-out test set (10 equal-width probability bins):**\n- ECE = 0.0059, MCE = 0.0225, Brier score = 0.0869 (AUC = 0.930)\n- Predicted vs. actual positive rates track each other closely across all bins (e.g., bin 0.7\u20130.8: predicted 0.747, actual 0.767; bin 0.9\u20131.0: predicted 0.984, actual 0.993)\n- Post-hoc isotonic recalibration changed the Brier score by less than 0.5%, meaning there's essentially no miscalibration left to squeeze out\n\n**Conclusion:** the model is well-calibrated \u2014 its predicted probabilities closely match observed outcome frequencies, and it's even marginally better calibrated than the logistic regression baseline (ECE 0.0059 vs 0.0088).\n\nResults are saved in `result.json`, and the full pipeline is in `analysis.py`, both in the working directory.\n",

@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 3,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_verify_003_35ecfd86_v2sz4ui4",
+  "work_dir": "<TMP_DIR>/aml_replicate_H2_verify_003_35ecfd86_v2sz4ui4",
   "started_at": 1785882010.599617,
   "returncode": 0,
   "stdout_tail": "**Finding: H2 is not supported.** Logistic regression (default hyperparameters) achieved a slightly but consistently *higher* stratified 5-fold CV ROC-AUC than random forest (default hyperparameters) \u2014 the opposite of what the hypothesis claimed.\n\n- **Primary result** (seed=42): LogReg AUC = 0.9053, RF AUC = 0.9016, diff (RF \u2212 LogReg) = **\u22120.0037**\n- **Stability check**: Repeated 5-fold CV across 5 additional seeds (0\u20134) \u2014 LogReg won all 5 runs, with a diff range of \u22120.0031 to \u22120.0041. The gap is small in absolute terms (~0.3\u20130.4 AUC points) but never flips sign across 10 total CV runs.\n\nLikely explanation (not formally tested): unregularized default RF tends to overfit on this dataset relative to a linear model with one-hot encoded, mostly near-linear predictors like education level and capital gain, while LogReg's defaults already generalize well here.\n\nFiles written:\n- `analysis.py` \u2014 full pipeline (median-impute + scale numerics, most-frequent-impute + one-hot categoricals, StratifiedKFold CV, repeated-seed stability check)\n- `result.json` \u2014 final structured result reflecting the actual (LogReg > RF) finding\n",

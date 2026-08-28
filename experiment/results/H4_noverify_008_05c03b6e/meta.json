@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 8,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_noverify_008_05c03b6e_m7svlfvv",
+  "work_dir": "<TMP_DIR>/aml_replicate_H4_noverify_008_05c03b6e_m7svlfvv",
   "started_at": 1785883793.861102,
   "returncode": 0,
   "stdout_tail": "## Finding\n\nAddressing class imbalance on the Adult Income dataset **does not improve threshold-independent discrimination** (ROC-AUC changes by less than 0.001 either way for both Logistic Regression and Random Forest), but it **does meaningfully shift the classification operating point**: balanced accuracy improves by +0.047 on average (class_weight='balanced' and SMOTE both push minority-class (`>50K`) recall up sharply \u2014 e.g., LogReg recall goes from 0.59 \u2192 0.84 \u2014 at the cost of precision).\n\nSo the answer depends on what \"model quality\" means: if it's ranking/AUC quality, imbalance handling doesn't help; if it's balanced performance across classes (recall on the minority class), it helps substantially.\n\nBoth `analysis.py` and `result.json` are saved in the working directory.\n",

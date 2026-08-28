@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 2,
   "model": "haiku",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H2_noverify_002_1c38df6a_wl57_0p9",
+  "work_dir": "<TMP_DIR>/aml_replicate_haiku_H2_noverify_002_1c38df6a_wl57_0p9",
   "started_at": 1786051126.279584,
   "returncode": 0,
   "stdout_tail": "## Analysis Complete\n\nI've successfully investigated the research question by comparing Random Forest and Logistic Regression classifiers on the Adult Income dataset using stratified 5-fold cross-validation.\n\n### Key Findings:\n\n**Research Question**: Does Random Forest achieve higher ROC-AUC than Logistic Regression?\n\n**Answer**: **Yes, decisively.** Random Forest substantially outperforms Logistic Regression:\n\n- **Random Forest ROC-AUC**: 0.9068 (\u00b10.0019)\n- **Logistic Regression ROC-AUC**: 0.8207 (\u00b10.0042)\n- **Difference**: +0.0861 (8.6 percentage points)\n\nThe Random Forest classifier demonstrates consistent superiority across all 5 folds of cross-validation, indicating it captures non-linear relationships and feature interactions in the income classification task much more effectively than the linear logistic regression model.\n\n### Methodological Notes:\n\n- Applied scikit-learn defaults for both models (no hyperparameter tuning)\n- Handled 8 categorical variables via label encoding\n- Filled missing values in numerical features with column means\n- Used stratified k-fold to preserve class distribution across folds\n- Dataset: 48,842 samples, 76% class imbalance (<=50K vs >50K)\n\nBoth `analysis.py` and `result.json` have been saved to the current directory.\n",

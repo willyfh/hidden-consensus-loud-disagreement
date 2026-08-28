@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 5,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H5_verify_005_0db66b7a_laxw6u17",
+  "work_dir": "<TMP_DIR>/aml_replicate_H5_verify_005_0db66b7a_laxw6u17",
   "started_at": 1785961310.3940868,
   "returncode": null,
   "stdout_tail": "",

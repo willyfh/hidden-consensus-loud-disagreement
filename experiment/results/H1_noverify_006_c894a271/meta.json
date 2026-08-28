@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 6,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_noverify_006_c894a271__v77tvs5",
+  "work_dir": "<TMP_DIR>/aml_replicate_H1_noverify_006_c894a271__v77tvs5",
   "started_at": 1785855465.183306,
   "returncode": 0,
   "stdout_tail": "Both `analysis.py` and `result.json` are written to the working directory.\n\n**Finding:** Model family has a small but statistically significant effect on predictive performance for this dataset. Comparing four model families (Logistic Regression, KNN, Random Forest, HistGradientBoosting) under identical preprocessing via 5-fold stratified CV:\n\n| Model | CV ROC-AUC | Test ROC-AUC |\n|---|---|---|\n| KNN (k=25) | 0.896 | 0.894 |\n| Logistic Regression | 0.907 | 0.905 |\n| Random Forest | 0.918 | 0.919 |\n| HistGradientBoosting | 0.928 | 0.930 |\n\nThe gap between best (HistGradientBoosting) and worst (KNN) is 0.031 AUC points \u2014 statistically significant (paired t-test on CV folds, p\u22480.0002) but modest in absolute terms, since all four families land in a fairly tight 0.89\u20130.93 band. The two tree-ensemble methods consistently edge out the linear and instance-based models, suggesting mild non-linear/interaction structure in the data, but the difference isn't dramatic \u2014 no family catastrophically fails or dominates.\n",

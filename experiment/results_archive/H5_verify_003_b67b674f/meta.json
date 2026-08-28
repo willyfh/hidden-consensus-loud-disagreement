@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 3,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H5_verify_003_b67b674f_16rmz1sg",
+  "work_dir": "<TMP_DIR>/aml_replicate_H5_verify_003_b67b674f_16rmz1sg",
   "started_at": 1785938090.896877,
   "returncode": 0,
   "stdout_tail": "I'll pause here and wait for the monitor notification or scheduled wakeup to check on the analysis progress.\n",

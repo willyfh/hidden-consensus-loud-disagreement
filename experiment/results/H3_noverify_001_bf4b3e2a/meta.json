@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 1,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H3_noverify_001_bf4b3e2a_bqagocnv",
+  "work_dir": "<TMP_DIR>/aml_replicate_H3_noverify_001_bf4b3e2a_bqagocnv",
   "started_at": 1785882696.0557492,
   "returncode": 0,
   "stdout_tail": "Analysis complete. Summary of findings:\n\n**Model**: Random Forest (500 trees) on the Adult Census dataset, 70/30 stratified split, achieved test ROC-AUC = 0.917, accuracy = 0.866.\n\n**Feature importance (primary: permutation importance, mean ROC-AUC drop)**:\n1. `capital-gain` \u2014 0.0486 (top feature)\n2. `relationship` \u2014 0.0339\n3. `education-num` \u2014 0.0309\n4. `age` \u2014 0.0249\n5. `marital-status` \u2014 0.0184\n\nRF Gini importance corroborates this ranking closely. A logistic-regression cross-check's raw coefficient sums were skewed by high-cardinality one-hot columns (`native-country`, `occupation`), an artifact rather than genuine signal \u2014 those same features rank near the bottom under permutation importance, so I flagged this discrepancy explicitly rather than letting it muddy the conclusion.\n\n**Bottom line**: `capital-gain` is the single most important predictor of income class, followed by `relationship`, `education-num`/`education`, `age`, and `marital-status`. Demographic features like `race`, `sex`, and `native-country` contribute comparatively little.\n\nFiles written: `analysis.py` and `result.json` in the working directory.\n",

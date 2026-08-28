@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 4,
   "model": "haiku",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H6_noverify_004_f744e77f__p3l6fmp",
+  "work_dir": "<TMP_DIR>/aml_replicate_haiku_H6_noverify_004_f744e77f__p3l6fmp",
   "started_at": 1786138896.4264681,
   "returncode": 0,
   "stdout_tail": "## Investigation Complete\n\nI've conducted an independent analysis of model calibration on the Adult Income dataset. Here's what I found:\n\n**Key Results:**\n- **Logistic Regression ECE: 0.0093** \u2014 far below the 0.05 threshold for excellent calibration\n- Supporting metrics: Brier Score (0.121), Log Loss (0.380)\n- Also evaluated Random Forest (ECE: 0.0136), Gradient Boosting (ECE: 0.0157) \u2014 all show excellent calibration\n\n**Methodology:**\n- Used stratified 70-30 train-test split on 48,842 samples\n- Encoded 8 categorical features, scaled 6 numerical features  \n- Evaluated calibration using Expected Calibration Error with 10 equal-width bins\n- Compared multiple model architectures\n\n**Finding:** YES, the model is well-calibrated. The logistic regression model's ECE of 0.0093 indicates predicted probabilities are extremely well-aligned with actual positive class frequencies. When the model predicts a probability p, outcomes in that range occur approximately with frequency p.\n\nBoth `analysis.py` and `result.json` have been saved to the current directory with complete methodology and findings.\n",

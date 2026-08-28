@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 2,
   "model": "haiku",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H6_noverify_002_5e80c783_d739q85g",
+  "work_dir": "<TMP_DIR>/aml_replicate_haiku_H6_noverify_002_5e80c783_d739q85g",
   "started_at": 1786138887.8636181,
   "returncode": 0,
   "stdout_tail": "## Summary\n\nI've completed an independent analysis of model calibration on the Adult income dataset. Here are the key findings:\n\n**Calibration Results:**\n- **Logistic Regression model is well-calibrated** with Expected Calibration Error (ECE) of 0.0185\n  - Calibration slope: 0.9948 (nearly perfect; ideal = 1.0)\n  - Calibration intercept: 0.0103 (near ideal of 0.0)\n  - This indicates predicted probabilities closely match actual frequencies\n\n- **Random Forest** (comparison model) has reasonable but slightly worse calibration (ECE = 0.0289)\n  - Better discriminative ability (ROC AUC 0.9207 vs 0.8572)\n  - But requires calibration methods to match LogReg's calibration quality\n\n**Methodology:**\n- 80-20 train-test split with stratification\n- Handled missing values via mode imputation\n- Label encoded categorical features, standardized numeric features\n- Evaluated calibration using Expected Calibration Error (ECE) with 10 equal-frequency bins\n- Also measured Brier Score and Log Loss for robustness\n\n**Answer:** Yes, the model (Logistic Regression) is **well-calibrated** with an ECE of 0.0185, meaning predicted probabilities reliably reflect actual class frequencies and can be safely used for probability-based predictions.\n\nBoth `result.json` and `analysis.py` have been saved to the current directory.\n",

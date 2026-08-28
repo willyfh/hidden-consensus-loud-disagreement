@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 4,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_noverify_004_d9a86f40_wq5w1hpz",
+  "work_dir": "<TMP_DIR>/aml_replicate_H4_noverify_004_d9a86f40_wq5w1hpz",
   "started_at": 1785883666.9061608,
   "returncode": 0,
   "stdout_tail": "Both `analysis.py` and `result.json` are in place. \n\n**Finding:** Class imbalance handling (class-weighting or SMOTE) does not improve the models' underlying ranking quality (ROC-AUC/PR-AUC stayed flat or slightly dropped, within ~1 pt) but does meaningfully improve balanced accuracy (+0.05 for Random Forest, +0.06 for Logistic Regression) by boosting minority-class (`>50K`) recall by ~20-25 points \u2014 at the cost of precision. In other words, imbalance handling mainly shifts the effective decision threshold toward the minority class rather than making the model a better predictor; whether that counts as \"improving model quality\" depends on whether recall/balanced-accuracy or ranking/precision is what matters for the use case.\n",

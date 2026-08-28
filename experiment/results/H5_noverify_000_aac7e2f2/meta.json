@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 0,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H5_noverify_000_aac7e2f2_ug303ldg",
+  "work_dir": "<TMP_DIR>/aml_replicate_H5_noverify_000_aac7e2f2_ug303ldg",
   "started_at": 1785884514.710145,
   "returncode": 0,
   "stdout_tail": "Analysis complete. \n\n**Finding:** SMOTE oversampling does **not** meaningfully change the minority-class (>50K) F1 score for a default RandomForestClassifier. Baseline F1 = 0.6794 vs. SMOTE F1 = 0.6785, a difference of **-0.0009** \u2014 far below the 0.02 threshold. SMOTE slightly traded precision for recall (recall 0.632\u21920.648, precision 0.735\u21920.712) but the net F1 was essentially unchanged.\n\nBoth `analysis.py` and `result.json` have been written to the working directory.\n",

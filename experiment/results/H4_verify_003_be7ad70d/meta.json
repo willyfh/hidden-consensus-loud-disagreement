@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 3,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_verify_003_be7ad70d_7xsac92x",
+  "work_dir": "<TMP_DIR>/aml_replicate_H4_verify_003_be7ad70d_7xsac92x",
   "started_at": 1785883858.590197,
   "returncode": 0,
   "stdout_tail": "## Finding\n\nClass imbalance in this dataset is ~76% `<=50K` / 24% `>50K`. I compared Logistic Regression and Random Forest, each trained with and without `class_weight='balanced'`.\n\n**Result is metric-dependent:**\n- **ROC-AUC** (ranking/discrimination ability): essentially unchanged (|\u0394| < 0.001 for both models) \u2014 class weighting doesn't make the model better at separating classes, just shifts the decision threshold.\n- **Balanced accuracy / minority-class recall**: substantially improved (+0.033 to +0.056), because balancing trades majority-class recall for minority-class recall.\n- **Plain accuracy**: gets *worse* with balancing (expected, since accuracy favors the majority class in an imbalanced setting).\n- **Macro-F1**: mixed \u2014 slightly better for RF, slightly worse for LogReg.\n\n**Bottom line**: addressing imbalance doesn't improve the underlying model's discriminative power, but it does meaningfully improve class-balanced performance metrics, which is usually the actual goal when people worry about imbalance.\n\n**Stability check**: 5\u00d75 repeated stratified CV on the training data reproduced the test-set deltas closely (CV avg balanced-accuracy delta +0.044 vs test-set +0.045, with CV std \u2248 0.004\u20130.005 \u2014 far smaller than the effect size). Finding held up.\n\nFiles written: `analysis.py`, `result.json` (plus `analysis_details.json` with full metric tables).\n",

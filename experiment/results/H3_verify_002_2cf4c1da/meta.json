@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 2,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H3_verify_002_2cf4c1da_jand738s",
+  "work_dir": "<TMP_DIR>/aml_replicate_H3_verify_002_2cf4c1da_jand738s",
   "started_at": 1785936604.3474472,
   "returncode": 0,
   "stdout_tail": "## Findings\n\nTrained a Random Forest classifier (300 trees, `class_weight='balanced'`, one-hot encoded categoricals) on a 70/30 stratified split, achieving test ROC-AUC = 0.917. Feature importance was measured via permutation importance on the *original* (pre-one-hot) feature columns \u2014 shuffling each raw column and re-running the full pipeline \u2014 to avoid the two common pitfalls: impurity-importance bias toward high-cardinality categoricals, and importance getting diluted across dummy columns for categorical features.\n\n**`marital-status` is the most important predictor** (mean ROC-AUC drop \u2248 0.046), followed by `capital-gain`, `age`, `occupation`, `relationship`, and `education-num`. `fnlwgt`, `native-country`, and `race` were essentially irrelevant.\n\n**Stability check**: repeated the entire pipeline (fresh split, fresh model fit, fresh permutation importance) across 5 additional random seeds (1, 7, 13, 21, 99). `marital-status` ranked #1 in every single one of the 5 re-runs, and the top-3 ranking (`marital-status`, `capital-gain`, `age`) was identical across all seeds \u2014 the finding is robust, not an artifact of one particular split.\n\nOutput files written:\n- `analysis.py` \u2014 full analysis code\n- `result.json` \u2014 structured findings per the required schema\n",

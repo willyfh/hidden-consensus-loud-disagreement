@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 2,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_verify_002_60314328_vld9sqj3",
+  "work_dir": "<TMP_DIR>/aml_replicate_H1_verify_002_60314328_vld9sqj3",
   "started_at": 1785855969.664768,
   "returncode": 0,
   "stdout_tail": "## Finding\n\n**Yes, model family meaningfully affects predictive performance** on this dataset. Comparing four model families (Logistic Regression, Random Forest, Gradient Boosting, KNN) on ROC-AUC for predicting `class` (>50K vs \u226450K):\n\n| Model | Test ROC-AUC | 25-fold CV mean |\n|---|---|---|\n| Gradient Boosting | 0.9293 | 0.9289 |\n| Logistic Regression | 0.9069 | 0.9067 |\n| Random Forest | 0.9057 | 0.9040 |\n| KNN | 0.8887 | 0.8904 |\n\nGap between best (Gradient Boosting) and worst (KNN): **~0.04 ROC-AUC**, roughly 11x larger than the fold-to-fold noise (std \u2264 0.0034) \u2014 a real, stable effect, not a single-split artifact.\n\n**Stability check:** 5x repeated stratified 5-fold CV (25 folds) on the full dataset reproduced the exact same ranking as the single held-out split, with the gap size essentially unchanged (0.0406 vs 0.0385).\n\nNotably, plain logistic regression was competitive with random forest \u2014 the tabular boosting method was the clear winner, and instance-based KNN was the clear laggard, likely due to the mixed categorical/high-cardinality one-hot feature space.\n\nFiles written: `analysis.py` and `result.json` in the working directory.\n",

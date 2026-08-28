@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 14,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_noverify_014_84c5829a_xmplkue7",
+  "work_dir": "<TMP_DIR>/aml_replicate_H1_noverify_014_84c5829a_xmplkue7",
   "started_at": 1785855911.5580292,
   "returncode": 0,
   "stdout_tail": "Both `analysis.py` and `result.json` are in place. Summary of findings:\n\n**H1: Does model family meaningfully affect predictive performance?**\n\nI compared four model families (Logistic Regression, KNN, Random Forest, HistGradientBoosting) using identical preprocessing and 5-fold stratified CV ROC-AUC:\n\n| Model | CV ROC-AUC | Test ROC-AUC | Test F1 |\n|---|---|---|---|\n| HistGradientBoosting | 0.928 | 0.929 | 0.717 |\n| Random Forest | 0.917 | 0.918 | 0.687 |\n| Logistic Regression | 0.906 | 0.904 | 0.656 |\n| KNN | 0.895 | 0.894 | 0.653 |\n\n**Conclusion**: model family has a real but modest effect. Boosted trees (HistGradientBoosting) statistically significantly outperform the weakest family (KNN) by 0.033 AUC (paired t-test p\u22480.0001), but the gap between the two best families (HistGB vs Random Forest, both tree ensembles) is only 0.011 AUC \u2014 still significant but practically small. So the effect is driven more by avoiding weak choices (plain linear or instance-based models) than by picking one strong tree-ensemble family over another.\n",

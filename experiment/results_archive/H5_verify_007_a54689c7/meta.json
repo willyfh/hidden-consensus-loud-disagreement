@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 7,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H5_verify_007_a54689c7_ed387yp7",
+  "work_dir": "<TMP_DIR>/aml_replicate_H5_verify_007_a54689c7_ed387yp7",
   "started_at": 1785961310.400064,
   "returncode": 0,
   "stdout_tail": "The background run (26 RandomForest fits, some with SMOTE, on the full 48K-row dataset) is in progress; I've set a monitor to notify me when it finishes or errors, so I'll wait for that rather than polling.\n",

@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 0,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_verify_000_334a1900_fl6kor8e",
+  "work_dir": "<TMP_DIR>/aml_replicate_H4_verify_000_334a1900_fl6kor8e",
   "started_at": 1785936831.193218,
   "returncode": 0,
   "stdout_tail": "Analysis complete. `result.json` and `analysis.py` are written to the working directory.\n\n**Finding (H4):** Addressing the dataset's moderate ~75/25 class imbalance (via `class_weight='balanced'` or SMOTE) does **not** genuinely improve model quality in a discrimination sense \u2014 ROC-AUC and PR-AUC are essentially unchanged (or slightly worse). What it does is shift the decision threshold: minority-class recall and balanced accuracy jump substantially (+0.03 to +0.06), but minority-class precision drops correspondingly (-0.05 to -0.15). The net effect on F1/macro-F1 \u2014 a metric that weighs both \u2014 is small and inconsistent across model families: a modest, bootstrap-confirmed gain for Random Forest (+0.009 macro-F1, 95% CI [0.003, 0.015]) but a slight loss for Logistic Regression (-0.01 macro-F1).\n\nVerified via 5\u00d7-repeated stratified 5-fold CV (25 folds, multiple seeds) plus a 2000-resample bootstrap CI on the RF comparison \u2014 both confirmed the pattern held, not just a fluke of one split.\n",

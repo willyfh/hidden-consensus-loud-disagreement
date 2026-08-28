@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 8,
   "model": "haiku",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H3_verify_008_821dca4d_jd_mp1ef",
+  "work_dir": "<TMP_DIR>/aml_replicate_haiku_H3_verify_008_821dca4d_jd_mp1ef",
   "started_at": 1786138142.9692018,
   "returncode": 0,
   "stdout_tail": "## Analysis Complete\n\nI've successfully analyzed the Adult Income dataset to identify the most important features for predicting income. Here's a summary of my findings:\n\n### Key Results\n\n**Most Important Feature:** `capital-gain` (importance = 0.1836)\n\n**Top 5 Features (by importance):**\n1. capital-gain (0.1836)\n2. relationship (0.1695)\n3. education-num (0.1354)\n4. marital-status (0.1111)\n5. age (0.1039)\n\nThese top 5 features together account for **70.3% of total predictive importance**.\n\n### Validation Results\n\nI validated the stability of these findings using **25-fold cross-validation** (5-fold CV repeated 5 times):\n- All top 5 features appeared in the top 5 across **all 25 folds**\n- Standard deviations of importance scores ranged from 0.0022 to 0.0052, indicating **highly stable** rankings\n- Model achieved ~86.8% accuracy and ~0.92 AUC-ROC\n\n### Methodological Choices\n\n- **Model**: Random Forest classifier (100 trees, max_depth=20)\n- **Encoding**: Label encoding for categorical features, median imputation for missing numeric values\n- **Importance Method**: Mean Decrease in Impurity (MDI)\n- **Validation**: Repeated stratified k-fold cross-validation\n\n### Output Files\n\n\u2705 `result.json` - Contains structured findings with all required fields\n\u2705 `analysis.py` - Complete reproducible analysis code\n",

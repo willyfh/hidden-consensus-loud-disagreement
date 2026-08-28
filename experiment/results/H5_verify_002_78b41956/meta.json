@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 2,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H5_verify_002_78b41956_uzm5kjj1",
+  "work_dir": "<TMP_DIR>/aml_replicate_H5_verify_002_78b41956_uzm5kjj1",
   "started_at": 1785961310.400171,
   "returncode": 0,
   "stdout_tail": "## Finding\n\n**No \u2014 SMOTE does not change the minority-class (>50K) F1 score by more than 0.02** compared to no resampling, holding the classifier fixed as a default `RandomForestClassifier()`.\n\n- **Primary split** (70/30 stratified, seed=42): baseline F1 = 0.6740, SMOTE F1 = 0.6688, **diff = \u22120.0052**\n- **Stability check** (5\u00d75 repeated stratified CV, 25 folds): mean diff = \u22120.0031 (std 0.0045), 95% range [\u22120.0114, 0.0043] \u2014 **0/25 folds exceeded the 0.02 threshold**\n\nThe effect is small, consistently negative, and stable across resampling \u2014 if anything, SMOTE slightly *hurts* minority-class F1 for a default RF on this dataset, but well below the 0.02 threshold specified in the hypothesis.\n\nKey methodological choices: missing categorical values kept as an explicit \"Missing\" category (not dropped), one-hot encoding for categoricals, SMOTE applied only inside training folds via an `imblearn` pipeline (no leakage), F1 computed specifically for the '>50K' class.\n\n`analysis.py` and `result.json` are saved in the working directory.\n",

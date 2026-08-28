@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 6,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_verify_006_b637da1e_mp1kzw8o",
+  "work_dir": "<TMP_DIR>/aml_replicate_H1_verify_006_b637da1e_mp1kzw8o",
   "started_at": 1785856073.498434,
   "returncode": 0,
   "stdout_tail": "The analysis ran successfully. Results:\n\n**Finding:** Model family meaningfully affects performance. On a held-out test set, `HistGradientBoosting` (ROC-AUC=0.9311) and `RandomForest` (0.9202) both beat `LogisticRegression` (0.9078). The gap between the best (boosted trees) and worst (linear) family is 0.023 ROC-AUC.\n\n**Stability check:** 5x repeated stratified 5-fold CV (25 folds) confirmed the gap \u2014 paired per-fold difference was 0.0226 with a 95% range of [0.0195, 0.0248], entirely positive, so the ranking is robust and not an artifact of one split.\n\nFiles written:\n- `analysis.py` \u2014 full pipeline (shared preprocessing, 3 model families, single split + repeated CV verification)\n- `result.json` \u2014 structured findings per the requested schema\n",

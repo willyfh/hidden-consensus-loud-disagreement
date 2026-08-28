@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 5,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_noverify_005_25a36a4b_wgb_fl69",
+  "work_dir": "<TMP_DIR>/aml_replicate_H1_noverify_005_25a36a4b_wgb_fl69",
   "started_at": 1785855465.183257,
   "returncode": 0,
   "stdout_tail": "Both files are written and `result.json` is valid.\n\n**Finding:** Model family does meaningfully affect performance on this dataset. I compared four families (Logistic Regression, k-NN, Random Forest, HistGradientBoosting) using a shared preprocessing pipeline, 5-fold CV, and a held-out test set, evaluated by ROC-AUC:\n\n| Model | Test ROC-AUC | Test Acc | Test F1 |\n|---|---|---|---|\n| HistGradientBoosting | **0.929** | 0.875 | 0.717 |\n| Random Forest | 0.918 | 0.824 | 0.697 |\n| Logistic Regression | 0.904 | 0.807 | 0.677 |\n| k-NN | 0.888 | 0.844 | 0.649 |\n\nThe best-to-worst spread (0.041 AUC) is roughly 7\u201317x larger than the within-model cross-validation noise (std \u2264 0.006), so the gap is not noise \u2014 boosted trees (HistGradientBoosting) consistently beat the linear baseline and k-NN, with Random Forest in between.\n\nBoth deliverables are saved: `result.json` (structured finding) and `analysis.py` (full analysis code) in the working directory.\n",

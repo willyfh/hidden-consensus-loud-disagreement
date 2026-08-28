@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 9,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H5_verify_009_3463b1aa_0u5guant",
+  "work_dir": "<TMP_DIR>/aml_replicate_H5_verify_009_3463b1aa_0u5guant",
   "started_at": 1785970847.713991,
   "returncode": 0,
   "stdout_tail": "## Finding\n\n**No \u2014 SMOTE does not change the minority-class (>50K) F1 score by more than 0.02.**\n\n- Primary test (75/25 stratified split, default `RandomForestClassifier()`): F1 went from 0.6758 (no resampling) to 0.6777 (with SMOTE), a difference of **+0.0019** \u2014 well under the 0.02 threshold.\n- Stability check (5\u00d75 repeated stratified CV, 25 independent fits per condition): mean difference **\u22120.0006**, sd 0.0042, range [\u22120.0092, +0.0073], 95% CI [\u22120.0023, +0.0011]. The finding held up robustly \u2014 the effect is consistently negligible across seeds/folds, and even the extremes of the range stay far below 0.02.\n\n**Interpretation**: Random Forest is a bagging ensemble that already handles moderate class imbalance (~76%/24% here) reasonably well via bootstrap sampling and majority voting across trees; SMOTE's synthetic minority oversampling doesn't meaningfully move its decision boundary on this dataset.\n\nFiles written to the working directory:\n- `analysis.py` \u2014 full analysis code (preprocessing, primary split, CV verification)\n- `result.json` \u2014 structured findings in the requested schema\n",

@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 5,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H6_noverify_005_bf126df0_sj_j9lmq",
+  "work_dir": "<TMP_DIR>/aml_replicate_H6_noverify_005_bf126df0_sj_j9lmq",
   "started_at": 1785938934.8706949,
   "returncode": 0,
   "stdout_tail": "`result.json` and `analysis.py` are both written to the working directory.\n\n**Finding:** Calibration is model-dependent. Logistic regression is very well-calibrated out of the box (ECE=0.0063, recalibration slope\u22481.01, intercept\u22480.03 \u2014 both near ideal). Gradient boosting is mildly but systematically miscalibrated (ECE=0.0161, MCE=0.05, slope\u22481.18), specifically under-confident in the high-probability bins (e.g., it predicts ~0.96 average probability in cases where ~0.996 actually turn out `>50K`). Neither model is severely miscalibrated, but gradient boosting would benefit more from post-hoc recalibration (Platt scaling/isotonic regression) than logistic regression would.\n\nMethodology: 70/30 stratified split, `fnlwgt` dropped (sampling weight, not a real feature), standard one-hot/scaling preprocessing, calibration assessed via 10-bin ECE/MCE, Brier score decomposition, and a logistic recalibration (slope/intercept) check on raw test-set probabilities \u2014 full details are in `methodological_choices` in `result.json`.\n",

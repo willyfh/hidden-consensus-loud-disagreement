@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 3,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_noverify_003_865e5cc6_28egaf74",
+  "work_dir": "<TMP_DIR>/aml_replicate_H4_noverify_003_865e5cc6_28egaf74",
   "started_at": 1785883627.820471,
   "returncode": 0,
   "stdout_tail": "The analysis ran successfully. Findings are consistent with expectations for this moderately imbalanced dataset (~3:1 ratio).\n\n**Result**: Addressing class imbalance (via `class_weight='balanced'` or SMOTE) does **not** improve overall discriminative quality \u2014 ROC-AUC and PR-AUC actually shift slightly *negative* or stay flat (< 0.005 change) for both Logistic Regression and Random Forest. What it *does* do is trade precision for recall on the minority `>50K` class: recall jumps substantially (e.g. RF +0.117, LogReg +0.25) while precision drops, and balanced accuracy improves modestly. Plain accuracy actually gets worse since the majority class is being deliberately de-prioritized.\n\nBoth `result.json` and `analysis.py` are saved in the working directory.\n",

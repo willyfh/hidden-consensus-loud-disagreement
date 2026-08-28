@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 8,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H6_noverify_008_83af3b42_lbs2on63",
+  "work_dir": "<TMP_DIR>/aml_replicate_H6_noverify_008_83af3b42_lbs2on63",
   "started_at": 1785939029.3672729,
   "returncode": 0,
   "stdout_tail": "Both `analysis.py` and `result.json` are finalized and consistent (this is just the script's own rerun regenerating the file, not an external edit).\n\n**Finding:** A Random Forest classifier trained on the Adult income data is reasonably well-calibrated overall \u2014 Expected Calibration Error (ECE) = 0.016, below the common 0.02 \"well-calibrated\" threshold, and low/mid predicted probabilities track observed outcome rates closely. However, it is systematically **under-confident at the high end**: in the 0.6\u20130.9 predicted-probability range, observed `>50K` rates run 4\u20138 percentage points higher than predicted (max bin gap 0.075). Isotonic recalibration nearly halves the ECE to 0.008, confirming this residual miscalibration is real and correctable.\n\nMethodology: 45,222 rows after dropping `?` missing values, `fnlwgt` dropped as a non-predictive census weight, one-hot encoding for categoricals, stratified 70/30 split, 300-tree Random Forest, calibration assessed via a 10-bin reliability diagram (ECE/MCE) plus Brier score, with an isotonic-calibrated version fit as a reference point.\n",

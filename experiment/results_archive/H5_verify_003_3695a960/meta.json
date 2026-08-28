@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 3,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H5_verify_003_3695a960_otidy1_h",
+  "work_dir": "<TMP_DIR>/aml_replicate_H5_verify_003_3695a960_otidy1_h",
   "started_at": 1785961310.398197,
   "returncode": 0,
   "stdout_tail": "I'll wait for both background tasks (the analysis run and this watcher) to complete before proceeding.\n",

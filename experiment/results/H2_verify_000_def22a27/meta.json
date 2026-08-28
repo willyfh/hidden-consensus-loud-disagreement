@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 0,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_verify_000_def22a27_irtslv_h",
+  "work_dir": "<TMP_DIR>/aml_replicate_H2_verify_000_def22a27_irtslv_h",
   "started_at": 1785882010.599583,
   "returncode": 0,
   "stdout_tail": "Both `analysis.py` and `result.json` are now saved and consistent with the actual data.\n\n**Finding: No.** With scikit-learn defaults, logistic regression slightly *outperforms* random forest (mean ROC-AUC 0.9067 vs 0.9023, RF \u2212 LogReg = \u22120.0043). This held up under 5\u00d75 repeated CV (RF won 0 of 25 paired folds) and an independent 30% held-out split (diff \u22120.0048) \u2014 a small but highly consistent effect across all 35 folds tested.\n",

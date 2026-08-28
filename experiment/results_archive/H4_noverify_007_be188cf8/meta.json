@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 7,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_noverify_007_be188cf8_qvaz4dsc",
+  "work_dir": "<TMP_DIR>/aml_replicate_H4_noverify_007_be188cf8_qvaz4dsc",
   "started_at": 1785857064.7353432,
   "returncode": 1,
   "stdout_tail": "You've hit your session limit \u00b7 resets 1:50am (Asia/Seoul)\n",

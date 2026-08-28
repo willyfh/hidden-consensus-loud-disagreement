@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 8,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H3_verify_008_58fb19b2_lqb2imhl",
+  "work_dir": "<TMP_DIR>/aml_replicate_H3_verify_008_58fb19b2_lqb2imhl",
   "started_at": 1785960410.358179,
   "returncode": 0,
   "stdout_tail": "Both files are written and valid. Summary of the finding:\n\n**`capital-gain` is the most important feature** for predicting income in this dataset, ranked #1 by Random Forest permutation importance (mean ROC-AUC drop of 0.049 on held-out test data), RF impurity importance, and aggregated logistic regression coefficient magnitude alike \u2014 three independent methods agreed.\n\n- **Models**: Random Forest (300 trees) as primary model, ROC-AUC 0.915 on 20% held-out test; Logistic Regression as a comparison, ROC-AUC 0.905.\n- **Preprocessing**: dropped 3,620 rows (7.4%) with `?` missing values; ordinal-encoded categoricals for RF, one-hot + standardized for LogReg.\n- **Importance method**: permutation importance on held-out data (primary, since it's model-agnostic and unbiased by feature cardinality) \u2014 top 3 consistently `capital-gain` > `relationship` > `education-num`.\n- **Stability check**: reran the entire pipeline (fresh 80/20 split, refit RF, permutation importance) across 5 independent random seeds. `capital-gain` won #1 in **5/5** seeds, and the top-3 ordering was identical in every single run \u2014 a strongly stable finding.\n\nResults are saved in `result.json` and the full pipeline in `analysis.py`.\n",

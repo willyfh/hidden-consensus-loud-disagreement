@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 2,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_verify_002_e26bf8d7_zvkdzinf",
+  "work_dir": "<TMP_DIR>/aml_replicate_H2_verify_002_e26bf8d7_zvkdzinf",
   "started_at": 1785882010.599732,
   "returncode": 0,
   "stdout_tail": "## Finding\n\n**No** \u2014 logistic regression outperformed random forest on this dataset, contrary to what H2 proposed.\n\n- **Primary 5-fold CV ROC-AUC:** LogReg 0.9053 vs. RF 0.9016 (RF \u2212 LogReg = **\u22120.0037**)\n- **Stability check 1** (5\u00d7 repeated 5-fold CV, 25 folds, different seed): RF lost in **all 25/25 folds**, mean diff \u22120.0037\n- **Stability check 2** (independent 70/30 held-out split, different seed): LogReg 0.9043 vs. RF 0.9017, diff \u22120.0027\n\nThe result was highly consistent \u2014 logistic regression's edge held up across every resampling scheme, though the margin is small (~0.3 AUC points). This is a plausible real pattern: on tabular data dominated by linear/monotonic signal (education level, capital gain, hours worked) with one-hot categoricals, default un-tuned logistic regression with standardized features can match or beat a default (also un-tuned, e.g. no depth limit) random forest, which tends to overfit without hyperparameter tuning.\n\nBoth `analysis.py` and `result.json` are written to the working directory.\n",

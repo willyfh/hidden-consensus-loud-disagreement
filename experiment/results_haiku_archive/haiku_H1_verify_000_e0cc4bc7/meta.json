@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 0,
   "model": "haiku",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H1_verify_000_e0cc4bc7_of2i826p",
+  "work_dir": "<TMP_DIR>/aml_replicate_haiku_H1_verify_000_e0cc4bc7_of2i826p",
   "started_at": 1786160257.581779,
   "returncode": 143,
   "stdout_tail": "Execution error",

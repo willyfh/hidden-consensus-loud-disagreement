@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 6,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_verify_006_82ac963b_0180yc7o",
+  "work_dir": "<TMP_DIR>/aml_replicate_H4_verify_006_82ac963b_0180yc7o",
   "started_at": 1785883928.451978,
   "returncode": 0,
   "stdout_tail": "I've kicked off the background analysis run and set up monitoring for it. I'll continue once it completes or the scheduled check-in fires \u2014 no further action needed from me right now.\n",

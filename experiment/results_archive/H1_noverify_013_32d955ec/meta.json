@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 13,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_noverify_013_32d955ec_8qsxf8g4",
+  "work_dir": "<TMP_DIR>/aml_replicate_H1_noverify_013_32d955ec_8qsxf8g4",
   "started_at": 1785855901.3447459,
   "returncode": 0,
   "stdout_tail": "Both files are in place and valid JSON.\n\n**Finding:** Model family does meaningfully affect predictive performance on this dataset. Comparing four families (Logistic Regression, KNN, Random Forest, HistGradientBoosting) with identical preprocessing and 5-fold stratified CV on an 80/20 train/test split:\n\n| Model | CV ROC-AUC | Test ROC-AUC |\n|---|---|---|\n| HistGradientBoosting | 0.928 | 0.930 |\n| Random Forest | 0.917 | 0.919 |\n| Logistic Regression | 0.907 | 0.906 |\n| KNN | 0.895 | 0.894 |\n| Dummy (baseline) | 0.500 | 0.500 |\n\nThe best-worst spread among real models (0.033 ROC-AUC) is roughly 7x larger than the largest fold-to-fold standard deviation (0.005), so the gap reflects a genuine model-family effect, not noise. Boosted tree ensembles clearly win; KNN is weakest, with logistic regression in between.\n\nSaved `analysis.py` (full pipeline) and `result.json` (structured finding) to the working directory.\n",

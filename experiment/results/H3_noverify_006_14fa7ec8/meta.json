@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 6,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H3_noverify_006_14fa7ec8_j0mpk2z_",
+  "work_dir": "<TMP_DIR>/aml_replicate_H3_noverify_006_14fa7ec8_j0mpk2z_",
   "started_at": 1785882885.1761081,
   "returncode": 0,
   "stdout_tail": "The analysis ran successfully. Both importance methods agree on the top features.\n\n**Findings**: Using a Random Forest classifier (ROC-AUC = 0.918 on held-out test data, vs. 0.905 for a logistic regression sanity check), permutation importance identifies **marital-status** as the single most important predictor of income, followed by **capital-gain**, **education-num**, **age**, and **occupation**. This ranking is broadly consistent with the impurity-based feature importances (which rank marital-status and relationship highest, with age/education-num/occupation/capital-gain close behind) \u2014 marital-status and relationship status likely serve as strong proxies for career stage and household economic structure in this dataset.\n\nBoth `result.json` and `analysis.py` have been written to the working directory. Key methodological choices: dropped `education` (redundant with `education-num`) and `fnlwgt` (a Census sampling weight, not a real feature); missing categoricals kept as an explicit \"Missing\" category; 80/20 stratified split; permutation importance (not impurity-based) used as the primary measure since it's unbiased by feature cardinality.\n",

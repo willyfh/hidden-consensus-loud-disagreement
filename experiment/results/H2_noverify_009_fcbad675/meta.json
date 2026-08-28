@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 9,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_noverify_009_fcbad675_6cjg80_v",
+  "work_dir": "<TMP_DIR>/aml_replicate_H2_noverify_009_fcbad675_6cjg80_v",
   "started_at": 1785856916.571528,
   "returncode": 0,
   "stdout_tail": "Analysis complete. With identical preprocessing (median/mode imputation, standard scaling on numerics, one-hot encoding on categoricals) and both models at scikit-learn defaults, 5-fold stratified CV gives:\n\n- **Random Forest**: ROC-AUC = 0.9016 (\u00b1 0.0026)\n- **Logistic Regression**: ROC-AUC = 0.9053 (\u00b1 0.0023)\n- **Difference (RF \u2212 LogReg)**: \u22120.0037\n\nSo logistic regression slightly *outperforms* the default random forest here \u2014 the hypothesis that RF > LogReg is **not supported**. This is plausible: the Adult dataset's signal is largely linear/monotonic (age, education, hours, capital gains), and an untuned default RF (unlimited depth, 100 trees) tends to overfit relative to well-scaled logistic regression on this kind of tabular data.\n\n`analysis.py` and `result.json` have been written to the working directory.\n",

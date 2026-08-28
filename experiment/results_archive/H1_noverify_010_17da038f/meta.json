@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 10,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_noverify_010_17da038f_zkogl82h",
+  "work_dir": "<TMP_DIR>/aml_replicate_H1_noverify_010_17da038f_zkogl82h",
   "started_at": 1785855791.693164,
   "returncode": 0,
   "stdout_tail": "**Finding:** Model family does meaningfully affect predictive performance on this dataset \u2014 gradient boosting and random forest both consistently outperform logistic regression.\n\n- 5-fold CV ROC-AUC: Logistic Regression 0.9053, Random Forest 0.9170, Gradient Boosting 0.9204 (spread = 0.015, well above the ~0.003-0.004 fold-to-fold noise level), confirmed on a held-out test set with the same ordering.\n- This indicates real non-linear/interaction structure in the data (e.g., between age, education, hours-per-week, capital-gain) that tree ensembles capture but a linear model doesn't.\n\nBoth `analysis.py` and `result.json` are written to the working directory. Full methodology (encoding, imputation, imbalance handling, hyperparameters, threshold for \"meaningful\") is documented in `result.json`'s `methodological_choices` field.\n",

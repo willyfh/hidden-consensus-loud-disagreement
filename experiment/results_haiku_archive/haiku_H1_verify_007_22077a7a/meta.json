@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 7,
   "model": "haiku",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H1_verify_007_22077a7a_3v94uwb7",
+  "work_dir": "<TMP_DIR>/aml_replicate_haiku_H1_verify_007_22077a7a_3v94uwb7",
   "started_at": 1786139515.96064,
   "returncode": 0,
   "stdout_tail": "Analysis is progressing. Test set results show clear performance differences between model families, with Gradient Boosting leading. Now waiting for cross-validation results to validate stability.\n",

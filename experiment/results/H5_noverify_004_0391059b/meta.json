@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 4,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H5_noverify_004_0391059b__oftm1hg",
+  "work_dir": "<TMP_DIR>/aml_replicate_H5_noverify_004_0391059b__oftm1hg",
   "started_at": 1785884704.969125,
   "returncode": 0,
   "stdout_tail": "**Finding:** SMOTE oversampling does **not** meaningfully change minority-class (>50K) F1 for a default RandomForestClassifier on this dataset. F1 went from 0.6795 (no resampling) to 0.6730 (with SMOTE) \u2014 a difference of **-0.0065**, well under the 0.02 threshold specified in H5.\n\nDetails:\n- 75/25 stratified train/test split; median/most-frequent imputation for missing values (`?` and NaN), one-hot encoding for categoricals, preprocessing fit once and shared across both arms for a fair comparison.\n- SMOTE applied only to the encoded training set (never the test set), balancing the training class counts from 27,866/8,765 to 27,866/27,866.\n- Both arms use `RandomForestClassifier()` with library defaults and the same `random_state=42`.\n\nResults and code are saved to `result.json` and `analysis.py` in the working directory.\n",

@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 6,
   "model": "haiku",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H1_verify_006_3abd3e69_xxx1c3ul",
+  "work_dir": "<TMP_DIR>/aml_replicate_haiku_H1_verify_006_3abd3e69_xxx1c3ul",
   "started_at": 1786139515.96081,
   "returncode": 1,
   "stdout_tail": "You've hit your session limit \u00b7 resets 10:50am (Asia/Seoul)\n",

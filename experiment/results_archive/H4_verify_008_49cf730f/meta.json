@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 8,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_verify_008_49cf730f_8kw9k4ji",
+  "work_dir": "<TMP_DIR>/aml_replicate_H4_verify_008_49cf730f_8kw9k4ji",
   "started_at": 1785937504.5923278,
   "returncode": 0,
   "stdout_tail": "Waiting for the background analysis to finish \u2014 it's training Random Forest across 5 imbalance strategies plus running a 25-fold repeated cross-validation for the stability check, which takes a few minutes on this dataset size.\n",

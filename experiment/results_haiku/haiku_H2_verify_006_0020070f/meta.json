@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 6,
   "model": "haiku",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H2_verify_006_0020070f_ij2ie5ww",
+  "work_dir": "<TMP_DIR>/aml_replicate_haiku_H2_verify_006_0020070f_ij2ie5ww",
   "started_at": 1786137462.764661,
   "returncode": 0,
   "stdout_tail": "## Summary of Findings\n\n**Research Question:** Does Random Forest achieve higher stratified 5-fold cross-validated ROC-AUC than Logistic Regression on the Adult Income dataset?\n\n**Answer: No.** Logistic Regression outperforms Random Forest.\n\n### Key Results:\n- **Logistic Regression ROC-AUC:** 0.9053 (\u00b10.0001 across 5 repeats)\n- **Random Forest ROC-AUC:** 0.9020 (\u00b10.0007 across 5 repeats)\n- **Difference (RF - LR):** -0.0032 (LR is consistently better)\n\n### Validation Stability:\nThe finding is **highly stable and robust**. I validated it using repeated stratified 5-fold cross-validation with 5 different random seeds (42, 123, 456, 789, 999). In all 5 validation runs, Logistic Regression maintained a consistent advantage over Random Forest, with differences ranging from -0.0024 to -0.0043.\n\n### Methodological Choices:\n- **Preprocessing:** One-hot encoding for 8 categorical features, StandardScaler for 6 numerical features\n- **Missing values:** Mode imputation for categorical, median for numerical\n- **Models:** Scikit-learn defaults (RandomForestClassifier with 100 trees, LogisticRegression with lbfgs solver)\n- **Validation:** Stratified 5-fold CV to preserve class balance (target is imbalanced: ~76% \u226450K, ~24% >50K)\n- **Metric:** ROC-AUC, which appropriately handles class imbalance\n\nBoth `analysis.py` and `result.json` have been saved to the current directory.\n",

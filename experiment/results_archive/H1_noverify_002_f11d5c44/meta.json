@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 2,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_noverify_002_f11d5c44_axyl2p69",
+  "work_dir": "<TMP_DIR>/aml_replicate_H1_noverify_002_f11d5c44_axyl2p69",
   "started_at": 1785855465.186851,
   "returncode": 0,
   "stdout_tail": "I'll stop polling and simply wait for the background task's completion notification.\n",

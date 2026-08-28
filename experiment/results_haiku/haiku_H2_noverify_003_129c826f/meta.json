@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 3,
   "model": "haiku",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H2_noverify_003_129c826f_r9tpa6rd",
+  "work_dir": "<TMP_DIR>/aml_replicate_haiku_H2_noverify_003_129c826f_r9tpa6rd",
   "started_at": 1786051173.10431,
   "returncode": 0,
   "stdout_tail": "## Summary\n\nI've completed the analysis comparing Random Forest and Logistic Regression on the Adult Income dataset. Here are the key findings:\n\n**Result: YES, Random Forest achieves significantly higher ROC-AUC than Logistic Regression**\n\n- **Random Forest ROC-AUC**: 0.906681 (\u00b10.002263)\n- **Logistic Regression ROC-AUC**: 0.748006 (\u00b10.008614)\n- **Difference**: 0.158675 (RF outperforms by ~15.9%)\n\n**Methodological approach:**\n- Used scikit-learn defaults for both models (no hyperparameter tuning)\n- Stratified 5-fold cross-validation (reproducible with random_state=42)\n- Label-encoded the 8 categorical features in the dataset\n- No additional preprocessing, scaling, or class weighting\n- Evaluated using ROC-AUC as specified\n\nThe dataset contains 48,842 samples with 14 features (both numeric and categorical). Random Forest's tree-based ensemble approach captures non-linear patterns and feature interactions much more effectively than the linear logistic regression model on this data, resulting in a substantially superior performance.\n\nBoth `result.json` and `analysis.py` have been saved to the current directory.\n",

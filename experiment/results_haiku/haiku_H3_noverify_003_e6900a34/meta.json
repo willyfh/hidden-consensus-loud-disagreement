@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 3,
   "model": "haiku",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H3_noverify_003_e6900a34_qmjtixd9",
+  "work_dir": "<TMP_DIR>/aml_replicate_haiku_H3_noverify_003_e6900a34_qmjtixd9",
   "started_at": 1786137958.7206929,
   "returncode": 0,
   "stdout_tail": "## Analysis Complete\n\nI've successfully investigated which features are most important for predicting income in the Adult dataset. Here's a summary of my findings:\n\n### Key Results:\n- **Most Important Feature**: `relationship` (importance score: 0.239)\n- **Top 3 Features**: relationship, capital-gain, education-num\n- **Model Performance**: Gradient Boosting achieved 87.89% accuracy and 0.9295 ROC-AUC\n\n### Methodology:\n1. **Data**: 48,842 samples with 14 features (6 numeric, 8 categorical)\n2. **Preprocessing**: Handled missing values (filled with mode for categorical, median for numeric), label-encoded all categorical features\n3. **Models**: Trained Random Forest and Gradient Boosting classifiers\n4. **Feature Importance Methods**: Averaged normalized scores from:\n   - Built-in RF feature importance\n   - Built-in GB feature importance  \n   - Permutation importance on test set\n5. **Train/Test Split**: 70-30 stratified split\n\n### Key Finding:\nRelationship status is the single strongest predictor of income >50K, followed closely by capital gains and education level. These three features are substantially more predictive than others in the dataset.\n\nBoth `result.json` and `analysis.py` have been saved to your current directory.\n",

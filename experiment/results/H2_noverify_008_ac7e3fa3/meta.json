@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 8,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_noverify_008_ac7e3fa3_hf6a__st",
+  "work_dir": "<TMP_DIR>/aml_replicate_H2_noverify_008_ac7e3fa3_hf6a__st",
   "started_at": 1785856907.4608572,
   "returncode": 0,
   "stdout_tail": "Both files are in place and the run completed cleanly (aside from an expected `OneHotEncoder` warning for a rare unseen category in one fold, harmlessly encoded as all-zeros).\n\n**Finding:** With default hyperparameters, logistic regression (mean ROC-AUC 0.9066) slightly *outperformed* random forest (mean ROC-AUC 0.9058) across stratified 5-fold CV \u2014 a difference of -0.0008, well within the fold-to-fold noise (std \u2248 0.002). So on this dataset, with no tuning, the two models are essentially tied, and the hypothesis that RF beats LogReg is **not supported**.\n\nKey methodological choices (detailed in `result.json`): dropped `education` (redundant with `education-num`), filled categorical NaNs with an explicit \"Missing\" category, one-hot encoded categoricals + standardized numerics (same pipeline for both models), and used both estimators' pure scikit-learn defaults (only `random_state=42` added for reproducibility).\n",

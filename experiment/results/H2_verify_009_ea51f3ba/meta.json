@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 9,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_verify_009_ea51f3ba_d88c7atx",
+  "work_dir": "<TMP_DIR>/aml_replicate_H2_verify_009_ea51f3ba_d88c7atx",
   "started_at": 1785882525.816472,
   "returncode": 0,
   "stdout_tail": "Both `analysis.py` and `result.json` are written and consistent with the actual measured outcome.\n\n**Finding: No** \u2014 with scikit-learn defaults, logistic regression achieved a higher stratified 5-fold CV ROC-AUC (0.9053) than random forest (0.9016) on this dataset, a small but very consistent gap (~0.0033\u20130.0037). This held up under a stability check of 5\u00d7 repeated 5-fold CV with different seeds: logistic regression won in all 5 repetitions (RF never won), with the diff (RF \u2212 LogReg) tightly ranging from \u22120.0041 to \u22120.0029.\n\nKey methodological notes: missing `?` values in workclass/occupation/native-country were imputed (median for numeric, most-frequent for categorical); numerics were standardized and categoricals one-hot encoded, using the *same* preprocessing pipeline for both models to keep the comparison fair even though RF doesn't strictly need scaling; no class-imbalance correction was applied since ROC-AUC is relatively imbalance-robust and both classifiers used pure defaults per the question.\n",

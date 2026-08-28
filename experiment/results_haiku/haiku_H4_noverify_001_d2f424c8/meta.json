@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 1,
   "model": "haiku",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H4_noverify_001_d2f424c8_08ahsg5p",
+  "work_dir": "<TMP_DIR>/aml_replicate_haiku_H4_noverify_001_d2f424c8_08ahsg5p",
   "started_at": 1786138255.8401752,
   "returncode": 0,
   "stdout_tail": "## Investigation Complete\n\nI've analyzed whether addressing class imbalance improves model quality on the Adult Income dataset. Here's what I found:\n\n**Dataset Overview:**\n- 48,842 samples, 14 features (8 categorical, 6 numeric)\n- Significant class imbalance: 76% negative class (\u226450K), 24% positive class (>50K)\n- Imbalance ratio: 3.18:1\n\n**Methodology:**\n- Stratified 70/30 train-test split with preprocessing (LabelEncoder for categoricals, StandardScaler for numerics)\n- Compared Logistic Regression and Random Forest with/without SMOTE\n- Evaluated on multiple metrics: ROC-AUC, F1-Score, Balanced Accuracy, PR-AUC\n\n**Key Finding: Mixed Results**\n\nThe answer depends on which metric defines \"model quality\":\n\n| Metric | Change | Direction |\n|--------|--------|-----------|\n| **ROC-AUC** (discrimination) | -0.44% | \u274c Worse |\n| **F1-Score** (minority focus) | +3.30% | \u2705 Better |\n| **Balanced Accuracy** | +4.92% | \u2705 Better |\n| **PR-AUC** | -1.63% | \u274c Worse |\n\n**Interpretation:** Addressing class imbalance with SMOTE creates a classic trade-off. It improves recall and balance (good for minority class detection) but sacrifices discrimination ability. Both Logistic Regression and Random Forest showed this pattern.\n\nResults saved to `result.json` and analysis code to `analysis.py`.\n",

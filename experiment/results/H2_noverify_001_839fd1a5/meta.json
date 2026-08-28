@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 1,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_noverify_001_839fd1a5_js_dq5k2",
+  "work_dir": "<TMP_DIR>/aml_replicate_H2_noverify_001_839fd1a5_js_dq5k2",
   "started_at": 1785856804.6676621,
   "returncode": 0,
   "stdout_tail": "Ran successfully. Both `analysis.py` and `result.json` are written to the working directory.\n\n**Finding:** With scikit-learn defaults, logistic regression slightly outperformed random forest \u2014 mean stratified 5-fold CV ROC-AUC of 0.9067 (LogReg) vs 0.9025 (RF), a difference of **-0.0042** (RF \u2212 LogReg). So the answer to H2 is **no** \u2014 default random forest does not achieve higher ROC-AUC than default logistic regression on this dataset; they're close but logistic regression edges it out, likely because default RF (unlimited-depth trees, no tuning) overfits relative to a well-regularized linear model on this fairly linearly-separable, largely categorical dataset.\n\nKey methodological choices: missing categoricals (workclass/occupation/native-country) kept as a \"Missing\" category rather than dropped; one-hot encoding + standard scaling shared by both models for a fair comparison; `LogisticRegression max_iter` raised to 1000 since default 100 didn't converge; no class-weighting despite ~24% positive class, since the question specified sklearn defaults.\n",

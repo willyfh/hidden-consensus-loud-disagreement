@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 5,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_verify_005_025108f1_0xnm7i0d",
+  "work_dir": "<TMP_DIR>/aml_replicate_H1_verify_005_025108f1_0xnm7i0d",
   "started_at": 1785936604.347677,
   "returncode": 0,
   "stdout_tail": "Analysis complete. Summary of findings:\n\n**H1: Does model family meaningfully affect predictive performance?** Yes.\n\n- Compared 5 model families (Logistic Regression, Decision Tree, Random Forest, HistGradientBoosting, kNN) on identical preprocessed features (one-hot encoded categoricals, scaled numerics, rows with missing `?` values dropped, ~45k rows remaining).\n- On an 80/20 stratified held-out split: HistGradientBoosting was best (ROC-AUC 0.926), kNN was worst (0.891); best tree ensemble beat plain Logistic Regression by 0.021 AUC.\n- **Stability check**: 5\u00d75 repeated stratified CV (25 folds, different seed) reproduced the same ranking \u2014 HistGradientBoosting 0.9273 vs. LogisticRegression 0.9045, a gap of 0.0228, more than 3\u00d7 the combined per-model CV noise (0.0037). Finding held up.\n\nConclusion: model family choice produces a modest but consistent and statistically stable effect \u2014 boosted tree ensembles outperform linear and instance-based methods by ~2 AUC points on this dataset, which is a meaningful (if not huge) difference given how tight the CV variance is.\n\nBoth `analysis.py` and `result.json` have been written to the working directory.\n",

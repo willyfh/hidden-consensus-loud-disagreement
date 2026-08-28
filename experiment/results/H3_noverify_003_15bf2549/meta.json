@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 3,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H3_noverify_003_15bf2549_pihfcxjc",
+  "work_dir": "<TMP_DIR>/aml_replicate_H3_noverify_003_15bf2549_pihfcxjc",
   "started_at": 1785882784.962402,
   "returncode": 0,
   "stdout_tail": "The analysis ran cleanly. Both importance methods agree well: `marital-status`, `capital-gain`, `education-num`, `age`, and `occupation` dominate, with `relationship` also high on the impurity-based ranking (it's highly correlated with marital-status, e.g. \"Husband\"/\"Wife\").\n\n**Findings:**\n- Random Forest achieved test ROC-AUC = 0.918 (vs. 0.905 for a Logistic Regression baseline).\n- Top features by permutation importance (ROC-AUC drop, held-out test set): `marital-status` (0.050) > `capital-gain` (0.037) > `education-num` (0.027) > `age` (0.025) > `occupation` (0.022).\n- Consistent story from impurity-based importance, with `relationship` also ranking high there (it overlaps heavily with marital-status).\n- `race`, `native-country`, and `sex` were the least important features by both methods.\n\nBoth `analysis.py` and `result.json` have been written to the working directory.\n",

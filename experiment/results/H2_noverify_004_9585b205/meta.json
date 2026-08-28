@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 4,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_noverify_004_9585b205_4k6wko1p",
+  "work_dir": "<TMP_DIR>/aml_replicate_H2_noverify_004_9585b205_4k6wko1p",
   "started_at": 1785856845.605876,
   "returncode": 0,
   "stdout_tail": "Both `result.json` and `analysis.py` are written to the working directory.\n\n**Finding:** With default hyperparameters and identical one-hot/scaled preprocessing for both models, **logistic regression slightly outperformed random forest** on stratified 5-fold CV ROC-AUC \u2014 LogReg 0.9067 vs. RF 0.9023 (diff = -0.0043, paired t-test p=0.044). This runs counter to the H2 hypothesis: the default (unpruned, un-tuned) random forest tends to overfit on this dataset relative to a well-regularized linear model on high-cardinality one-hot categorical features, so RF does *not* beat logistic regression here.\n",

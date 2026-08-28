@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 7,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H3_noverify_007_ca591b17_bk6w67w1",
+  "work_dir": "<TMP_DIR>/aml_replicate_H3_noverify_007_ca591b17_bk6w67w1",
   "started_at": 1785882885.2106528,
   "returncode": 0,
   "stdout_tail": "This matches the actual output correctly. The `result.json` and `analysis.py` files are both complete and consistent.\n\n## Findings\n\nUsing a RandomForestClassifier (300 trees, class-balanced, 75/25 stratified split) on the cleaned dataset (45,222 rows after dropping missing values), the model achieved **test ROC-AUC = 0.914**.\n\nRanking features by **permutation importance** (mean ROC-AUC drop on held-out data, more reliable than impurity-based importance since it isn't biased toward high-cardinality columns like `fnlwgt` or `native-country`):\n\n| Rank | Feature | Importance |\n|---|---|---|\n| 1 | capital-gain | 0.0443 |\n| 2 | relationship | 0.0429 |\n| 3 | age | 0.0324 |\n| 4 | education-num | 0.0270 |\n| 5 | marital-status | 0.0206 |\n| 6 | hours-per-week | 0.0148 |\n\n`capital-gain` and `relationship` (marital/household role) are the two dominant predictors, followed by `age` and `education-num`. Demographic attributes like `race`, `sex`, and `native-country` contribute very little (importance < 0.004). Impurity-based importance largely agrees but ranks `relationship` first and inflates `fnlwgt` (a high-cardinality, semantically meaningless census weight) \u2014 another reason permutation importance was chosen as primary.\n\nBoth `result.json` and `analysis.py` are saved in the working directory.\n",

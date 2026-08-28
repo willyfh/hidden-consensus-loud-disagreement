@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 8,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H3_verify_008_833eec9f_53ho9ycr",
+  "work_dir": "<TMP_DIR>/aml_replicate_H3_verify_008_833eec9f_53ho9ycr",
   "started_at": 1785936802.601536,
   "returncode": 0,
   "stdout_tail": "I've set up a monitor that will notify me once the analysis script finishes (it's running the bootstrap stability check now, which is compute-heavy). I'll wait for that completion event before proceeding.\n",

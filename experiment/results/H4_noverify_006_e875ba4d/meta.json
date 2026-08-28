@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 6,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_noverify_006_e875ba4d_bdmsawtf",
+  "work_dir": "<TMP_DIR>/aml_replicate_H4_noverify_006_e875ba4d_bdmsawtf",
   "started_at": 1785883679.02829,
   "returncode": 0,
   "stdout_tail": "**Finding (H4):** Addressing class imbalance on this dataset (76%/24%, ~3.2:1) is a threshold/decision-boundary effect, not a genuine model-quality improvement.\n\nTested LogReg and Random Forest under 4 conditions each (baseline, `class_weight='balanced'`, random undersampling, SMOTE), with resampling applied only to training folds:\n\n- **Balanced accuracy** improved consistently (+0.040 to +0.056 across all 6 treatment comparisons, mean +0.051) \u2014 because these techniques shift the decision threshold to give more weight to the minority (`>50K`) class.\n- **ROC-AUC and PR-AUC** (threshold-free ranking quality) were flat-to-slightly-worse for every treatment (mean ROC-AUC change: \u22120.0017; PR-AUC dropped up to \u22120.025 for RF+SMOTE) \u2014 the models aren't actually learning to discriminate the classes any better.\n- Best single treatment was logistic regression + `class_weight='balanced'` (+0.056 balanced accuracy, ROC-AUC essentially unchanged at +0.0003).\n\nSo imbalance handling trades some precision for recall on the minority class rather than raising overall discriminative power. Full code in `analysis.py`, per-run numbers in `imbalance_results.csv`, and the structured answer in `result.json`.\n",

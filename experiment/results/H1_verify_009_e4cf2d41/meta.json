@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 9,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_verify_009_e4cf2d41_dbzgeqih",
+  "work_dir": "<TMP_DIR>/aml_replicate_H1_verify_009_e4cf2d41_dbzgeqih",
   "started_at": 1785856264.553031,
   "returncode": 0,
   "stdout_tail": "## Summary\n\n**Finding:** Model family does affect predictive performance on the Adult Income dataset, but the effect is modest and not always in the \"expected\" direction.\n\nComparing four model families (majority-class dummy baseline, logistic regression, random forest, and HistGradientBoosting) on identical preprocessing (standardized numerics, one-hot encoded categoricals, missing values kept as an explicit \"Missing\" category, redundant `education` and non-predictive `fnlwgt` columns dropped):\n\n| Model | Test AUC | Repeated CV mean AUC |\n|---|---|---|\n| HistGradientBoosting | 0.9297 | 0.9290 |\n| LogisticRegression | 0.9049 | 0.9064 |\n| RandomForest | 0.8979 | 0.8959 |\n| Dummy (baseline) | 0.5000 | 0.5000 |\n\nGradient boosting beats logistic regression by ~0.023\u20130.025 AUC \u2014 small but statistically significant (paired t-test p \u2248 3.6e-29 across 25 repeated CV folds). Interestingly, **random forest underperformed plain logistic regression**, showing that added model complexity doesn't automatically help here.\n\n**Stability check:** Repeated 5\u00d75 stratified cross-validation (25 folds, different seed than the original split) reproduced the exact same model ranking as the single 80/20 test split, and the AUC gap was consistent (0.0248 vs 0.0227). Finding holds up.\n\nResults are saved to `result.json` and the full pipeline to `analysis.py` in the working directory.\n",

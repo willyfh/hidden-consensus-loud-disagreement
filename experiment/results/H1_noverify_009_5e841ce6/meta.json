@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 9,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_noverify_009_5e841ce6__gl4f_or",
+  "work_dir": "<TMP_DIR>/aml_replicate_H1_noverify_009_5e841ce6__gl4f_or",
   "started_at": 1785855784.344977,
   "returncode": 0,
   "stdout_tail": "Both files are in place and match the required structure.\n\n**Finding:** Model family has a real, statistically meaningful effect on predictive performance for this dataset, though the practical magnitude is modest. Comparing Logistic Regression, Random Forest, Gradient Boosting (HistGradientBoostingClassifier), and k-NN via 5-fold CV ROC-AUC:\n\n| Model | CV ROC-AUC |\n|---|---|\n| Gradient Boosting | 0.927 |\n| Logistic Regression | 0.906 |\n| Random Forest | 0.903 |\n| k-NN | 0.895 |\n\nThe spread across families (0.033) is about 10.7x larger than typical fold-to-fold noise (0.003), so the differences aren't just sampling variance \u2014 Gradient Boosting reliably wins. That said, even the weakest model (k-NN, 0.895) isn't far behind, and plain logistic regression is nearly as good as Random Forest, suggesting the underlying relationships are largely captured by linear/additive structure \u2014 model choice matters, but preprocessing/features do a lot of the work already.\n\nCode (`analysis.py`) and results (`result.json`) are saved in the working directory.\n",

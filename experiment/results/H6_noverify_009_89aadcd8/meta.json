@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 9,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H6_noverify_009_89aadcd8_pb5psps8",
+  "work_dir": "<TMP_DIR>/aml_replicate_H6_noverify_009_89aadcd8_pb5psps8",
   "started_at": 1785939032.790881,
   "returncode": 0,
   "stdout_tail": "Both `analysis.py` and `result.json` are saved in the working directory.\n\n**Finding:** The model (HistGradientBoostingClassifier) is well-calibrated. On a held-out 40% test split, the Expected Calibration Error is 0.0073, Max Calibration Error is 0.0336, Brier score is 0.0877, and a calibration-curve regression gives slope \u22481.03 / intercept \u22480.016 (ideal: slope=1, intercept=0) \u2014 predicted probabilities track observed outcome frequencies closely across all 10 probability bins, with only mild overconfidence in the 0.4\u20130.5 and 0.8\u20130.9 bins. A logistic regression baseline showed comparably good calibration (ECE 0.0063), reinforcing the conclusion.\n",

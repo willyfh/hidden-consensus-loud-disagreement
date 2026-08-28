@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 0,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H3_noverify_000_cfc390f1_ea7f6lsz",
+  "work_dir": "<TMP_DIR>/aml_replicate_H3_noverify_000_cfc390f1_ea7f6lsz",
   "started_at": 1785882534.309867,
   "returncode": 0,
   "stdout_tail": "Analysis complete. Both `analysis.py` and `result.json` are written.\n\n**Finding:** Using a Random Forest (test ROC-AUC 0.917) and permutation importance on held-out data (the most cardinality-robust method), `capital-gain` is the single most important predictor of income, followed by `education-num`, `age`, and `marital-status`. Impurity-based importance disagreed (ranking `marital-status`/`relationship` first) \u2014 a known artifact of that method favoring high-cardinality categorical features \u2014 so permutation importance was treated as authoritative. A Logistic Regression cross-check similarly showed one-hot-aggregation artifacts (inflating `native-country`), which I flagged rather than let silently mislead the conclusion.\n",

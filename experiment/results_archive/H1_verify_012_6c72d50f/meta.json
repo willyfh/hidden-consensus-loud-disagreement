@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 12,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H1_verify_012_6c72d50f_eq9z9jdf",
+  "work_dir": "<TMP_DIR>/aml_replicate_H1_verify_012_6c72d50f_eq9z9jdf",
   "started_at": 1785856446.832105,
   "returncode": 0,
   "stdout_tail": "**Finding: yes, model family meaningfully affects predictive performance on this dataset.**\n\nI compared 5 model families (Logistic Regression, Decision Tree, Random Forest, HistGradientBoosting, k-NN) using identical preprocessing (one-hot + scaling) and 5-fold CV ROC-AUC on an 80% train split, confirmed on a 20% held-out test set:\n\n| Model | Test ROC-AUC |\n|---|---|\n| HistGradientBoosting | 0.9297 |\n| LogisticRegression | 0.9049 |\n| DecisionTree | 0.9047 |\n| RandomForest | 0.8973 |\n| KNN | 0.8925 |\n\nBest-vs-worst gap: **0.0372 AUC** (HistGradientBoosting vs KNN).\n\n**Stability check:** 5\u00d75 repeated CV (25 folds, different seed) reproduced the exact same ranking, and a 2000-resample paired bootstrap on the test set gave a 95% CI of (0.033, 0.042) for the gap \u2014 comfortably excluding zero. The finding held up.\n\nOne notable wrinkle worth flagging: untuned Random Forest actually underperformed both Logistic Regression and a single Decision Tree here \u2014 a reminder that \"model family matters\" doesn't mean more complex/ensemble models automatically win without tuning.\n\nFiles written: `analysis.py` and `result.json` in the working directory.\n",

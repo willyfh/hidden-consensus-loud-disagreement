@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 2,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_noverify_002_6e605d87_zmfrkqqj",
+  "work_dir": "<TMP_DIR>/aml_replicate_H2_noverify_002_6e605d87_zmfrkqqj",
   "started_at": 1785856808.243825,
   "returncode": 0,
   "stdout_tail": "Analysis complete. Both `analysis.py` and `result.json` are written to the working directory.\n\n**Finding:** With stratified 5-fold CV ROC-AUC, logistic regression (mean 0.9067) slightly outperformed the default random forest (mean 0.9023) on this dataset \u2014 RF trailed by 0.0043 AUC and only won in 1 of 5 folds. So the hypothesis that RF beats logistic regression is **not supported** with default hyperparameters; on this well-behaved, mostly-linear-separable tabular dataset, logistic regression's regularized linear boundary generalizes slightly better than an unconstrained (default, unpruned) random forest, which likely overfits somewhat without hyperparameter tuning.\n\nKey methodological choices (detailed in `result.json`): missing categorical values imputed as \"Missing\" rather than dropped (kept all 48,842 rows), one-hot encoding for categoricals, scaling only for logistic regression, both `education` and `education-num` kept, no class-weight adjustment for the ~3.2:1 imbalance, and the same CV folds reused for both models for a fair paired comparison.\n",

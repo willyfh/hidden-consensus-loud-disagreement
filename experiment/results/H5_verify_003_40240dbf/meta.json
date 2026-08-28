@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 3,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H5_verify_003_40240dbf_hqfuyn1c",
+  "work_dir": "<TMP_DIR>/aml_replicate_H5_verify_003_40240dbf_hqfuyn1c",
   "started_at": 1785972396.6177769,
   "returncode": 0,
   "stdout_tail": "## Finding\n\n**SMOTE oversampling does not change the >50K F1 score by more than 0.02** \u2014 the answer to H5 is **no**.\n\n- Primary split (75/25 stratified, seed 42): F1 without SMOTE = 0.6816, with SMOTE = 0.6767, diff = **-0.0049**\n- Stability check (5\u00d75-fold repeated CV, 25 folds, seeds 0-4): mean diff = **-0.0027** (sd 0.0045), 95% CI [-0.0044, -0.0009], with the largest single-fold magnitude only -0.0141\n\nThe direction is consistent (SMOTE very slightly *hurts* F1 rather than helping), and the effect never approaches the 0.02 threshold in any fold, so the finding is stable.\n\nKey methodological choices: ordinal-encoded categoricals, missing values filled as an explicit \"Missing\" category, default-hyperparameter RF and SMOTE, F1 on the positive (>50K) class only, resampling applied only to training folds.\n\nFiles written: `analysis.py` and `result.json` in the working directory.\n",

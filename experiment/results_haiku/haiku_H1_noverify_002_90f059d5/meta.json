@@ -4,7 +4,7 @@
   "verify_arm": false,
   "replicate_idx": 2,
   "model": "haiku",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_haiku_H1_noverify_002_90f059d5_g4q72hom",
+  "work_dir": "<TMP_DIR>/aml_replicate_haiku_H1_noverify_002_90f059d5_g4q72hom",
   "started_at": 1786050766.172708,
   "returncode": 0,
   "stdout_tail": "Perfect! The analysis is complete. Here's a summary of the findings:\n\n## Key Results\n\n**H1: Does model family choice meaningfully affect predictive performance?**\n\n**Answer: YES, decisively.**\n\n### Primary Finding\n- **ROC-AUC ranges from 0.8303 to 0.9286** \u2014 a difference of **0.0983** (nearly 10 percentage points)\n- **11.23% relative variation** across model families\n\n### Model Performance Rankings (by ROC-AUC)\n1. **Gradient Boosting: 0.9286** \u2190 Best\n2. **Random Forest: 0.9176**\n3. **SVM (RBF): 0.8615**\n4. **Naive Bayes: 0.8594**\n5. **Logistic Regression: 0.8569**\n6. **Decision Tree: 0.8303** \u2190 Worst\n\n### Key Pattern\nTree-based ensemble models (Random Forest, Gradient Boosting) substantially outperform linear models (Logistic Regression) and simpler approaches. The ~11 percentage point advantage of Gradient Boosting over Decision Tree is a meaningful, practically significant effect.\n\n### Methodology\n- Data: 48,842 samples, 80-20 stratified train-test split\n- Features: 5 numeric + 9 categorical (encoded with LabelEncoder, scaled for linear models)\n- Missing values: Handled via mode imputation (~2,800 rows affected)\n- Evaluation: Primary metric = ROC-AUC; also computed Accuracy, F1, Precision, Recall\n\nBoth `result.json` and `analysis.py` have been saved to the current directory.\n",

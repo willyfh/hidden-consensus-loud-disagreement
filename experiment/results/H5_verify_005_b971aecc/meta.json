@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 5,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H5_verify_005_b971aecc_d99rrosx",
+  "work_dir": "<TMP_DIR>/aml_replicate_H5_verify_005_b971aecc_d99rrosx",
   "started_at": 1785970501.061408,
   "returncode": 0,
   "stdout_tail": "**Finding: SMOTE does not meaningfully change minority-class F1.**\n\n- Primary single-split test (75/25, stratified): F1 without SMOTE = 0.6747, F1 with SMOTE = 0.6805, difference = +0.0058 \u2014 well under the 0.02 threshold.\n- Stability check (20 folds via 4x repeated stratified 5-fold CV, varied seeds): mean difference = +0.0009, 95% CI [-0.0007, 0.0026], with per-fold differences ranging from -0.008 to +0.009 and flipping sign \u2014 confirming the effect is negligible and not even consistently directional.\n\nConclusion: for a default `RandomForestClassifier()` on this dataset, SMOTE oversampling has no practically significant effect on >50K F1 \u2014 the observed differences are an order of magnitude below the 0.02 threshold specified in H5.\n\nFiles written: `analysis.py` (full code) and `result.json` (structured findings) in the working directory.\n",

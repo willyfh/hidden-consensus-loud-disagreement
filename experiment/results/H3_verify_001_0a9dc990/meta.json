@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 1,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H3_verify_001_0a9dc990_v8yqt99y",
+  "work_dir": "<TMP_DIR>/aml_replicate_H3_verify_001_0a9dc990_v8yqt99y",
   "started_at": 1785882934.272929,
   "returncode": 0,
   "stdout_tail": "## Findings\n\nTrained a Random Forest classifier (300 trees, class-weight balanced, 70/30 stratified split) on the Adult Census dataset, using permutation importance on held-out test data as the primary importance method (more reliable than impurity-based importance since it isn't biased toward high-cardinality categoricals).\n\n**Result:** `marital-status` is the single most important feature for predicting income class, followed by `capital-gain`, `education-num`, and `age`. Model achieved test ROC-AUC of 0.918 (vs. 0.906 for a logistic regression baseline).\n\n**Stability check:** Re-ran permutation importance across 5 independently reseeded train/test splits (fresh model refit each time) \u2014 `marital-status` ranked #1 in every single run, with importance values tightly clustered (0.0429\u20130.0452 across 6 total runs). 5-fold CV ROC-AUC was 0.918 \u00b1 0.002, confirming the model itself is stable. The finding held up robustly.\n\nBoth `result.json` and `analysis.py` are saved in the working directory. Note: `marital-status` and `relationship` are correlated proxies (e.g., \"Husband\"/\"Wife\" values encode both marital status and being in a two-earner household), so this likely reflects household-income structure rather than marriage causing higher income per se \u2014 worth keeping in mind when interpreting the result.\n",

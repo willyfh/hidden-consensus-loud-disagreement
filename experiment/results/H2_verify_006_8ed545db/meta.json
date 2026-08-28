@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 6,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_verify_006_8ed545db_7sslzh2i",
+  "work_dir": "<TMP_DIR>/aml_replicate_H2_verify_006_8ed545db_7sslzh2i",
   "started_at": 1785882427.970881,
   "returncode": 0,
   "stdout_tail": "Both `analysis.py` and `result.json` are now saved in the working directory and consistent with the actual results.\n\n**Finding:** Contrary to the hypothesis, logistic regression edged out the random forest \u2014 LogReg mean ROC-AUC \u2248 0.907 vs RF \u2248 0.902 (diff = -0.0043) under default hyperparameters and identical preprocessing (one-hot categoricals, scaled numerics, missing categoricals imputed as \"Missing\"). Verified with 5\u00d75 repeated stratified CV (25 folds, different seed): LogReg beat RF in **all 25 folds**, with a stable gap (mean diff -0.0045, range -0.0094 to -0.0009) \u2014 so the finding held up robustly, just in the opposite direction from what H2 proposed.\n",

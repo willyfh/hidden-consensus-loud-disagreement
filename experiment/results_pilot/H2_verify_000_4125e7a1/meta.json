@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 0,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_verify_000_4125e7a1__2cbbqxe",
+  "work_dir": "<TMP_DIR>/aml_replicate_H2_verify_000_4125e7a1__2cbbqxe",
   "started_at": 1785855111.434853,
   "returncode": 0,
   "stdout_tail": "This is correct and complete. Both `result.json` and `analysis.py` are saved in the current directory.\n\n## Finding\n\n**No** \u2014 with scikit-learn defaults, `RandomForestClassifier` does *not* outperform `LogisticRegression` on this dataset. In fact `LogisticRegression` was slightly but consistently *ahead*:\n\n- Primary 5-fold CV: RF = 0.9049 AUC, LogReg = 0.9066 AUC (diff = **-0.0017**, RF lost on 5/5 folds)\n- Stability check (5\u00d75 repeated CV, different seed): RF = 0.9047, LogReg = 0.9065 (diff = -0.0018), 95% CI on the paired difference **[-0.0025, -0.0010]** \u2014 entirely below zero, RF only won 6/25 splits.\n\nKey methodological choices: dropped the redundant `education` string column (it's a 1:1 encoding of `education-num`), kept rows with missing categoricals by encoding them as `\"Unknown\"`, standardized numeric features + one-hot encoded categoricals in a shared pipeline for both models, and used default hyperparameters for both classifiers as the question specified (including LogReg's default `max_iter=100`, which triggers convergence warnings but wasn't tuned away, per the \"defaults\" constraint).\n\nThe gap is small in absolute terms (~0.2 AUC points) but very stable across two independent CV runs with different random seeds, so the direction of the finding (LogReg \u2265 RF here) is trustworthy given these modeling choices.\n",

@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 4,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H2_verify_004_267a69aa_l7_99_3z",
+  "work_dir": "<TMP_DIR>/aml_replicate_H2_verify_004_267a69aa_l7_99_3z",
   "started_at": 1785882010.601706,
   "returncode": 0,
   "stdout_tail": "**Finding: LogisticRegression outperformed RandomForestClassifier, not the other way around.**\n\nUsing stratified 5-fold CV ROC-AUC on the Adult Income dataset (with standard preprocessing: median/mode imputation, scaling for numeric features, one-hot encoding for categoricals \u2014 `fnlwgt` and `education` dropped as non-predictive/redundant):\n\n- **LogReg: 0.9048** vs **RF: 0.8938** (RF \u2212 LogReg = **\u22120.011**)\n- Verified with 5\u00d7 repeated 5-fold CV (25 folds total, different seed): RF lost in **all 25/25** folds, mean diff \u22120.0116, 95% range [\u22120.0173, \u22120.0056] \u2014 entirely below zero.\n\nSo the answer to H2 is **no** \u2014 default RandomForestClassifier does *not* beat default LogisticRegression here; the reverse holds, consistently and with a fairly tight margin. This makes sense given the dataset: it's mostly linearly-separable-ish tabular census data where an unregularized, untuned default RF (100 trees, no depth limit) tends to overfit relative to a well-scaled linear model with default L2 regularization.\n\nBoth `analysis.py` and `result.json` are written to the working directory.\n",

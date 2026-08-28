@@ -4,7 +4,7 @@
   "verify_arm": true,
   "replicate_idx": 9,
   "model": "sonnet",
-  "work_dir": "/var/folders/fk/hh0m34tj4ns74mx0mfx_hhr40000gn/T/aml_replicate_H4_verify_009_5df75827_gbhy7ozv",
+  "work_dir": "<TMP_DIR>/aml_replicate_H4_verify_009_5df75827_gbhy7ozv",
   "started_at": 1785884491.594443,
   "returncode": 0,
   "stdout_tail": "The analysis is complete. `analysis.py` and `result.json` are saved in the working directory (I also left a `full_results.json` with the complete metrics table for reference).\n\n**Finding:** On this dataset (moderate ~76/24 imbalance), addressing class imbalance does **not** improve overall model quality \u2014 it mainly shifts the decision threshold. Tested Logistic Regression and Random Forest, each with four strategies (baseline, `class_weight='balanced'`, random oversampling, SMOTE):\n\n- **ROC-AUC**: essentially unchanged (imbalance handling is a ranking-neutral operation) \u2014 even slightly lower with rebalancing.\n- **Macro-F1** (the balanced \"overall quality\" metric): consistently *lower* with any imbalance-handling strategy \u2014 RF baseline 0.800 vs. class-weighted 0.786 in CV; confirmed on held-out test (0.803 vs. 0.788).\n- **Minority-class recall**: jumps dramatically (0.62 \u2192 0.84), but **minority-class precision collapses** (0.78 \u2192 0.60) \u2014 a threshold trade-off, not a quality gain.\n\n**Stability check:** 5\u00d75 repeated stratified CV (25 folds, new seed) showed macro-F1 was lower with class-weighting in **100% of folds** (mean diff \u22120.0102, 95% CI [\u22120.0116, \u22120.0088], never crossing zero), and this replicated on an independently held-out test split. The finding is robust.\n",
