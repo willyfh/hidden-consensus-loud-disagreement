@@ -1,0 +1,212 @@
+{
+  "run_id": "opus_H1_noverify_007_acba550a",
+  "hypothesis_id": "H1",
+  "verify_arm": false,
+  "replicate_idx": 7,
+  "model": "opus",
+  "work_dir": "<TMP_DIR>/aml_replicate_opus_H1_noverify_007_acba550a_szxnwp67",
+  "started_at": 1788259622.818547,
+  "returncode": 143,
+  "stdout_tail": "Execution error",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1788260369.9401531,
+  "wall_clock_seconds": 747.1216061115265,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H1",
+    "summary": "Yes, but modestly. Across eight model families tuned identically, test ROC-AUC ranges from 0.862 (Gaussian NB) to 0.925 (Gradient Boosting (HistGB)); gradient boosting beats regularised logistic regression by 0.0225 AUC (95% bootstrap CI [0.0194, 0.0258]), a statistically unambiguous but small gap. Among mainstream families the spread is only 0.030 AUC, i.e. ~7% of the above-chance signal, so family choice matters far less than the fact that any competent model is used at all.",
+    "primary_metric_name": "Test ROC-AUC difference (Gradient Boosting (HistGB) - Logistic Regression)",
+    "primary_metric_value": 0.0225,
+    "direction": "GB > RF > MLP > LogReg > kNN >> Tree > NB; boosting wins but margin is small",
+    "methodological_choices": "Dropped 52 exact duplicate rows before splitting to avoid train/test leakage; dropped fnlwgt (census sampling weight, not a person-level predictor) while keeping the redundant education/education-num pair. Missing values in workclass/occupation/native-country encoded as an explicit 'Missing' category rather than imputed. Two encoding branches: one-hot (min_frequency=10) plus standardisation for LogReg/kNN/MLP/GaussianNB, ordinal integer codes for Tree/RF/HistGB (HistGB told which columns are categorical). Single stratified 80/20 holdout; hyperparameters chosen by 5-fold stratified CV on the training split only, with a small grid per family (LogReg C; kNN k/weights; tree depth and leaf size; RF min_samples_leaf/max_features with 500 trees; HistGB learning rate/leaves/L2 with early stopping; MLP alpha on one 64-unit hidden layer). Primary metric ROC-AUC (threshold-free, so the 76/24 imbalance is handled by the metric rather than by resampling or class weights); PR-AUC, accuracy, F1 at a fixed 0.5 threshold and Brier score reported alongside. Uncertainty from a 2000-replicate paired bootstrap of the test set against logistic regression as reference, rather than repeated-CV paired t-tests. Practical significance judged by expressing the between-family AUC spread as a fraction of the best model's above-chance AUC. Alternatives another researcher might pick: keeping fnlwgt or using it as a sample weight, repeated nested CV instead of a single holdout, accuracy or F1 as the headline metric, target/CatBoost-style encoding, XGBoost/LightGBM, or wider grids.",
+    "detail": {
+      "n_rows_used": 48790,
+      "positive_rate": 0.23941381430621028,
+      "per_model": {
+        "Baseline (majority)": {
+          "cv_auc_mean": 0.5,
+          "cv_auc_std": 0.0,
+          "test_auc": 0.5,
+          "test_pr_auc": 0.23939331830293092,
+          "test_acc": 0.760606681697069,
+          "test_f1": 0.0,
+          "test_brier": 0.18208415811122716,
+          "best_params": {}
+        },
+        "Gaussian NB": {
+          "cv_auc_mean": 0.8657218867417266,
+          "cv_auc_std": 0.0020192694556057673,
+          "test_auc": 0.8615692817170723,
+          "test_pr_auc": 0.6500429277178011,
+          "test_acc": 0.7323221971715516,
+          "test_f1": 0.6109621686029193,
+          "test_brier": 0.25976175699139814,
+          "best_params": {
+            "clf__var_smoothing": "0.001"
+          },
+          "bootstrap": {
+            "auc_ci": [
+              0.8528647439034531,
+              0.8702277740446532
+            ],
+            "diff_vs_logreg": -0.04127166923641893,
+            "diff_ci": [
+              -0.04691034904346245,
+              -0.03579539573371199
+            ]
+          }
+        },
+        "Logistic Regression": {
+          "cv_auc_mean": 0.9072206569453382,
+          "cv_auc_std": 0.0014968487326364078,
+          "test_auc": 0.9028102021295444,
+          "test_pr_auc": 0.7573766186153688,
+          "test_acc": 0.8487394957983193,
+          "test_f1": 0.6517225106182162,
+          "test_brier": 0.10376665523205089,
+          "best_params": {
+            "clf__C": "0.3"
+          },
+          "bootstrap": {
+            "auc_ci": [
+              0.8964163065781262,
+              0.9090694392991239
+            ],
+            "diff_vs_logreg": 0.0,
+            "diff_ci": [
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "k-NN": {
+          "cv_auc_mean": 0.8992547042882221,
+          "cv_auc_std": 0.0005932325345573352,
+          "test_auc": 0.8948777041505631,
+          "test_pr_auc": 0.7308481499854441,
+          "test_acc": 0.8393113342898135,
+          "test_f1": 0.6367006487488415,
+          "test_brier": 0.10836251508733574,
+          "best_params": {
+            "clf__n_neighbors": "75",
+            "clf__weights": "uniform"
+          },
+          "bootstrap": {
+            "auc_ci": [
+              0.8880952544486806,
+              0.901368099113668
+            ],
+            "diff_vs_logreg": -0.007961239768606385,
+            "diff_ci": [
+              -0.01102948061308048,
+              -0.004837390902515724
+            ]
+          }
+        },
+        "Decision Tree": {
+          "cv_auc_mean": 0.9055568769137918,
+          "cv_auc_std": 0.004116146146108965,
+          "test_auc": 0.9028707634743802,
+          "test_pr_auc": 0.7662846478093402,
+          "test_acc": 0.8496618159458905,
+          "test_f1": 0.6521223618686269,
+          "test_brier": 0.10222028414608587,
+          "best_params": {
+            "clf__max_depth": "10",
+            "clf__min_samples_leaf": "50"
+          },
+          "bootstrap": {
+            "auc_ci": [
+              0.8963040112276839,
+              0.9093309411611051
+            ],
+            "diff_vs_logreg": 8.096021712360413e-05,
+            "diff_ci": [
+              -0.003877262002417192,
+              0.004076471750599793
+            ]
+          }
+        },
+        "Random Forest": {
+          "cv_auc_mean": 0.9187583864665925,
+          "cv_auc_std": 0.0019514103720390061,
+          "test_auc": 0.9154941701919137,
+          "test_pr_auc": 0.800426975882062,
+          "test_acc": 0.8638040582086494,
+          "test_f1": 0.684248039914469,
+          "test_brier": 0.09556525372717846,
+          "best_params": {
+            "clf__max_features": "sqrt",
+            "clf__min_samples_leaf": "5"
+          },
+          "bootstrap": {
+            "auc_ci": [
+              0.9095538046890419,
+              0.9214703719010499
+            ],
+            "diff_vs_logreg": 0.012705375288346973,
+            "diff_ci": [
+              0.009700005880480566,
+              0.015640023250653643
+            ]
+          }
+        },
+        "Gradient Boosting (HistGB)": {
+          "cv_auc_mean": 0.9290265524439864,
+          "cv_auc_std": 0.0016406437149960166,
+          "test_auc": 0.9253363404059757,
+          "test_pr_auc": 0.8187996930178641,
+          "test_acc": 0.869133019061283,
+          "test_f1": 0.7047398843930636,
+          "test_brier": 0.09044441830580892,
+          "best_params": {
+            "clf__l2_regularization": "1.0",
+            "clf__learning_rate": "0.1",
+            "clf__max_leaf_nodes": "31"
+          },
+          "bootstrap": {
+            "auc_ci": [
+              0.9198929146721858,
+              0.9305104466274041
+            ],
+            "diff_vs_logreg": 0.022531933926205432,
+            "diff_ci": [
+              0.019438078752009803,
+              0.02577667553645928
+            ]
+          }
+        },
+        "MLP (1x64)": {
+          "cv_auc_mean": 0.9130858624636385,
+          "cv_auc_std": 0.0019071719275568452,
+          "test_auc": 0.9087491071527447,
+          "test_pr_auc": 0.7692087541471555,
+          "test_acc": 0.8517114162738266,
+          "test_f1": 0.6675855731679302,
+          "test_brier": 0.10109895693402117,
+          "best_params": {
+            "clf__alpha": "0.01"
+          },
+          "bootstrap": {
+            "auc_ci": [
+              0.9027387962388709,
+              0.9148410434931115
+            ],
+            "diff_vs_logreg": 0.005962710037493488,
+            "diff_ci": [
+              0.0034036397423951427,
+              0.008444679811892753
+            ]
+          }
+        }
+      },
+      "spread_all_families_auc": 0.06376705868890342,
+      "spread_mainstream_auc": 0.030458636255412563,
+      "best_model": "Gradient Boosting (HistGB)",
+      "worst_model": "Gaussian NB",
+      "cv_fold_sd_of_best": 0.0016406437149960166
+    }
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "run_id": "opus_H2_noverify_001_2eb3066b",
+  "hypothesis_id": "H2",
+  "verify_arm": false,
+  "replicate_idx": 1,
+  "model": "opus",
+  "work_dir": "<TMP_DIR>/aml_replicate_opus_H2_noverify_001_2eb3066b_49dcrj2w",
+  "started_at": 1788138529.066494,
+  "returncode": 0,
+  "stdout_tail": "Both files are written. Finding:\n\n## Answer: No \u2014 RF does not beat LogReg here\n\n| Model (sklearn defaults) | Mean 5-fold ROC-AUC | SD |\n|---|---|---|\n| LogisticRegression() | **0.9067** | 0.0027 |\n| RandomForestClassifier() | 0.9023 | 0.0023 |\n| **Difference (RF \u2212 LogReg)** | **\u22120.0043** | LogReg ahead in 4/5 folds, paired t p=0.044 |\n\n**What I did:** identical pipelines feeding both models \u2014 median imputation + `StandardScaler` on the 6 numerics, one-hot on the 8 categoricals with NaN/`?` kept as an explicit `Missing` level (missingness in `workclass`/`occupation` is plausibly informative). `StratifiedKFold(5, shuffle=True, random_state=42)`, same folds for both, `scoring='roc_auc'`. Class imbalance (24% positive) left alone since ROC-AUC is threshold-free.\n\n**The caveats that matter more than the p-value:**\n\n- **The gap is trivially small.** 0.4 points of AUC. I'd call these two near-equivalent rather than declare a winner.\n- **It's encoding-dependent.** Give the forest ordinal-encoded categoricals instead of one-hot (arguably the more natural choice for trees) and it hits 0.9065 \u2014 a dead tie with LR. The \"LogReg wins\" result rides on a preprocessing choice, not on model class.\n- **Scaling is load-bearing for the comparison.** Unscaled, default `LogisticRegression` hits its 100-iteration cap, fails to converge, and collapses to 0.655 AUC \u2014 at which point RF \"wins\" by +0.247. A researcher who skipped scaling would have reported the opposite conclusion with a huge effect size. This is the single choice most likely to flip the finding.\n- **n=5 folds.** The p=0.044 is indicative only; I wouldn't lean on it.\n- Seed variation in the RF is small (spread 0.0012 across 5 seeds), so the un-seeded `RandomForestClassifier()` in the question is stable enough that the seed isn't driving this.\n\nOne incidental oddity worth flagging: dropping `fnlwgt` (a census sampling weight, not really a legitimate predictor) *hurts* the RF noticeably (0.9023 \u2192 0.8913) while leaving LR untouched \u2014 the forest appears to be extracting something from a column that shouldn't carry signal, which is a mild point against trusting its headline number.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1788138774.745677,
+  "wall_clock_seconds": 245.67918300628662,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H2",
+    "summary": "No -- default RandomForestClassifier does not beat default LogisticRegression here. Under stratified 5-fold CV the forest averages ROC-AUC 0.9023 against 0.9067 for logistic regression, a difference of -0.0043 (RF - LogReg) with LogReg ahead in 4 of 5 folds (paired t-test p=0.0438). The gap is tiny -- under half a point of AUC, and it vanishes entirely if the forest's categoricals are ordinal- rather than one-hot-encoded (0.9065, effectively a tie) -- so the honest reading is that the two models are near-equivalent on this dataset, with no default-settings advantage for the random forest.",
+    "primary_metric_name": "Mean ROC-AUC difference (RF - LogReg), stratified 5-fold CV",
+    "primary_metric_value": -0.00434,
+    "direction": "RF < LogReg",
+    "methodological_choices": "Estimators left at scikit-learn defaults as specified (RandomForestClassifier with random_state=42 fixed for reproducibility; LogisticRegression with default lbfgs, C=1.0, max_iter=100). Preprocessing was my call and is where another researcher would most plausibly diverge: identical pipelines for both models, with median imputation + StandardScaler on the 6 numeric columns and one-hot encoding (handle_unknown='ignore') on the 8 categoricals, with NaN/'?' treated as an explicit 'Missing' level rather than mode-imputed. Scaling numerics matters: without it, default LogisticRegression hits its 100-iteration cap and does not converge. All 14 predictors kept, including fnlwgt (a census sampling weight, arguably not a legitimate feature) and the redundant education/education-num pair; the 52 exact duplicate rows were kept. Validation: StratifiedKFold(n_splits=5, shuffle=True, random_state=42), identical folds for both models, scoring='roc_auc'; class imbalance (24% positive) left unhandled since ROC-AUC is threshold-free and both models saw the same data. Significance from a paired t-test on the 5 fold-wise deltas (n=5, so treat the p-value as indicative only). Sensitivity analyses varied encoding (ordinal for the RF), scaling (unscaled LR), the fnlwgt column, and the RF seed.",
+    "supporting_detail": {
+      "rf_mean_roc_auc": 0.902325197499844,
+      "rf_std_roc_auc": 0.002278762849918873,
+      "lr_mean_roc_auc": 0.9066647926135415,
+      "lr_std_roc_auc": 0.0026974439438483275,
+      "rf_fold_scores": [
+        0.8997840008316028,
+        0.9039745067221805,
+        0.9049961111344322,
+        0.9026350368044402,
+        0.9002363320065642
+      ],
+      "lr_fold_scores": [
+        0.9039982783150464,
+        0.907511121133936,
+        0.904309031191368,
+        0.9106248460015568,
+        0.9068806864258007
+      ],
+      "fold_differences": [
+        -0.004214277483443607,
+        -0.0035366144117554565,
+        0.0006870799430642727,
+        -0.00798980919711656,
+        -0.006644354419236498
+      ],
+      "folds_won_by_rf": 1,
+      "paired_t_stat": -2.907183880931414,
+      "paired_p_value": 0.04380148874377795,
+      "n_rows": 48842,
+      "positive_class_prevalence": 0.23928176569346055,
+      "sensitivity": {
+        "lr_unscaled_mean_auc": 0.6552513300162257,
+        "lr_unscaled_converged": false,
+        "diff_vs_rf_lr_unscaled": 0.24707386748361826,
+        "rf_ordinal_mean_auc": 0.9064809253703399,
+        "diff_rf_ordinal_minus_lr": -0.00018386724320162973,
+        "rf_no_fnlwgt_mean_auc": 0.8913033594913825,
+        "lr_no_fnlwgt_mean_auc": 0.9064664757354739,
+        "diff_no_fnlwgt": -0.01516311624409139,
+        "rf_seed_means": [
+          0.9031189576247787,
+          0.9019431694880133,
+          0.9024271406971408,
+          0.9028165016237677,
+          0.9021539419210811
+        ],
+        "rf_seed_spread": 0.0011757881367653322
+      }
+    }
+  }
+}

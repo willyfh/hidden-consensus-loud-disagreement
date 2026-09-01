@@ -1,0 +1,27 @@
+{
+  "run_id": "opus_H5_verify_000_17866649",
+  "hypothesis_id": "H5",
+  "verify_arm": true,
+  "replicate_idx": 0,
+  "model": "opus",
+  "work_dir": "<TMP_DIR>/aml_replicate_opus_H5_verify_000_17866649_l456qjr7",
+  "started_at": 1788138133.6855638,
+  "returncode": 0,
+  "stdout_tail": "Analysis complete. Both files are written.\n\n## Finding: **No** \u2014 SMOTE does not change >50K F1 by more than 0.02\n\n**Primary metric: F1(>50K) difference (SMOTE \u2212 none) = \u22120.0030** (mean over 5\u00d75 repeated stratified CV), i.e. an order of magnitude smaller than the 0.02 threshold, and slightly *negative*.\n\n| | no resampling | SMOTE | diff |\n|---|---|---|---|\n| CV mean F1 (25 folds) | 0.6620 | 0.6590 | **\u22120.0030** (95% CI \u22120.0046, \u22120.0014) |\n| Held-out test F1 | 0.6728 | 0.6687 | \u22120.0041 (boot. CI \u22120.0126, +0.0022) |\n| Test precision | 0.731 | 0.698 | \u22120.033 |\n| Test recall | 0.623 | 0.642 | +0.018 |\n| Test PR-AUC | 0.754 | 0.738 | \u22120.017 |\n\nThe mechanism is visible in the components: SMOTE buys ~1.8 points of recall at the cost of ~3.3 points of precision, and the two nearly cancel in F1. Notably PR-AUC *drops*, so SMOTE isn't improving the underlying ranking here \u2014 it mostly shifts the operating point.\n\n**Stability check (the finding held).** 5\u00d75 repeated stratified 5-fold CV with RF/SMOTE seeds varied per fold: **0 of 25 folds** had |diff| > 0.02 (range \u22120.0093 to +0.0056). An independent 80/20 stratified held-out split, not used for the CV conclusion, gave \u22120.0041 with a 10,000-resample paired bootstrap CI of [\u22120.0126, +0.0022] and P(|diff| > 0.02) = 0.000. The CV CI excludes zero, so the small degradation is statistically real but practically negligible.\n\n**Sensitivity.** SMOTENC (categorical-aware, avoiding interpolation in one-hot space) gave \u22120.0022, and comparing each model at its own F1-optimal threshold gave \u22120.0034 \u2014 both well inside 0.02, so the conclusion isn't an artifact of the one-hot-SMOTE choice or of the fixed 0.5 threshold.\n\n**Judgment calls another researcher might make differently:** dropping `fnlwgt` (a survey weight) and `education` (duplicate of `education-num`); encoding missing categoricals as a `Missing` level rather than dropping ~7% of rows; vanilla SMOTE to full 1:1 balance in one-hot space as the primary spec; and F1 at the default 0.5 threshold as the metric. RF was left at defaults as the hypothesis requires (100 unbounded trees, no `class_weight`) \u2014 with `max_depth` constrained, resampling tends to matter more, so this result is specific to the fully-grown-forest setting.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1788138300.999552,
+  "wall_clock_seconds": 167.31398820877075,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H5",
+    "summary": "No. With a default RandomForestClassifier on the Adult data, SMOTE oversampling of the training set changes minority-class (>50K) F1 by only -0.0030 (5x5 repeated stratified CV; 95% CI [-0.0046, -0.0014]), and by -0.0041 on an independent 20% held-out test split. The effect is a small loss well inside the 0.02 threshold: SMOTE trades precision for recall (recall 0.623 -> 0.642, precision 0.731 -> 0.698) with the two roughly cancelling in F1.",
+    "primary_metric_name": "Minority-class (>50K) F1 difference (SMOTE - no resampling), default RandomForestClassifier",
+    "primary_metric_value": -0.003,
+    "direction": "No meaningful change (|diff| < 0.02); SMOTE decreases F1 by 0.003",
+    "methodological_choices": "Dropped fnlwgt (census sampling weight, not a person-level predictor) and education (exact duplicate of ordinal education-num); kept all other 12 features. Missing workclass/occupation/native-country encoded as an explicit 'Missing' level instead of dropping rows. One-hot encoding of categoricals (handle_unknown='ignore'), numerics passed through unscaled (trees are scale-invariant). Vanilla SMOTE (k_neighbors=5, sampling_strategy='auto' -> full 1:1 balance) applied in the one-hot space inside the pipeline, fit on training data only; SMOTENC (categorical-aware) run as a sensitivity check and agreed (diff -0.0022). RandomForestClassifier left at defaults (100 trees, no depth limit, no class_weight) per the hypothesis; only random_state varied. Metric is positive-class F1 at the default 0.5 decision threshold. Primary estimate is the mean paired difference over 5x5 repeated stratified CV; a single stratified 80/20 split served as an independent held-out re-test. Another researcher might have used SMOTENC as primary, tuned the decision threshold, kept fnlwgt/education, or evaluated on a single split only.",
+    "verification_method": "(1) 5x5 repeated stratified 5-fold CV (25 paired folds, RF and SMOTE seeds varied per fold) with a 10,000-resample bootstrap CI over fold differences; (2) an independent stratified 20% held-out test split with a 10,000-resample paired bootstrap CI over test rows; (3) sensitivity to SMOTENC and to threshold optimisation.",
+    "verification_result": "Held up. Repeated CV mean paired diff -0.0030, 95% CI [-0.0046, -0.0014]; 0/25 individual folds exceeded |0.02|. Held-out test diff -0.0041, bootstrap 95% CI [-0.0126, +0.0022], P(|diff|>0.02)=0.000. SMOTENC diff -0.0022 and threshold-optimised diff -0.0034 were likewise below 0.02. Conclusion 'change <= 0.02' is stable; answer to H5 is 'no'."
+  }
+}

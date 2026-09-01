@@ -1,0 +1,43 @@
+{
+  "hypothesis_id": "H1",
+  "summary": "Yes, but modestly. Across seven model families the held-out ROC-AUC spans 0.863 (Gaussian naive Bayes) to 0.932 (histogram gradient boosting) - a 0.069 spread, roughly 25x the within-model fold-to-fold noise, so family choice is real and statistically unambiguous. The effect is nonetheless bounded: every family except naive Bayes and k-NN lands in a narrow 0.908-0.932 band, and gradient boosting beats a plain L2 logistic regression by only 0.023 AUC (0.932 vs 0.908), so the practical payoff from picking the best family over a competent linear baseline is a couple of AUC points, not a difference in kind.",
+  "primary_metric_name": "Held-out ROC-AUC spread across model families (best - worst: HistGradientBoosting - GaussianNB)",
+  "primary_metric_value": 0.069,
+  "direction": "Model family matters but with a modest ceiling: HistGradientBoosting > RandomForest > MLP > LogReg ~= DecisionTree > k-NN > GaussianNB; boosting beats logistic regression by only +0.023 AUC",
+  "methodological_choices": "Target = P(class '>50K'), 23.9% prevalence. Dropped fnlwgt (census sampling weight, not a person-level feature) and the string `education` column (exactly redundant with education-num). '?' values parse as NaN and were mapped to an explicit 'Missing' category for the three affected columns (workclass, occupation, native-country) rather than dropped, since missingness is informative here. 52 exact duplicate rows were left in. Encoding was per-family rather than uniform: one-hot (min_frequency=10) + standardization for logistic regression, Gaussian NB, k-NN and the MLP; ordinal codes for decision tree / random forest / HistGradientBoosting (with native categorical handling for HGB) - i.e. each family got the representation it would normally be given in practice. Families compared: majority-class dummy, GaussianNB, k-NN, single decision tree, L2 logistic regression, random forest (500 trees), HistGradientBoosting (300 iters), MLP (64,32) with early stopping. Light and deliberately equal-budget hyperparameter tuning (2-8 candidates per family) by 3-fold CV inside the training split only. Primary metric ROC-AUC because it is threshold-free and insensitive to the 76/24 imbalance; accuracy, balanced accuracy, average precision and F1@0.5 also reported and give the same ranking. No class-imbalance reweighting or resampling was applied (it does not change a ranking based on ROC-AUC/AP, but it would change the F1@0.5 column). Evaluation: stratified 70/30 split, all tuning confined to the 70%. Notably, richer alternatives another researcher might pick (XGBoost/LightGBM, target encoding, deeper nets, threshold tuning) were not tried - XGBoost was unavailable in this environment - so the top of the range could shift by a small amount.",
+  "verification_method": "Two independent checks. (1) Paired bootstrap on the untouched 30% test set (n=14,653; 2,000 resamples, same resampled rows for both models) for the key AUC differences. (2) A fully separate 3x5 repeated stratified cross-validation over all 48,842 rows using a different random seed (777) from the split-based analysis, with hyperparameters frozen at the values chosen on the training split; because all families see identical folds, per-fold differences are paired and were tested with a paired t-statistic and a win count.",
+  "verification_result": "Held up, with essentially unchanged estimates. Repeated CV gives HistGradientBoosting 0.9293 +/- 0.0026, RandomForest 0.9197 +/- 0.0025, MLP 0.9130 +/- 0.0035, LogisticRegression 0.9064 +/- 0.0041, DecisionTree 0.9054 +/- 0.0031, k-NN 0.8674 +/- 0.0041, GaussianNB 0.8638 +/- 0.0054. Best-worst spread 0.0654 (vs 0.0690 on the single split) and the boosting-vs-logistic gap 0.0229 (vs 0.0232). Test-set paired bootstrap 95% CIs exclude zero for every comparison: HGB - GaussianNB +0.0689 [+0.0638, +0.0742], HGB - LogReg +0.0232 [+0.0207, +0.0257], LogReg - GaussianNB +0.0458 [+0.0412, +0.0505]. Per-fold paired differences: HGB beat LogReg in 15/15 folds (+0.0229, t=43.0), beat RandomForest in 15/15 (+0.0096, t=49.2), beat GaussianNB in 15/15 (+0.0654, t=50.9). Maximum within-family fold sd is 0.0054, so the between-family spread is about 12-25x the run-to-run noise. Best estimate of the primary metric: ROC-AUC spread 0.065-0.069 across families; boosting-over-logistic gap 0.021-0.026.",
+  "supporting_results": {
+    "holdout_test_roc_auc": {
+      "Hist gradient boosting": 0.9315,
+      "Random forest": 0.9207,
+      "MLP (64,32)": 0.9152,
+      "Decision tree": 0.9084,
+      "Logistic regression": 0.9083,
+      "k-NN": 0.8705,
+      "GaussianNB": 0.8625,
+      "Baseline (majority)": 0.5
+    },
+    "holdout_test_accuracy": {
+      "Hist gradient boosting": 0.8744,
+      "Random forest": 0.8681,
+      "MLP (64,32)": 0.858,
+      "Decision tree": 0.8565,
+      "Logistic regression": 0.8549,
+      "k-NN": 0.8396,
+      "GaussianNB": 0.7521,
+      "Baseline (majority)": 0.7607
+    },
+    "holdout_test_average_precision": {
+      "Hist gradient boosting": 0.8361,
+      "Random forest": 0.8142,
+      "MLP (64,32)": 0.7868,
+      "Decision tree": 0.7799,
+      "Logistic regression": 0.7714,
+      "k-NN": 0.6654,
+      "GaussianNB": 0.6589,
+      "Baseline (majority)": 0.2393
+    },
+    "note": "Full per-model detail, bootstrap CIs and repeated-CV output are in analysis_details.json; code in analysis.py."
+  }
+}

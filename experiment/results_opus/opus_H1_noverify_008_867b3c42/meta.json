@@ -1,0 +1,17 @@
+{
+  "run_id": "opus_H1_noverify_008_867b3c42",
+  "hypothesis_id": "H1",
+  "verify_arm": false,
+  "replicate_idx": 8,
+  "model": "opus",
+  "work_dir": "<TMP_DIR>/aml_replicate_opus_H1_noverify_008_867b3c42_htnsh9_h",
+  "started_at": 1788260369.6581619,
+  "returncode": -9,
+  "stdout_tail": "",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1788260372.563083,
+  "wall_clock_seconds": 2.904921054840088,
+  "result_json_found": false,
+  "analysis_py_found": false
+}

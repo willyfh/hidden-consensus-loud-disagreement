@@ -1,0 +1,44 @@
+{
+  "hypothesis_id": "H2",
+  "summary": "No -- a default RandomForestClassifier scores lower than a default LogisticRegression here. With identical in-fold preprocessing (constant/median imputation, one-hot encoding, standardized numerics), RF reaches a stratified 5-fold CV ROC-AUC of 0.9011 versus 0.9065 for logistic regression, a difference of -0.0055 AUC, with logistic regression ahead in 5/5 folds (paired t-test p = 0.0111). The gap is small in absolute terms but consistent: it is an order of magnitude larger than RF's seed-to-seed variability (sd 0.0005) and survives a different CV shuffle (-0.0035). The caveat is that this depends on giving logistic regression scaled inputs -- without standardization the default lbfgs solver does not converge in 100 iterations and collapses to 0.669 AUC, which would have flipped the verdict to a +0.232 win for RF.",
+  "primary_metric_name": "Mean stratified 5-fold CV ROC-AUC difference (RF - LogReg)",
+  "primary_metric_value": -0.00549,
+  "direction": "RF < LogReg",
+  "methodological_choices": "Target binarized as class '>50K' = 1 (23.9% positive); no imbalance handling (no resampling, no class_weight) since ROC-AUC is prevalence-insensitive and the question specifies default estimators. Missing values (workclass 2799, occupation 2809, native-country 857; the original '?' codes) were kept as an explicit 'Missing' category rather than mode-imputed, because missingness in Adult is informative; numeric columns were median-imputed (none were actually missing). All 14 predictors were used, including fnlwgt (a survey sampling weight that is arguably not a legitimate predictor) and both education and education-num (redundant encodings of the same variable) -- dropping either would be a defensible alternative. Categorical encoding: one-hot with handle_unknown='ignore' (~105 columns); an ordinal/target encoding would favour the forest more. Numeric features were standardized for BOTH models -- this is by far the most consequential choice and it decides the answer: default LogisticRegression uses lbfgs with max_iter=100, and on raw unscaled Adult features (fnlwgt and capital-gain span 5-6 orders of magnitude) it fails to converge, collapsing to ~0.669 AUC. A researcher who skipped scaling would have reported RF winning by ~0.23 AUC -- the opposite conclusion, and an artifact of a non-converged optimizer rather than of model class. Standardization is a no-op for trees, so applying it to both keeps the comparison fair. Raising max_iter or skewed-feature transforms (e.g. log1p on capital-gain/loss) would be reasonable alternatives that also rescue LR. All preprocessing was fit inside each training fold via a Pipeline (no leakage). Evaluation: StratifiedKFold(n_splits=5, shuffle=True, random_state=0), identical fold assignment for both models so the per-fold differences are paired; significance via a paired t-test on 5 folds (only 5 correlated observations, so the p-value is indicative rather than rigorous). RandomForestClassifier's default random_state is None; it was fixed to 0 for the headline number and the comparison was re-run across 5 forest seeds and a second CV shuffle seed to confirm the sign of the difference is stable. No hyperparameter tuning of either model, and no held-out test set -- cross-validated AUC on the full 48,842 rows is the estimand. The 52 exact duplicate rows were left in place.",
+  "supporting_numbers": {
+    "rf_mean_auc": 0.90105,
+    "rf_fold_aucs": [
+      0.90729,
+      0.90207,
+      0.90121,
+      0.9005,
+      0.89421
+    ],
+    "lr_mean_auc": 0.90654,
+    "lr_fold_aucs": [
+      0.90964,
+      0.90744,
+      0.90617,
+      0.90533,
+      0.90412
+    ],
+    "per_fold_difference": [
+      -0.00236,
+      -0.00537,
+      -0.00496,
+      -0.00483,
+      -0.00992
+    ],
+    "folds_won_by_rf": 0,
+    "paired_t_statistic": -4.4724,
+    "paired_t_pvalue": 0.011054,
+    "rf_mean_auc_across_5_seeds": 0.90147,
+    "rf_seed_sd": 0.00049,
+    "rf_worst_seed_minus_lr": -0.00564,
+    "lr_mean_auc_unscaled_numerics": 0.66926,
+    "difference_with_unscaled_lr": 0.23179,
+    "difference_at_cv_seed_42": -0.00355,
+    "n_rows": 48842,
+    "positive_rate": 0.23928
+  }
+}

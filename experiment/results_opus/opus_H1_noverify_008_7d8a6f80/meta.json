@@ -1,0 +1,25 @@
+{
+  "run_id": "opus_H1_noverify_008_7d8a6f80",
+  "hypothesis_id": "H1",
+  "verify_arm": false,
+  "replicate_idx": 8,
+  "model": "opus",
+  "work_dir": "<TMP_DIR>/aml_replicate_opus_H1_noverify_008_7d8a6f80_tgeylmqu",
+  "started_at": 1788262268.645685,
+  "returncode": 1,
+  "stdout_tail": "You've hit your session limit \u00b7 resets 12:10am (Asia/Seoul)\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1788262784.362835,
+  "wall_clock_seconds": 515.7171499729156,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H1",
+    "summary": "Yes, but the effect is modest among reasonable modern learners and large only when weak families are included. Across 8 model families evaluated with 15 paired stratified-CV folds and identical preprocessing, mean ROC-AUC ranged from 0.824 (GaussianNB) to 0.929 (HistGradientBoosting), a spread of 0.105; gradient boosting beat logistic regression by 0.0222 AUC (95% CI 0.0209 to 0.0234, corrected paired t-test p=1.1e-15), a small but highly consistent margin, while the strong families (boosting, forests, MLP, linear models) all fall within 0.036 AUC of one another.",
+    "primary_metric_name": "ROC-AUC difference (HistGradientBoosting - LogisticRegression), mean over 5x3 repeated stratified CV",
+    "primary_metric_value": 0.02215,
+    "direction": "Model family matters, modestly: HistGradientBoosting > RandomForest ~ MLP > LogisticRegression >> single DecisionTree/kNN/GaussianNB",
+    "methodological_choices": "Data: dropped 52 exact duplicate rows; kept fnlwgt (a census sampling weight) and both education and education-num as predictors rather than pruning them; missing workclass/occupation/native-country (~6%) imputed as an explicit 'Missing' category rather than dropped, on the view that missingness is informative. Encoding: one identical preprocessing pipeline for every model so differences reflect the learner, not the encoding - median impute + standardise the 6 numerics, one-hot the 8 categoricals with min_frequency=10 to fold rare native-country levels together. A sensitivity run re-fit the tree/boosting models with ordinal (and for HGB, native-categorical) encoding to check the ranking held. Models: one representative per family - DummyClassifier baseline, GaussianNB, kNN (k tuned in {15,30,60,100}, distance-weighted), LDA, single DecisionTree (depth tuned in {4,6,8,12,None}), LogisticRegression (L2, C tuned in {0.01,0.1,1,10}), MLP (64-32, alpha=1e-3, early stopping), RandomForest and ExtraTrees (500 trees, min_samples_leaf=3), HistGradientBoosting (400 iters, lr=0.1, early stopping). Hyper-parameters for LogReg/kNN/Tree were selected once on an independent 75/25 split before the CV, not nested inside it; the ensembles used sensible fixed settings rather than a search, so tuned tree ensembles could gain a little more. Validation: 5-fold stratified CV repeated 3 times (15 estimates), with the exact same folds for every model, giving a fully paired comparison; significance via the Nadeau-Bengio corrected paired t-test, which inflates the variance to account for overlapping training sets (an uncorrected t-test would badly overstate significance). Metric: ROC-AUC as primary (threshold-free and insensitive to the 24% positive rate), with PR-AUC, accuracy and F1 at a fixed 0.5 threshold, and Brier score as secondary. Imbalance: no resampling or class weighting - the 76/24 split is mild and reweighting would distort the probability calibration that Brier/AUC reward. Judgement call on 'meaningful': reported both the full spread (includes deliberately weak families) and the spread among strong families, since the answer depends on which comparison set is used."
+  }
+}

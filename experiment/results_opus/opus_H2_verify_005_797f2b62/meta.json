@@ -1,0 +1,17 @@
+{
+  "run_id": "opus_H2_verify_005_797f2b62",
+  "hypothesis_id": "H2",
+  "verify_arm": true,
+  "replicate_idx": 5,
+  "model": "opus",
+  "work_dir": "<TMP_DIR>/aml_replicate_opus_H2_verify_005_797f2b62_grfmzbgp",
+  "started_at": 1788138938.6720982,
+  "returncode": 1,
+  "stdout_tail": "You've hit your session limit \u00b7 resets 1pm (Asia/Seoul)\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1788138942.4888,
+  "wall_clock_seconds": 3.816701889038086,
+  "result_json_found": false,
+  "analysis_py_found": false
+}

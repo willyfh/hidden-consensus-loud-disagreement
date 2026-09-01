@@ -1,0 +1,276 @@
+{
+  "run_id": "opus_H1_noverify_005_9767d2f8",
+  "hypothesis_id": "H1",
+  "verify_arm": false,
+  "replicate_idx": 5,
+  "model": "opus",
+  "work_dir": "<TMP_DIR>/aml_replicate_opus_H1_noverify_005_9767d2f8_1i42jwzg",
+  "started_at": 1788214796.088825,
+  "returncode": 1,
+  "stdout_tail": "You've hit your session limit \u00b7 resets 11:20am (Asia/Seoul)\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1788216114.118437,
+  "wall_clock_seconds": 1318.0296120643616,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H1",
+    "summary": "Yes, model family matters, but the effect is real rather than large. Across 10 families on a held-out 20% test set, ROC-AUC spans 0.864 (Naive Bayes (Bernoulli)) to 0.927 (Gradient Boosting (HistGB)) -- a spread of 0.063. Gradient boosting wins on every split tried, beating logistic regression by +0.021 AUC (95% CI [+0.018, +0.024]) and the next-best family (Random Forest) by +0.010. So the choice is statistically unambiguous and worth making, but any reasonably specified family lands within ~0.03 AUC; only the strongly mis-specified ones (Naive Bayes, k-NN) fall clearly behind.",
+    "primary_metric_name": "Test ROC-AUC difference (best family: Gradient Boosting/HistGB - Logistic Regression)",
+    "primary_metric_value": 0.0208,
+    "direction": "Gradient boosting > Random Forest > MLP > Logistic Regression >> k-NN / Naive Bayes; family matters and gradient boosting wins consistently, but well-specified families cluster within ~0.03 AUC",
+    "methodological_choices": "Dropped 52 exact duplicate rows; dropped `fnlwgt` (census sampling weight, not an individual attribute) and the string `education` (redundant with ordinal `education-num`). Missing values in workclass/occupation/native-country (1.8-5.8%) treated as an explicit 'Missing' category rather than imputed. Single stratified 80/20 train/test split (seed 0); hyperparameters chosen within each family by 5-fold stratified CV on the training set only with deliberately small, comparable grids, then refit on full train and scored once on the untouched test set. Encoding is family-appropriate: one-hot (min_frequency=10) + standardisation for linear/kNN/MLP/NB/tree models, native ordinal categorical handling for HistGradientBoosting. Primary metric ROC-AUC (threshold-free, robust to the ~24% positive rate); accuracy/AP/F1@0.5/Brier also reported. No class-imbalance reweighting or resampling was applied -- ranking metrics were used instead. Uncertainty from a paired percentile bootstrap over test rows (2000 resamples); train-split variability checked separately by refitting the five headline families on 4 additional random 80/20 splits. No RBF-SVM (computationally prohibitive at n~39k) and no external boosting libraries (XGBoost/LightGBM/CatBoost); sklearn's HistGradientBoosting stands in for the boosted-tree family.",
+    "detail": {
+      "per_model_test": [
+        {
+          "model": "Gradient Boosting (HistGB)",
+          "cv_auc_train": 0.929,
+          "cv_auc_std": 0.0016,
+          "test_auc": 0.927,
+          "test_ap": 0.8261,
+          "test_acc": 0.8716,
+          "test_f1": 0.7098,
+          "test_brier": 0.0887,
+          "fit_sec": 46.972
+        },
+        {
+          "model": "Random Forest",
+          "cv_auc_train": 0.9173,
+          "cv_auc_std": 0.0013,
+          "test_auc": 0.9172,
+          "test_ap": 0.8026,
+          "test_acc": 0.8649,
+          "test_f1": 0.6809,
+          "test_brier": 0.096,
+          "fit_sec": 23.5047
+        },
+        {
+          "model": "MLP (neural net)",
+          "cv_auc_train": 0.9126,
+          "cv_auc_std": 0.0014,
+          "test_auc": 0.913,
+          "test_ap": 0.7859,
+          "test_acc": 0.858,
+          "test_f1": 0.6844,
+          "test_brier": 0.0979,
+          "fit_sec": 8.6635
+        },
+        {
+          "model": "Decision Tree",
+          "cv_auc_train": 0.9059,
+          "cv_auc_std": 0.0008,
+          "test_auc": 0.9095,
+          "test_ap": 0.7706,
+          "test_acc": 0.8627,
+          "test_f1": 0.676,
+          "test_brier": 0.0975,
+          "fit_sec": 3.1232
+        },
+        {
+          "model": "Logistic Regression",
+          "cv_auc_train": 0.9061,
+          "cv_auc_std": 0.0025,
+          "test_auc": 0.9062,
+          "test_ap": 0.7686,
+          "test_acc": 0.8523,
+          "test_f1": 0.6601,
+          "test_brier": 0.1015,
+          "fit_sec": 6.9122
+        },
+        {
+          "model": "Linear SVM",
+          "cv_auc_train": 0.9058,
+          "cv_auc_std": 0.0024,
+          "test_auc": 0.9061,
+          "test_ap": 0.769,
+          "test_acc": 0.854,
+          "test_f1": 0.661,
+          "test_brier": NaN,
+          "fit_sec": 5.7654
+        },
+        {
+          "model": "Extra Trees",
+          "cv_auc_train": 0.8984,
+          "cv_auc_std": 0.0032,
+          "test_auc": 0.8969,
+          "test_ap": 0.7387,
+          "test_acc": 0.8424,
+          "test_f1": 0.6262,
+          "test_brier": 0.1087,
+          "fit_sec": 26.6109
+        },
+        {
+          "model": "LDA",
+          "cv_auc_train": 0.8924,
+          "cv_auc_std": 0.0034,
+          "test_auc": 0.8922,
+          "test_ap": 0.7288,
+          "test_acc": 0.8412,
+          "test_f1": 0.64,
+          "test_brier": 0.1099,
+          "fit_sec": 3.433
+        },
+        {
+          "model": "k-NN",
+          "cv_auc_train": 0.8677,
+          "cv_auc_std": 0.005,
+          "test_auc": 0.8699,
+          "test_ap": 0.6679,
+          "test_acc": 0.8456,
+          "test_f1": 0.6499,
+          "test_brier": 0.1154,
+          "fit_sec": 17.0569
+        },
+        {
+          "model": "Naive Bayes (Bernoulli)",
+          "cv_auc_train": 0.8678,
+          "cv_auc_std": 0.0018,
+          "test_auc": 0.864,
+          "test_ap": 0.6613,
+          "test_acc": 0.7605,
+          "test_f1": 0.6058,
+          "test_brier": 0.1922,
+          "fit_sec": 1.824
+        },
+        {
+          "model": "Dummy (prior)",
+          "cv_auc_train": 0.5,
+          "cv_auc_std": 0.0,
+          "test_auc": 0.5,
+          "test_ap": 0.2394,
+          "test_acc": 0.7606,
+          "test_f1": 0.0,
+          "test_brier": 0.1821,
+          "fit_sec": 6.1443
+        }
+      ],
+      "selected_hyperparameters": {
+        "Dummy (prior)": {},
+        "Logistic Regression": {
+          "clf__C": "0.3"
+        },
+        "Linear SVM": {
+          "clf__C": "0.1"
+        },
+        "LDA": {},
+        "Naive Bayes (Bernoulli)": {
+          "clf__alpha": "0.1"
+        },
+        "k-NN": {
+          "clf__n_neighbors": "40",
+          "clf__weights": "distance"
+        },
+        "Decision Tree": {
+          "clf__max_depth": "10",
+          "clf__min_samples_leaf": "20"
+        },
+        "Random Forest": {
+          "clf__min_samples_leaf": "5"
+        },
+        "Extra Trees": {
+          "clf__min_samples_leaf": "5"
+        },
+        "Gradient Boosting (HistGB)": {
+          "clf__l2_regularization": "0.0",
+          "clf__learning_rate": "0.1",
+          "clf__max_leaf_nodes": "31"
+        },
+        "MLP (neural net)": {
+          "clf__alpha": "0.0001",
+          "clf__hidden_layer_sizes": "(64,)"
+        }
+      },
+      "bootstrap_auc_comparisons": {
+        "Gradient Boosting (HistGB) - Naive Bayes (Bernoulli)": {
+          "auc_diff": 0.0631,
+          "ci95_low": 0.0577,
+          "ci95_high": 0.0688
+        },
+        "Gradient Boosting (HistGB) - Logistic Regression": {
+          "auc_diff": 0.0208,
+          "ci95_low": 0.0179,
+          "ci95_high": 0.024
+        },
+        "Random Forest - Logistic Regression": {
+          "auc_diff": 0.011,
+          "ci95_low": 0.0088,
+          "ci95_high": 0.0133
+        },
+        "Gradient Boosting (HistGB) - Random Forest": {
+          "auc_diff": 0.0098,
+          "ci95_low": 0.0078,
+          "ci95_high": 0.0119
+        }
+      },
+      "auc_spread_all_families": 0.063,
+      "auc_spread_strong_families_only": 0.0301,
+      "split_stability_test_auc_4_extra_seeds": {
+        "Gradient Boosting (HistGB)": {
+          "per_split": [
+            0.9272,
+            0.9317,
+            0.9343,
+            0.9317
+          ],
+          "mean": 0.9312,
+          "sd": 0.003
+        },
+        "Random Forest": {
+          "per_split": [
+            0.9179,
+            0.9218,
+            0.9229,
+            0.9206
+          ],
+          "mean": 0.9208,
+          "sd": 0.0022
+        },
+        "MLP (neural net)": {
+          "per_split": [
+            0.9112,
+            0.9161,
+            0.9174,
+            0.9153
+          ],
+          "mean": 0.915,
+          "sd": 0.0027
+        },
+        "Logistic Regression": {
+          "per_split": [
+            0.9058,
+            0.9098,
+            0.9127,
+            0.9077
+          ],
+          "mean": 0.909,
+          "sd": 0.003
+        },
+        "Naive Bayes (Bernoulli)": {
+          "per_split": [
+            0.8705,
+            0.8766,
+            0.8759,
+            0.871
+          ],
+          "mean": 0.8735,
+          "sd": 0.0032
+        }
+      },
+      "gb_minus_logreg_per_split": [
+        0.0214,
+        0.0219,
+        0.0215,
+        0.024
+      ],
+      "gb_minus_rf_per_split": [
+        0.0093,
+        0.0099,
+        0.0114,
+        0.0111
+      ],
+      "n_rows_after_dedup": 48790,
+      "positive_rate": 0.2394
+    }
+  }
+}

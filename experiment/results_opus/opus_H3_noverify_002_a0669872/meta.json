@@ -1,0 +1,25 @@
+{
+  "run_id": "opus_H3_noverify_002_a0669872",
+  "hypothesis_id": "H3",
+  "verify_arm": false,
+  "replicate_idx": 2,
+  "model": "opus",
+  "work_dir": "<TMP_DIR>/aml_replicate_opus_H3_noverify_002_a0669872_oadcycd2",
+  "started_at": 1788172838.865789,
+  "returncode": 1,
+  "stdout_tail": "You've hit your session limit \u00b7 resets 12am (Asia/Seoul)\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1788173453.1166668,
+  "wall_clock_seconds": 614.2508778572083,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H3",
+    "summary": "On a held-out 20% test set, a gradient-boosted tree model reaches ROC-AUC 0.930, and permutation importance identifies a small set of dominant predictors: relationship/marital status (family role), capital-gain, education-num, age, and hours-per-week. The single largest individual contributor is 'capital-gain' (ROC-AUC drop 0.0624 when permuted), followed by 'age' (0.0439); permuting marital-status and relationship jointly costs 0.1032 AUC, the largest of any feature block. Race, native-country and the fnlwgt sampling weight are essentially uninformative once the others are present.",
+    "primary_metric_name": "Top feature permutation importance on test set (mean ROC-AUC drop, HistGradientBoosting, 20 repeats): 'capital-gain'",
+    "primary_metric_value": 0.06237,
+    "direction": "capital-gain most important",
+    "methodological_choices": "Model: HistGradientBoostingClassifier (max_iter=400, lr=0.06, 31 leaves, l2=1.0, early stopping on a 15% internal validation split) using sklearn's native categorical handling via OrdinalEncoder; cross-checked against an L2 logistic regression on one-hot features (min_frequency=20) with standardised numerics. Single stratified 80/20 train/test split, random_state=42; no CV for the final importance estimate (uncertainty comes from 20 permutation repeats instead). Class imbalance (24% positives) left unweighted because the ranking metric is ROC-AUC, which is insensitive to base rate. Missing values in workclass/occupation/native-country encoded as an explicit 'Missing' level rather than dropping rows. fnlwgt (a census sampling weight, not a personal attribute) was deliberately kept as a negative control instead of being dropped. Importance = permutation importance computed on the RAW columns of the test set so each categorical is permuted as one unit (not per one-hot column), scored by ROC-AUC drop. Because permutation is known to split credit arbitrarily between correlated features, three corroborating estimates were run: grouped permutation for the redundant blocks (education/education-num, marital-status/relationship, capital-gain/capital-loss), drop-column importance with a full refit per feature, and model-free univariate mutual information. Another researcher might reasonably have dropped fnlwgt and one of education/education-num up front, used SHAP or impurity-based (Gini) importance, used repeated CV rather than one split, scored by PR-AUC or accuracy, or applied class weighting -- all of which shift the numbers though, as the corroborating runs show, not the identity of the leading features."
+  }
+}

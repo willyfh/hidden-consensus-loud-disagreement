@@ -1,0 +1,25 @@
+{
+  "run_id": "opus_H3_noverify_000_96367fbd",
+  "hypothesis_id": "H3",
+  "verify_arm": false,
+  "replicate_idx": 0,
+  "model": "opus",
+  "work_dir": "<TMP_DIR>/aml_replicate_opus_H3_noverify_000_96367fbd_qao_1yky",
+  "started_at": 1788137629.0643818,
+  "returncode": null,
+  "stdout_tail": "",
+  "stderr_tail": "",
+  "timed_out": true,
+  "finished_at": 1788138529.05802,
+  "wall_clock_seconds": 899.9936382770538,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H3",
+    "summary": "Marital/family status, education, capital-gain, age, occupation and hours-per-week dominate income prediction; race, native-country and fnlwgt contribute almost nothing. By permutation importance on a held-out test set (gradient boosting, test ROC-AUC 0.929), the single most important feature is 'capital-gain' (mean ROC-AUC drop 0.0573); education and marital-status/relationship are partly redundant, and permuting each redundant pair jointly costs far more AUC than permuting either member alone.",
+    "primary_metric_name": "top feature permutation importance (mean test ROC-AUC drop, HistGradientBoosting)",
+    "primary_metric_value": 0.05735,
+    "direction": "capital-gain most important",
+    "methodological_choices": "Cleaning: stripped whitespace, dropped exact duplicate rows (48842->48790), missing workclass/occupation/native-country kept as an explicit 'Missing' category rather than imputed or dropped; fnlwgt retained as a candidate feature (it is a census sampling weight, arguably it should be excluded a priori). Split: single stratified 70/30 train/test, seed 42 (plus 5-fold stratified CV of the boosting model as a stability check). Models: HistGradientBoostingClassifier with native categorical splits (max_iter=400, lr=0.06, 31 leaves, l2=1.0, early stopping) as the primary model, and one-hot + standardized-numeric logistic regression (C=1) as a second, differently-biased view. Class imbalance (~24% positives) left unweighted, and importance is scored with ROC-AUC (threshold-free) rather than accuracy, so no resampling/threshold choice was needed. Importance method: permutation importance computed on the held-out test set, 20 repeats, at the level of the 14 original features (one-hot columns of a categorical permuted together); impurity-based/MDI importance was deliberately avoided because it is biased toward high-cardinality and continuous features. Because permutation importance splits credit between correlated features, redundant groups (education+education-num, marital-status+relationship, capital-gain+capital-loss) were additionally permuted jointly; single-feature models and logistic coefficients were used as cross-checks. Another researcher might have dropped fnlwgt or education-num, used SHAP or drop-column importance, weighted the classes, or reported importance on the training set instead."
+  }
+}

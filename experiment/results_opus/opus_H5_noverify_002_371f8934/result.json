@@ -1,0 +1,42 @@
+{
+  "hypothesis_id": "H5",
+  "summary": "No. With a default RandomForestClassifier, SMOTE oversampling of the training folds changes the >50K F1 by only -0.0036 (baseline 0.6605 -> SMOTE 0.6569) averaged over 15 paired stratified CV folds, well inside the 0.02 threshold (95% CI [-0.0056, -0.0016]). SMOTE trades precision for recall (0.703->0.679 and 0.623->0.636) but the two roughly cancel, and ranking quality (PR-AUC 0.7374 vs 0.7129) is essentially unchanged or slightly worse.",
+  "primary_metric_name": "Minority-class (>50K) F1 difference (SMOTE - no resampling), mean over 15 paired repeated-stratified-CV folds",
+  "primary_metric_value": -0.0036,
+  "direction": "|Delta F1| = 0.0036 < 0.02 -> SMOTE does NOT meaningfully change minority F1 (small shift, precision down / recall up)",
+  "methodological_choices": "Preprocessing: '?' recoded as an explicit 'Missing' category rather than dropped/imputed; fnlwgt (census sampling weight) dropped as a survey-design artifact; no scaling (tree model). Encoding: dense one-hot (handle_unknown='ignore') for all 8 categoricals, numerics passed through -- so vanilla SMOTE interpolates on the one-hot columns and produces fractional 'category' values, which is standard practice but debatable; I therefore also ran SMOTENC (categorical-aware, applied pre-encoding) as a robustness check. Classifier: RandomForestClassifier() at defaults with only random_state (and n_jobs) set, as specified -- no class_weight, no depth/leaf tuning. Resampling: SMOTE with default k_neighbors=5 and default sampling_strategy='auto' (full balance to 1:1), fit inside an imblearn Pipeline on training folds only, so no synthetic samples leak into test. Validation: RepeatedStratifiedKFold(5 folds x 3 repeats, seed 42) with identical splits for both arms, giving a paired difference with a normal-approximation 95% CI across folds; plus a single stratified 80/20 holdout as a secondary check. Metric: F1 on the positive class '>50K' at the fixed default 0.5 decision threshold (the threshold choice matters a lot here -- I also report threshold-optimised F1 and PR-AUC/ROC-AUC to separate a shift in operating point from a genuine change in ranking quality). Alternatives another researcher might pick: keeping fnlwgt or using it as sample weights, dropping '?' rows, ordinal/target encoding, a single train/test split, macro-F1 or balanced accuracy, sampling_strategy < 1.0, or tuning the threshold per arm.",
+  "_details": {
+    "cv_folds": 15,
+    "cv_base_f1_mean": 0.6605,
+    "cv_smote_f1_mean": 0.6569,
+    "cv_f1_diff_sd": 0.0039,
+    "cv_f1_diff_ci95": [
+      -0.0056,
+      -0.0016
+    ],
+    "folds_exceeding_0.02": 0,
+    "max_abs_fold_diff": 0.0122,
+    "cv_precision_base_smote": [
+      0.7029,
+      0.6793
+    ],
+    "cv_recall_base_smote": [
+      0.6229,
+      0.6359
+    ],
+    "cv_pr_auc_base_smote": [
+      0.7374,
+      0.7129
+    ],
+    "cv_roc_auc_base_smote": [
+      0.8906,
+      0.8861
+    ],
+    "cv_thresholdtuned_f1_base_smote": [
+      0.6759,
+      0.6702
+    ],
+    "holdout_80_20_f1_diff": -0.0036,
+    "holdout_smotenc_f1_diff": -0.0035
+  }
+}

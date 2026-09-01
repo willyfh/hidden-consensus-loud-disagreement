@@ -1,0 +1,17 @@
+{
+  "run_id": "opus_H4_verify_001_53397f44",
+  "hypothesis_id": "H4",
+  "verify_arm": true,
+  "replicate_idx": 1,
+  "model": "opus",
+  "work_dir": "<TMP_DIR>/aml_replicate_opus_H4_verify_001_53397f44_ppogmsd2",
+  "started_at": 1788172147.6268039,
+  "returncode": 143,
+  "stdout_tail": "",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1788172838.8633652,
+  "wall_clock_seconds": 691.2365612983704,
+  "result_json_found": false,
+  "analysis_py_found": true
+}

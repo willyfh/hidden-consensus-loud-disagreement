@@ -1,0 +1,59 @@
+{
+  "run_id": "opus_H5_noverify_002_371f8934",
+  "hypothesis_id": "H5",
+  "verify_arm": false,
+  "replicate_idx": 2,
+  "model": "opus",
+  "work_dir": "<TMP_DIR>/aml_replicate_opus_H5_noverify_002_371f8934_s5_p29i2",
+  "started_at": 1788172902.819811,
+  "returncode": 0,
+  "stdout_tail": "**Answer to H5: No.** SMOTE does not change minority-class F1 by more than 0.02 \u2014 the effect is an order of magnitude smaller than the threshold, and slightly *negative*.\n\n**Primary result:** mean paired \u0394F1 (SMOTE \u2212 none) = **\u22120.0036** over 15 folds (5-fold stratified CV \u00d7 3 repeats), baseline 0.6605 \u2192 SMOTE 0.6569. 95% CI [\u22120.0056, \u22120.0016]. Zero of 15 folds exceeded 0.02; the largest single-fold deviation was 0.0122.\n\n**What's actually happening:** SMOTE does move the model, just not net-F1. Precision drops 0.703 \u2192 0.679 and recall rises 0.623 \u2192 0.636 \u2014 the classic operating-point shift toward the minority class \u2014 and the two changes very nearly cancel in the harmonic mean. Notably, ranking quality gets slightly *worse*, not better: PR-AUC 0.7374 \u2192 0.7129, ROC-AUC 0.8906 \u2192 0.8861. So the small F1 shift is not \"SMOTE helped a bit\"; SMOTE degraded the probability estimates and moved the threshold in a compensating direction. Threshold-tuned F1 (best achievable on the PR curve) also favors the baseline: 0.6759 vs 0.6702.\n\n**Robustness:** an independent 80/20 holdout gives \u0394F1 = \u22120.0036, and SMOTENC (the categorical-aware variant, applied before encoding \u2014 arguably the more defensible choice for this mixed-type data) gives \u22120.0035. SMOTENC shifts precision/recall much harder (0.629 / 0.709) but lands on the same F1, which strengthens the reading that resampling here is a threshold move, not an information gain.\n\n**Key judgment calls another researcher might make differently** \u2014 all recorded in `result.json`: `?` kept as an explicit \"Missing\" category rather than dropped; `fnlwgt` dropped as a survey-design artifact; one-hot encoding (so vanilla SMOTE interpolates fractional category values \u2014 hence the SMOTENC check); SMOTE at default full 1:1 balancing; F1 at the fixed 0.5 threshold. The most consequential of these is the threshold: F1 at 0.5 is what the hypothesis asks for, but per-arm threshold tuning would compress the gap further still.\n\nFiles written: `analysis.py`, `result.json`, and `cv_folds.csv` (per-fold raw numbers).\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1788173061.8577359,
+  "wall_clock_seconds": 159.03792476654053,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H5",
+    "summary": "No. With a default RandomForestClassifier, SMOTE oversampling of the training folds changes the >50K F1 by only -0.0036 (baseline 0.6605 -> SMOTE 0.6569) averaged over 15 paired stratified CV folds, well inside the 0.02 threshold (95% CI [-0.0056, -0.0016]). SMOTE trades precision for recall (0.703->0.679 and 0.623->0.636) but the two roughly cancel, and ranking quality (PR-AUC 0.7374 vs 0.7129) is essentially unchanged or slightly worse.",
+    "primary_metric_name": "Minority-class (>50K) F1 difference (SMOTE - no resampling), mean over 15 paired repeated-stratified-CV folds",
+    "primary_metric_value": -0.0036,
+    "direction": "|Delta F1| = 0.0036 < 0.02 -> SMOTE does NOT meaningfully change minority F1 (small shift, precision down / recall up)",
+    "methodological_choices": "Preprocessing: '?' recoded as an explicit 'Missing' category rather than dropped/imputed; fnlwgt (census sampling weight) dropped as a survey-design artifact; no scaling (tree model). Encoding: dense one-hot (handle_unknown='ignore') for all 8 categoricals, numerics passed through -- so vanilla SMOTE interpolates on the one-hot columns and produces fractional 'category' values, which is standard practice but debatable; I therefore also ran SMOTENC (categorical-aware, applied pre-encoding) as a robustness check. Classifier: RandomForestClassifier() at defaults with only random_state (and n_jobs) set, as specified -- no class_weight, no depth/leaf tuning. Resampling: SMOTE with default k_neighbors=5 and default sampling_strategy='auto' (full balance to 1:1), fit inside an imblearn Pipeline on training folds only, so no synthetic samples leak into test. Validation: RepeatedStratifiedKFold(5 folds x 3 repeats, seed 42) with identical splits for both arms, giving a paired difference with a normal-approximation 95% CI across folds; plus a single stratified 80/20 holdout as a secondary check. Metric: F1 on the positive class '>50K' at the fixed default 0.5 decision threshold (the threshold choice matters a lot here -- I also report threshold-optimised F1 and PR-AUC/ROC-AUC to separate a shift in operating point from a genuine change in ranking quality). Alternatives another researcher might pick: keeping fnlwgt or using it as sample weights, dropping '?' rows, ordinal/target encoding, a single train/test split, macro-F1 or balanced accuracy, sampling_strategy < 1.0, or tuning the threshold per arm.",
+    "_details": {
+      "cv_folds": 15,
+      "cv_base_f1_mean": 0.6605,
+      "cv_smote_f1_mean": 0.6569,
+      "cv_f1_diff_sd": 0.0039,
+      "cv_f1_diff_ci95": [
+        -0.0056,
+        -0.0016
+      ],
+      "folds_exceeding_0.02": 0,
+      "max_abs_fold_diff": 0.0122,
+      "cv_precision_base_smote": [
+        0.7029,
+        0.6793
+      ],
+      "cv_recall_base_smote": [
+        0.6229,
+        0.6359
+      ],
+      "cv_pr_auc_base_smote": [
+        0.7374,
+        0.7129
+      ],
+      "cv_roc_auc_base_smote": [
+        0.8906,
+        0.8861
+      ],
+      "cv_thresholdtuned_f1_base_smote": [
+        0.6759,
+        0.6702
+      ],
+      "holdout_80_20_f1_diff": -0.0036,
+      "holdout_smotenc_f1_diff": -0.0035
+    }
+  }
+}

@@ -1,0 +1,309 @@
+{
+  "run_id": "opus_H1_verify_006_7e403379",
+  "hypothesis_id": "H1",
+  "verify_arm": true,
+  "replicate_idx": 6,
+  "model": "opus",
+  "work_dir": "<TMP_DIR>/aml_replicate_opus_H1_verify_006_7e403379_tust7uxx",
+  "started_at": 1788259622.818379,
+  "returncode": 0,
+  "stdout_tail": "Done. `analysis.py` and `result.json` are in the working directory.\n\n## Finding\n\n**Yes \u2014 but the effect is strongly asymmetric, and that asymmetry is the real answer.**\n\nCV ROC-AUC (5\u00d75 repeated stratified, full data, 25 folds):\n\n| Family | ROC-AUC | PR-AUC |\n|---|---|---|\n| HistGradientBoosting | 0.9296 \u00b1 0.0024 | 0.831 |\n| RandomForest(300) | 0.9197 \u00b1 0.0031 | 0.812 |\n| ExtraTrees(300) | 0.9125 \u00b1 0.0031 | 0.786 |\n| MLP(100,50) | 0.9120 \u00b1 0.0032 | 0.781 |\n| LogisticRegression | 0.9064 \u00b1 0.0030 | 0.766 |\n| DecisionTree(d=8) | 0.9042 \u00b1 0.0035 | 0.763 |\n| kNN(k=25) | 0.8672 \u00b1 0.0041 | 0.666 |\n| GaussianNB | 0.8414 \u00b1 0.0141 | 0.569 |\n\n- **Across all 8 families the spread is 0.088 AUC** \u2014 very large.\n- **Among the 5 strong families it is only 0.023**, and the headline gradient-boosting-vs-logistic-regression gap is **+0.0233 AUC**.\n\nSo family choice matters mainly by *avoiding weak learners* (naive Bayes, kNN), not by picking among reasonable ones. Boosting's edge over logistic regression is real but modest \u2014 worth more in PR-AUC terms (0.831 vs 0.766) than the AUC number suggests, which matters given the 24% positive rate.\n\n## Stability check\n\nHeld up on all three checks. Held-out 20% split gave +0.0234 vs CV's +0.0233; boosting beat logistic regression in **25/25 folds** (paired t p=3e-30, Wilcoxon p=6e-08); independent test-set bootstrap CI [+0.0202, +0.0266] excludes zero. No revision needed.\n\nOne caveat I'd flag: single-family fold-to-fold sd (~0.003) exceeds the smallest gaps (LogReg \u2212 DecisionTree = +0.0022), so those adjacent rankings are only resolvable *because* the comparison is paired within folds \u2014 a single unpaired split would not separate them.\n\n## Caveats on my choices\n\nI dropped `fnlwgt` (a census sampling weight, not an individual-level predictor) and the redundant string `education`, and encoded missingness as its own category rather than imputing it. The biggest lever another researcher would pull differently is **hyperparameter tuning**: I used reasonable but only lightly tuned settings with no per-family search. A tuned kNN or single tree would close part of its gap, and a logistic regression with splines/interactions would close part of the boosting gap \u2014 so treat 0.0233 as the gap between *default-ish* implementations, not a ceiling on what linear models can do here.\n\nTwo process notes: my first full-run attempt was auto-detached past the 600s tool timeout and died (exit 144, joblib oversubscription \u2014 22 worker processes). I restructured into checkpointed foreground stages; the whole analysis then ran in about 2.5 minutes. Also, the Gmail / Google Calendar / Google Drive connectors need authorization via your claude.ai connector settings before they're usable \u2014 irrelevant here, but they surfaced as unavailable.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1788260696.0843258,
+  "wall_clock_seconds": 1073.2659468650818,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H1",
+    "summary": "Yes, but the effect is highly asymmetric. Across 8 model families under 5x5-fold repeated CV, mean ROC-AUC spans 0.841 (GaussianNB) to 0.930 (HistGradientBoosting) -- a 0.088 gap that is large by any standard. But among the five strong families the whole spread is only 0.023, and the headline gradient-boosting-vs-logistic-regression difference is +0.0233 ROC-AUC: statistically unambiguous (25/25 folds, p=3.1e-30) but modest in practical terms. Model family matters mainly through avoiding weak learners, not through picking among good ones.",
+    "primary_metric_name": "Mean ROC-AUC difference (HistGradientBoosting - LogisticRegression), 5x5-fold repeated stratified CV",
+    "primary_metric_value": 0.0233,
+    "direction": "HistGradientBoosting > RandomForest > ExtraTrees ~ MLP > LogisticRegression > DecisionTree >> kNN > GaussianNB; the gap is small among strong families, large versus weak ones",
+    "methodological_choices": "Target binarised to >50K (23.9% positive). Dropped 'fnlwgt' (a census sampling weight, not an individual-level predictor) and the redundant string 'education' (kept the ordinal 'education-num'); 52 exact duplicate rows removed (n=48790). Missing workclass/occupation/native-country encoded as an explicit 'Missing' category rather than dropped or imputed, since missingness is informative here. Two preprocessing flavours: one-hot (min_frequency=10) + standardised numerics for LogReg/kNN/GaussianNB/MLP; ordinal codes for the tree families, with HistGradientBoosting using native categorical splits. Eight families compared at reasonable but only lightly tuned settings -- no per-family hyperparameter search, which is the choice most likely to move the ranking of adjacent families (a tuned kNN or a tuned single tree would close part of its gap; a tuned LogReg with splines/interactions would close part of the boosting gap): LogisticRegression(C=1), GaussianNB, kNN(k=25, distance-weighted), DecisionTree(depth 8, leaf>=20), RandomForest(300, leaf>=5), ExtraTrees(300, leaf>=5), MLP(100,50, early stopping), HistGradientBoosting(<=400 iters, lr=0.06, early stopping). Primary metric is ROC-AUC because the classes are imbalanced and AUC is threshold-free, so the family comparison is not confounded with the choice of decision threshold; PR-AUC, accuracy@0.5, F1 and Brier are reported alongside. No class-weighting or resampling was applied -- AUC ranking is largely invariant to it, but accuracy/F1 at a fixed 0.5 threshold would change. A prior-only DummyClassifier is included as a floor. Stage 1 used a single stratified 80/20 split; stage 2 CV used the full dataset.",
+    "verification_method": "Three checks: (1) 5x5-fold repeated stratified CV over the full dataset with a different model seed on every fold/repeat (25 fits per family), paired by fold; (2) paired t-test and Wilcoxon signed-rank on the 25 fold-wise AUC differences; (3) a 2000-resample stratified bootstrap CI of the test-set AUC difference on the held-out 20% split from stage 1.",
+    "verification_result": "The finding held up on all three checks. The stage-1 held-out estimate (+0.0234) and the 5x5 CV estimate (+0.0233) agree closely; the gradient-boosting advantage over logistic regression was positive in 25/25 CV folds (paired t p=3.1e-30, Wilcoxon p=6.0e-08), fold-wise 95% CI [+0.0227, +0.0239], and the independent test-set bootstrap CI [+0.0202, +0.0266] excludes zero. Between-family spread was likewise stable: 0.088 across all 8 families versus 0.023 among the 5 strong ones. Fold-to-fold sd of a single family's AUC (~0.0030) is larger than the smallest between-family gaps (e.g. LogReg - DecisionTree = +0.0022), so those adjacent rankings are only resolvable because the comparison is paired within folds (sd of the paired HGB-LogReg difference is just 0.0015); an unpaired comparison on a single split would not separate them reliably. No revision to the estimate was needed.",
+    "_detail": {
+      "n_rows_used": 48790,
+      "positive_rate": 0.23941381430621028,
+      "features_used": [
+        "age",
+        "workclass",
+        "education-num",
+        "marital-status",
+        "occupation",
+        "relationship",
+        "race",
+        "sex",
+        "capital-gain",
+        "capital-loss",
+        "hours-per-week",
+        "native-country"
+      ],
+      "holdout_test_20pct": {
+        "Baseline(prior)": {
+          "roc_auc": 0.5,
+          "pr_auc": 0.2394,
+          "accuracy": 0.7606,
+          "f1": 0.0,
+          "brier": 0.1821,
+          "fit_s": 0.0546
+        },
+        "GaussianNB": {
+          "roc_auc": 0.8488,
+          "pr_auc": 0.5873,
+          "accuracy": 0.6043,
+          "f1": 0.5316,
+          "brier": 0.3877,
+          "fit_s": 0.1354
+        },
+        "kNN(k=25)": {
+          "roc_auc": 0.8615,
+          "pr_auc": 0.6594,
+          "accuracy": 0.8376,
+          "f1": 0.6447,
+          "brier": 0.1201,
+          "fit_s": 0.3364
+        },
+        "DecisionTree(d=8)": {
+          "roc_auc": 0.9022,
+          "pr_auc": 0.7567,
+          "accuracy": 0.8485,
+          "f1": 0.6388,
+          "brier": 0.102,
+          "fit_s": 0.0878
+        },
+        "LogisticRegression": {
+          "roc_auc": 0.9024,
+          "pr_auc": 0.7569,
+          "accuracy": 0.8498,
+          "f1": 0.6547,
+          "brier": 0.1039,
+          "fit_s": 0.2534
+        },
+        "MLP(100,50)": {
+          "roc_auc": 0.9083,
+          "pr_auc": 0.7701,
+          "accuracy": 0.8502,
+          "f1": 0.67,
+          "brier": 0.1015,
+          "fit_s": 1.064
+        },
+        "ExtraTrees(300)": {
+          "roc_auc": 0.9094,
+          "pr_auc": 0.7767,
+          "accuracy": 0.8538,
+          "f1": 0.6456,
+          "brier": 0.1017,
+          "fit_s": 0.4229
+        },
+        "RandomForest(300)": {
+          "roc_auc": 0.9164,
+          "pr_auc": 0.8028,
+          "accuracy": 0.8653,
+          "f1": 0.6862,
+          "brier": 0.095,
+          "fit_s": 0.5418
+        },
+        "HistGradientBoosting": {
+          "roc_auc": 0.9258,
+          "pr_auc": 0.8205,
+          "accuracy": 0.8682,
+          "f1": 0.705,
+          "brier": 0.0901,
+          "fit_s": 1.402
+        }
+      },
+      "cv_5x5_full_data": {
+        "Baseline(prior)": {
+          "auc_mean": 0.5,
+          "auc_sd": 0.0,
+          "auc_min": 0.5,
+          "auc_max": 0.5,
+          "ap_mean": 0.2394
+        },
+        "GaussianNB": {
+          "auc_mean": 0.8414,
+          "auc_sd": 0.0141,
+          "auc_min": 0.8173,
+          "auc_max": 0.86,
+          "ap_mean": 0.569
+        },
+        "kNN(k=25)": {
+          "auc_mean": 0.8672,
+          "auc_sd": 0.0041,
+          "auc_min": 0.8605,
+          "auc_max": 0.8776,
+          "ap_mean": 0.6661
+        },
+        "DecisionTree(d=8)": {
+          "auc_mean": 0.9042,
+          "auc_sd": 0.0035,
+          "auc_min": 0.8969,
+          "auc_max": 0.9119,
+          "ap_mean": 0.7631
+        },
+        "LogisticRegression": {
+          "auc_mean": 0.9064,
+          "auc_sd": 0.003,
+          "auc_min": 0.9003,
+          "auc_max": 0.9118,
+          "ap_mean": 0.7658
+        },
+        "MLP(100,50)": {
+          "auc_mean": 0.912,
+          "auc_sd": 0.0032,
+          "auc_min": 0.904,
+          "auc_max": 0.9184,
+          "ap_mean": 0.7809
+        },
+        "ExtraTrees(300)": {
+          "auc_mean": 0.9125,
+          "auc_sd": 0.0031,
+          "auc_min": 0.908,
+          "auc_max": 0.9205,
+          "ap_mean": 0.7858
+        },
+        "RandomForest(300)": {
+          "auc_mean": 0.9197,
+          "auc_sd": 0.0031,
+          "auc_min": 0.9144,
+          "auc_max": 0.9263,
+          "ap_mean": 0.8115
+        },
+        "HistGradientBoosting": {
+          "auc_mean": 0.9296,
+          "auc_sd": 0.0024,
+          "auc_min": 0.926,
+          "auc_max": 0.9346,
+          "ap_mean": 0.8312
+        }
+      },
+      "paired_cv_contrasts": {
+        "HistGradientBoosting - LogisticRegression": {
+          "mean_diff": 0.0233,
+          "sd": 0.0015,
+          "ci95": [
+            0.0227,
+            0.0239
+          ],
+          "folds_won": 25,
+          "n_folds": 25,
+          "p_ttest": 3.1320801632035297e-30,
+          "p_wilcoxon": 5.960464477539063e-08
+        },
+        "HistGradientBoosting - GaussianNB": {
+          "mean_diff": 0.0882,
+          "sd": 0.0137,
+          "ci95": [
+            0.0829,
+            0.0936
+          ],
+          "folds_won": 25,
+          "n_folds": 25,
+          "p_ttest": 2.8680441392526476e-21,
+          "p_wilcoxon": 5.960464477539063e-08
+        },
+        "HistGradientBoosting - RandomForest(300)": {
+          "mean_diff": 0.0099,
+          "sd": 0.0011,
+          "ci95": [
+            0.0095,
+            0.0104
+          ],
+          "folds_won": 25,
+          "n_folds": 25,
+          "p_ttest": 2.132288988807372e-24,
+          "p_wilcoxon": 5.960464477539063e-08
+        },
+        "RandomForest(300) - LogisticRegression": {
+          "mean_diff": 0.0133,
+          "sd": 0.0013,
+          "ci95": [
+            0.0128,
+            0.0139
+          ],
+          "folds_won": 25,
+          "n_folds": 25,
+          "p_ttest": 3.7244092588921834e-26,
+          "p_wilcoxon": 5.960464477539063e-08
+        },
+        "HistGradientBoosting - MLP(100,50)": {
+          "mean_diff": 0.0177,
+          "sd": 0.0018,
+          "ci95": [
+            0.017,
+            0.0184
+          ],
+          "folds_won": 25,
+          "n_folds": 25,
+          "p_ttest": 1.056794684945456e-25,
+          "p_wilcoxon": 5.960464477539063e-08
+        },
+        "LogisticRegression - DecisionTree(d=8)": {
+          "mean_diff": 0.0022,
+          "sd": 0.0015,
+          "ci95": [
+            0.0016,
+            0.0028
+          ],
+          "folds_won": 23,
+          "n_folds": 25,
+          "p_ttest": 3.142551661005135e-07,
+          "p_wilcoxon": 4.172325134277344e-07
+        },
+        "LogisticRegression - kNN(k=25)": {
+          "mean_diff": 0.0391,
+          "sd": 0.003,
+          "ci95": [
+            0.038,
+            0.0403
+          ],
+          "folds_won": 25,
+          "n_folds": 25,
+          "p_ttest": 1.066473949768437e-28,
+          "p_wilcoxon": 5.960464477539063e-08
+        },
+        "LogisticRegression - GaussianNB": {
+          "mean_diff": 0.0649,
+          "sd": 0.0136,
+          "ci95": [
+            0.0596,
+            0.0703
+          ],
+          "folds_won": 25,
+          "n_folds": 25,
+          "p_ttest": 2.9994343475708876e-18,
+          "p_wilcoxon": 5.960464477539063e-08
+        }
+      },
+      "bootstrap_test_auc_diff": {
+        "head": {
+          "mean": 0.0234,
+          "ci95": [
+            0.0202,
+            0.0266
+          ]
+        },
+        "best_worst": {
+          "mean": 0.077,
+          "ci95": [
+            0.0705,
+            0.084
+          ]
+        },
+        "hgb_rf": {
+          "mean": 0.0094,
+          "ci95": [
+            0.0073,
+            0.0115
+          ]
+        }
+      },
+      "cv_spread_all_families": 0.0882,
+      "cv_spread_strong_families": 0.0233,
+      "best_family_cv": "HistGradientBoosting",
+      "worst_family_cv": "GaussianNB"
+    }
+  }
+}

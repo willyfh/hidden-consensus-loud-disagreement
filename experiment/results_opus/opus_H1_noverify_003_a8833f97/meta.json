@@ -1,0 +1,25 @@
+{
+  "run_id": "opus_H1_noverify_003_a8833f97",
+  "hypothesis_id": "H1",
+  "verify_arm": false,
+  "replicate_idx": 3,
+  "model": "opus",
+  "work_dir": "<TMP_DIR>/aml_replicate_opus_H1_noverify_003_a8833f97__b1zubmt",
+  "started_at": 1788214796.0876448,
+  "returncode": 1,
+  "stdout_tail": "You've hit your session limit \u00b7 resets 11:20am (Asia/Seoul)\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1788216114.388027,
+  "wall_clock_seconds": 1318.3003821372986,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H1",
+    "summary": "Yes, but the size of the effect depends on which families are compared. Across nine families the held-out test ROC-AUC spans 0.062 (0.927 for HistGradientBoosting down to 0.865 for GaussianNB), so weak families (Gaussian NB, single decision tree, kNN) are clearly worse. Among the competitive families the differences are small but statistically reliable: gradient boosting beats logistic regression by 0.021 AUC (95% bootstrap CI 0.018 to 0.024), i.e. a real but modest ~2.1 AUC-point gain.",
+    "primary_metric_name": "Test ROC-AUC difference (HistGradientBoosting - LogisticRegression)",
+    "primary_metric_value": 0.0209,
+    "direction": "HistGradientBoosting > LogisticRegression > kNN/DecisionTree > GaussianNB; model family matters, modestly among strong families",
+    "methodological_choices": "Dropped 52 exact duplicate rows and the fnlwgt column (a census sampling weight, not a person-level predictor). Missing workclass/occupation/native-country encoded as an explicit 'Missing' level rather than imputed. Single stratified 80/20 train/test split (seed 0); all tuning done inside the training set with 3-fold stratified CV on ROC-AUC, then each tuned family scored once on the held-out test set. Preprocessing differs by family by design: one-hot (min_frequency=10) + standardisation for logistic regression / linear SVM / kNN / MLP / Gaussian NB, ordinal codes for tree ensembles (native categorical support for HistGradientBoosting). Nine families compared: logistic regression, linear SVM, Gaussian NB, kNN, decision tree, random forest, extra trees, histogram gradient boosting, MLP (64,32). Primary metric ROC-AUC; PR-AUC, accuracy, F1 and Brier also reported. No class-imbalance reweighting or resampling (24% positives; ranking metrics are used, and the 0.5 threshold is only reported secondarily). Uncertainty from a 2000-resample paired bootstrap of the test set plus a paired t-test over shared 5-fold CV splits on the training set. Alternatives another researcher might pick: keeping fnlwgt or using it as sample weights, target/ordinal encoding of education, class_weight='balanced', repeated nested CV instead of a single split, XGBoost/LightGBM, or accuracy/F1 as the headline metric."
+  }
+}

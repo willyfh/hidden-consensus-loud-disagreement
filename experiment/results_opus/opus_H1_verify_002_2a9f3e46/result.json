@@ -1,0 +1,183 @@
+{
+  "hypothesis_id": "H1",
+  "summary": "Model family matters, but modestly: the six serious families span only 0.064 ROC-AUC on a held-out test set (0.926 for Gradient Boosting (HGB) down to 0.862 for GaussianNB), while all beat a prior-only baseline (0.500) by a wide margin. Gradient boosting is reliably the best family, beating tuned logistic regression by 0.023 ROC-AUC (~1.5 pp accuracy) - a small but highly consistent and statistically unambiguous edge, so the practical answer is that the choice matters much less than the ~0.93-vs-0.50 gap between modelling and not modelling.",
+  "primary_metric_name": "ROC-AUC difference on held-out test (Gradient Boosting (HGB) - Logistic Regression)",
+  "primary_metric_value": 0.023,
+  "direction": "HGB > RandomForest ~ MLP > LogReg > kNN > DecisionTree > GaussianNB; differences small (<0.05 AUC among serious families)",
+  "methodological_choices": "Dropped 52 exact duplicate rows and the `fnlwgt` survey sampling weight; NaN categoricals (workclass/occupation/native-country) kept as an explicit 'Missing' level rather than imputed or dropped; kept both `education` and `education-num` despite redundancy. Two encodings: one-hot (min_frequency=10) + standardised numerics for LogReg/kNN/MLP/GaussianNB, ordinal codes for DecisionTree/RandomForest and native categorical handling for HistGradientBoosting. Stratified 80/20 split (seed 42); each family tuned by a small grid search with 3-fold CV on the TRAIN portion only, scoring ROC-AUC, then scored once on the untouched test set. Primary metric ROC-AUC (threshold-free, robust to the 24% positive rate); accuracy/PR-AUC/balanced-accuracy/F1 at threshold 0.5 reported alongside. No class-imbalance reweighting or resampling was applied (ROC-AUC is insensitive to it, and reweighting mainly shifts thresholds). Families compared: gradient boosting, random forest, MLP, logistic regression, k-NN, decision tree, Gaussian NB, plus a prior-only dummy.",
+  "verification_method": "Two independent checks: (a) 2000-resample paired bootstrap of the held-out test set (same resample indices for every model, giving 95% CIs on the per-model AUC and on the paired differences); (b) 3x5-fold repeated stratified CV (15 folds, seed 7) refitting every tuned pipeline on the FULL de-duplicated dataset, yielding 15 paired per-fold differences.",
+  "verification_result": "Held up. Paired bootstrap on the test set: HGB - LogReg = 0.0230 (95% CI 0.0200 to 0.0260), positive in 100.0% of resamples. Repeated 3x5-fold CV on the full dataset reproduced it: 0.0227 +/- 0.0015, positive in 15/15 folds (range 0.0203 to 0.0254). The family ranking was stable across both checks, and the spread across serious families (Gradient Boosting (HGB) vs GaussianNB) was 0.0632 AUC in repeated CV vs 0.0641 on the test split - i.e. the 'model family matters only modestly' conclusion is unchanged.",
+  "_detail": {
+    "n_rows_after_dedup": 48790,
+    "positive_rate": 0.23941381430621028,
+    "test_set_metrics": {
+      "Dummy (prior)": {
+        "inner_cv_auc": null,
+        "test_roc_auc": 0.5,
+        "test_pr_auc": 0.23939331830293092,
+        "test_accuracy": 0.760606681697069,
+        "test_balanced_acc": 0.5,
+        "test_f1_pos": 0.0
+      },
+      "GaussianNB": {
+        "inner_cv_auc": 0.8659025097427921,
+        "test_roc_auc": 0.8615692817170723,
+        "test_pr_auc": 0.6500429277178011,
+        "test_accuracy": 0.7323221971715516,
+        "test_balanced_acc": 0.7822346121120844,
+        "test_f1_pos": 0.6109621686029193
+      },
+      "Logistic Regression": {
+        "inner_cv_auc": 0.9072986140747291,
+        "test_roc_auc": 0.9026047838156093,
+        "test_pr_auc": 0.7569791673206274,
+        "test_accuracy": 0.8492518958803034,
+        "test_balanced_acc": 0.7605358859997859,
+        "test_f1_pos": 0.6521636320643178
+      },
+      "k-NN": {
+        "inner_cv_auc": 0.8987341028714807,
+        "test_roc_auc": 0.8948777041505631,
+        "test_pr_auc": 0.7308481499854441,
+        "test_accuracy": 0.8393113342898135,
+        "test_balanced_acc": 0.7532678901673293,
+        "test_f1_pos": 0.6367006487488415
+      },
+      "Decision Tree": {
+        "inner_cv_auc": 0.9054097810438374,
+        "test_roc_auc": 0.9003969767315239,
+        "test_pr_auc": 0.7683850199658481,
+        "test_accuracy": 0.852531256405001,
+        "test_balanced_acc": 0.7640117034510507,
+        "test_f1_pos": 0.658600237247924
+      },
+      "Random Forest": {
+        "inner_cv_auc": 0.91791849114286,
+        "test_roc_auc": 0.9154941701919137,
+        "test_pr_auc": 0.800426975882062,
+        "test_accuracy": 0.8638040582086494,
+        "test_balanced_acc": 0.7790491430512028,
+        "test_f1_pos": 0.684248039914469
+      },
+      "MLP (neural net)": {
+        "inner_cv_auc": 0.9131614701047458,
+        "test_roc_auc": 0.9087491071527447,
+        "test_pr_auc": 0.7692087541471555,
+        "test_accuracy": 0.8517114162738266,
+        "test_balanced_acc": 0.7730065627733912,
+        "test_f1_pos": 0.6675855731679302
+      },
+      "Gradient Boosting (HGB)": {
+        "inner_cv_auc": 0.9284358760816737,
+        "test_roc_auc": 0.9256301782833708,
+        "test_pr_auc": 0.8197234755399716,
+        "test_accuracy": 0.8674933387989342,
+        "test_balanced_acc": 0.7926215748810459,
+        "test_f1_pos": 0.7010404624277456
+      }
+    },
+    "tuned_params": {
+      "Dummy (prior)": {},
+      "GaussianNB": {
+        "clf__var_smoothing": "0.001"
+      },
+      "Logistic Regression": {
+        "clf__C": "0.1"
+      },
+      "k-NN": {
+        "clf__n_neighbors": "75",
+        "clf__weights": "uniform"
+      },
+      "Decision Tree": {
+        "clf__max_depth": "14",
+        "clf__min_samples_leaf": "100"
+      },
+      "Random Forest": {
+        "clf__max_features": "sqrt",
+        "clf__min_samples_leaf": "5"
+      },
+      "MLP (neural net)": {
+        "clf__alpha": "0.01",
+        "clf__hidden_layer_sizes": "(64,)"
+      },
+      "Gradient Boosting (HGB)": {
+        "clf__l2_regularization": "1.0",
+        "clf__learning_rate": "0.1",
+        "clf__max_leaf_nodes": "15"
+      }
+    },
+    "bootstrap_test_auc_ci": {
+      "Dummy (prior)": [
+        0.5,
+        0.5
+      ],
+      "GaussianNB": [
+        0.8528647439034531,
+        0.8702277740446532
+      ],
+      "Logistic Regression": [
+        0.8962143784573786,
+        0.9089522716947078
+      ],
+      "k-NN": [
+        0.8880952544486806,
+        0.901368099113668
+      ],
+      "Decision Tree": [
+        0.8936664596054652,
+        0.9070063351055928
+      ],
+      "Random Forest": [
+        0.9095538046890419,
+        0.9214703719010499
+      ],
+      "MLP (neural net)": [
+        0.9027387962388709,
+        0.9148410434931115
+      ],
+      "Gradient Boosting (HGB)": [
+        0.9201550283906978,
+        0.93082519976358
+      ]
+    },
+    "bootstrap_hgb_minus_logreg": {
+      "mean": 0.023042103638331327,
+      "ci95": [
+        0.019976806369993723,
+        0.026028839816684524
+      ],
+      "p_gt_0": 1.0
+    },
+    "repeated_cv_mean_auc": {
+      "Dummy (prior)": 0.5,
+      "GaussianNB": 0.8659949090823262,
+      "Logistic Regression": 0.9064408292032535,
+      "k-NN": 0.8997148767763843,
+      "Decision Tree": 0.9076483943319646,
+      "Random Forest": 0.9190652241707907,
+      "MLP (neural net)": 0.9132212078535498,
+      "Gradient Boosting (HGB)": 0.9291826394310247
+    },
+    "repeated_cv_sd": {
+      "Dummy (prior)": 0.0,
+      "GaussianNB": 0.0035110097272387465,
+      "Logistic Regression": 0.0032795283362421854,
+      "k-NN": 0.003385449183572768,
+      "Decision Tree": 0.003821609914783568,
+      "Random Forest": 0.0033725857837819213,
+      "MLP (neural net)": 0.002767084459103373,
+      "Gradient Boosting (HGB)": 0.002792909900863377
+    },
+    "repeated_cv_hgb_minus_logreg": {
+      "mean": 0.02274181022777131,
+      "sd": 0.0014837721408257555,
+      "min": 0.02033563981339437,
+      "max": 0.025373761549337015,
+      "n_folds_won": 15,
+      "n_folds": 15
+    },
+    "test_spread_best_minus_worst_serious": 0.06406089656629854,
+    "best_family": "Gradient Boosting (HGB)",
+    "worst_serious_family": "GaussianNB"
+  }
+}

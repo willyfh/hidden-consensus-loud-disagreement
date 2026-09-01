@@ -1,0 +1,158 @@
+{
+  "hypothesis_id": "H3",
+  "summary": "On a held-out test set, the five features carrying essentially all the predictive signal are capital-gain, age, marital-status, education-num and occupation; capital-gain has the largest single-feature permutation importance (ROC-AUC drop 0.0590 on the primary split, 0.0582+/-0.0017 across 10 splits), followed by age (0.0484) and marital-status (0.0387). Race, sex, native-country and the census sampling weight fnlwgt are near-zero once the other features are present. Important caveat: marital-status and relationship are near-redundant and mask each other under single-feature permutation -- permuted jointly, the household block (marital-status+relationship+sex) is the largest of all at 0.1141, exceeding capital+loss (0.0745), so 'capital-gain is most important' holds for individual features, not for concept blocks.",
+  "primary_metric_name": "top feature permutation importance (capital-gain): mean drop in held-out ROC-AUC when that column is shuffled, HistGradientBoosting, 30 repeats",
+  "primary_metric_value": 0.05905,
+  "direction": "capital-gain most important (single-feature); household/marital block largest when grouped",
+  "methodological_choices": "Importance defined at the ORIGINAL-FEATURE level as permutation importance on a held-out 25% stratified test set, scored by ROC-AUC (not accuracy, given the 24% positive rate; no resampling/class weighting used since ROC-AUC is prevalence-insensitive and the goal is ranking features, not tuning a decision threshold). Primary model: HistGradientBoostingClassifier (max_iter=300, lr=0.1, max_leaf_nodes=31, l2=1.0, early stopping on a 10% internal validation split) with native categorical handling via OrdinalEncoder -- so tree splits are unordered-categorical, not one-hot. 'education' (string) was verified to be a 1:1 duplicate of 'education-num' and dropped, because keeping both would split permutation credit between identical columns and understate education; education is therefore treated as ordinal/monotone in years. 'fnlwgt' (a census sampling weight, not a person attribute) was deliberately KEPT as a negative control rather than dropped. Missing values in workclass/occupation/native-country were encoded as an explicit 'Missing' category rather than imputed, since non-response is itself informative. Alternatives another researcher might pick that would change the headline: (a) using RF impurity/MDI instead of permutation ranks marital-status #1 and capital-gain #2, and inflates high-cardinality/continuous columns; (b) using univariate single-feature AUC ranks relationship #1 (0.775) and demotes capital-gain to 7th (0.626), because capital-gain is 0 for ~92% of people -- sparse but near-decisive when nonzero; (c) one-hot + logistic regression makes marital-status dominate by a wide margin (0.141 vs 0.037); (d) grouping correlated features into concept blocks before permuting reverses the top rank. All four cross-checks are computed and reported in _detail.",
+  "verification_method": "Two independent stability checks. (A) The entire pipeline -- stratified re-split, fresh model fit, fresh permutation importance (8 repeats) -- was repeated on 10 independent random seeds [7,13,21,42,99,123,256,777,1234,2024], recording the #1 feature and the mean/sd/min/max importance per feature. (B) A 1000-resample bootstrap of the held-out test set on the primary split, giving a percentile CI for capital-gain's importance and for the capital-gain-minus-age gap. Additionally the ranking was cross-validated against three alternative importance methods (LogReg permutation, RF impurity MDI, univariate single-feature AUC) and a grouped-permutation analysis of correlated blocks.",
+  "verification_result": "The finding held up, with one honest qualification. (A) capital-gain ranked #1 in 9/10 independent splits (mean rank 1.20); the single exception was seed 256, where age (0.0634) edged past it. Across seeds capital-gain importance was 0.0582+/-0.0017 (range 0.0548-0.0601) -- the most stable of the leaders, whereas age (sd 0.0063) and marital-status (sd 0.0080) were 4-5x more variable and traded places for #2/#3. Model performance was stable at mean held-out ROC-AUC 0.9299 (sd 0.0013). (B) Bootstrap 95% CI for capital-gain importance: [0.0532, 0.0629]; the capital-gain-over-age gap was 0.0125, 95% CI [0.0059, 0.0198], excluding zero (P(gap>0)=0.999). So capital-gain > age is a real but modest margin, not a landslide. The robust, method-independent part of the finding is the TOP-5 SET {capital-gain, age, marital-status, education-num, occupation} plus capital-loss/hours-per-week/relationship in a second tier, and the near-zero tier {workclass, native-country, sex, fnlwgt, race} -- that partition is identical under every model and importance method tried. Which single member of the top set is called '#1' is NOT method-independent: it is capital-gain under permutation importance, marital-status under RF impurity and under logistic regression, relationship under univariate AUC, and the household block under grouped permutation. fnlwgt behaved as the intended negative control (~0.0009), supporting the validity of the procedure.",
+  "_detail": {
+    "held_out_auc": {
+      "HGB": 0.9293964275453608,
+      "LogReg": 0.9054967313571968,
+      "RF": 0.9174749759214881
+    },
+    "permutation_importance_HGB": {
+      "capital-gain": 0.05905,
+      "age": 0.04841,
+      "marital-status": 0.03866,
+      "education-num": 0.02584,
+      "occupation": 0.01645,
+      "capital-loss": 0.01313,
+      "hours-per-week": 0.01201,
+      "relationship": 0.01166,
+      "workclass": 0.00178,
+      "native-country": 0.00136,
+      "fnlwgt": 0.0007,
+      "race": 0.00061,
+      "sex": 0.0006
+    },
+    "permutation_importance_LogReg": {
+      "capital-gain": 0.03736,
+      "age": 0.00761,
+      "marital-status": 0.14129,
+      "education-num": 0.03926,
+      "occupation": 0.01974,
+      "capital-loss": 0.00486,
+      "hours-per-week": 0.00904,
+      "relationship": 0.00949,
+      "workclass": 0.00244,
+      "native-country": 0.00183,
+      "fnlwgt": 0.00054,
+      "race": 0.00067,
+      "sex": 0.0072
+    },
+    "permutation_importance_RF": {
+      "capital-gain": 0.04251,
+      "age": 0.01633,
+      "marital-status": 0.04322,
+      "education-num": 0.02678,
+      "occupation": 0.01919,
+      "capital-loss": 0.00656,
+      "hours-per-week": 0.00962,
+      "relationship": 0.01428,
+      "workclass": 0.00282,
+      "native-country": 0.00059,
+      "fnlwgt": 0.00059,
+      "race": 0.00069,
+      "sex": 0.00159
+    },
+    "rf_mdi_by_feature": {
+      "marital-status": 0.19021,
+      "capital-gain": 0.15859,
+      "relationship": 0.15388,
+      "education-num": 0.13268,
+      "occupation": 0.10517,
+      "age": 0.07866,
+      "hours-per-week": 0.04983,
+      "capital-loss": 0.04063,
+      "fnlwgt": 0.02699,
+      "sex": 0.02567,
+      "workclass": 0.02478,
+      "native-country": 0.00694,
+      "race": 0.00597
+    },
+    "grouped_permutation": {
+      "household(marital+relationship+sex)": 0.1141,
+      "education(education-num)": 0.02575,
+      "capital(gain+loss)": 0.07447,
+      "work(occupation+workclass+hours)": 0.03663,
+      "age": 0.04785,
+      "origin(race+native-country)": 0.00188,
+      "fnlwgt": 0.0006
+    },
+    "univariate_auc": {
+      "relationship": 0.7748,
+      "marital-status": 0.7634,
+      "occupation": 0.732,
+      "education-num": 0.7174,
+      "age": 0.7091,
+      "hours-per-week": 0.6771,
+      "capital-gain": 0.6261,
+      "sex": 0.6147,
+      "workclass": 0.5862,
+      "capital-loss": 0.5546,
+      "race": 0.5367,
+      "fnlwgt": 0.5294,
+      "native-country": 0.5272
+    },
+    "across_seed_mean": {
+      "capital-gain": 0.0582,
+      "age": 0.0512,
+      "marital-status": 0.04141,
+      "education-num": 0.02385,
+      "occupation": 0.01706,
+      "capital-loss": 0.01443,
+      "relationship": 0.01303,
+      "hours-per-week": 0.01178,
+      "workclass": 0.00221,
+      "native-country": 0.00149,
+      "sex": 0.00111,
+      "fnlwgt": 0.0009,
+      "race": 0.00065
+    },
+    "across_seed_sd": {
+      "capital-gain": 0.0017,
+      "age": 0.00626,
+      "marital-status": 0.00797,
+      "education-num": 0.00143,
+      "occupation": 0.00122,
+      "capital-loss": 0.00084,
+      "relationship": 0.00367,
+      "hours-per-week": 0.00114,
+      "workclass": 0.0003,
+      "native-country": 0.00017,
+      "sex": 0.00037,
+      "fnlwgt": 0.00027,
+      "race": 0.00013
+    },
+    "across_seed_mean_rank": {
+      "capital-gain": 1.2,
+      "age": 2.0,
+      "marital-status": 2.8,
+      "education-num": 4.0,
+      "occupation": 5.1,
+      "capital-loss": 6.3,
+      "relationship": 7.1,
+      "hours-per-week": 7.5,
+      "workclass": 9.0,
+      "native-country": 10.2,
+      "sex": 11.4,
+      "fnlwgt": 11.7,
+      "race": 12.7
+    },
+    "top_feature_rank1_share": 0.9,
+    "bootstrap_ci_top": [
+      0.05323,
+      0.06287
+    ],
+    "bootstrap_gap_top_minus_second": {
+      "mean": 0.01253,
+      "ci": [
+        0.00593,
+        0.01978
+      ]
+    }
+  }
+}

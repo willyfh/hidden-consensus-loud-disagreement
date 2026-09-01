@@ -1,0 +1,27 @@
+{
+  "run_id": "opus_H3_verify_002_343f97d0",
+  "hypothesis_id": "H3",
+  "verify_arm": true,
+  "replicate_idx": 2,
+  "model": "opus",
+  "work_dir": "<TMP_DIR>/aml_replicate_opus_H3_verify_002_343f97d0_8fg0qpls",
+  "started_at": 1788172838.89921,
+  "returncode": 1,
+  "stdout_tail": "You've hit your session limit \u00b7 resets 12am (Asia/Seoul)\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1788173538.576033,
+  "wall_clock_seconds": 699.6768231391907,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H3",
+    "summary": "Marital/relationship status, education, capital-gain, age and occupation carry almost all the predictive signal for income. In a gradient-boosted model (test ROC-AUC 0.922), the single most important feature by held-out permutation importance is capital-gain: shuffling it costs 0.056 ROC-AUC, roughly 1.1x the next feature. Because marital-status and relationship encode the same construct, permuting them jointly gives a combined importance of 0.106, the largest of any feature group; race, sex, native-country and fnlwgt are near-zero once the others are present.",
+    "primary_metric_name": "top feature permutation importance (mean drop in held-out ROC-AUC), HistGradientBoosting, feature = capital-gain",
+    "primary_metric_value": 0.0563,
+    "direction": "capital-gain most important",
+    "methodological_choices": "Dropped 52 exact duplicate rows. Missing values in workclass/occupation/native-country kept as an explicit 'Missing' category rather than imputed. Kept both education and education-num (redundant) and both marital-status and relationship (redundant), plus fnlwgt (a census sampling weight, effectively a negative control) - a researcher who pruned these would get different per-feature numbers. Primary model: HistGradientBoostingClassifier with native categorical handling (max_iter=300, lr=0.1, 31 leaves, early stopping); no class-imbalance reweighting, since ROC-AUC is threshold-free and rank-based. Secondary model: logistic regression on one-hot (min_frequency=20) + standardized numerics, to check the ranking is not specific to one inductive bias. Importance = permutation importance computed on held-out data at the raw-column level (so one-hot cardinality cannot inflate a categorical feature), scored by ROC-AUC drop, 20 repeats. Also reported a grouped permutation that shuffles redundant column pairs together, since permutation importance otherwise splits credit between correlated features. Split: 70/15/15 train/test/re-test, stratified. Alternatives another researcher might pick: Gini/split-gain importance, SHAP, drop-column refit importance, accuracy/F1 instead of AUC, or dropping the redundant columns first.",
+    "verification_method": "Two independent checks. (1) Bootstrap: 2000 row-resamples of a 15% re-test split never used in model fitting or in the primary importance estimate, giving 95% CIs per feature, the bootstrap probability that each feature ranks #1, and a CI on the margin between capital-gain and the runner-up. (2) 5x5-fold repeated stratified CV (25 refits, seed 42), recomputing permutation importance on every held-out fold and tracking how often each feature is ranked #1.",
+    "verification_result": "Held up. Bootstrap on the untouched re-test split: capital-gain importance = 0.0579 (95% CI [0.0534, 0.0626]), ranked #1 in 99.7% of 2000 resamples; margin over the runner-up (age) = 0.0102 (95% CI [0.0032, 0.0173]), excluding zero. Repeated 5x5-fold CV (25 refits): mean ROC-AUC 0.9288 +/- 0.0022; capital-gain was the top-ranked feature in 96% of folds, mean importance 0.0578 (fold range 0.0535-0.0628, sd 0.0024). Revised point estimate across CV folds: 0.058 ROC-AUC drop. The logistic-regression model reproduced the same leading features (top-3: marital-status, capital-gain, education-num), and the bottom of the ranking (race, sex, native-country, fnlwgt, all ~0) was stable throughout."
+  }
+}

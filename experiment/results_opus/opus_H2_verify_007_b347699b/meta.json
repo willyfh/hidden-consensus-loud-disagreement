@@ -1,0 +1,17 @@
+{
+  "run_id": "opus_H2_verify_007_b347699b",
+  "hypothesis_id": "H2",
+  "verify_arm": true,
+  "replicate_idx": 7,
+  "model": "opus",
+  "work_dir": "<TMP_DIR>/aml_replicate_opus_H2_verify_007_b347699b_gz79q93p",
+  "started_at": 1788212229.908695,
+  "returncode": 143,
+  "stdout_tail": "Execution error",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1788212533.654227,
+  "wall_clock_seconds": 303.74553203582764,
+  "result_json_found": false,
+  "analysis_py_found": true
+}

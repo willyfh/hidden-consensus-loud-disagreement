@@ -1,0 +1,180 @@
+{
+  "run_id": "opus_H1_verify_009_b3ea1768",
+  "hypothesis_id": "H1",
+  "verify_arm": true,
+  "replicate_idx": 9,
+  "model": "opus",
+  "work_dir": "<TMP_DIR>/aml_replicate_opus_H1_verify_009_b3ea1768_du9d2254",
+  "started_at": 1788275462.261353,
+  "returncode": 0,
+  "stdout_tail": "Done. `analysis.py` and `result.json` are in the working directory.\n\n## Finding (H1): yes \u2014 but the effect is two-tiered\n\n**Held-out test ROC-AUC** (stratified 80/20, n=9,769; identical feature matrix for every learner, so differences are attributable to the learner):\n\n| Model | test AUC | acc | F1(>50K) | PR-AUC | Brier |\n|---|---|---|---|---|---|\n| Gradient boosting (HGB) | **0.9283** | 0.874 | 0.711 | 0.831 | 0.088 |\n| Random forest | 0.9173 | 0.865 | 0.683 | 0.806 | 0.095 |\n| MLP (100,50) | 0.9093 | 0.856 | 0.673 | 0.775 | 0.100 |\n| Logistic regression | 0.9058 | 0.853 | 0.663 | 0.767 | 0.102 |\n| Extra trees / tree(d=8) / k-NN | 0.90\u20130.895 | | | | |\n| Gaussian naive Bayes | 0.8166 | 0.597 | 0.524 | 0.503 | 0.400 |\n| Unpruned decision tree | 0.7716 | 0.820 | 0.631 | 0.508 | 0.170 |\n\n**Primary metric: HGB \u2212 LogReg = +0.0226 AUC.** Among sensibly-specified families the gaps are real but modest (~0.01\u20130.02 AUC; every metric gives the same ordering). Across the full set of families the spread is 0.157 AUC \u2014 so family choice matters most through *avoiding a bad fit* (naive Bayes' independence assumption, an unregularised tree) than through the margin between the good options.\n\n**Stability check.** 5\u00d75 repeated stratified CV on all 48,842 rows with a different seed (12345) than the primary split, plus a 2,000-resample bootstrap on the test set. The finding held: HGB \u2212 LogReg = +0.0228, 95% CI [+0.0221, +0.0235], p=4e-29, HGB ahead in **25/25** folds; bootstrap +0.0226 [+0.0196, +0.0258]. HGB also beat RF in 25/25 folds (+0.0110). The family ordering was identical in every check.\n\nTwo judgment calls another researcher might make differently: I dropped `fnlwgt` (a census sampling weight, not a person-level predictor), and I spent no tuning budget per family \u2014 near-default hyperparameters throughout. Tuning would most plausibly help logistic regression, since its deficit here is largely unmodelled interactions (explicit interaction/spline terms could close part of the 0.02).\n\nOne environment note: the Gmail, Google Calendar, and Google Drive connectors need authorization via your claude.ai connector settings before their tools are usable \u2014 irrelevant to this task, but they surfaced as unauthenticated.\n",
+  "stderr_tail": "",
+  "timed_out": false,
+  "finished_at": 1788275978.261777,
+  "wall_clock_seconds": 516.0004239082336,
+  "result_json_found": true,
+  "analysis_py_found": true,
+  "parsed_result": {
+    "hypothesis_id": "H1",
+    "summary": "Yes, but the size of the effect depends on which families are compared. Among well-specified families the differences are real yet modest: gradient boosting reaches ROC-AUC 0.928 versus 0.906 for logistic regression (+0.022) and 0.917 for random forest - a consistent but small edge. Across the wider set of families the spread is large (0.16 AUC): Gaussian naive Bayes (0.817) and an unpruned decision tree (0.772) trail badly, so model family matters most through avoiding a poor choice rather than through the gap between good ones.",
+    "primary_metric_name": "ROC-AUC difference (HistGradientBoosting - Logistic Regression), held-out test set",
+    "primary_metric_value": 0.0226,
+    "direction": "HGB > RF > LogReg > NaiveBayes > single tree; gradient boosting best, gap over logistic regression small (~0.02 AUC) but consistent",
+    "methodological_choices": "Dropped fnlwgt (census sampling weight, not a person-level predictor); kept the 52 duplicate rows. Missing workclass/occupation/native-country encoded as an explicit 'Missing' level rather than dropping ~7% of rows. One-hot encoding (min_frequency=10, unknown ignored) plus median imputation for all models, with standardisation only for the scale-sensitive learners (LogReg, k-NN, MLP, NB) - trees got the identical feature matrix so differences are attributable to the learner. Stratified 80/20 split, seed 0. No class-imbalance reweighting and no threshold tuning; ROC-AUC chosen as the primary metric precisely because it is threshold-free (accuracy, F1, PR-AUC and Brier reported alongside and give the same ordering). Near-default hyperparameters, no tuning budget spent per family (HGB max_iter=400 lr=0.1; RF/ET 500 trees min_samples_leaf=3; LogReg L2 C=1; k=25 for k-NN; MLP 100-50 with early stopping). A tuning search could narrow or widen the gaps somewhat, and would most plausibly help logistic regression via explicit interaction/spline terms.",
+    "verification_method": "(1) 5x5 repeated stratified cross-validation over the full 48,842 rows with a different seed (12345) from the primary split, giving 25 paired per-fold AUCs per family plus a paired t-test/CI on the fold-level differences; (2) 2000-resample bootstrap 95% CI of the pairwise test-set AUC differences on the held-out 20%.",
+    "verification_result": "The finding held. In 5x5 repeated CV on the full data the HGB - LogReg AUC gap was +0.0228 (95% CI [+0.0221, +0.0235], p=4.1e-29), with HGB ahead in 25/25 folds; the test-set bootstrap gave +0.0226 (95% CI [+0.0196, +0.0258]). HGB also beat random forest in 25/25 folds (+0.0110). The ordering of families was identical in every check, and the large deficits of naive Bayes and the unpruned tree reproduced. Revised estimate of the headline gap: ~+0.02 AUC (0.015-0.025), i.e. statistically unambiguous but practically modest.",
+    "_details": {
+      "test_set_table": [
+        {
+          "model": "Grad. boosting (HGB)",
+          "cv_auc": 0.9283,
+          "cv_sd": 0.0029,
+          "test_auc": 0.9283,
+          "test_acc": 0.8738,
+          "test_f1": 0.7105,
+          "test_pr_auc": 0.831,
+          "brier": 0.0876
+        },
+        {
+          "model": "Random forest",
+          "cv_auc": 0.9174,
+          "cv_sd": 0.0035,
+          "test_auc": 0.9173,
+          "test_acc": 0.8648,
+          "test_f1": 0.6825,
+          "test_pr_auc": 0.8055,
+          "brier": 0.0952
+        },
+        {
+          "model": "MLP (100,50)",
+          "cv_auc": 0.9112,
+          "cv_sd": 0.0028,
+          "test_auc": 0.9093,
+          "test_acc": 0.8563,
+          "test_f1": 0.6727,
+          "test_pr_auc": 0.7754,
+          "brier": 0.1
+        },
+        {
+          "model": "Logistic regression",
+          "cv_auc": 0.9068,
+          "cv_sd": 0.0034,
+          "test_auc": 0.9058,
+          "test_acc": 0.8527,
+          "test_f1": 0.6631,
+          "test_pr_auc": 0.7668,
+          "brier": 0.1018
+        },
+        {
+          "model": "Extra trees",
+          "cv_auc": 0.9022,
+          "cv_sd": 0.0041,
+          "test_auc": 0.9013,
+          "test_acc": 0.8496,
+          "test_f1": 0.6463,
+          "test_pr_auc": 0.7465,
+          "brier": 0.1056
+        },
+        {
+          "model": "Decision tree (d=8)",
+          "cv_auc": 0.9034,
+          "cv_sd": 0.0041,
+          "test_auc": 0.8995,
+          "test_acc": 0.8579,
+          "test_f1": 0.6595,
+          "test_pr_auc": 0.7483,
+          "brier": 0.1006
+        },
+        {
+          "model": "k-NN (k=25)",
+          "cv_auc": 0.8968,
+          "cv_sd": 0.003,
+          "test_auc": 0.8953,
+          "test_acc": 0.845,
+          "test_f1": 0.651,
+          "test_pr_auc": 0.7355,
+          "brier": 0.1062
+        },
+        {
+          "model": "Naive Bayes",
+          "cv_auc": 0.8108,
+          "cv_sd": 0.0186,
+          "test_auc": 0.8166,
+          "test_acc": 0.597,
+          "test_f1": 0.5241,
+          "test_pr_auc": 0.5031,
+          "brier": 0.4001
+        },
+        {
+          "model": "Decision tree",
+          "cv_auc": 0.7674,
+          "cv_sd": 0.0032,
+          "test_auc": 0.7716,
+          "test_acc": 0.8196,
+          "test_f1": 0.6305,
+          "test_pr_auc": 0.5082,
+          "brier": 0.1696
+        },
+        {
+          "model": "Baseline (majority)",
+          "cv_auc": 0.5,
+          "cv_sd": 0.0,
+          "test_auc": 0.5,
+          "test_acc": 0.7607,
+          "test_f1": 0.0,
+          "test_pr_auc": 0.2393,
+          "brier": 0.1821
+        }
+      ],
+      "bootstrap_test_auc_diffs_95CI": {
+        "HGB - LogReg": [
+          0.022629509017136472,
+          0.019585852833305776,
+          0.025785220896611536
+        ],
+        "HGB - RF": [
+          0.011028456385687889,
+          0.008937973221823095,
+          0.013091323927183273
+        ],
+        "RF - LogReg": [
+          0.011616926010944923,
+          0.009204528304116341,
+          0.014016453088952725
+        ],
+        "HGB - NaiveBayes": [
+          0.11170106576732808,
+          0.10520501800489356,
+          0.11908991488166079
+        ]
+      },
+      "repeated_cv_mean_auc": {
+        "Logistic regression": 0.9065,
+        "Random forest": 0.9183,
+        "Grad. boosting (HGB)": 0.9293,
+        "Naive Bayes": 0.8259,
+        "Decision tree": 0.7765,
+        "k-NN (k=25)": 0.8975,
+        "MLP (100,50)": 0.9117
+      },
+      "repeated_cv_sd_auc": {
+        "Logistic regression": 0.003,
+        "Random forest": 0.0029,
+        "Grad. boosting (HGB)": 0.0025,
+        "Naive Bayes": 0.0152,
+        "Decision tree": 0.0042,
+        "k-NN (k=25)": 0.0032,
+        "MLP (100,50)": 0.0037
+      },
+      "repeated_cv_hgb_minus_logreg": {
+        "mean": 0.0228,
+        "ci95": [
+          0.0221,
+          0.0235
+        ],
+        "wins_out_of_25": 25,
+        "p_value": 4.129755672305977e-29
+      }
+    }
+  }
+}
