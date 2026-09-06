@@ -7,7 +7,7 @@
   "work_dir": "<TMP_DIR>/aml_replicate_H4_verify_008_877d8e09_ieg0z1ip",
   "started_at": 1785884463.737273,
   "returncode": 1,
-  "stdout_tail": "You've hit your session limit \u00b7 resets 12pm (Asia/Seoul)\n",
+  "stdout_tail": "You've hit your session limit \u00b7 resets 12pm (TZ)\n",
   "stderr_tail": "",
   "timed_out": false,
   "finished_at": 1785885191.198821,

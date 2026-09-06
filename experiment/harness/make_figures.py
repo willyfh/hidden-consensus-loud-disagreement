@@ -100,7 +100,7 @@ fig, axes = plt.subplots(1, 2, figsize=(9, 4.2), sharey=False)
 
 for ax, hyp, title in zip(
     axes, ["H2", "H5"],
-    ["H2 (concrete): RF − LogReg ROC-AUC", "H5 (concrete): SMOTE − none, minority F1"],
+    ["H2 (concrete): ROC-AUC diff (RF - LogReg)", "H5 (concrete): minority F1 diff (SMOTE - none)"],
 ):
     sub = df[df["hypothesis_id"] == hyp]
     for arm_i, (arm, label, color) in enumerate([
@@ -123,7 +123,8 @@ for ax, hyp, title in zip(
     ax.tick_params(axis="both", length=0)
     ax.set_xlim(-0.5, 1.5)
 
-axes[0].set_ylabel("Reported effect (points)", fontsize=9.5, color=TEXT_SECONDARY)
+axes[0].set_ylabel("Reported effect, treatment minus baseline (points)", fontsize=9.5,
+                    color=TEXT_SECONDARY)
 fig.suptitle("Verification tightens a robust effect (H2) and shrinks a fragile one toward zero (H5)",
              fontsize=11, color=TEXT_PRIMARY, x=0.02, ha="left", y=1.02)
 fig.tight_layout()

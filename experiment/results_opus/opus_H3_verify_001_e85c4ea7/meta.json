@@ -7,7 +7,7 @@
   "work_dir": "<TMP_DIR>/aml_replicate_opus_H3_verify_001_e85c4ea7_luza4pm_",
   "started_at": 1788138918.238016,
   "returncode": 1,
-  "stdout_tail": "You've hit your session limit \u00b7 resets 1pm (Asia/Seoul)\n",
+  "stdout_tail": "You've hit your session limit \u00b7 resets 1pm (TZ)\n",
   "stderr_tail": "",
   "timed_out": false,
   "finished_at": 1788138922.002707,

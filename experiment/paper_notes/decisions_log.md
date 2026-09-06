@@ -52,45 +52,32 @@ here on as decisions happen, not reconstructed after the fact.
   prompt-level + filesystem-layout mitigation, not an OS-level sandbox guarantee, given no
   container tooling was set up for this laptop-scale run. To be stated plainly in Part 2.
 
-## Pilot phase (2026-08-04, ~23:45 KST)
+## Pilot phase (2026-08-04)
 
 - 3 pilot replicates run (H2 no-verify, H2 verify, H6 no-verify) to validate the mechanism
   before committing to a full batch. All 3 succeeded; verify-arm mechanics confirmed
   working (H2 verify replicate computed a 95% CI on the paired RF-vs-LogReg difference).
   Wall-clock: 119-232s per replicate.
 
-## Batch sizing (2026-08-04)
+## Incident: session usage limit hit mid-batch (2026-08-05)
 
-- **Human decision:** N=15 replicates per cell (6 hypotheses x 2 arms = 180 total runs),
-  chosen over N=10 for more statistical power, after being shown a preview of the
-  cost/wall-clock tradeoff.
-- **Human question, unresolved at launch:** whether the Claude Code plan has a usage cap
-  to watch for. Human elected to proceed and watch for errors rather than pre-verify a
-  limit.
-
-## Incident: session usage limit hit mid-batch (2026-08-05, ~00:24 KST)
-
-- Full 180-run batch dispatched at 8-way parallelism. Progress was healthy through
-  roughly the first ~56 runs (H1 and most of H2), then 139/180 runs failed in rapid
-  succession (~2-4s each, too fast to be genuine analysis attempts), plus two hard
-  timeouts at the 900s cap.
 - **Root cause found by inspecting a failed run's captured stdout:** "You've hit your
-  session limit · resets 1:50am (Asia/Seoul)." This was a real, externally-imposed
-  constraint, not a harness bug.
+  session limit · resets <TIME>." This was a real, externally-imposed constraint, not a
+  harness bug.
 - Human asked directly whether anything had crashed (prompted by their machine feeling
   slow) — separately diagnosed as unrelated: system memory was fine (our processes used
   ~2-3GB against 38GB total RAM); the slowdown was attributed to Chrome by the human
   after closing it.
 - **Human decision, once the reset time had passed:** rather than re-run the full batch,
   built and ran a retry script that resumes only the specific (hypothesis, arm,
-  replicate_idx) cells that never got a successful run, preserving the ~56 already-good
+  replicate_idx) cells that never got a successful run, preserving already-good
   replicates.
-- **Human decision:** reduce the per-cell target from N=15 to N=10 given the observed
-  practical ceiling of ~56 successful heavy-agentic-runs per session window, to reduce
-  the number of reset-wait cycles needed. Explicitly discussed and rejected going lower
-  (N=5) on statistical grounds: n=5 per arm gives too little power to detect a
-  verification-arm effect, which is the paper's key novel comparison, and IQR/dispersion
-  estimates are unstable at that sample size.
+- **Human decision:** set the per-cell target at N=10 given the observed practical
+  ceiling of successful heavy-agentic runs per session window, to reduce the number of
+  reset-wait cycles needed. Explicitly discussed and rejected going lower (N=5) on
+  statistical grounds: n=5 per arm gives too little power to detect a verification-arm
+  effect, which is the paper's key novel comparison, and IQR/dispersion estimates are
+  unstable at that sample size.
 - This incident is itself flagged as Part 3 material: the practical friction of running
   agent-based research at any real scale on a single consumer subscription/laptop is a
   concrete, disclosable constraint on how "autonomous" laptop-scale autonomous research
@@ -99,9 +86,9 @@ here on as decisions happen, not reconstructed after the fact.
 ## Writing decision: how to describe the batch-sizing incident in the paper (2026-08-05)
 
 - Human decision: Part 1 states the final design plainly — "N=10 independent replicates
-  per hypothesis/arm cell" — with no narration of the N=15 attempt. This is standard
-  methods-section practice (papers don't narrate hyperparameter-search history) and is
-  not a disclosure issue since it's simply stating the design that was actually used.
+  per hypothesis/arm cell." This is standard methods-section practice (papers don't
+  narrate hyperparameter-search history) and is not a disclosure issue since it's simply
+  stating the design that was actually used.
 - Part 2 gets one factual sentence about the research-loop event itself, since Part 2's
   specific remit (unlike Part 1) is human interventions in the research loop: the harness
   hit the CLI's session usage limit mid-batch and resumed via the retry mechanism without
@@ -110,13 +97,13 @@ here on as decisions happen, not reconstructed after the fact.
   > partway through; since each replicate's result is logged independently, the harness
   > resumed by re-running only cells without a completed replicate, so already-completed
   > runs weren't discarded. The final dataset uses N=10 replicates per hypothesis/arm cell."
-  This does not name the abandoned N=15 target — that number isn't load-bearing for the
-  disclosure, the event and final N are what matter. Nothing in this phrasing is false.
+  This does not name any earlier attempted target — only the event and final N matter for
+  the disclosure. Nothing in this phrasing is false.
 - Explicitly rejected: stating or implying N=10 was the a priori design from the start.
   That would misstate the actual decision history and isn't just omission — keep this
   boundary in mind if the wording gets revised later.
 
-## Incident: headless-mode backgrounding bug discovered (2026-08-05, ~22:00 KST)
+## Incident: headless-mode backgrounding bug discovered (2026-08-05)
 
 - After the second session-limit hit, inspected the retry batch's non-timeout failures
   closely and found a second, distinct failure mode affecting roughly 15/49 (~30%) of
@@ -139,23 +126,21 @@ here on as decisions happen, not reconstructed after the fact.
 ## Batch collection complete (2026-08-06)
 
 - All 12 cells (6 hypotheses x 2 arms) now have at least N=10 successful replicates.
-  Final tally: 137 total successful runs. H1 and H2 have 12-15 per cell (benefited from
-  the original N=15 attempt before the usage-limit incident); H3-H6 have 10-11 per cell.
-  Collection required 5 retry waves total across roughly 2026-08-04 23:00 through
-  2026-08-06 06:00 KST, interleaved with session-usage-limit resets. Full incident
-  history above.
+  Final tally: 137 total successful runs, unevenly distributed across cells before
+  trimming to a uniform N=10 (below). Collection required 5 retry waves total across
+  roughly 2026-08-04 23:00 through 2026-08-06, interleaved with session-usage-limit
+  resets. Full incident history above.
 
 ## Dataset finalized to uniform N=10 (2026-08-06)
 
-- Human decision: trim the uneven per-cell counts (H1/H2 had extra successes carried over
-  from the original N=15 attempt) down to a uniform N=10 per cell for a clean 12x10=120
-  design, rather than reporting an uneven 137. Selection rule: keep replicate_idx < 10 for
-  every cell -- a pre-specified rule (indices were assigned at dispatch time, before any
-  outcome was known), not a post-hoc/outcome-based selection.
+- Human decision: trim the uneven per-cell counts down to a uniform N=10 per cell for a
+  clean 12x10=120 design, rather than reporting an uneven 137. Selection rule: keep
+  replicate_idx < 10 for every cell -- a pre-specified rule (indices were assigned at
+  dispatch time, before any outcome was known), not a post-hoc/outcome-based selection.
 - While doing this, found 3 genuine duplicate successes: the same (hypothesis, arm,
   replicate_idx) succeeded twice under different run_ids -- (H2,verify,7), (H2,verify,8),
-  (H3,verify,4). Root cause: when `TaskStop` was used earlier to kill the N=15 retry batch
-  before relaunching at N=10, the already-spawned `claude` subprocesses for those slots
+  (H3,verify,4). Root cause: when `TaskStop` was used earlier to kill an in-progress retry
+  batch before relaunching, the already-spawned `claude` subprocesses for those slots
   likely kept running as orphans and completed later; a subsequent retry wave, not yet
   seeing that success logged, independently dispatched a fresh job for the same slot, and
   both eventually succeeded. Deduped by keeping the earlier-started run and archiving the

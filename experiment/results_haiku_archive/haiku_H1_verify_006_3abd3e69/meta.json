@@ -7,7 +7,7 @@
   "work_dir": "<TMP_DIR>/aml_replicate_haiku_H1_verify_006_3abd3e69_xxx1c3ul",
   "started_at": 1786139515.96081,
   "returncode": 1,
-  "stdout_tail": "You've hit your session limit \u00b7 resets 10:50am (Asia/Seoul)\n",
+  "stdout_tail": "You've hit your session limit \u00b7 resets 10:50am (TZ)\n",
   "stderr_tail": "",
   "timed_out": false,
   "finished_at": 1786140193.2809641,
