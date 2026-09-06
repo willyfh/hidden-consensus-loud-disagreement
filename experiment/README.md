@@ -33,7 +33,7 @@ condensed version in the paper's Appendix C is drawn from this file).
   - `collection_stats.py` -- batch-dispatch attempt/success/retry/timing statistics from
     the raw logs (reproduces Table 5).
   - `archive_stats.py` -- reasons archived replicate attempts were excluded, read from
-    each attempt's saved metadata (reproduces Table 7).
+    each attempt's saved metadata.
   - `make_figures.py` -- generates Figures 1 and 2.
   - `batch_log.jsonl` / `haiku_batch_log.jsonl` -- one line per dispatched replicate
     (hypothesis, arm, replicate index, success/failure, timing) across every collection
@@ -71,7 +71,7 @@ python harness/analyze.py                 # reproduces the Section 1.3 diversity
 python harness/analyze_cross_model.py     # reproduces the Sonnet-vs-Haiku comparison (Table 2, Table 4)
 python harness/make_figures.py            # writes Figures 1 and 2 to paper_notes/
 python harness/collection_stats.py        # reproduces the batch-dispatch statistics (Table 5)
-python harness/archive_stats.py           # reproduces the archive-exclusion breakdown (Table 7)
+python harness/archive_stats.py           # reproduces the archive-exclusion breakdown
 python harness/verify_results.py --results-dir results --out harness/verification_log.jsonl
 python harness/verify_results.py --results-dir results_haiku --out harness/verification_log_haiku.jsonl
                                            # re-executes every replicate's saved analysis.py

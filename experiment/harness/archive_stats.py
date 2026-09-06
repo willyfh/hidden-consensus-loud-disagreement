@@ -1,6 +1,6 @@
-"""Why archived (excluded) replicate attempts were not kept, by model (Part 2, Table 7),
-read directly from each archived run's saved meta.json rather than reconstructed after
-the fact.
+"""Why archived (excluded) replicate attempts were not kept, by model (Part 2), read
+directly from each archived run's saved meta.json rather than reconstructed after the
+fact.
 """
 import json
 from collections import Counter

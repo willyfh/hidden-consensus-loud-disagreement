@@ -7,12 +7,16 @@ Pure local compute, no API calls -- safe to run against all successful replicate
 """
 import json
 import os
+import py_compile
+import re
 import shutil
 import subprocess
 import tempfile
 import time
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from pathlib import Path
+
+_NUM_RE = re.compile(r"-?\d+\.?\d*(?:[eE]-?\d+)?")
 
 EXPERIMENT_DIR = Path(__file__).resolve().parent.parent
 DATA_CSV = EXPERIMENT_DIR / "data" / "adult_income.csv"
@@ -60,6 +64,19 @@ def verify_one(run_dir: Path) -> dict:
     work_dir = Path(tempfile.mkdtemp(prefix=f"verify_{run_id}_"))
     shutil.copy(DATA_CSV, work_dir / "adult_income.csv")
     shutil.copy(analysis_py, work_dir / "analysis.py")
+
+    # Syntax pre-check: a saved script that cannot even compile is a distinct failure
+    # mode from "ran but produced no comparable output" -- it means the saved file
+    # cannot be the literal code that was run to produce the reported value (confirmed
+    # 2026-09-06: one Haiku replicate's script had an unterminated multi-line f-string
+    # expression, valid only on Python 3.12+ (PEP 701), invalid on this repo's 3.9).
+    try:
+        py_compile.compile(str(work_dir / "analysis.py"), doraise=True)
+    except py_compile.PyCompileError as e:
+        out["status"] = "syntax_error"
+        out["syntax_error"] = str(e)
+        shutil.rmtree(work_dir, ignore_errors=True)
+        return out
 
     try:
         proc = subprocess.run(
@@ -121,6 +138,23 @@ def verify_one(run_dir: Path) -> dict:
                             found = True
                             break
                     if found:
+                        break
+            # Second fallback: some replicates only print their findings and never save
+            # any file at all. Search the captured stdout for a number close to the
+            # original report (confirmed 2026-09-06: this recovered genuine matches for
+            # several Sonnet/Haiku replicates previously marked inconclusive).
+            if not found and isinstance(ov, (int, float)):
+                for m in _NUM_RE.finditer(proc.stdout):
+                    try:
+                        val = float(m.group())
+                    except ValueError:
+                        continue
+                    if abs(val - ov) < max(0.01, 0.05 * abs(ov)):
+                        out["reexecuted_value"] = val
+                        out["found_in"] = "stdout"
+                        out["abs_diff"] = abs(val - ov)
+                        out["match"] = True
+                        found = True
                         break
             out["status"] = "found_in_other_file" if found else "no_result_json_produced"
     except subprocess.TimeoutExpired:
