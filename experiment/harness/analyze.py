@@ -1,24 +1,18 @@
 """Core analysis: measure-choice diversity, numeric dispersion, and the verification-arm
 comparison, per hypothesis.
 
-Canonicalization note (fixed 2026-08-16): the original canonicalize() collapsed only
-CV/fold/test-set wording, which (a) had a regex bug that deleted entire H1 names starting
-with "CV " down to the empty string, and (b) still left model-specific and repeat/seed
-qualifiers uncollapsed, so replicates using the identical measure (e.g. H5's "F1
-difference, SMOTE - no resampling" or H6's "Expected Calibration Error, 10-bin") were
-counted as distinct "framings" purely because of wording. The replacement below extracts
-(1) the base statistical measure (ROC-AUC / balanced accuracy / macro-F1 / minority-class
-F1 / ECE / feature-importance sub-type) and, for H1 only, (2) which pair of model families
-is being compared, since H1's question ("does model family affect performance?") is not
-well-defined without choosing that pair -- unlike H3's "top feature" or H6's "which model
-to calibrate", which are outputs of a fixed method rather than a chosen operationalization,
-and are already tracked separately (Part 2, Table 3/4: model-class usage).
+Canonicalization logic lives in canonicalize.py (shared with analyze_cross_model.py and
+analyze_haiku_supplement.py so all three stay in sync) -- see that module's docstring for
+the uniform operationalization-choice rule and why it changed on 2026-09-30.
 """
-import re
 from pathlib import Path
+import sys
 
 import pandas as pd
 import numpy as np
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from canonicalize import canonicalize
 
 EXPERIMENT_DIR = Path(__file__).resolve().parent.parent
 
@@ -33,67 +27,10 @@ SPECIFICITY = {
 }
 df["specificity"] = df["hypothesis_id"].map(SPECIFICITY)
 
-MODEL_ALIASES = {
-    "histgradientboosting": "hgb", "hist gradient boosting": "hgb", "hgb": "hgb",
-    "gradientboosting": "gb", "gradient boosting": "gb", "gbm": "gb",
-    "randomforest": "rf", "random forest": "rf", "rf": "rf",
-    "logisticregression": "logreg", "logistic regression": "logreg", "logreg": "logreg",
-    "knn": "knn", "k-nearest neighbors": "knn",
-    "gaussiannb": "nb", "naive bayes": "nb",
-    "best tree ensemble": "best_tree_ensemble",
-    "best": "best", "worst": "worst", "max": "best", "min": "worst",
-}
-
-
-def base_metric(name: str) -> str:
-    """The underlying statistical quantity, independent of wording, CV/split details, or
-    which specific model/feature is named."""
-    s = name.lower()
-    if "feature importance" in s or "permutation importance" in s or "decrease in impurity" in s or "feature_importance" in s:
-        s_noseed = re.sub(r"averaged? (over|across) \d+ (seeds?|reruns?|folds?|repeats?)", "", s)
-        if any(k in s_noseed for k in ("consensus", "aggregated", "combined")) or \
-           ("average" in s_noseed and "normalized" in s_noseed):
-            return "feat_importance:consensus_multi_method"
-        if "permutation" in s:
-            return "feat_importance:permutation"
-        if "impurity" in s or "gini" in s:
-            return "feat_importance:impurity_mdi"
-        return "feat_importance:unspecified"
-    if "balanced accuracy" in s or "balanced-accuracy" in s:
-        return "balanced_accuracy"
-    if "macro-f1" in s or "macro f1" in s or "f1-macro" in s or "f1 macro" in s:
-        return "macro_f1"
-    if re.search(r"\bf1\b", s) and ">50k" in s.replace(" ", ""):
-        return "f1_minority"
-    if re.search(r"\bf1\b", s):
-        return "macro_f1"  # bare "F1" in H4 context means macro-F1
-    if "roc-auc" in s or "roc auc" in s or re.search(r"\bauc\b", s):
-        return "roc_auc"
-    if "calibration error" in s or re.search(r"\bece\b", s):
-        return "ece"
-    return "other:" + s[:40]
-
-
-def h1_comparison_target(name: str) -> frozenset:
-    """Which pair of model families H1 compares (order-independent)."""
-    s = name.lower()
-    m = re.search(r"\(([^)]*)\)", s)
-    inside = m.group(1) if m else s
-    inside = re.split(r",", inside)[0]
-    parts = re.split(r"\s*-\s*|\sminus\s", inside)
-    norm = [MODEL_ALIASES.get(p.strip()) for p in parts]
-    norm = [p for p in norm if p]
-    return frozenset(norm) if norm else frozenset(["unresolved"])
-
-
-def canonicalize(hyp: str, name: str) -> str:
-    bm = base_metric(name)
-    if hyp == "H1":
-        return f"{bm}|{'+'.join(sorted(h1_comparison_target(name)))}"
-    return bm
-
-
-df["metric_canonical"] = df.apply(lambda r: canonicalize(r["hypothesis_id"], r["primary_metric_name"]), axis=1)
+df["metric_canonical"] = df.apply(
+    lambda r: canonicalize(r["hypothesis_id"], r["primary_metric_name"], r.get("methodological_choices")),
+    axis=1,
+)
 
 print("=" * 100)
 print("MEASURE-CHOICE DIVERSITY (unique canonicalized metric framings per cell)")

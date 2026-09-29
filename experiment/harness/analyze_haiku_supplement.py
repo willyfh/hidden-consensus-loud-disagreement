@@ -5,25 +5,19 @@ no-verify cells for the same two hypotheses.
 """
 import json
 import glob
-import re
+import sys
 from collections import defaultdict, Counter
 from pathlib import Path
 
 import pandas as pd
 
 EXPERIMENT_DIR = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from canonicalize import canonicalize as _canonicalize
 
 
-def canonicalize(name: str) -> str:
-    s = name.lower()
-    s = re.sub(r"\(.*?repeat.*?\)", "", s)
-    s = re.sub(r"mean (over|across).*?(fold|cv|split|seed|repeat)s?.*", "", s)
-    s = re.sub(r",?\s*(5|10|20|25)[\s-]?fold.*", "", s)
-    s = re.sub(r",?\s*(stratified )?cv.*", "", s)
-    s = re.sub(r",?\s*(held[- ]?out )?test set.*", "", s)
-    s = re.sub(r",?\s*single held[- ]?out.*", "", s)
-    s = re.sub(r"\s+", " ", s).strip(" ,")
-    return s
+def canonicalize(hyp: str, name: str, mc=None) -> str:
+    return _canonicalize(hyp, name, mc)
 
 
 def load_haiku():
@@ -45,12 +39,14 @@ def load_haiku():
                 "primary_metric_name": parsed.get("primary_metric_name"),
                 "primary_metric_value": parsed.get("primary_metric_value"),
                 "direction": parsed.get("direction"),
+                "methodological_choices": parsed.get("methodological_choices"),
             })
     return pd.DataFrame(rows)
 
 
 haiku_df = load_haiku()
-haiku_df["metric_canonical"] = haiku_df["primary_metric_name"].apply(canonicalize)
+haiku_df["metric_canonical"] = haiku_df.apply(
+    lambda r: canonicalize(r["hypothesis_id"], r["primary_metric_name"], r.get("methodological_choices")), axis=1)
 
 sonnet_df = pd.read_csv(EXPERIMENT_DIR / "results_with_canonical.csv")
 sonnet_noverify = sonnet_df[sonnet_df["verify_arm"] == False]

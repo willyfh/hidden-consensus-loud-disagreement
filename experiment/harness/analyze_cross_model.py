@@ -1,79 +1,26 @@
 """Full cross-model comparison: Sonnet (primary, N=120) vs. Haiku (supplement, N=120),
-same 6-hypothesis x 2-arm design. Diversity (using the fixed base-metric canonicalizer
-from analyze.py), sign agreement (both arms combined, clearly labeled), and the H1/H4
+same 6-hypothesis x 2-arm design. Diversity (using the shared canonicalizer in
+canonicalize.py), sign agreement (both arms combined, clearly labeled), and the H1/H4
 substantive-agreement coding, replicated for Haiku.
 """
 import re
 from pathlib import Path
+import sys
 
 import pandas as pd
 import numpy as np
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from canonicalize import canonicalize
 
 EXPERIMENT_DIR = Path(__file__).resolve().parent.parent
 SPECIFICITY = {"H1": "abstract", "H2": "concrete", "H3": "abstract",
                "H4": "abstract", "H5": "concrete", "H6": "abstract"}
 
-MODEL_ALIASES = {
-    "histgradientboosting": "hgb", "hist gradient boosting": "hgb", "hgb": "hgb",
-    "gradientboosting": "gb", "gradient boosting": "gb", "gbm": "gb",
-    "randomforest": "rf", "random forest": "rf", "rf": "rf",
-    "logisticregression": "logreg", "logistic regression": "logreg", "logreg": "logreg",
-    "knn": "knn", "k-nearest neighbors": "knn",
-    "gaussiannb": "nb", "naive bayes": "nb",
-    "best tree ensemble": "best_tree_ensemble",
-    "best": "best", "worst": "worst", "max": "best", "min": "worst",
-}
-
-
-def base_metric(name: str) -> str:
-    s = name.lower()
-    if "feature importance" in s or "permutation importance" in s or "decrease in impurity" in s or "feature_importance" in s:
-        s_noseed = re.sub(r"averaged? (over|across) \d+ (seeds?|reruns?|folds?|repeats?)", "", s)
-        if any(k in s_noseed for k in ("consensus", "aggregated", "combined")) or \
-           ("average" in s_noseed and "normalized" in s_noseed):
-            return "feat_importance:consensus_multi_method"
-        if "permutation" in s:
-            return "feat_importance:permutation"
-        if "impurity" in s or "gini" in s:
-            return "feat_importance:impurity_mdi"
-        return "feat_importance:unspecified"
-    if "balanced accuracy" in s or "balanced-accuracy" in s:
-        return "balanced_accuracy"
-    if "macro-f1" in s or "macro f1" in s or "f1-macro" in s or "f1 macro" in s:
-        return "macro_f1"
-    if re.search(r"\bf1\b", s) and ">50k" in s.replace(" ", ""):
-        return "f1_minority"
-    if re.search(r"\bf1\b", s):
-        return "macro_f1"
-    if "roc-auc" in s or "roc auc" in s or re.search(r"\bauc\b", s):
-        return "roc_auc"
-    if "calibration error" in s or re.search(r"\bece\b", s):
-        return "ece"
-    return "other:" + s[:40]
-
-
-def h1_comparison_target(name: str) -> frozenset:
-    s = name.lower()
-    m = re.search(r"\(([^)]*)\)", s)
-    inside = m.group(1) if m else s
-    inside = re.split(r",", inside)[0]
-    parts = re.split(r"\s*-\s*|\sminus\s", inside)
-    norm = [MODEL_ALIASES.get(p.strip()) for p in parts]
-    norm = [p for p in norm if p]
-    return frozenset(norm) if norm else frozenset(["unresolved"])
-
-
-def canonicalize(hyp: str, name: str) -> str:
-    bm = base_metric(name)
-    if hyp == "H1":
-        return f"{bm}|{'+'.join(sorted(h1_comparison_target(name)))}"
-    return bm
-
-
 sonnet = pd.read_csv(EXPERIMENT_DIR / "results_combined.csv")
 haiku = pd.read_csv(EXPERIMENT_DIR / "results_haiku_combined.csv")
-sonnet["metric_canonical"] = sonnet.apply(lambda r: canonicalize(r["hypothesis_id"], r["primary_metric_name"]), axis=1)
-haiku["metric_canonical"] = haiku.apply(lambda r: canonicalize(r["hypothesis_id"], r["primary_metric_name"]), axis=1)
+sonnet["metric_canonical"] = sonnet.apply(lambda r: canonicalize(r["hypothesis_id"], r["primary_metric_name"], r.get("methodological_choices")), axis=1)
+haiku["metric_canonical"] = haiku.apply(lambda r: canonicalize(r["hypothesis_id"], r["primary_metric_name"], r.get("methodological_choices")), axis=1)
 sonnet.to_csv(EXPERIMENT_DIR / "results_with_canonical.csv", index=False)
 
 print("=" * 100)
