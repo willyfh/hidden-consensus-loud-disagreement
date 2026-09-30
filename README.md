@@ -1,6 +1,4 @@
-# Hidden Consensus, Loud Disagreement: When the ML Researcher Is an AI
-
-Submission to the NeurIPS 2026 Workshop for Autonomous ML Research.
+# Hidden Consensus, Loud Disagreement: When the ML Researcher Is an AI Agent
 
 When independent AI agents are asked to answer the same machine-learning research
 question from the same data, do they agree on what they find? Across 240 independent,
@@ -16,8 +14,8 @@ answers, traced to an invisible preprocessing choice.
 
 ## Repository structure
 
-This repository holds the supplementary code and data for the paper, referenced from its
-Reproducibility Statement -- not the paper source itself.
+This repository holds the code and data for the paper, referenced from its Reproducibility
+Statement -- not the paper source itself.
 
 - [`experiment/`](experiment/) -- all experiment code, data, and results; see
   [`experiment/README.md`](experiment/README.md) for the full directory layout and how to
@@ -33,4 +31,4 @@ directories under `experiment/results/` and `experiment/results_haiku/` by the s
 ## License
 
 The dataset is the UCI/OpenML Adult (Census Income) dataset, CC BY 4.0. Code is provided
-for reproducibility of this submission.
+for reproducibility of the paper.
